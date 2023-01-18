@@ -1,6 +1,9 @@
 .color_w {
 	color: white;
 }
+.color_b {
+	color: #123853;
+}
 .text_dec_none {
 	text-decoration: none;
 }
@@ -9,4 +12,52 @@
 }
 .m_x-20 {
 	margin: 0 20px;
+}
+.m_y-20 {
+	margin: 20px 0;
+}
+.pd-10 {
+	padding: 10px;
+}
+.pd_x-10 {
+	padding: 0 10px;
+}
+.br {
+	border-radius: 5px;
+}
+.border-w {
+	border: 1px solid white;
+}
+.border-b {
+	border: 1px solid black;
+}
+.txt_normal {
+	font-size: 16px;
+	font-weight: 300;
+}
+.txt_big {
+	font-size: 18px;
+	font-weight: 300;
+}
+.txt_meddium {
+	font-size: 16px;
+	font-weight: 400;
+}
+.btn_p {
+	border: none;
+	padding: 10px;
+	background-color: #123853;
+}
+.btn_s {
+	border: 1px solid #123853;
+	padding: 10px;
+	background-color: white;
+}
+.btn {
+	transform: scale(1);
+	transition: transform 0.05s;
+}
+.btn:hover {
+	transform: scale(1.03);
+	transition: transform 0.05s;
 }

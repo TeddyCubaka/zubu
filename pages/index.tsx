@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import Header from "../components/general/header";
+import Main from "../components/general/main";
 
 export default function Home() {
 	return (
@@ -14,6 +15,7 @@ export default function Home() {
 			</Head>
 			<main>
 				<Header />
+				<Main />
 			</main>
 		</>
 	);

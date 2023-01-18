@@ -1,11 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
 body {
 	margin: 0;
 	padding: 0;
-}
-* {
 	font-size: 16px;
+    font-weight: 300;
+	font-family: "Roboto", sans-serif;
 }
-
+h1 {
+	font-size: 25px;
+	margin: 0px;
+}
+h2 {
+	font-size: 23px;
+	margin: 0px;
+}
+h3 {
+	font-size: 21px;
+	margin: 0px;
+}
+h4 {
+	font-size: 19px;
+	margin: 0px;
+}
+h5 {
+	font-size: 17px;
+	margin: 0px;
+}
 .header {
 	padding: 0 30px;
 	background-color: #123853;
@@ -17,4 +38,31 @@ body {
 .header > div {
 	display: flex;
 	align-items: center;
+}
+.main {
+	height: 400px;
+}
+.main_cover_picture {
+	height: 400px;
+	width: 100%;
+	background-image: url("../components/images/cover\ picture.jpg");
+	backdrop-filter: blur(5%);
+	filter: sepia(0.6) brightness(0.5) contrast(0.9);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.main_desc {
+	height: 400px;
+	width: 100%;
+	position: relative;
+	top: -400px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.filter_card {
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
