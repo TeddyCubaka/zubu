@@ -10,11 +10,11 @@ export default function Header() {
 			<div>
 				<Image src={logo} width="80" height="80" alt="logo du site" />
 				<div>
-					<Link href="#" className="color_w text_dec_none m_x-20 ">
-						Publier un bien
-					</Link>
 					<Link href="#" className="color_w text_dec_none m_x-20">
 						Louer un bien
+					</Link>
+					<Link href="publication" className="color_w text_dec_none m_x-20 ">
+						Publier un bien
 					</Link>
 					<Link href="#" className="color_w text_dec_none m_x-20">
 						Votre Sauvegarde
