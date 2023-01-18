@@ -1,0 +1,20 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+* {
+	font-size: 16px;
+}
+
+.header {
+	padding: 0 30px;
+	background-color: #123853;
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.header > div {
+	display: flex;
+	align-items: center;
+}
