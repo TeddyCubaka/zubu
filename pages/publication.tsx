@@ -1,7 +1,10 @@
 import React from "react";
 import Head from "next/head";
+import { testStore } from "../store/zustandTest";
 
 export default function Publication() {
+	const counter = testStore((state) => state.count);
+	const setCounter = testStore((state) => state.update);
 	return (
 		<>
 			<Head>
@@ -13,7 +16,10 @@ export default function Publication() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<main>Publication</main>
+			<main>
+				<div>counter : {counter} </div>
+				<button onClick={setCounter}>Update</button>
+			</main>
 		</>
 	);
 }
