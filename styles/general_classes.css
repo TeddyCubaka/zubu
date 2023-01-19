@@ -112,7 +112,7 @@
 	margin: 0 0 0 10px;
 }
 .input_w_label > label {
-	width: max-content;
+	width: 20%;
 }
 .input_w_label-radio {
 	width: 100%;

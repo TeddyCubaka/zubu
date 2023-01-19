@@ -1,5 +1,6 @@
-import { text } from "node:stream/consumers";
 import React, { useState } from "react";
+import { publicationStore } from "../../store/publicationStore";
+import { shallow } from "zustand/shallow";
 
 interface LocalDatasType {
 	title: string;
@@ -14,6 +15,8 @@ interface InputType {
 	type: string;
 	subject: string;
 	required: boolean;
+	index: number;
+	count: number;
 }
 
 let datas: LocalDatasType[] = [
@@ -42,7 +45,14 @@ let datas: LocalDatasType[] = [
 		legend:
 			"Cette demarche nous permet de réduire le nombre des personnes qui essayerai de publier des fausse donnée ou essayerai de mentir sur une propriété.",
 	},
+	{
+		title: "Validation de la publication",
+		inputType: "radio",
+		datas: ["J'accepte les règles de confidialité"],
+	},
 ];
+
+let data: string[][] = [];
 
 function Input(props: InputType) {
 	return (
@@ -60,13 +70,29 @@ function Input(props: InputType) {
 				placeholder={`Mettez le ${props.subject}`}
 				required={props.required ? true : false}
 				className="m_x-10"
+				value={props.type === "radio" ? props.subject : undefined}
+				onChange={(e) => {
+					if (!data[props.count]) data.push([e.target.value]);
+					else data[props.count][props.index] = e.target.value;
+				}}
 			/>
 		</div>
 	);
 }
 
-function FormCard() {
+export default function AddPropretiyForm() {
 	const [count, setCount] = useState<number>(0);
+	const [setAddres, setPropretyType, setName, setContact, allInfo] =
+		publicationStore(
+			(state) => [
+				state.setAddress,
+				state.setPropretyType,
+				state.setName,
+				state.setContact,
+				state.allInfo,
+			],
+			shallow
+		);
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
 			<h3 className="m_y-10"> {datas[count].title} </h3>
@@ -74,12 +100,15 @@ function FormCard() {
 				<div className="m_y-10">{datas[count].legend}</div>
 			) : null}
 			<div className="w_max flex_y_center-xy m_y-10">
-				{datas[count].datas.map((text) => (
+				{datas[count].datas.map((text, index) => (
 					<Input
 						subject={text}
 						type={datas[count].inputType}
 						name={datas[count].inputName ? datas[count].inputName : text}
 						required={true}
+						count={count}
+						index={index}
+						key={index}
 					/>
 				))}
 			</div>
@@ -90,25 +119,22 @@ function FormCard() {
 						if (count === 0) setCount(datas.length - 1);
 						else setCount(count - 1);
 					}}>
-					précedant
+					back
 				</button>
 				<button
 					className="btn_p btn color_w br txt_normal m_x-20 w_max"
 					onClick={() => {
+						let value: string = "" + data[count];
+						if (count == 0) setAddres(value);
+						if (count == 1) setPropretyType(value);
+						if (count == 2) setName(value);
+						if (count == 3) setContact(value);
 						if (count < datas.length - 1) setCount(count + 1);
-						else setCount(0);
+						else console.log(allInfo);
 					}}>
 					Suivant
 				</button>
 			</div>
-		</div>
-	);
-}
-
-export default function AddPropretiyForm() {
-	return (
-		<div>
-			<FormCard />
 		</div>
 	);
 }
