@@ -1,10 +1,9 @@
 import React from "react";
 import Head from "next/head";
-import { testStore } from "../store/zustandTest";
+import Header from "../components/general/header";
+import AddPropretiyForm from "../components/components/addPropretyForm";
 
 export default function Publication() {
-	const counter = testStore((state) => state.count);
-	const setCounter = testStore((state) => state.update);
 	return (
 		<>
 			<Head>
@@ -17,8 +16,10 @@ export default function Publication() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<div>counter : {counter} </div>
-				<button onClick={setCounter}>Update</button>
+				<Header />
+				<div className="publication_section">
+					<AddPropretiyForm />
+				</div>
 			</main>
 		</>
 	);
