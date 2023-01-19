@@ -4,7 +4,7 @@ body {
 	margin: 0;
 	padding: 0;
 	font-size: 16px;
-    font-weight: 300;
+	font-weight: 300;
 	font-family: "Roboto", sans-serif;
 }
 h1 {
@@ -63,6 +63,20 @@ h5 {
 }
 .filter_card {
 	display: flex;
-    justify-content: center;
-    align-items: center;
+	justify-content: center;
+	align-items: center;
+}
+.publication_section {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.add_proprety_card {
+	width: 500px;
+	min-height: 250px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: flex-start;
 }
