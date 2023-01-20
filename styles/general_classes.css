@@ -10,6 +10,9 @@
 .w_max {
 	width: 100%;
 }
+.w_half {
+	width: 50%;
+}
 .m-20 {
 	margin: 20px;
 }
@@ -42,6 +45,9 @@
 }
 .br {
 	border-radius: 5px;
+}
+.opacity_80 {
+	opacity: 80;
 }
 .flex_center-xy {
 	display: flex;
@@ -81,6 +87,12 @@
 	background-color: #123853;
 	border: 2px solid #123853;
 }
+.btn_p_not_active {
+	border: none;
+	padding: 5px 10px;
+	background-color: #123853b4;
+	border: 2px solid #1238538a;
+}
 .btn_s {
 	border: 2px solid #123853;
 	padding: 5px 10px;
@@ -108,15 +120,30 @@
 	border: none;
 	fill: none;
 	height: 25px;
-	width: 100%;
+	width: 80%;
 	margin: 0 0 0 10px;
 }
 .input_w_label > label {
-	width: 20%;
+	width: auto;
 }
 .input_w_label-radio {
 	width: 90%;
 	display: flex;
 	flex-direction: row-reverse;
 	justify-content: flex-end;
+}
+.br_red {
+	border-color: 1px solid red;
+	outline: 1px solid red;
+}
+.br_green:focus {
+	border-color: 1px solid green;
+	outline: 1px solid green;
+}
+.br_blue:focus {
+	border-color: 1px solid #123853;
+	outline: 1px solid #123853;
+}
+strong {
+	font-weight: 900;
 }
