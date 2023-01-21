@@ -1,5 +1,5 @@
 import React from "react";
-import { GetAdress, GetLosor, GetPropretyType } from "./PrpretysData";
+import { GetAdress, GetLosor, GetPrice, GetPropretyType } from "./PrpretysData";
 
 export default function AddPropretiyForm() {
 	return (
@@ -7,6 +7,7 @@ export default function AddPropretiyForm() {
 			<GetAdress />
 			<GetPropretyType />
 			<GetLosor />
+			<GetPrice />
 		</div>
 	);
 }

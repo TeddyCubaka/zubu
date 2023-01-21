@@ -10,7 +10,9 @@ interface ButtonCOndition {
 	seter: (string: string) => void;
 	hideBackButton?: boolean;
 	conditionHasObject?: Lessor;
+	priceObject?: RentalPrice;
 	seterLessor?: (object: Lessor) => void;
+	seterRentalPrice?: (object: RentalPrice) => void;
 }
 
 interface InputRadioType {
@@ -22,12 +24,20 @@ interface Lessor {
 	contacts: string;
 }
 
+interface RentalPrice {
+	price: string;
+	guarantee_value: string;
+	monetary_currency: string;
+}
+
 function TwoButton({
 	conditionToPass,
 	seter,
 	hideBackButton,
 	conditionHasObject,
 	seterLessor,
+	seterRentalPrice,
+	priceObject,
 }: ButtonCOndition) {
 	const [setCount, unSetCount] = publicationStore(
 		(state) => [state.setCount, state.unSetCount],
@@ -58,7 +68,10 @@ function TwoButton({
 						seterLessor && conditionHasObject
 							? seterLessor(conditionHasObject)
 							: "";
-						console.log("can pass");
+						seterRentalPrice && priceObject
+							? seterRentalPrice(priceObject)
+							: "";
+						console.log("pass");
 					}
 				}}>
 				Suivant
@@ -211,3 +224,96 @@ export function GetLosor() {
 	);
 }
 
+export function GetPrice() {
+	const [rentalPrice, GetRentalPrice] = useState<RentalPrice>({
+		price: "",
+		guarantee_value: "",
+		monetary_currency: "USD",
+	});
+	const [conditionForPricePassed, setConditionForPricePassed] =
+		useState<string>("");
+	const [setRentalPrice] = publicationStore(
+		(state) => [state.setRentalPrice],
+		shallow
+	);
+
+	function SetCurrency() {
+		return (
+			<div className="flex">
+				<span
+					onClick={() =>
+						GetRentalPrice({ ...rentalPrice, monetary_currency: "USD" })
+					}
+					className={
+						rentalPrice.monetary_currency === "USD"
+							? "currency_button_selected_span block"
+							: "currency_button block"
+					}>
+					USD - $
+				</span>
+				<span
+					onClick={() =>
+						GetRentalPrice({ ...rentalPrice, monetary_currency: "USD" })
+					}
+					className={
+						rentalPrice.monetary_currency === "CDF"
+							? "currency_button_selected_span m_x-5"
+							: "currency_button m_x-5"
+					}>
+					CDF - fc
+				</span>
+			</div>
+		);
+	}
+
+	useEffect(() => {
+		if (
+			rentalPrice.guarantee_value.length > 0 &&
+			rentalPrice.monetary_currency.length > 0 &&
+			rentalPrice.price.length > 0
+		) {
+			setConditionForPricePassed("can pass");
+		}
+	});
+
+	return (
+		<div className="add_proprety_card border-b pd-20 br">
+			<h3>Reseignez l'adresse</h3>
+			<div className="w_max">
+				<div className="m_y-10 input_w_label">
+					<label>Prix</label>
+					<input
+						type="text"
+						placeholder="Ex : 300"
+						className={`br w_max`}
+						onChange={(e) =>
+							GetRentalPrice({ ...rentalPrice, price: e.target.value })
+						}
+					/>
+					<SetCurrency />
+				</div>
+				<div className="m_y-10 input_w_label">
+					<label>Guarantie</label>
+					<input
+						type="text"
+						placeholder="Ex : 4"
+						className={`br w_max`}
+						onChange={(e) =>
+							GetRentalPrice({
+								...rentalPrice,
+								guarantee_value: e.target.value,
+							})
+						}
+					/>
+					<div>mois</div>
+				</div>
+			</div>
+			<TwoButton
+				conditionToPass={conditionForPricePassed}
+				seter={() => {}}
+				priceObject={rentalPrice}
+				seterRentalPrice={setRentalPrice}
+			/>
+		</div>
+	);
+}
