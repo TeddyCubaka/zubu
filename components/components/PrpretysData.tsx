@@ -4,6 +4,7 @@ import { shallow } from "zustand/shallow";
 import { ImRadioChecked, ImRadioChecked2 } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
 import { BsHouseFill } from "react-icons/bs";
+import axios from "axios";
 
 interface ButtonCOndition {
 	conditionToPass: string;
@@ -20,11 +21,20 @@ interface InputRadioType {
 }
 
 interface Lessor {
-	name: string;
+	fullName: string;
 	contacts: string;
 }
 
 interface RentalPrice {
+	price: string;
+	guarantee_value: string;
+	monetary_currency: string;
+}
+
+interface PostedDate {
+	address: string;
+	type_of_rental: string;
+	lessor: Lessor;
 	price: string;
 	guarantee_value: string;
 	monetary_currency: string;
@@ -80,18 +90,18 @@ function TwoButton({
 	);
 }
 
-export function GetAdress() {
-	const [adress, getAdress] = useState<string>("");
+export function GetAddress() {
+	const [address, getaddress] = useState<string>("");
 	const [goodFormat, setGoodFormat] = useState<string>("");
 	const [setAddres] = publicationStore(
 		(state) => [state.setAddress, state.setCount, state.unSetCount],
 		shallow
 	);
 
-	function adressFormatValidator(str: string) {
+	function addressFormatValidator(str: string) {
 		if (str.split("/").length === 5) {
 			setGoodFormat("br_green");
-			getAdress(str);
+			getaddress(str);
 		} else if (str.length < 2) {
 			setAddres("");
 			setGoodFormat("br_blue");
@@ -103,26 +113,26 @@ export function GetAdress() {
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
-			<h3>Reseignez l'adresse</h3>
+			<h3>Reseignez l'addresse</h3>
 			<div className="w_max">
 				<span>
 					format : n° <strong>/</strong>av<strong>/</strong>quartier
 					<strong>/</strong>commune<strong>/</strong>ville
 				</span>
 				<div className="m_y-10 input_w_label">
-					<label>Adress</label>
+					<label>address</label>
 					<input
 						type="text"
 						placeholder="Ex : 17/kamwe/tondolo/Mont-ngafula/kinshasa"
 						className={`br ${goodFormat} w_max`}
 						onChange={(e) => {
-							adressFormatValidator(e.target.value);
+							addressFormatValidator(e.target.value);
 						}}
 					/>
 				</div>
 			</div>
 			<TwoButton
-				conditionToPass={adress}
+				conditionToPass={address}
 				seter={setAddres}
 				hideBackButton={true}
 			/>
@@ -176,16 +186,16 @@ export function GetPropretyType() {
 }
 
 export function GetLosor() {
-	const [lessor, getLessor] = useState<Lessor>({ name: "", contacts: "" });
+	const [lessor, getLessor] = useState<Lessor>({ fullName: "", contacts: "" });
 	const [setLessor] = publicationStore((state) => [state.setLessor], shallow);
 	const [lessorConditionToPass, setLessorConditionToPass] =
 		useState<string>("");
 
 	useEffect(() => {
-		if (lessor.name.length > 3 && lessor.contacts.length > 9)
+		if (lessor.fullName.length > 3 && lessor.contacts.length > 9)
 			setLessorConditionToPass("pass");
 		else setLessorConditionToPass("");
-	}, [lessor.name, lessor.contacts]);
+	}, [lessor.fullName, lessor.contacts]);
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
@@ -198,7 +208,7 @@ export function GetLosor() {
 						placeholder="Ex : Mutombo Amani"
 						className={`br w_max`}
 						onChange={(e) => {
-							getLessor({ ...lessor, name: e.target.value });
+							getLessor({ ...lessor, fullName: e.target.value });
 						}}
 					/>
 				</div>
@@ -253,7 +263,7 @@ export function GetPrice() {
 				</span>
 				<span
 					onClick={() =>
-						GetRentalPrice({ ...rentalPrice, monetary_currency: "USD" })
+						GetRentalPrice({ ...rentalPrice, monetary_currency: "CDF" })
 					}
 					className={
 						rentalPrice.monetary_currency === "CDF"
@@ -278,7 +288,7 @@ export function GetPrice() {
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
-			<h3>Reseignez l'adresse</h3>
+			<h3>Reseignez l'addresse</h3>
 			<div className="w_max">
 				<div className="m_y-10 input_w_label">
 					<label>Prix</label>
@@ -314,6 +324,152 @@ export function GetPrice() {
 				priceObject={rentalPrice}
 				seterRentalPrice={setRentalPrice}
 			/>
+		</div>
+	);
+}
+
+export function ViewInformationPuted() {
+	const [
+		address,
+		propretyType,
+		lessor,
+		rentalPrice,
+		resetCount,
+		setCount,
+		setDatabaseResponseStatus,
+	] = publicationStore(
+		(state) => [
+			state.address,
+			state.propretyType,
+			state.lessor,
+			state.rentalPrice,
+			state.resetCount,
+			state.setCount,
+			state.setDatabaseResponseStatus,
+		],
+		shallow
+	);
+	function lengthVerificator(arr: string[]): boolean {
+		let verificator: string = "";
+		arr.map((str) => {
+			if (str.length > 1) verificator += "i";
+		});
+		if (verificator.length === arr.length) return true;
+		else return false;
+	}
+
+	const postDataToServer = () => {
+		setDatabaseResponseStatus("");
+		if (
+			lengthVerificator([
+				address,
+				propretyType,
+				lessor.contacts,
+				lessor.fullName,
+				rentalPrice.guarantee_value,
+				rentalPrice.monetary_currency,
+				rentalPrice.price,
+			])
+		) {
+			axios({
+				method: "post",
+				url: "http://localhost:4000/api/proprety",
+				data: {
+					rental_information: {
+						geolocalisation: "" + Math.random() * 37656,
+						address: address,
+						type_of_rental: propretyType,
+						lessor: lessor,
+						price: rentalPrice.price,
+						guarantee_value: rentalPrice.guarantee_value,
+						monetary_currency: rentalPrice.monetary_currency,
+					},
+				},
+			})
+				.then((data) => {
+					console.log(data);
+					setTimeout(() => setDatabaseResponseStatus("created"), 2000);
+				})
+				.catch((err) => {
+					console.log(err.response);
+					setDatabaseResponseStatus("not created");
+				});
+		}
+	};
+	return (
+		<div className="add_proprety_card border-b pd-20 br">
+			<h1>Voici les information que vous avez reseigner</h1>
+			<ul className="w_max">
+				<li>
+					<b>address :</b> {address}{" "}
+				</li>
+				<li>
+					<b>Type de la propriété :</b>
+					{propretyType}{" "}
+				</li>
+				<li>
+					<b>Bailleur :</b>
+					{lessor.fullName}, <b>ses contacts :</b> {lessor.contacts}{" "}
+				</li>
+				<li>
+					<b>Prix de la propriété :</b>, {rentalPrice.price}{" "}
+					{rentalPrice.monetary_currency === "USD" ? "$" : "fc"}{" "}
+				</li>
+				<li>
+					<b>Garantie : </b> {rentalPrice.guarantee_value}{" "}
+				</li>
+			</ul>
+			<div className="flex w_max m_y-10">
+				<button
+					className="btn_s btn br color_b txt_normal w_max m_x-20"
+					onClick={() => resetCount()}>
+					Modifier
+				</button>
+				<button
+					className="btn_p btn br color_w txt_normal w_max m_x-20"
+					onClick={() => {
+						postDataToServer();
+						setCount();
+					}}>
+					Valider
+				</button>
+			</div>
+		</div>
+	);
+}
+
+export function CreatePropretyStatus() {
+	const [databaseResponseStatus, resetCount] = publicationStore(
+		(state) => [state.databaseResponseStatus, state.resetCount],
+		shallow
+	);
+
+	return (
+		<div className="add_proprety_card border-b br">
+			<h1>Les informations sur la propriété</h1>
+			{databaseResponseStatus === "created" ? (
+				<>
+					<div className="color_green flex_x-center">
+						{" "}
+						<FaCheck size="20" /> {"  "}{" "}
+						<span>Propriété créer avec succès !</span>
+					</div>
+					<button className="btn_p btn br color_w txt_normal w_half m_x-20">
+						{" "}
+						<BsHouseFill size="20" /> See the proprety
+					</button>
+				</>
+			) : databaseResponseStatus === "not created" ? (
+				<>
+					<div>Désolé, il y a un problème</div>
+					<button onClick={() => resetCount()}> Retry</button>
+				</>
+			) : (
+				<div className="flex_x-center">
+					<span className="steped_loader"></span>
+					<span>Création de la propriété, patientez-s'il vous plait</span>
+				</div>
+			)}
 		</div>
 	);
 }

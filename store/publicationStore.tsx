@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface Lessor {
-	name: string;
+	fullName: string;
 	contacts: string;
 }
 interface RentalPrice {
@@ -18,13 +18,15 @@ interface PublicationStore {
 	setLessor: (object: Lessor) => void;
 	setAddress: (str: string) => void;
 	setPropretyType: (type: string) => void;
-	getDatas?: () => string;
 	allInfo?: string;
 	count: number;
 	setCount: () => void;
 	unSetCount: () => void;
 	monetary_currency: string;
 	setMonetary_currency: (currence: string) => void;
+	resetCount: () => void;
+	databaseResponseStatus: string;
+	setDatabaseResponseStatus: (string: string) => void;
 }
 
 export const publicationStore = create<PublicationStore>((set) => ({
@@ -32,17 +34,18 @@ export const publicationStore = create<PublicationStore>((set) => ({
 	propretyType: "",
 	monetary_currency: "",
 	count: 0,
-	lessor: { name: "", contacts: "" },
+	lessor: { fullName: "", contacts: "" },
 	rentalPrice: { price: "", guarantee_value: "", monetary_currency: "" },
+	databaseResponseStatus: "",
 	setRentalPrice: (object) => set(() => ({ rentalPrice: object })),
 	setLessor: (object) => set(() => ({ lessor: object })),
+	resetCount: () => set(() => ({ count: 0 })),
 	setCount: () => set((state) => ({ count: state.count + 1 })),
 	unSetCount: () => set((state) => ({ count: state.count - 1 })),
-	setAddress: (str) =>
-		set((state) => ({
-			address: state.address + str,
-		})),
+	setAddress: (str) => set((state) => ({ address: str })),
 	setPropretyType: (type) => set(() => ({ propretyType: type })),
 	setMonetary_currency: (currence) =>
 		set(() => ({ monetary_currency: currence })),
+	setDatabaseResponseStatus: (string) =>
+		set((state) => ({ databaseResponseStatus: string })),
 }));
