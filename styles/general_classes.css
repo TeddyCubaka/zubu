@@ -126,11 +126,11 @@
 	border: none;
 	fill: none;
 	height: 25px;
-	width: 80%;
 	margin: 0 0 0 10px;
 }
 .input_w_label > label {
 	width: auto;
+	height: min-content;
 }
 .input_w_label-radio {
 	width: 90%;
@@ -166,4 +166,7 @@ strong {
 }
 .opacity_0 {
 	opacity: 0;
+}
+.block {
+	display: block;
 }

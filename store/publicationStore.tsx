@@ -1,10 +1,16 @@
 import { create } from "zustand";
 
+interface Lessor {
+	name: string;
+	contacts: string;
+}
 interface PublicationStore {
 	address: string;
 	propretyType: string;
 	name: string;
 	contact: string;
+	lessor?: Lessor;
+	setLessor?: (object: Lessor) => void;
 	setAddress: (str: string) => void;
 	setPropretyType: (type: string) => void;
 	setName: (owner: string) => void;
@@ -25,6 +31,8 @@ export const publicationStore = create<PublicationStore>((set) => ({
 	contact: "",
 	monetary_currency: "",
 	count: 0,
+	lessor: { name: "", contacts: "" },
+	setLessor: (object) => set((state) => ({ lessor: object })),
 	setCount: () => set((state) => ({ count: state.count + 1 })),
 	unSetCount: () => set((state) => ({ count: state.count - 1 })),
 	setAddress: (str) =>

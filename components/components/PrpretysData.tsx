@@ -1,40 +1,64 @@
-import React, { ReactElement, useState, ChangeEvent, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { publicationStore } from "../../store/publicationStore";
 import { shallow } from "zustand/shallow";
 import { ImRadioChecked, ImRadioChecked2 } from "react-icons/im";
+import { FaCheck } from "react-icons/fa";
+import { BsHouseFill } from "react-icons/bs";
 
 interface ButtonCOndition {
-	condition: string;
+	conditionToPass: string;
 	seter: (string: string) => void;
+	hideBackButton?: boolean;
+	conditionHasObject?: Lessor;
+	seterLessor?: (object: Lessor) => void;
 }
 
 interface InputRadioType {
 	value: string;
 }
 
-function TwoButton({ condition, seter }: ButtonCOndition) {
+interface Lessor {
+	name: string;
+	contacts: string;
+}
+
+function TwoButton({
+	conditionToPass,
+	seter,
+	hideBackButton,
+	conditionHasObject,
+	seterLessor,
+}: ButtonCOndition) {
 	const [setCount, unSetCount] = publicationStore(
 		(state) => [state.setCount, state.unSetCount],
 		shallow
 	);
 	return (
 		<div className="flex w_max m_y-10">
-			<button
-				className="btn_s btn br color_b ctxt_normal w_max m_x-20"
-				onClick={() => unSetCount()}>
-				Précédant
-			</button>
+			{hideBackButton ? (
+				""
+			) : (
+				<button
+					className="btn_s btn br color_b ctxt_normal w_max m_x-20"
+					onClick={() => unSetCount()}>
+					Précédant
+				</button>
+			)}
 			<button
 				type="button"
 				className={
-					condition.length > 0
+					conditionToPass.length > 0
 						? "btn_p btn br color_w txt_normal w_max m_x-20"
 						: "btn_p_not_active btn br color_w txt_normal w_max m_x-20"
 				}
 				onClick={() => {
-					if (condition.length > 0) {
+					if (conditionToPass.length > 0) {
 						setCount();
-						seter(condition);
+						seter(conditionToPass);
+						seterLessor && conditionHasObject
+							? seterLessor(conditionHasObject)
+							: "";
+						console.log("can pass");
 					}
 				}}>
 				Suivant
@@ -84,12 +108,16 @@ export function GetAdress() {
 					/>
 				</div>
 			</div>
-			<TwoButton condition={adress} seter={setAddres} />
+			<TwoButton
+				conditionToPass={adress}
+				seter={setAddres}
+				hideBackButton={true}
+			/>
 		</div>
 	);
 }
 
-export function GetPrice() {
+export function GetPropretyType() {
 	const [propretyType, getPropretyType] = useState<string>("");
 	const [setPropretyType] = publicationStore(
 		(state) => [state.setPropretyType],
@@ -129,7 +157,57 @@ export function GetPrice() {
 					<InputRadio value="bureau" />
 				</details>
 			</div>
-			<TwoButton condition={propretyType} seter={setPropretyType} />
+			<TwoButton conditionToPass={propretyType} seter={setPropretyType} />
 		</div>
 	);
 }
+
+export function GetLosor() {
+	const [lessor, getLessor] = useState<Lessor>({ name: "", contacts: "" });
+	const [setLessor] = publicationStore((state) => [state.setLessor], shallow);
+	const [lessorConditionToPass, setLessorConditionToPass] =
+		useState<string>("");
+
+	useEffect(() => {
+		if (lessor.name.length > 3 && lessor.contacts.length > 9)
+			setLessorConditionToPass("pass");
+		else setLessorConditionToPass("");
+	}, [lessor.name, lessor.contacts]);
+
+	return (
+		<div className="add_proprety_card border-b pd-20 br">
+			<h3>Information sur le bailleur ?</h3>
+			<div className="w_max">
+				<div className="m_y-10 input_w_label">
+					<label>Nom complet :</label>
+					<input
+						type="text"
+						placeholder="Ex : Mutombo Amani"
+						className={`br w_max`}
+						onChange={(e) => {
+							getLessor({ ...lessor, name: e.target.value });
+						}}
+					/>
+				</div>
+				<div className="m_y-10 input_w_label">
+					<label>Téléphone ou mail :</label>
+					<input
+						type="email"
+						placeholder="Ex : +243 990 000 000 ou user@gmail.com"
+						className={`br w_max`}
+						onChange={(e) => {
+							getLessor({ ...lessor, contacts: e.target.value });
+						}}
+					/>
+				</div>
+			</div>
+			<TwoButton
+				conditionToPass={lessorConditionToPass}
+				seter={() => {}}
+				conditionHasObject={lessor}
+				seterLessor={setLessor}
+			/>
+		</div>
+	);
+}
+

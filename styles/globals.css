@@ -86,23 +86,22 @@ h5 {
 .proprety_type_details > div > input {
 	margin: 0 10px;
 }
-.pseudo_radio {
-	border: 1px solid black;
-	width: 15px;
-	height: 15px;
-	border-radius: 20px;
-	position: relative;
-	bottom: -17px;
-	right: -10px;
-	display: block;
+.currency_button {
+	width: 80px;
+	height: auto;
+	border: 2px solid #123853;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 30px;
+	color: #123853;
 }
-.pseudo_radio_checked {
+.currency_button_selected_span {
+	width: 80px;
+	height: auto;
+	border: 2px solid #123853;
 	background-color: #123853;
-	width: 15px;
-	height: 15px;
-	position: relative;
-	bottom: -17px;
-	right: -10px;
-	border-radius: 20px;
-	display: block;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 30px;
+	color: white;
 }
