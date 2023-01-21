@@ -3,6 +3,8 @@ import { publicationStore } from "../../store/publicationStore";
 import { shallow } from "zustand/shallow";
 import { FaCheck } from "react-icons/fa";
 import { BsHouseFill } from "react-icons/bs";
+import axios from "axios";
+import { GetAdress, GetPrice } from "./PrpretysData";
 
 interface LocalDatasType {
 	title: string;
@@ -19,6 +21,23 @@ interface InputType {
 	required: boolean;
 	index: number;
 	count: number;
+}
+
+interface DataToSever {
+	owner: "id_will_be_here";
+	rental_information: {
+		type_of_rental: string;
+		address: string;
+		lessor: {
+			fullName: string;
+			contacts: number;
+		};
+	};
+}
+
+interface Counter {
+	count: number;
+	setCount: (number: number) => void;
 }
 
 let datas: LocalDatasType[] = [
@@ -56,6 +75,18 @@ let datas: LocalDatasType[] = [
 
 let values: string[][] = [];
 
+function postProprety(data: DataToSever) {
+	let status: boolean = false;
+	axios({
+		url: "http://localhost:4000/api/proprety",
+		method: "post",
+		data: data,
+	})
+		.then((data) => console.log(data))
+		.catch((err) => console.log(err));
+	return status;
+}
+
 function Input(props: InputType) {
 	const [value, setValue] = useState<string>("");
 	return (
@@ -87,21 +118,39 @@ function Input(props: InputType) {
 export default function AddPropretiyForm() {
 	const [count, setCount] = useState<number>(0);
 
-	const [setAddres, setPropretyType, setName, setContact, allInfo] =
-		publicationStore(
-			(state) => [
-				state.setAddress,
-				state.setPropretyType,
-				state.setName,
-				state.setContact,
-				state.allInfo,
-			],
-			shallow
-		);
+	const [
+		setAddres,
+		setPropretyType,
+		setName,
+		setContact,
+		address,
+		contact,
+		name,
+		propretyType,
+	] = publicationStore(
+		(state) => [
+			state.setAddress,
+			state.setPropretyType,
+			state.setName,
+			state.setContact,
+			state.address,
+			state.contact,
+			state.name,
+			state.propretyType,
+		],
+		shallow
+	);
 	return (
 		<div>
-			{count < datas.length ? (
-				<div className="add_proprety_card border-b pd-20 br">
+			<GetAdress />
+			<GetPrice />
+		</div>
+	);
+}
+
+/*
+{count < datas.length ? (
+				<form className="add_proprety_card border-b pd-20 br">
 					<h3 className="m_y-10"> {datas[count].title} </h3>
 					{datas[count].legend ? (
 						<div className="m_y-10">{datas[count].legend}</div>
@@ -135,14 +184,27 @@ export default function AddPropretiyForm() {
 								if (count == 0) setAddres(value);
 								if (count == 1) setPropretyType(value);
 								if (count == 2) setName(value);
-								if (count == 3) setContact(value);
+								if (count == 3) {
+									setContact(value);
+									postProprety({
+										owner: "id_will_be_here",
+										rental_information: {
+											type_of_rental: propretyType,
+											address: address,
+											lessor: {
+												fullName: name,
+												contacts: Number(contact),
+											},
+										},
+									});
+								}
 								if (count < datas.length - 1) setCount(count + 1);
 								else setCount(datas.length);
 							}}>
 							Suivant
 						</button>
 					</div>
-				</div>
+				</form>
 			) : (
 				<div className="add_proprety_card border-b pd-20 br">
 					<h3>Status de la publication</h3>
@@ -157,6 +219,4 @@ export default function AddPropretiyForm() {
 					</button>
 				</div>
 			)}
-		</div>
-	);
-}
+*/

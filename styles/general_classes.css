@@ -34,6 +34,12 @@
 .m_y-5 {
 	margin: 5px 0;
 }
+.m_x-0_10 {
+	margin-right: 10px;
+}
+.m_x-10_0 {
+	margin-left: 10px;
+}
 .pd-10 {
 	padding: 10px;
 }
@@ -146,4 +152,18 @@
 }
 strong {
 	font-weight: 900;
+}
+.flex_x-center {
+	display: flex;
+	align-items: center;
+}
+.flex_y-center {
+	display: flex;
+	justify-content: center;
+}
+.hover_scale-102:hover {
+	transform: scale(1.02);
+}
+.opacity_0 {
+	opacity: 0;
 }

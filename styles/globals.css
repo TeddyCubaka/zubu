@@ -80,3 +80,29 @@ h5 {
 	justify-content: space-around;
 	align-items: center;
 }
+.proprety_type_details > summary {
+	font-weight: 400;
+}
+.proprety_type_details > div > input {
+	margin: 0 10px;
+}
+.pseudo_radio {
+	border: 1px solid black;
+	width: 15px;
+	height: 15px;
+	border-radius: 20px;
+	position: relative;
+	bottom: -17px;
+	right: -10px;
+	display: block;
+}
+.pseudo_radio_checked {
+	background-color: #123853;
+	width: 15px;
+	height: 15px;
+	position: relative;
+	bottom: -17px;
+	right: -10px;
+	border-radius: 20px;
+	display: block;
+}

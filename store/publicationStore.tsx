@@ -11,6 +11,11 @@ interface PublicationStore {
 	setContact: (phone: string) => void;
 	getDatas?: () => string;
 	allInfo?: string;
+	count: number;
+	setCount: () => void;
+	unSetCount: () => void;
+	monetary_currency: string;
+	setMonetary_currency: (currence: string) => void;
 }
 
 export const publicationStore = create<PublicationStore>((set) => ({
@@ -18,19 +23,17 @@ export const publicationStore = create<PublicationStore>((set) => ({
 	propretyType: "",
 	name: "",
 	contact: "",
-	allInfo: "",
+	monetary_currency: "",
+	count: 0,
+	setCount: () => set((state) => ({ count: state.count + 1 })),
+	unSetCount: () => set((state) => ({ count: state.count - 1 })),
 	setAddress: (str) =>
 		set((state) => ({
 			address: state.address + str,
-			allInfo: state.allInfo + "/" + str,
 		})),
-	setPropretyType: (type) =>
-		set((state) => ({
-			propretyType: type,
-			allInfo: state.allInfo + "/" + type,
-		})),
-	setName: (owner) =>
-		set((state) => ({ name: owner, allInfo: state.allInfo + "/" + owner })),
-	setContact: (phone) =>
-		set((state) => ({ contact: phone, allInfo: state.allInfo + "/" + phone })),
+	setPropretyType: (type) => set(() => ({ propretyType: type })),
+	setName: (owner) => set(() => ({ name: owner })),
+	setContact: (phone) => set(() => ({ contact: phone })),
+	setMonetary_currency: (currence) =>
+		set(() => ({ monetary_currency: currence })),
 }));
