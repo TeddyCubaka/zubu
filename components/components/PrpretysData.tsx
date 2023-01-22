@@ -373,7 +373,7 @@ export function ViewInformationPuted() {
 		) {
 			axios({
 				method: "post",
-				url: "http://localhost:4000/api/proprety",
+				url: process.env.NEXT_PUBLIC_DB_URL + "/proprety",
 				data: {
 					rental_information: {
 						geolocalisation: "" + Math.random() * 37656,
