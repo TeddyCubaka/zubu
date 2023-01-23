@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Header from "../../components/general/header";
+import AllPropreties from "../../components/general/AllPropreties";
 
 export default function Publication() {
 	return (
@@ -17,6 +18,7 @@ export default function Publication() {
 			<main>
 				<Header />
 				<div className="flex m_wax h_max">Chéh</div>
+				<AllPropreties />
 			</main>
 		</>
 	);
