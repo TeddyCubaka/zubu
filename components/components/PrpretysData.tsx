@@ -452,11 +452,11 @@ export function CreatePropretyStatus() {
 					<div className="color_green flex_x-center">
 						{" "}
 						<FaCheck size="20" /> {"  "}{" "}
-						<span>Propriété créer avec succès !</span>
+						<span className="m_x-10">Propriété créée avec succès !</span>
 					</div>
 					<button className="btn_p btn br color_w txt_normal w_half m_x-20">
 						{" "}
-						<BsHouseFill size="20" /> See the proprety
+						<BsHouseFill size="20" /> Voir la propriété
 					</button>
 				</>
 			) : databaseResponseStatus === "not created" ? (
