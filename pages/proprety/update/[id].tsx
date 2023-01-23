@@ -33,7 +33,9 @@ export default function Publication() {
 			<main>
 				<Header />
 				<div className="flex m_wax h_max"> updating a random proprety </div>
-				<UpdateRentalInformation />
+				<div className="double_column">
+					<UpdateRentalInformation />
+				</div>
 			</main>
 		</>
 	);

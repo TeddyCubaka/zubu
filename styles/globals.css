@@ -105,3 +105,11 @@ h5 {
 	border-radius: 30px;
 	color: white;
 }
+.div_details {
+	border: 1px solid #123853;
+	border-radius: 5px;
+}
+.double_column {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}

@@ -58,6 +58,9 @@
 .pd-10 {
 	padding: 10px;
 }
+.pd_y-5 {
+	padding: 5px 0;
+}
 .pd_x-10 {
 	padding: 0 10px;
 }
@@ -84,6 +87,10 @@
 .flex {
 	display: flex;
 }
+.column {
+	display: flex;
+	flex-direction: column;
+}
 .border-w {
 	border: 1px solid white;
 }
@@ -93,6 +100,9 @@
 .txt_normal {
 	font-size: 16px;
 	font-weight: 300;
+}
+.txt_center {
+	text-align: center;
 }
 .txt_big {
 	font-size: 18px;
@@ -184,4 +194,18 @@ strong {
 }
 .block {
 	display: block;
+}
+.choice_span:hover {
+	width: 100%;
+	text-align: center;
+	background-color: #d9d9d9;
+}
+.no_border {
+	border: none;
+}
+.no_bg_color {
+	background-color: none;
+}
+.bg_color_w {
+	background-color: white;
 }
