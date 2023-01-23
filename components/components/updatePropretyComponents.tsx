@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
+import { rentalInformation } from "../../store/updatePropretyStore";
+import { shallow } from "zustand/shallow";
 
 interface InputHasDetailsProps {
 	objectHasInput: boolean;
@@ -9,13 +11,30 @@ interface InputHasDetailsProps {
 	sendToStore: (string: string) => void;
 }
 
+interface InputProps {
+	value: string;
+	placeholder: string;
+	sendToStore: (string: string) => void;
+	type?: string;
+	subject: string;
+}
+
 const propretyType = ["Maison meublé", "Maison vide", "Commerce", "Burreau"];
 
-function Input() {
+function Input({ value, placeholder, sendToStore, type, subject }: InputProps) {
 	return (
 		<div className="m_y-10 input_w_label">
-			<label>Guarantie</label>
-			<input type="text" placeholder="zhhufzkkjk" className={`br w_max`} />
+			<label> {subject} </label>
+			<input
+				type={type ? type : "text"}
+				placeholder={placeholder}
+				className={`br w_max`}
+				value={value}
+				onChange={(e) => {
+					sendToStore(e.target.value);
+					console.log(value);
+				}}
+			/>
 		</div>
 	);
 }
@@ -79,16 +98,24 @@ function InputHasDetails({
 }
 
 export function UpdateRentalInformation() {
+	const rental = rentalInformation();
+
 	return (
 		<div>
-			<Input />
-			<InputHasDetails
-				objectHasInput={false}
-				detailsData={propretyType}
-				sendToStore={() => {}}
-				store={"stohzfi"}
-				object={"TYpe"}
-			/>
+			<div>
+				<InputHasDetails
+					objectHasInput={false}
+					detailsData={propretyType}
+					store={rental.typeOfRental}
+					object={"Type"}
+					sendToStore={rental.setType}
+				/>
+                {/* <Input value={rental.price}
+// placeholder={}
+sendToStore={}
+type
+subject */}
+			</div>
 		</div>
 	);
 }
