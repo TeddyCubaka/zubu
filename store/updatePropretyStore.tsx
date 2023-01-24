@@ -33,7 +33,7 @@ export const rentalInformation = create<RentalInformation>((set) => ({
 	typeOfRental: "",
 	price: "",
 	guaranteeValue: "",
-	monetaryCurrency: "",
+	monetaryCurrency: "USD",
 	coverPicture: "",
 	address: "",
 	area: "",

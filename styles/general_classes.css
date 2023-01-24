@@ -22,6 +22,12 @@
 .w_half {
 	width: 50%;
 }
+.w_hug {
+	width: fit-content;
+}
+.w_auto {
+	width: auto;
+}
 .h_max {
 	height: 100%;
 }
@@ -32,13 +38,16 @@
 	margin: 20px;
 }
 .m_x-20 {
-	margin: 0 20px;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 .m_y-20 {
-	margin: 20px 0;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .m_y-10 {
-	margin: 10px 0;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .m_x-10 {
 	margin: 0 10px;
@@ -47,13 +56,20 @@
 	margin: 0 5px;
 }
 .m_y-5 {
-	margin: 5px 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 .m_x-0_10 {
 	margin-right: 10px;
 }
+.m_x-0_5 {
+	margin-right: 5px;
+}
 .m_x-10_0 {
 	margin-left: 10px;
+}
+.m_x-5_0 {
+	margin-left: 5px;
 }
 .pd-10 {
 	padding: 10px;
@@ -139,7 +155,6 @@
 }
 .input_w_label {
 	border: 1px solid #b9b9b9;
-	width: 95%;
 	min-width: 200px;
 	min-height: 25px;
 	border-radius: 4px;
@@ -208,4 +223,20 @@ strong {
 }
 .bg_color_w {
 	background-color: white;
+}
+.bg_color_r {
+	background-color: red;
+}
+.double_column {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+.w_50 {
+	width: 50px;
+}
+.w_095 {
+	width: 95%;
+}
+.h_auto {
+	height: auto;
 }
