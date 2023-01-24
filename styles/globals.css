@@ -109,4 +109,19 @@ h5 {
 	border: 1px solid #123853;
 	border-radius: 5px;
 	position: relative;
+	background-color: white;
+}
+.input_has_detais {
+	height: 25px;
+}
+.rental_information_input {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-gap: 10px;
+	grid-auto-rows: minmax(25px, auto);
+}
+.rental_information_card {
+	display: grid;
+	grid-template-columns: 70% 30%;
+	grid-gap: 10px;
 }
