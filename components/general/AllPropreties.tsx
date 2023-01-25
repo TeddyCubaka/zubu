@@ -20,22 +20,22 @@ export default function AllPropreties() {
 			.then((res) => {
 				const response: Proprety[] = [];
 				res.data.map((proprety: any, index: number) => {
-					if (index > 1)
-						response.push({
-							_id: proprety._id,
-							rentalInformation: {
-								adress: proprety.rental_information.address,
-								guarantee: proprety.rental_information.guarantee_value,
-								lessor: {
-									fullName: proprety.rental_information.lessor.fullName,
-									contacts: proprety.rental_information.lessor.contacts,
-								},
-								currency: proprety.rental_information.monetary_currency,
-								rentalType: proprety.rental_information.type_of_rental,
+					response.push({
+						_id: proprety._id,
+						rentalInformation: {
+							adress: proprety.rental_information.address,
+							guarantee: proprety.rental_information.guarantee_value,
+							lessor: {
+								fullName: proprety.rental_information.lessor.fullName,
+								contacts: proprety.rental_information.lessor.contacts,
 							},
-						});
+							currency: proprety.rental_information.monetary_currency,
+							rentalType: proprety.rental_information.type_of_rental,
+						},
+					});
 				});
 				setPropreties(response);
+				console.log(res.data);
 			})
 			.catch((err) => console.log(err));
 	};

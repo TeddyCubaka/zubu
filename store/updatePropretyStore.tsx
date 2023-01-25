@@ -5,6 +5,7 @@ interface Lessor {
 	contacts: string;
 }
 interface RentalInformation {
+	_id: string;
 	isAvailable: boolean;
 	availabilityDate: string;
 	typeOfRental: string;
@@ -15,6 +16,7 @@ interface RentalInformation {
 	address: string;
 	area: string;
 	lessor: Lessor;
+	getId: (string: string) => void;
 	changeAvailability: (state: boolean) => void;
 	setAvailabilyDate: (date: string) => void;
 	setType: (type: string) => void;
@@ -33,8 +35,9 @@ interface LoaderStatus {
 }
 
 export const rentalInformation = create<RentalInformation>((set) => ({
+	_id: "",
 	isAvailable: false,
-	availabilityDate: Date(),
+	availabilityDate: "",
 	typeOfRental: "",
 	price: "",
 	guaranteeValue: "",
@@ -46,6 +49,7 @@ export const rentalInformation = create<RentalInformation>((set) => ({
 		fullName: "",
 		contacts: "",
 	},
+	getId: (string) => set(() => ({ _id: string })),
 	changeAvailability: (state) => set(() => ({ isAvailable: state })),
 	setAvailabilyDate: (date) => set(() => ({ availabilityDate: "" + date })),
 	setType: (type) => set(() => ({ typeOfRental: "" + type })),

@@ -255,6 +255,11 @@
 	display: flex;
 	justify-content: space-between;
 }
+.space_between-y {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
 .space_between-x {
 	display: flex;
 	align-items: space-between;

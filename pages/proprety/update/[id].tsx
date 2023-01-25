@@ -7,29 +7,7 @@ import { UpdateRentalInformation } from "../../../components/components/updatePr
 import { rentalInformation } from "../../../store/updatePropretyStore";
 
 export default function Publication() {
-	const [
-		changeAvailability,
-		setAvailabilyDate,
-		setType,
-		setPrice,
-		setGuaratee,
-		setCurrency,
-		setCoverPicture,
-		setAddress,
-		setArea,
-		setLessor,
-	] = rentalInformation((state) => [
-		state.changeAvailability,
-		state.setAvailabilyDate,
-		state.setType,
-		state.setPrice,
-		state.setGuaratee,
-		state.setCurrency,
-		state.setCoverPicture,
-		state.setAddress,
-		state.setArea,
-		state.setLessor,
-	]);
+	const rental = rentalInformation();
 	const router = useRouter();
 	const [propretyId, setPropretyId] = React.useState<string>("");
 	useEffect(() => {
@@ -41,17 +19,17 @@ export default function Publication() {
 			.then((res) => {
 				const rt = res.data.rental_information; //rt = rental_information
 				if (rt) {
-					changeAvailability(rt.is_available || "");
-					setAvailabilyDate(rt.availability_date || "");
-					setType(rt.type_of_rental || "");
-					setPrice(rt.price || "");
-					setGuaratee(rt.guarantee_value || "");
-					setCurrency(rt.monetary_currency || "");
-					setCoverPicture(rt.cover_picture || "");
-					setAddress(rt.address || "");
-					setArea(rt.area || "");
-					setLessor(rt.lessor || "");
-					console.log(res.data || "");
+					rental.getId(res.data._id);
+					rental.changeAvailability(rt.is_available || "");
+					rental.setAvailabilyDate(rt.availability_date || "");
+					rental.setType(rt.type_of_rental || "");
+					rental.setPrice(rt.price || "");
+					rental.setGuaratee(rt.guarantee_value || "");
+					rental.setCurrency(rt.monetary_currency || "");
+					rental.setCoverPicture(rt.cover_picture || "");
+					rental.setAddress(rt.address || "");
+					rental.setArea(rt.area || "");
+					rental.setLessor(rt.lessor || "");
 				}
 			})
 			.catch((err) => console.log(err));

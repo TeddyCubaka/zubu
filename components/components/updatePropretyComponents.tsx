@@ -30,7 +30,29 @@ interface UploadImage {
 	getStatus: (string: string) => void;
 }
 
-const propretyType = ["Maison meublé", "Maison vide", "Commerce", "Burreau"];
+interface SendToServer {
+	path: string;
+	data: Object;
+	getStatus: (status: string, data: Object) => void;
+}
+
+function sendToServer(props: SendToServer) {
+	axios({
+		method: "POST",
+		url: process.env.NEXT_PUBLIC_DB_URL + props.path,
+		data: props.data,
+	})
+		.then((res) => console.log("succes", res.data))
+		.catch((err) => console.log("error", err));
+}
+
+const propretyType = [
+	"Maison meublé",
+	"Maison vide",
+	"appartement",
+	"Commerce",
+	"Burreau",
+];
 
 const uploadImage = async (props: UploadImage) => {
 	props.getStatus("load");
@@ -144,7 +166,7 @@ function CoverPicture() {
 	return (
 		<div className="w_max">
 			<div className="space_between-x w_max">
-				<span className="m_max block m_right-10">Mettre à jour l'image</span>
+				<span className="m_max block m_right-10">Choisir une image</span>
 				<div className="space_between-x cover_picture_input_file_div">
 					<input
 						type="file"
@@ -171,17 +193,16 @@ function CoverPicture() {
 			<div
 				ref={divCoverPicture}
 				style={{
-					width: "auto",
-					height: divCoverPicture.current?.style.width
-						? (9 / 16) * Number(divCoverPicture.current?.style.width)
-						: "10",
+					width: "100%",
+					height: "101px",
 					overflow: "hidden",
 					backgroundColor: "#B9B9B9",
 					border: "1px solid #B9B9B9",
+					minHeight: "100px",
 				}}
 				className="flex_center-xy br">
 				{loader.uploadingCoverPicture === "error" ? (
-					<div className="h_max w_max flex_y_center-xy border-b color_w">
+					<div className="h_max w_max flex_y_center-xy color_w">
 						Sorry, please try again
 						<span>
 							<IoReloadSharp />
@@ -213,6 +234,29 @@ function CoverPicture() {
 
 export function UpdateRentalInformation() {
 	const rental = rentalInformation();
+	const postUpdating = () => {
+		const data = {
+			rental_information: {
+				is_available: rental.isAvailable || false,
+				availability_date: rental.availabilityDate,
+				type_of_rental: rental.typeOfRental,
+				price: rental.price,
+				guarantee_value: rental.guaranteeValue,
+				monetary_currency: rental.monetaryCurrency,
+				cover_picture: rental.coverPicture,
+				address: rental.address,
+				area: rental.area,
+				lessor: rental.lessor,
+			},
+		};
+		const thisProps: SendToServer = {
+			path: "/proprety/" + rental._id,
+			data: data,
+			getStatus: (string) => console.log(string),
+		};
+		console.log(data);
+		sendToServer(thisProps);
+	};
 
 	return (
 		<div className="rental_information_card m_x-20">
@@ -261,7 +305,22 @@ export function UpdateRentalInformation() {
 					subject={"Libre au"}
 				/>
 			</div>
-			<CoverPicture />
+			<div className="h_max border-bf space_between-y">
+				<CoverPicture />
+				<button
+					className="btn_s color_b br txt_normal btn w_max"
+					onClick={() => {
+						if (rental.isAvailable) rental.changeAvailability(false);
+						else rental.changeAvailability(true);
+					}}>
+					{rental.isAvailable ? "N'est plus disponible" : "Mettre en ligne"}
+				</button>
+				<button
+					className="btn_p color_w br txt_normal btn w_max"
+					onClick={() => postUpdating()}>
+					Mettre à jour
+				</button>
+			</div>
 		</div>
 	);
 }
