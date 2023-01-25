@@ -27,6 +27,11 @@ interface RentalInformation {
 	setLessor: (lessor: Lessor) => void;
 }
 
+interface LoaderStatus {
+	uploadingCoverPicture: string;
+	setUploadingCoverPicture: (string: string) => void;
+}
+
 export const rentalInformation = create<RentalInformation>((set) => ({
 	isAvailable: false,
 	availabilityDate: Date(),
@@ -51,4 +56,10 @@ export const rentalInformation = create<RentalInformation>((set) => ({
 	setAddress: (address) => set(() => ({ address: "" + address })),
 	setArea: (area) => set(() => ({ area: "" + area })),
 	setLessor: (lessor) => set(() => ({ lessor: lessor })),
+}));
+
+export const loaderStatus = create<LoaderStatus>((set) => ({
+	uploadingCoverPicture: "",
+	setUploadingCoverPicture: (string) =>
+		set(() => ({ uploadingCoverPicture: string })),
 }));

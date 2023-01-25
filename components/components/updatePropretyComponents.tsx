@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
-import { rentalInformation } from "../../store/updatePropretyStore";
-import { shallow } from "zustand/shallow";
+import {
+	rentalInformation,
+	loaderStatus,
+} from "../../store/updatePropretyStore";
 import Image from "next/image";
+import { FiEdit } from "react-icons/fi";
+import axios from "axios";
+import { IoReloadSharp } from "react-icons/io5";
 
 interface InputHasDetailsProps {
 	detailsData: string[];
@@ -19,8 +24,28 @@ interface InputProps {
 	customClass?: string;
 	placeholder?: string;
 }
+interface UploadImage {
+	file: FileList;
+	getUrl: (string: string) => void;
+	getStatus: (string: string) => void;
+}
 
 const propretyType = ["Maison meublé", "Maison vide", "Commerce", "Burreau"];
+
+const uploadImage = async (props: UploadImage) => {
+	props.getStatus("load");
+	const formData = new FormData();
+	formData.append("file", props.file[0]);
+	formData.append("upload_preset", "zubustein");
+	await axios
+		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
+		.then((res) => {
+			props.getUrl(res.data.secure_url), props.getStatus("finish");
+		})
+		.catch((err) => {
+			console.log(err), props.getStatus("error");
+		});
+};
 
 function Input({
 	value,
@@ -109,6 +134,83 @@ function InputHasDetails({
 	);
 }
 
+function CoverPicture() {
+	const [src, setSrc] = useState<string>("");
+	const [file, setFile] = useState<FileList>();
+	const rental = rentalInformation();
+	const loader = loaderStatus();
+	const divCoverPicture = useRef<HTMLDivElement>(null);
+
+	return (
+		<div className="w_max">
+			<div className="space_between-x w_max">
+				<span className="m_max block m_right-10">Mettre à jour l'image</span>
+				<div className="space_between-x cover_picture_input_file_div">
+					<input
+						type="file"
+						accept="image/png, image/jpeg"
+						className="upload_cover_picture_input"
+						onChange={(e) => {
+							if (e.target.files !== null) {
+								setSrc(URL.createObjectURL(e.target.files[0]));
+								setFile(e.target.files);
+								const uploadCoverPicture: UploadImage = {
+									file: e.target.files,
+									getStatus: loader.setUploadingCoverPicture,
+									getUrl: rental.setCoverPicture,
+								};
+								uploadImage(uploadCoverPicture);
+							}
+						}}
+					/>
+					<button className="upload_cover_picture_button">
+						<FiEdit size="18px" />
+					</button>
+				</div>
+			</div>
+			<div
+				ref={divCoverPicture}
+				style={{
+					width: "auto",
+					height: divCoverPicture.current?.style.width
+						? (9 / 16) * Number(divCoverPicture.current?.style.width)
+						: "10",
+					overflow: "hidden",
+					backgroundColor: "#B9B9B9",
+					border: "1px solid #B9B9B9",
+				}}
+				className="flex_center-xy br">
+				{loader.uploadingCoverPicture === "error" ? (
+					<div className="h_max w_max flex_y_center-xy border-b color_w">
+						Sorry, please try again
+						<span>
+							<IoReloadSharp />
+						</span>
+					</div>
+				) : loader.uploadingCoverPicture === "load" ? (
+					<div className="h_max w_max flex_y_center-xy border-b color_w">
+						<span className="uploading">
+							<IoReloadSharp />
+						</span>
+					</div>
+				) : (
+					<Image
+						width={170}
+						height={170}
+						className="cover_picture_card"
+						src={
+							src.length > 1
+								? src
+								: "https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1"
+						}
+						alt="Random image"
+					/>
+				)}
+			</div>
+		</div>
+	);
+}
+
 export function UpdateRentalInformation() {
 	const rental = rentalInformation();
 
@@ -159,19 +261,7 @@ export function UpdateRentalInformation() {
 					subject={"Libre au"}
 				/>
 			</div>
-			<div className="border-b">
-				<input
-					type="file"
-					accept="image/png, image/jpeg"
-					onChange={(e) => console.log(e.target.files)}
-				/>
-				<Image
-					width={170}
-					height={170}
-					src="https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1"
-					alt="Random image"
-				/>
-			</div>
+			<CoverPicture />
 		</div>
 	);
 }

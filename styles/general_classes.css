@@ -248,7 +248,14 @@
 .m_top-10 {
 	margin-top: 10px;
 }
+.m_right-10 {
+	margin-right: 10px;
+}
 .space_between {
 	display: flex;
 	justify-content: space-between;
+}
+.space_between-x {
+	display: flex;
+	align-items: space-between;
 }
