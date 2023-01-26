@@ -11,6 +11,7 @@ module.exports = {
 			"miro.medium.com",
 			"www.shutterstock.com",
 			"play-lh.googleusercontent.com",
+			"res.cloudinary.com",
 		],
 	},
 };

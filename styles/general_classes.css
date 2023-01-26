@@ -80,6 +80,9 @@
 .pd-20 {
 	padding: 20px;
 }
+.pd-10 {
+	padding: 10px;
+}
 .br {
 	border-radius: 5px;
 }
@@ -250,6 +253,9 @@
 }
 .m_right-10 {
 	margin-right: 10px;
+}
+.m_bottom-10 {
+	margin-bottom: 10px;
 }
 .space_between {
 	display: flex;

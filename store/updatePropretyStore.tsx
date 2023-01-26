@@ -16,6 +16,7 @@ interface RentalInformation {
 	address: string;
 	area: string;
 	lessor: Lessor;
+	files: string | Blob;
 	getId: (string: string) => void;
 	changeAvailability: (state: boolean) => void;
 	setAvailabilyDate: (date: string) => void;
@@ -27,6 +28,7 @@ interface RentalInformation {
 	setAddress: (address: string) => void;
 	setArea: (area: string) => void;
 	setLessor: (lessor: Lessor) => void;
+	setFiles: (file: File) => void;
 }
 
 interface LoaderStatus {
@@ -49,6 +51,7 @@ export const rentalInformation = create<RentalInformation>((set) => ({
 		fullName: "",
 		contacts: "",
 	},
+	files: "",
 	getId: (string) => set(() => ({ _id: string })),
 	changeAvailability: (state) => set(() => ({ isAvailable: state })),
 	setAvailabilyDate: (date) => set(() => ({ availabilityDate: "" + date })),
@@ -60,6 +63,7 @@ export const rentalInformation = create<RentalInformation>((set) => ({
 	setAddress: (address) => set(() => ({ address: "" + address })),
 	setArea: (area) => set(() => ({ area: "" + area })),
 	setLessor: (lessor) => set(() => ({ lessor: lessor })),
+	setFiles: (file) => set(() => ({ files: file })),
 }));
 
 export const loaderStatus = create<LoaderStatus>((set) => ({

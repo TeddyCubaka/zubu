@@ -25,7 +25,7 @@ interface InputProps {
 	placeholder?: string;
 }
 interface UploadImage {
-	file: FileList;
+	file: string | Blob;
 	getUrl: (string: string) => void;
 	getStatus: (string: string) => void;
 }
@@ -35,6 +35,20 @@ interface SendToServer {
 	data: Object;
 	getStatus: (status: string, data: Object) => void;
 }
+const uploadImage = async (props: UploadImage) => {
+	props.getStatus("load");
+	const formData = new FormData();
+	formData.append("file", props.file);
+	formData.append("upload_preset", "zubustein");
+	await axios
+		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
+		.then((res) => {
+			props.getUrl(res.data.secure_url), props.getStatus("finish");
+		})
+		.catch((err) => {
+			console.log(err), props.getStatus("error");
+		});
+};
 
 function sendToServer(props: SendToServer) {
 	axios({
@@ -53,21 +67,6 @@ const propretyType = [
 	"Commerce",
 	"Burreau",
 ];
-
-const uploadImage = async (props: UploadImage) => {
-	props.getStatus("load");
-	const formData = new FormData();
-	formData.append("file", props.file[0]);
-	formData.append("upload_preset", "zubustein");
-	await axios
-		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
-		.then((res) => {
-			props.getUrl(res.data.secure_url), props.getStatus("finish");
-		})
-		.catch((err) => {
-			console.log(err), props.getStatus("error");
-		});
-};
 
 function Input({
 	value,
@@ -108,8 +107,8 @@ function InputHasDetails({
 	const [showDetails, setShowDetails] = useState<boolean>(false);
 
 	return (
-		<div className={"column input_has_detais " + customClass}>
-			<div className="input_w_label w_auto">
+		<div className={"space_between-y input_has_detais " + customClass}>
+			<div className="input_w_label pd-10 w_auto">
 				{object ? <div className="txt_meddium"> {object} </div> : ""}
 				<div
 					className="m_x-5 w_max color_gray"
@@ -158,8 +157,11 @@ function InputHasDetails({
 
 function CoverPicture() {
 	const [src, setSrc] = useState<string>("");
-	const [file, setFile] = useState<FileList>();
-	const rental = rentalInformation();
+	const [file, setFile, coverPicture] = rentalInformation((state) => [
+		state.files,
+		state.setFiles,
+		state.coverPicture,
+	]);
 	const loader = loaderStatus();
 	const divCoverPicture = useRef<HTMLDivElement>(null);
 
@@ -175,13 +177,7 @@ function CoverPicture() {
 						onChange={(e) => {
 							if (e.target.files !== null) {
 								setSrc(URL.createObjectURL(e.target.files[0]));
-								setFile(e.target.files);
-								const uploadCoverPicture: UploadImage = {
-									file: e.target.files,
-									getStatus: loader.setUploadingCoverPicture,
-									getUrl: rental.setCoverPicture,
-								};
-								uploadImage(uploadCoverPicture);
+								setFile(e.target.files[0]);
 							}
 						}}
 					/>
@@ -220,8 +216,10 @@ function CoverPicture() {
 						height={170}
 						className="cover_picture_card"
 						src={
-							src.length > 1
+							src.length > 0
 								? src
+								: coverPicture.length > 0
+								? coverPicture
 								: "https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1"
 						}
 						alt="Random image"
@@ -234,7 +232,13 @@ function CoverPicture() {
 
 export function UpdateRentalInformation() {
 	const rental = rentalInformation();
-	const postUpdating = () => {
+	const postUpdating = async () => {
+		const uploadCoverPicture: UploadImage = {
+			file: rental.files,
+			getStatus: (string) => console.log(string),
+			getUrl: rental.setCoverPicture,
+		};
+		await uploadImage(uploadCoverPicture);
 		const data = {
 			rental_information: {
 				is_available: rental.isAvailable || false,
@@ -254,20 +258,21 @@ export function UpdateRentalInformation() {
 			data: data,
 			getStatus: (string) => console.log(string),
 		};
-		console.log(data);
 		sendToServer(thisProps);
 	};
 
 	return (
 		<div className="rental_information_card m_x-20">
 			<div className="rental_information_input">
-				<InputHasDetails
-					detailsData={propretyType}
-					store={rental.typeOfRental}
-					object={"Type"}
-					sendToStore={rental.setType}
+				<Input
+					value={rental.address}
+					sendToStore={rental.setAddress}
+					type={"text"}
+					subject={"Adress"}
+					placeholder={"Ajoutez une adress"}
+					customClass={""}
 				/>
-				<div className="w_max m_top-10 space_between">
+				<div className="w_max space_between">
 					<Input
 						value={rental.price}
 						sendToStore={rental.setPrice}
@@ -284,37 +289,41 @@ export function UpdateRentalInformation() {
 						customClass={""}
 					/>
 				</div>
-				<Input
-					value={rental.guaranteeValue}
-					sendToStore={rental.setGuaratee}
-					type={"text"}
-					subject={"Garantie"}
-					placeholder={"Ajoutez une garantie"}
-				/>
-				<Input
-					value={rental.address}
-					sendToStore={rental.setAddress}
-					type={"text"}
-					subject={"Adress"}
-					placeholder={"Ajoutez une adress"}
-				/>
-				<Input
-					value={rental.availabilityDate}
-					sendToStore={rental.setAvailabilyDate}
-					type={"date"}
-					subject={"Libre au"}
-				/>
+				<div className="flex">
+					<InputHasDetails
+						detailsData={propretyType}
+						store={rental.typeOfRental}
+						object={"Type"}
+						sendToStore={rental.setType}
+						customClass={"m_right-10 w_max"}
+					/>
+					<Input
+						value={rental.availabilityDate}
+						sendToStore={rental.setAvailabilyDate}
+						type={"date"}
+						subject={"Libre au"}
+					/>
+				</div>
+				<div className="flex">
+					<Input
+						value={rental.guaranteeValue}
+						sendToStore={rental.setGuaratee}
+						type={"text"}
+						subject={"Garantie"}
+						placeholder={"Ajoutez une garantie"}
+						customClass={"m_right-10"}
+					/>
+					<Input
+						value={rental.area}
+						sendToStore={rental.setArea}
+						type={"text"}
+						subject={"Surface"}
+						placeholder={"Spécifier l'aire habitable"}
+					/>
+				</div>
 			</div>
 			<div className="h_max border-bf space_between-y">
 				<CoverPicture />
-				<button
-					className="btn_s color_b br txt_normal btn w_max"
-					onClick={() => {
-						if (rental.isAvailable) rental.changeAvailability(false);
-						else rental.changeAvailability(true);
-					}}>
-					{rental.isAvailable ? "N'est plus disponible" : "Mettre en ligne"}
-				</button>
 				<button
 					className="btn_p color_w br txt_normal btn w_max"
 					onClick={() => postUpdating()}>

@@ -31,6 +31,7 @@ export default function Publication() {
 					rental.setArea(rt.area || "");
 					rental.setLessor(rt.lessor || "");
 				}
+				console.log(res.data);
 			})
 			.catch((err) => console.log(err));
 	}, [propretyId]);

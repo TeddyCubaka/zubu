@@ -112,7 +112,7 @@ h5 {
 	background-color: white;
 }
 .input_has_detais {
-	height: 25px;
+	max-height: 30px;
 }
 .rental_information_input {
 	display: grid;
