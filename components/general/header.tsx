@@ -13,7 +13,7 @@ export default function Header() {
 					<Link href="#" className="color_w text_dec_none m_x-20">
 						Louer un bien
 					</Link>
-					<Link href="proprety/publication" className="color_w text_dec_none m_x-20 ">
+					<Link href="/proprety/publication" className="color_w text_dec_none m_x-20 ">
 						Publier un bien
 					</Link>
 					<Link href="#" className="color_w text_dec_none m_x-20">
