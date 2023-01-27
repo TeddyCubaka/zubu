@@ -125,22 +125,27 @@ h5 {
 	grid-template-columns: 70% 30%;
 	grid-gap: 10px;
 }
+.rental_information_card_sub_button {
+	grid-column-start: 1;
+	grid-column-end: 3;
+	display: grid;
+	grid-template-columns: 1fr 1fr ;
+	column-gap: 10px;
+}
 .cover_picture_card {
 	width: 100%;
 	height: auto;
 	background-color: #123853;
 }
 .cover_picture_input_file_div {
-	display: flex;
-	justify-content: space-between;
+	width: 50px;
+	margin: 0;
 }
 .upload_cover_picture_input {
-	width: 50px;
+	width: 40px;
 	position: relative;
-	right: -40px;
+	right: -20px;
 	height: 100%;
-	margin-left: -40px;
-	/* margin-right: 0px; */
 	opacity: 0;
 }
 .upload_cover_picture_button {

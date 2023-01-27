@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
 import {
 	rentalInformation,
@@ -28,12 +28,13 @@ interface UploadImage {
 	file: string | Blob;
 	getUrl: (string: string) => void;
 	getStatus: (string: string) => void;
+	clearFileFunction: () => void;
 }
 
 interface SendToServer {
 	path: string;
 	data: Object;
-	getStatus: (status: string, data: Object) => void;
+	getStatus: (status: string) => void;
 }
 const uploadImage = async (props: UploadImage) => {
 	props.getStatus("load");
@@ -43,7 +44,9 @@ const uploadImage = async (props: UploadImage) => {
 	await axios
 		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
 		.then((res) => {
+			console.log(res.data);
 			props.getUrl(res.data.secure_url), props.getStatus("finish");
+			props.clearFileFunction();
 		})
 		.catch((err) => {
 			console.log(err), props.getStatus("error");
@@ -56,8 +59,13 @@ function sendToServer(props: SendToServer) {
 		url: process.env.NEXT_PUBLIC_DB_URL + props.path,
 		data: props.data,
 	})
-		.then((res) => console.log("succes", res.data))
-		.catch((err) => console.log("error", err));
+		.then((res) => {
+			console.log("succes", res.data), props.getStatus("Mis à jour");
+		})
+		.catch((err) => {
+			console.log("error", err);
+			props.getStatus("Echec de mise à jour");
+		});
 }
 
 const propretyType = [
@@ -78,10 +86,7 @@ function Input({
 }: InputProps) {
 	return (
 		<div className={"input_w_label " + customClass}>
-			<label style={{ width: "5.5em" }} className="txt_meddium">
-				{" "}
-				{subject}{" "}
-			</label>
+			<label className="txt_meddium"> {subject} </label>
 			<input
 				type={type ? type : "text"}
 				placeholder={placeholder}
@@ -163,12 +168,13 @@ function CoverPicture() {
 		state.coverPicture,
 	]);
 	const loader = loaderStatus();
+	const rental = rentalInformation();
 	const divCoverPicture = useRef<HTMLDivElement>(null);
 
 	return (
-		<div className="w_max">
+		<div className="w_max h_max space_between-y">
 			<div className="space_between-x w_max">
-				<span className="m_max block m_right-10">Choisir une image</span>
+				<div className="w_max">Choisir une image</div>
 				<div className="space_between-x cover_picture_input_file_div">
 					<input
 						type="file"
@@ -190,7 +196,7 @@ function CoverPicture() {
 				ref={divCoverPicture}
 				style={{
 					width: "100%",
-					height: "101px",
+					height: "100px",
 					overflow: "hidden",
 					backgroundColor: "#B9B9B9",
 					border: "1px solid #B9B9B9",
@@ -226,17 +232,44 @@ function CoverPicture() {
 					/>
 				)}
 			</div>
+			{src.length === 0 ? (
+				<div className=" color_b br txt_normal txt_center border-blue pd-5">
+					Image d'origine
+				</div>
+			) : (
+				<button
+					className="btn_s color_b br txt_normal btn w_max"
+					onClick={() => {
+						const uploadCoverPicture: UploadImage = {
+							file: rental.files,
+							getStatus: loader.setUploadingCoverPicture,
+							getUrl: rental.setCoverPicture,
+							clearFileFunction: rental.clearFiles,
+						};
+						uploadImage(uploadCoverPicture);
+					}}>
+					{loader.uploadingCoverPicture === "error"
+						? "Erreur, réessayez"
+						: loader.uploadingCoverPicture === "load"
+						? "Envoie..."
+						: loader.uploadingCoverPicture === "finish"
+						? "image d'origine"
+						: "Mettre à jour"}
+				</button>
+			)}
 		</div>
 	);
 }
 
 export function UpdateRentalInformation() {
 	const rental = rentalInformation();
+	const status = loaderStatus();
 	const postUpdating = async () => {
 		const uploadCoverPicture: UploadImage = {
 			file: rental.files,
-			getStatus: (string) => console.log(string),
+			getStatus: status.setUpdatingStatus,
 			getUrl: rental.setCoverPicture,
+			clearFileFunction: rental.clearFiles,
 		};
 		await uploadImage(uploadCoverPicture);
 		const data = {
@@ -256,7 +289,7 @@ export function UpdateRentalInformation() {
 		const thisProps: SendToServer = {
 			path: "/proprety/" + rental._id,
 			data: data,
-			getStatus: (string) => console.log(string),
+			getStatus: status.setUploadingCoverPicture,
 		};
 		sendToServer(thisProps);
 	};
@@ -272,13 +305,13 @@ export function UpdateRentalInformation() {
 					placeholder={"Ajoutez une adress"}
 					customClass={""}
 				/>
-				<div className="w_max space_between">
+				<div className="space_between">
 					<Input
 						value={rental.price}
 						sendToStore={rental.setPrice}
 						type={"number"}
 						subject={"Prix"}
-						customClass={"w_75"}
+						customClass={"w_max m_right-10"}
 						placeholder={"Prix"}
 					/>
 					<InputHasDetails
@@ -289,29 +322,29 @@ export function UpdateRentalInformation() {
 						customClass={""}
 					/>
 				</div>
-				<div className="flex">
+				<div className="double_column">
 					<InputHasDetails
 						detailsData={propretyType}
 						store={rental.typeOfRental}
 						object={"Type"}
 						sendToStore={rental.setType}
-						customClass={"m_right-10 w_max"}
+						customClass={"w_max"}
 					/>
 					<Input
 						value={rental.availabilityDate}
 						sendToStore={rental.setAvailabilyDate}
 						type={"date"}
-						subject={"Libre au"}
+						subject={"Liberé"}
 					/>
 				</div>
-				<div className="flex">
+				<div className="double_column">
 					<Input
 						value={rental.guaranteeValue}
 						sendToStore={rental.setGuaratee}
 						type={"text"}
 						subject={"Garantie"}
 						placeholder={"Ajoutez une garantie"}
-						customClass={"m_right-10"}
+						customClass={""}
 					/>
 					<Input
 						value={rental.area}
@@ -324,10 +357,23 @@ export function UpdateRentalInformation() {
 			</div>
 			<div className="h_max border-bf space_between-y">
 				<CoverPicture />
+			</div>
+			<div className="rental_information_card_sub_button">
+				<button
+					className="btn_s color_b br txt_normal btn w_max"
+					onClick={() => {
+						if (rental.isAvailable) rental.changeAvailability(false);
+						else rental.changeAvailability(true);
+					}}>
+					{rental.isAvailable ? "Marquer occupé" : "Maquer libre"}
+				</button>
 				<button
 					className="btn_p color_w br txt_normal btn w_max"
-					onClick={() => postUpdating()}>
-					Mettre à jour
+					onClick={() => {
+						status.setUpdatingStatus("Envoie...");
+						postUpdating();
+					}}>
+					{status.updatingStatus}
 				</button>
 			</div>
 		</div>

@@ -29,10 +29,13 @@ interface RentalInformation {
 	setArea: (area: string) => void;
 	setLessor: (lessor: Lessor) => void;
 	setFiles: (file: File) => void;
+	clearFiles: () => void;
 }
 
 interface LoaderStatus {
 	uploadingCoverPicture: string;
+	updatingStatus: string;
+	setUpdatingStatus: (string: string) => void;
 	setUploadingCoverPicture: (string: string) => void;
 }
 
@@ -59,15 +62,18 @@ export const rentalInformation = create<RentalInformation>((set) => ({
 	setPrice: (price: string) => set(() => ({ price: "" + price })),
 	setGuaratee: (guarantee) => set(() => ({ guaranteeValue: "" + guarantee })),
 	setCurrency: (currency) => set(() => ({ monetaryCurrency: "" + currency })),
-	setCoverPicture: (url) => set(() => ({ coverPicture: "" + url })),
+	setCoverPicture: (url) => set(() => ({ coverPicture: url })),
 	setAddress: (address) => set(() => ({ address: "" + address })),
 	setArea: (area) => set(() => ({ area: "" + area })),
 	setLessor: (lessor) => set(() => ({ lessor: lessor })),
 	setFiles: (file) => set(() => ({ files: file })),
+	clearFiles: () => set(() => ({ files: "" })),
 }));
 
 export const loaderStatus = create<LoaderStatus>((set) => ({
 	uploadingCoverPicture: "",
+	updatingStatus: "Mettre à jour les information",
 	setUploadingCoverPicture: (string) =>
 		set(() => ({ uploadingCoverPicture: string })),
+	setUpdatingStatus: (string) => set(() => ({ updatingStatus: string })),
 }));
