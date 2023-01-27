@@ -86,7 +86,7 @@ function Input({
 }: InputProps) {
 	return (
 		<div className={"input_w_label " + customClass}>
-			<label className="txt_meddium"> {subject} </label>
+			<label className="txt_meddium one_line_txt"> {subject} </label>
 			<input
 				type={type ? type : "text"}
 				placeholder={placeholder}
@@ -114,7 +114,11 @@ function InputHasDetails({
 	return (
 		<div className={"space_between-y input_has_detais " + customClass}>
 			<div className="input_w_label pd-10 w_auto">
-				{object ? <div className="txt_meddium"> {object} </div> : ""}
+				{object ? (
+					<div className="txt_meddium one_line_txt"> {object} </div>
+				) : (
+					""
+				)}
 				<div
 					className="m_x-5 w_max color_gray"
 					onClick={() => {
@@ -172,7 +176,7 @@ function CoverPicture() {
 	const divCoverPicture = useRef<HTMLDivElement>(null);
 
 	return (
-		<div className="w_max h_max space_between-y">
+		<div className="h_max w_max space_between-y">
 			<div className="space_between-x w_max">
 				<div className="w_max">Choisir une image</div>
 				<div className="space_between-x cover_picture_input_file_div">
@@ -195,7 +199,7 @@ function CoverPicture() {
 			<div
 				ref={divCoverPicture}
 				style={{
-					width: "100%",
+					width: "98%",
 					height: "100px",
 					overflow: "hidden",
 					backgroundColor: "#B9B9B9",
@@ -233,12 +237,12 @@ function CoverPicture() {
 				)}
 			</div>
 			{src.length === 0 ? (
-				<div className=" color_b br txt_normal txt_center border-blue pd-5">
+				<div className=" color_blue br txt_normal txt_center border-blue pd-5">
 					Image d'origine
 				</div>
 			) : (
 				<button
-					className="btn_s color_b br txt_normal btn w_max"
+					className="btn_s color_blue br txt_normal btn w_max"
 					onClick={() => {
 						const uploadCoverPicture: UploadImage = {
 							file: rental.files,
@@ -295,8 +299,8 @@ export function UpdateRentalInformation() {
 	};
 
 	return (
-		<div className="rental_information_card m_x-20">
-			<div className="rental_information_input">
+		<div className="rental_information_card">
+			<div className="rental_information_input m_right-10">
 				<Input
 					value={rental.address}
 					sendToStore={rental.setAddress}
@@ -328,7 +332,7 @@ export function UpdateRentalInformation() {
 						store={rental.typeOfRental}
 						object={"Type"}
 						sendToStore={rental.setType}
-						customClass={"w_max"}
+						customClass={"m_right-10"}
 					/>
 					<Input
 						value={rental.availabilityDate}
@@ -344,7 +348,7 @@ export function UpdateRentalInformation() {
 						type={"text"}
 						subject={"Garantie"}
 						placeholder={"Ajoutez une garantie"}
-						customClass={""}
+						customClass={"m_right-10"}
 					/>
 					<Input
 						value={rental.area}
@@ -355,12 +359,10 @@ export function UpdateRentalInformation() {
 					/>
 				</div>
 			</div>
-			<div className="h_max border-bf space_between-y">
-				<CoverPicture />
-			</div>
-			<div className="rental_information_card_sub_button">
+			<CoverPicture />
+			<div className="rental_information_card_sub_button flex w_max">
 				<button
-					className="btn_s color_b br txt_normal btn w_max"
+					className="btn_s color_blue br txt_normal btn w_max m_right-10"
 					onClick={() => {
 						if (rental.isAvailable) rental.changeAvailability(false);
 						else rental.changeAvailability(true);
