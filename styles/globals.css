@@ -122,15 +122,12 @@ h5 {
 }
 .rental_information_card {
 	display: grid;
-	grid-template-columns: 70% 30%;
-	grid-gap: 10px;
+	grid-template-columns: 65% 35%;
+	grid-row-gap: 10px;
 }
 .rental_information_card_sub_button {
 	grid-column-start: 1;
 	grid-column-end: 3;
-	display: grid;
-	grid-template-columns: 1fr 1fr ;
-	column-gap: 10px;
 }
 .cover_picture_card {
 	width: 100%;

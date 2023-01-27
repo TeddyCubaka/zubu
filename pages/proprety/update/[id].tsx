@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { UpdateRentalInformation } from "../../../components/components/updatePropretyComponents";
 import { rentalInformation } from "../../../store/updatePropretyStore";
+import PropretyNavbar from "../../../components/components/PropretyNavbar";
 
 export default function Publication() {
 	const rental = rentalInformation();
@@ -31,7 +32,6 @@ export default function Publication() {
 					rental.setArea(rt.area || "");
 					rental.setLessor(rt.lessor || "");
 				}
-				console.log(res.data);
 			})
 			.catch((err) => console.log(err));
 	}, [propretyId]);
@@ -50,8 +50,39 @@ export default function Publication() {
 			<main>
 				<Header />
 				<div className="flex m_wax h_max"> updating a random proprety </div>
-				<div className="double_column">
-					<UpdateRentalInformation />
+				<div className="two_part m_x-20">
+					<div className="">
+						<UpdateRentalInformation />
+						<div className="m_top-10">
+							<PropretyNavbar />
+						</div>
+					</div>
+					<div>
+						<div>
+							zuirhfuifuiozhfiohfiozhfiohziohfziohfioz zoifhiofhiozhf
+							fzoizfioznfionfioznf zfoni
+						</div>
+						<div>
+							zuirhfuifuiozhfiohfiozhfiohziohfziohfioz zoifhiofhiozhf
+							fzoizfioznfionfioznf zfoni
+						</div>
+						<div>
+							zuirhfuifuiozhfiohfiozhfiohziohfziohfioz zoifhiofhiozhf
+							fzoizfioznfionfioznf zfoni
+						</div>
+						<div>
+							zuirhfuifuiozhfiohfiozhfiohziohfziohfioz zoifhiofhiozhf
+							fzoizfioznfionfioznf zfoni
+						</div>
+						<div>
+							zuirhfuifuiozhfiohfiozhfiohziohfziohfioz zoifhiofhiozhf
+							fzoizfioznfionfioznf zfoni
+						</div>
+						<div>
+							zuirhfuifuiozhfiohfiozhfiohziohfziohfioz zoifhiofhiozhf
+							fzoizfioznfionfioznf zfoni
+						</div>
+					</div>
 				</div>
 			</main>
 		</>

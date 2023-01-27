@@ -59,7 +59,7 @@ function TwoButton({
 				""
 			) : (
 				<button
-					className="btn_s btn br color_b ctxt_normal w_max m_x-20"
+					className="btn_s btn br color_blue ctxt_normal w_max m_x-20"
 					onClick={() => unSetCount()}>
 					Précédant
 				</button>
@@ -421,7 +421,7 @@ export function ViewInformationPuted() {
 			</ul>
 			<div className="flex w_max m_y-10">
 				<button
-					className="btn_s btn br color_b txt_normal w_max m_x-20"
+					className="btn_s btn br color_blue txt_normal w_max m_x-20"
 					onClick={() => resetCount()}>
 					Modifier
 				</button>
