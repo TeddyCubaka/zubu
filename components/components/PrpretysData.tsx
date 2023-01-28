@@ -388,7 +388,7 @@ export function ViewInformationPuted() {
 			})
 				.then((data) => {
 					console.log(data);
-					setTimeout(() => setDatabaseResponseStatus("created"), 2000);
+					setDatabaseResponseStatus("created");
 				})
 				.catch((err) => {
 					console.log(err.response);
