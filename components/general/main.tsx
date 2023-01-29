@@ -19,7 +19,9 @@ export default function Main() {
 						<span className="m_x-20">Ville</span>
 						<span className="m_x-20">Pièces</span>
 					</div>
-					<button className="btn_p btn color_w br txt_normal m_x-20 ">Rechercher</button>
+					<button className="btn_p btn color_w br txt_normal m_x-10">
+						Rechercher
+					</button>
 				</div>
 			</div>
 		</div>
