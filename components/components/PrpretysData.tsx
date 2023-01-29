@@ -371,18 +371,25 @@ export function ViewInformationPuted() {
 				rentalPrice.price,
 			])
 		) {
+			console.log({
+				address: address,
+				typeOfRental: propretyType,
+				lessor: lessor,
+				price: rentalPrice.price,
+				guaranteeValue: rentalPrice.guarantee_value,
+				monetaryCurrency: rentalPrice.monetary_currency,
+			});
 			axios({
 				method: "post",
 				url: process.env.NEXT_PUBLIC_DB_URL + "/proprety",
 				data: {
-					rental_information: {
-						geolocalisation: "" + Math.random() * 37656,
+					rentalInformation: {
 						address: address,
-						type_of_rental: propretyType,
+						typeOfRental: propretyType,
 						lessor: lessor,
 						price: rentalPrice.price,
-						guarantee_value: rentalPrice.guarantee_value,
-						monetary_currency: rentalPrice.monetary_currency,
+						guaranteeValue: rentalPrice.guarantee_value,
+						monetaryCurrency: rentalPrice.monetary_currency,
 					},
 				},
 			})
