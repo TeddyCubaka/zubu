@@ -1,83 +1,62 @@
+export interface Lessor {
+	fullName: string;
+	contacts: string;
+}
+
+export interface BasicalDetailsType {
+	name: string;
+	content: string;
+}
+
+export interface RentalInformation {
+	isAvailable: boolean;
+	availability_date: string;
+	RentalType: string;
+	geolocalisation: string;
+	price: string;
+	guarantee_value: string;
+	monetaryCurrency: string;
+	coverPicture: string;
+	address: string;
+	area: string;
+	lessor: Lessor;
+}
+
+export interface PropretyGalleryImage {
+	_id: string;
+	url: string;
+	width: number;
+	height: number;
+	size: number;
+	uploadDate: string;
+}
+
+export interface TenantCharge {
+	charge: string;
+	price: number;
+}
+
+export interface RoomDetails {
+	name: string;
+	size: number;
+	unit: string;
+}
+
 export interface Proprety {
 	owner: string;
 	uploadDate: string;
 	updateDate: string[];
 	questions: string[];
 	visits: string[];
-	rentalInformation: {
-		isAvailable: boolean;
-		availability_date: string;
-		RentalType: string;
-		geolocalisation: string;
-		price: string;
-		guarantee_value: string;
-		monetaryCurrency: string;
-		coverPicture: string;
-		address: string;
-		area: string;
-		lessor: {
-			fullName: string;
-			contacts: string;
-		};
-	};
+	rentalInformation: RentalInformation;
 	description: {
-		gallery: [
-			{
-				_id: string;
-				url: string;
-				width: number;
-				height: number;
-				size: number;
-				uploadDate: string;
-			}
-		];
-		TenantCharge: {
-			electricity: number;
-			water: number;
-			dustbin: number;
-			homeCare: number;
-			housePainting: number;
-			other: [
-				{
-					object: string;
-					price: number;
-				}
-			];
-			total: number;
-		};
+		gallery: PropretyGalleryImage[];
+		tenantCharges: TenantCharge[];
 		interior: {
-			bedrooms: string;
-			livingRoom: string;
-			lounge: string;
-			diningRoom: string;
-			kitchen: string;
-			attick: string;
-			floor: string;
-			toilet: string;
-			bathroom: string;
-			homeDetails: string;
-			rooms: [
-				{
-					name: string;
-					details: string;
-				}
-			];
+			rooms: RoomDetails[];
 		};
 		external: {
-			toilets: string;
-			bathrooms: string;
-			garage: string;
-			garden: string;
-			terrace: string;
-			balcony: string;
-			swimming_pool: string;
-			homeDetails: string;
-			other: [
-				{
-					object: string;
-					details: string;
-				}
-			];
+			rooms: RoomDetails[];
 		};
 		furniture: string[];
 		geographicLocation: {
@@ -98,40 +77,69 @@ export interface Proprety {
 			];
 		};
 	};
-	contacts: {
-		contactMethod: string;
-		phone: string[];
-		mail: string;
-		facebook: string;
-		twiter: string;
-		linkendin: string;
-	};
+	contacts: BasicalDetailsType[];
 	rentHistorical: [
 		{
 			modificationDate: string;
-			whatDhange: [{ change: string }];
+			whathange: [{ change: string }];
 		}
 	];
 	statistics: {
-		referencing_note: number;
-		average_views_per_week: number;
-		average_grade: number;
-		average_views_per_month: number;
-		person_who_noted: number;
-		average_visits_per_week: number;
+		referencingNote: number;
+		averagePiewsPerWeek: Number;
+		averagePrade: number;
+		averageViewsPerMonth: number;
+		personWhoNoted: number;
+		averageVisitsPerWeek: number;
 		viewsPerWeek: [
 			{
-				start_time: string;
-				end_time: string;
-				number_of_view: number;
+				startTime: Date;
+				endTime: Date;
+				numberOfView: number;
 			}
 		];
 		viewsPerMonth: [
 			{
-				start_time: string;
-				end_time: string;
-				number_of_view: number;
+				startTime: Date;
+				endTime: Date;
+				numberOfView: number;
 			}
 		];
 	};
 }
+
+// interior: {
+// 	bedrooms: string;
+// 	livingRoom: string;
+// 	lounge: string;
+// 	diningRoom: string;
+// 	kitchen: string;
+// 	attick: string;
+// 	floor: string;
+// 	toilet: string;
+// 	bathroom: string;
+// 	homeDetails: string;
+// 	rooms: [
+// 		{
+// 			name: string;
+// 			details: string;
+// 		}
+// 	];
+// };
+
+// external: {
+// 	toilets: string;
+// 	bathrooms: string;
+// 	garage: string;
+// 	garden: string;
+// 	terrace: string;
+// 	balcony: string;
+// 	swimming_pool: string;
+// 	homeDetails: string;
+// 	other: [
+// 		{
+// 			object: string;
+// 			details: string;
+// 		}
+// 	];
+// };
