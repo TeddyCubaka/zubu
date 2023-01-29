@@ -23,14 +23,14 @@ export default function AllPropreties() {
 					response.push({
 						_id: proprety._id,
 						rentalInformation: {
-							adress: proprety.rental_information.address,
-							guarantee: proprety.rental_information.guarantee_value,
+							adress: proprety.rentalInformation.address,
+							guarantee: proprety.rentalInformation.guaranteeValue,
 							lessor: {
-								fullName: proprety.rental_information.lessor.fullName,
-								contacts: proprety.rental_information.lessor.contacts,
+								fullName: proprety.rentalInformation.lessor.fullName,
+								contacts: proprety.rentalInformation.lessor.contacts,
 							},
-							currency: proprety.rental_information.monetary_currency,
-							rentalType: proprety.rental_information.type_of_rental,
+							currency: proprety.rentalInformation.monetaryCurrency,
+							rentalType: proprety.rentalInformation.typeOfRental,
 						},
 					});
 				});
