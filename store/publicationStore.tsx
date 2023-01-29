@@ -10,41 +10,40 @@ interface RentalPrice {
 	monetary_currency: string;
 }
 interface PublicationStore {
-	address: string;
-	propretyType: string;
-	lessor: Lessor;
-	rentalPrice: RentalPrice;
-	setRentalPrice: (object: RentalPrice) => void;
-	setLessor: (object: Lessor) => void;
-	setAddress: (str: string) => void;
-	setPropretyType: (type: string) => void;
-	allInfo?: string;
 	count: number;
-	setCount: () => void;
-	unSetCount: () => void;
+	lessor: Lessor;
+	address: string;
+	rentalPrice: RentalPrice;
+	propretyType: string;
 	monetary_currency: string;
-	setMonetary_currency: (currence: string) => void;
-	resetCount: () => void;
 	databaseResponseStatus: string;
+	setCount: () => void;
+	setLessor: (object: Lessor) => void;
+	unSetCount: () => void;
+	resetCount: () => void;
+	setAddress: (str: string) => void;
+	setRentalPrice: (object: RentalPrice) => void;
+	setPropretyType: (type: string) => void;
+	setmonetary_currency: (currence: string) => void;
 	setDatabaseResponseStatus: (string: string) => void;
 }
 
 export const publicationStore = create<PublicationStore>((set) => ({
+	count: 0,
 	address: "",
 	propretyType: "",
 	monetary_currency: "",
-	count: 0,
+	databaseResponseStatus: "",
 	lessor: { fullName: "", contacts: "" },
 	rentalPrice: { price: "", guarantee_value: "", monetary_currency: "" },
-	databaseResponseStatus: "",
-	setRentalPrice: (object) => set(() => ({ rentalPrice: object })),
+	setCount: () => set((state) => ({ count: state.count + 1 })),
 	setLessor: (object) => set(() => ({ lessor: object })),
 	resetCount: () => set(() => ({ count: 0 })),
-	setCount: () => set((state) => ({ count: state.count + 1 })),
 	unSetCount: () => set((state) => ({ count: state.count - 1 })),
 	setAddress: (str) => set((state) => ({ address: str })),
+	setRentalPrice: (object) => set(() => ({ rentalPrice: object })),
 	setPropretyType: (type) => set(() => ({ propretyType: type })),
-	setMonetary_currency: (currence) =>
+	setmonetary_currency: (currence) =>
 		set(() => ({ monetary_currency: currence })),
 	setDatabaseResponseStatus: (string) =>
 		set((state) => ({ databaseResponseStatus: string })),
