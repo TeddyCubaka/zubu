@@ -4,14 +4,14 @@ interface Lessor {
 	fullName: string;
 	contacts: string;
 }
-interface RentalInformation {
+export interface RentalInformation {
 	_id: string;
 	isAvailable: boolean;
 	availabilityDate: string;
 	typeOfRental: string;
 	price: string;
 	guaranteeValue: string;
-	monetaryCurrency: string;
+	monetary_currency: string;
 	coverPicture: string;
 	address: string;
 	area: string;
@@ -32,11 +32,32 @@ interface RentalInformation {
 	clearFiles: () => void;
 }
 
-interface LoaderStatus {
+export interface LoaderStatus {
 	uploadingCoverPicture: string;
 	updatingStatus: string;
 	setUpdatingStatus: (string: string) => void;
 	setUploadingCoverPicture: (string: string) => void;
+}
+
+export interface PropretyDescriptionModel {
+	name: string;
+	details: string;
+}
+
+export interface PropretyDescription {
+	interior: {
+		rooms: PropretyDescriptionModel[];
+	};
+	exterior: {
+		pieces: PropretyDescriptionModel[];
+	};
+	tenantCharge: {
+		charges: PropretyDescriptionModel[];
+	};
+	addInteriorRoom: (rooms: PropretyDescriptionModel) => void;
+	addExternalPiece: (piece: PropretyDescriptionModel) => void;
+	addTenantCharge: (charge: PropretyDescriptionModel) => void;
+	removeInteriorRoom: (index: number) => void;
 }
 
 export const rentalInformation = create<RentalInformation>((set) => ({
@@ -46,7 +67,7 @@ export const rentalInformation = create<RentalInformation>((set) => ({
 	typeOfRental: "",
 	price: "",
 	guaranteeValue: "",
-	monetaryCurrency: "USD",
+	monetary_currency: "USD",
 	coverPicture: "",
 	address: "",
 	area: "",
@@ -61,7 +82,7 @@ export const rentalInformation = create<RentalInformation>((set) => ({
 	setType: (type) => set(() => ({ typeOfRental: "" + type })),
 	setPrice: (price: string) => set(() => ({ price: "" + price })),
 	setGuaratee: (guarantee) => set(() => ({ guaranteeValue: "" + guarantee })),
-	setCurrency: (currency) => set(() => ({ monetaryCurrency: "" + currency })),
+	setCurrency: (currency) => set(() => ({ monetary_currency: "" + currency })),
 	setCoverPicture: (url) => set(() => ({ coverPicture: url })),
 	setAddress: (address) => set(() => ({ address: "" + address })),
 	setArea: (area) => set(() => ({ area: "" + area })),
@@ -76,4 +97,28 @@ export const loaderStatus = create<LoaderStatus>((set) => ({
 	setUploadingCoverPicture: (string) =>
 		set(() => ({ uploadingCoverPicture: string })),
 	setUpdatingStatus: (string) => set(() => ({ updatingStatus: string })),
+}));
+
+export const propretyDescription = create<PropretyDescription>((set) => ({
+	interior: { rooms: [] },
+	exterior: { pieces: [] },
+	tenantCharge: { charges: [] },
+	addInteriorRoom: (room) =>
+		set((state) => ({ interior: { rooms: [...state.interior.rooms, room] } })),
+	addExternalPiece: (piece) =>
+		set((state) => ({
+			exterior: { pieces: [...state.exterior.pieces, piece] },
+		})),
+	addTenantCharge: (charge) =>
+		set((state) => ({
+			tenantCharge: { charges: [...state.tenantCharge.charges, charge] },
+		})),
+	removeInteriorRoom: (index) =>
+		set((state) => ({
+			interior: {
+				rooms: state.interior.rooms.filter(
+					(room, currentIndex) => currentIndex !== index
+				),
+			},
+		})),
 }));
