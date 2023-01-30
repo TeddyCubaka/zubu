@@ -1,19 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
+import { propretyStore, loaderStatus } from "../../store/proprety";
 import {
-	rentalInformation,
-	loaderStatus,
+	propretyDescription,
+	PropretyDescriptionModel,
 } from "../../store/updatePropretyStore";
 import Image from "next/image";
-import { FiEdit } from "react-icons/fi";
 import axios from "axios";
+import { FiEdit } from "react-icons/fi";
 import { IoReloadSharp } from "react-icons/io5";
+import { RxCross1 } from "react-icons/rx";
+import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
 
 interface InputHasDetailsProps {
 	detailsData: string[];
 	store: string;
 	object: string;
 	customClass?: string;
+	hasInput?: boolean;
 	sendToStore: (string: string) => void;
 }
 interface InputProps {
@@ -45,7 +49,8 @@ const uploadImage = async (props: UploadImage) => {
 		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
 		.then((res) => {
 			console.log(res.data);
-			props.getUrl(res.data.secure_url), props.getStatus("finish");
+			props.getUrl(res.data.secure_url);
+			props.getStatus("finish");
 			props.clearFileFunction();
 		})
 		.catch((err) => {
@@ -93,8 +98,9 @@ function Input({
 				className={
 					"br w_max txt_normal " + (type === "date" ? "txt_center" : "")
 				}
-				value={value}
+				value={value ? value : ""}
 				onChange={(e) => {
+					e.preventDefault();
 					sendToStore(e.target.value);
 				}}
 			/>
@@ -108,6 +114,7 @@ function InputHasDetails({
 	store,
 	object,
 	customClass,
+	hasInput,
 }: InputHasDetailsProps) {
 	const [showDetails, setShowDetails] = useState<boolean>(false);
 
@@ -119,15 +126,27 @@ function InputHasDetails({
 				) : (
 					""
 				)}
-				<div
-					className="m_x-5 w_max color_gray"
-					onClick={() => {
-						if (showDetails) setShowDetails(false);
-						else setShowDetails(true);
-					}}>
-					{" "}
-					{store ? store : ""}{" "}
-				</div>
+				{hasInput ? (
+					<input
+						type="text"
+						value={store}
+						className="m_x-5 w_max txt_normal"
+						onChange={(e) => {
+							e.preventDefault();
+							sendToStore(e.target.value);
+						}}
+					/>
+				) : (
+					<div
+						className="m_x-5 w_max color_gray"
+						onClick={() => {
+							if (showDetails) setShowDetails(false);
+							else setShowDetails(true);
+						}}>
+						{" "}
+						{store ? store : ""}{" "}
+					</div>
+				)}
 				<button
 					className="no_border bg_color_w"
 					onClick={() => {
@@ -166,13 +185,8 @@ function InputHasDetails({
 
 function CoverPicture() {
 	const [src, setSrc] = useState<string>("");
-	const [file, setFile, coverPicture] = rentalInformation((state) => [
-		state.files,
-		state.setFiles,
-		state.coverPicture,
-	]);
 	const loader = loaderStatus();
-	const rental = rentalInformation();
+	const proprety = propretyStore();
 	const divCoverPicture = useRef<HTMLDivElement>(null);
 
 	return (
@@ -187,7 +201,7 @@ function CoverPicture() {
 						onChange={(e) => {
 							if (e.target.files !== null) {
 								setSrc(URL.createObjectURL(e.target.files[0]));
-								setFile(e.target.files[0]);
+								proprety.updateRenatlInformation.setFiles(e.target.files[0]);
 							}
 						}}
 					/>
@@ -223,13 +237,13 @@ function CoverPicture() {
 				) : (
 					<Image
 						width={170}
-						height={170}
+						height={95.625}
 						className="cover_picture_card"
 						src={
 							src.length > 0
 								? src
-								: coverPicture.length > 0
-								? coverPicture
+								: proprety.proprety.rentalInformation.coverPicture
+								? proprety.proprety.rentalInformation.coverPicture
 								: "https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1"
 						}
 						alt="Random image"
@@ -245,10 +259,10 @@ function CoverPicture() {
 					className="btn_s color_blue br txt_normal btn w_max"
 					onClick={() => {
 						const uploadCoverPicture: UploadImage = {
-							file: rental.files,
+							file: proprety.updateRenatlInformation.files,
 							getStatus: loader.setUploadingCoverPicture,
-							getUrl: rental.setCoverPicture,
-							clearFileFunction: rental.clearFiles,
+							getUrl: proprety.updateRenatlInformation.setCoverPicture,
+							clearFileFunction: proprety.updateRenatlInformation.clearFiles,
 						};
 						uploadImage(uploadCoverPicture);
 					}}>
@@ -266,34 +280,16 @@ function CoverPicture() {
 }
 
 export function UpdateRentalInformation() {
-	const rental = rentalInformation();
+	const proprety = propretyStore();
 	const status = loaderStatus();
-	const postUpdating = async () => {
-		const uploadCoverPicture: UploadImage = {
-			file: rental.files,
-			getStatus: status.setUpdatingStatus,
-			getUrl: rental.setCoverPicture,
-			clearFileFunction: rental.clearFiles,
-		};
-		await uploadImage(uploadCoverPicture);
+	const postUpdating = () => {
 		const data = {
-			rental_information: {
-				is_available: rental.isAvailable || false,
-				availability_date: rental.availabilityDate,
-				type_of_rental: rental.typeOfRental,
-				price: rental.price,
-				guarantee_value: rental.guaranteeValue,
-				monetary_currency: rental.monetaryCurrency,
-				cover_picture: rental.coverPicture,
-				address: rental.address,
-				area: rental.area,
-				lessor: rental.lessor,
-			},
+			rentalInformation: proprety.proprety.rentalInformation,
 		};
 		const thisProps: SendToServer = {
-			path: "/proprety/" + rental._id,
+			path: "/proprety/" + proprety.proprety._id,
 			data: data,
-			getStatus: status.setUploadingCoverPicture,
+			getStatus: status.setUpdatingStatus,
 		};
 		sendToServer(thisProps);
 	};
@@ -302,8 +298,8 @@ export function UpdateRentalInformation() {
 		<div className="rental_information_card">
 			<div className="rental_information_input m_right-10">
 				<Input
-					value={rental.address}
-					sendToStore={rental.setAddress}
+					value={proprety.proprety.rentalInformation.address}
+					sendToStore={proprety.updateRenatlInformation.setAddress}
 					type={"text"}
 					subject={"Adress"}
 					placeholder={"Ajoutez une adress"}
@@ -311,8 +307,8 @@ export function UpdateRentalInformation() {
 				/>
 				<div className="space_between">
 					<Input
-						value={rental.price}
-						sendToStore={rental.setPrice}
+						value={proprety.proprety.rentalInformation.price}
+						sendToStore={proprety.updateRenatlInformation.setPrice}
 						type={"number"}
 						subject={"Prix"}
 						customClass={"w_max m_right-10"}
@@ -320,39 +316,39 @@ export function UpdateRentalInformation() {
 					/>
 					<InputHasDetails
 						detailsData={["USD", "CDF"]}
-						store={rental.monetaryCurrency}
+						store={proprety.proprety.rentalInformation.monetaryCurrency}
 						object={""}
-						sendToStore={rental.setCurrency}
+						sendToStore={proprety.updateRenatlInformation.setCurrency}
 						customClass={""}
 					/>
 				</div>
 				<div className="double_column">
 					<InputHasDetails
 						detailsData={propretyType}
-						store={rental.typeOfRental}
+						store={proprety.proprety.rentalInformation.RentalType}
 						object={"Type"}
-						sendToStore={rental.setType}
+						sendToStore={proprety.updateRenatlInformation.setType}
 						customClass={"m_right-10"}
 					/>
 					<Input
-						value={rental.availabilityDate}
-						sendToStore={rental.setAvailabilyDate}
+						value={proprety.proprety.rentalInformation.availabilityDate}
+						sendToStore={proprety.updateRenatlInformation.setAvailabilyDate}
 						type={"date"}
 						subject={"Liberé"}
 					/>
 				</div>
 				<div className="double_column">
 					<Input
-						value={rental.guaranteeValue}
-						sendToStore={rental.setGuaratee}
+						value={proprety.proprety.rentalInformation.guaranteeValue}
+						sendToStore={proprety.updateRenatlInformation.setGuaratee}
 						type={"text"}
 						subject={"Garantie"}
 						placeholder={"Ajoutez une garantie"}
 						customClass={"m_right-10"}
 					/>
 					<Input
-						value={rental.area}
-						sendToStore={rental.setArea}
+						value={proprety.proprety.rentalInformation.area}
+						sendToStore={proprety.updateRenatlInformation.setArea}
 						type={"text"}
 						subject={"Surface"}
 						placeholder={"Spécifier l'aire habitable"}
@@ -364,19 +360,131 @@ export function UpdateRentalInformation() {
 				<button
 					className="btn_s color_blue br txt_normal btn w_max m_right-10"
 					onClick={() => {
-						if (rental.isAvailable) rental.changeAvailability(false);
-						else rental.changeAvailability(true);
+						if (proprety.proprety.rentalInformation.isAvailable)
+							proprety.updateRenatlInformation.changeAvailability(false);
+						else proprety.updateRenatlInformation.changeAvailability(true);
 					}}>
-					{rental.isAvailable ? "Marquer occupé" : "Maquer libre"}
+					{proprety.proprety.rentalInformation.isAvailable
+						? "Marquer occupé"
+						: "Maquer libre"}
 				</button>
 				<button
-					className="btn_p color_w br txt_normal btn w_max"
+					className="btn_p color_w br txt_normal btn w_max flex_center-xy one_line_txt"
 					onClick={() => {
 						status.setUpdatingStatus("Envoie...");
 						postUpdating();
 					}}>
+					{status.updatingStatus === "Mis à jour" ? (
+						<AiOutlineCheck size={18} />
+					) : (
+						""
+					)}
 					{status.updatingStatus}
 				</button>
+			</div>
+		</div>
+	);
+}
+
+export function InternalDescription() {
+	const description = propretyDescription();
+	const [partialRoom, setPartialRoom] = useState<PropretyDescriptionModel>({
+		name: "",
+		details: "",
+	});
+	const [getRoomObject, setRoomObject] = useState<string>("");
+	const [getRoomDetails, setRoomDetails] = useState<string>("");
+
+	useEffect(() => {
+		setPartialRoom({ ...partialRoom, name: getRoomObject });
+	}, [getRoomObject]);
+	useEffect(() => {
+		setPartialRoom({ ...partialRoom, details: getRoomDetails });
+	}, [getRoomDetails]);
+
+	return (
+		<div className="grid row_gap-10 m_top-10">
+			<div className="flex space_between">
+				<h3>Intérieur</h3>
+				<button
+					className="btn_s btn color_blue br txt_normal"
+					onClick={() => {
+						const data = {
+							description: {
+								interior: description.interior,
+							},
+						};
+						axios({
+							method: "POST",
+							url:
+								process.env.NEXT_PUBLIC_DB_URL +
+								"/proprety/63d589cbce5ae8b6304fcf60",
+							data: data,
+						})
+							.then((res) => {
+								console.log("succes", res.data);
+							})
+							.catch((err) => {
+								console.log("error", err);
+							});
+					}}>
+					Mettre à jour
+				</button>
+			</div>
+			<div className="grid row_gap-10">
+				{description.interior.rooms.length > 0
+					? description.interior.rooms.map((room, index) => (
+							<div className="flex" key={index}>
+								<div className="flex pd-5 br border-gray w_max m_right-10">
+									<div className="one_line_txt m_right-20 txt_meddium">
+										{room.name} {" :"}
+									</div>
+									<div className="w_max">{room.details}</div>
+								</div>
+								<button
+									className="btn_p btn br color_w w_50"
+									onClick={() => description.removeInteriorRoom(index)}>
+									<RxCross1 size="20px" />
+								</button>
+							</div>
+					  ))
+					: ""}
+				<div className="flex">
+					<div className="w_max double_column m_right-10">
+						<InputHasDetails
+							detailsData={["Salon", "Salle à manger", "Toillettes", "Douches"]}
+							store={getRoomObject}
+							object={"Pièces"}
+							sendToStore={setRoomObject}
+							customClass={"m_right-10 "}
+							hasInput={true}
+						/>
+						<Input
+							value={getRoomDetails}
+							sendToStore={setRoomDetails}
+							type={"text"}
+							subject={"Details"}
+						/>
+					</div>
+					<div
+						className={"flex_center-xy w_50"}
+						onClick={() => {
+							getRoomObject.length > 1 && getRoomDetails.length > 1
+								? description.addInteriorRoom(partialRoom)
+								: "";
+							setRoomObject("");
+							setRoomDetails("");
+						}}>
+						<AiFillPlusCircle
+							size={30}
+							color={
+								getRoomObject.length > 1 && getRoomDetails.length > 1
+									? "#123853"
+									: "gray"
+							}
+						/>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

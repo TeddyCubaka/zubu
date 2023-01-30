@@ -10,11 +10,11 @@ export interface BasicalDetailsType {
 
 export interface RentalInformation {
 	isAvailable: boolean;
-	availability_date: string;
+	availabilityDate: string;
 	RentalType: string;
 	geolocalisation: string;
 	price: string;
-	guarantee_value: string;
+	guaranteeValue: string;
 	monetaryCurrency: string;
 	coverPicture: string;
 	address: string;
@@ -43,6 +43,7 @@ export interface RoomDetails {
 }
 
 export interface Proprety {
+	_id: string;
 	owner: string;
 	uploadDate: string;
 	updateDate: string[];
@@ -93,15 +94,15 @@ export interface Proprety {
 		averageVisitsPerWeek: number;
 		viewsPerWeek: [
 			{
-				startTime: Date;
-				endTime: Date;
+				startTime: string;
+				endTime: string;
 				numberOfView: number;
 			}
 		];
 		viewsPerMonth: [
 			{
-				startTime: Date;
-				endTime: Date;
+				startTime: string;
+				endTime: string;
 				numberOfView: number;
 			}
 		];

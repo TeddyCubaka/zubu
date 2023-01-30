@@ -36,11 +36,12 @@ export interface UpdateDescription {
 
 interface PropretyStore {
 	proprety: Proprety;
+	setProprety: (proprety: Proprety) => void;
 	updateRenatlInformation: UpdateRentalInformation;
 	updateDescription: UpdateDescription;
 }
 
-const propretyStore = create<PropretyStore>((set) => ({
+export const propretyStore = create<PropretyStore>((set) => ({
 	proprety: {
 		_id: "",
 		owner: "",
@@ -119,6 +120,8 @@ const propretyStore = create<PropretyStore>((set) => ({
 			],
 		},
 	},
+	setProprety: (proprety) =>
+		set((state) => ({ ...state.proprety, proprety: proprety })),
 	updateRenatlInformation: {
 		files: "",
 		changeAvailability: (state) =>
@@ -242,4 +245,19 @@ const propretyStore = create<PropretyStore>((set) => ({
 		addTenantCharge: () => {},
 		removeInteriorRoom: () => {},
 	},
+}));
+
+export interface LoaderStatus {
+	uploadingCoverPicture: string;
+	updatingStatus: string;
+	setUpdatingStatus: (string: string) => void;
+	setUploadingCoverPicture: (string: string) => void;
+}
+
+export const loaderStatus = create<LoaderStatus>((set) => ({
+	uploadingCoverPicture: "",
+	updatingStatus: "Mettre à jour les information",
+	setUploadingCoverPicture: (string) =>
+		set(() => ({ uploadingCoverPicture: string })),
+	setUpdatingStatus: (string) => set(() => ({ updatingStatus: string })),
 }));

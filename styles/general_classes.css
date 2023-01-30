@@ -37,6 +37,9 @@
 .m-20 {
 	margin: 20px;
 }
+.m-10 {
+	margin: 10px;
+}
 .m_x-20 {
 	margin-left: 20px;
 	margin-right: 20px;
@@ -125,6 +128,9 @@
 .border-blue {
 	border: 2px solid #123853;
 }
+.border-gray {
+	border: 1px solid #b9b9b9;
+}
 .txt_normal {
 	font-size: 16px;
 	font-weight: 300;
@@ -142,7 +148,7 @@
 }
 .btn_p {
 	border: none;
-	padding: 0px 0;
+	padding: 5px 10px;
 	background-color: #123853;
 	border: 2px solid #123853;
 }
@@ -264,7 +270,7 @@
 	margin-right: 10px;
 }
 .m_right-20 {
-	margin-right: 10px;
+	margin-right: 20px;
 }
 .m_bottom-10 {
 	margin-bottom: 10px;
@@ -305,4 +311,8 @@
 }
 .row_gap-10 {
 	grid-row-gap: 10px;
+}
+.description_content_card {
+	display: grid;
+	grid-template-columns: 25% 75%;
 }

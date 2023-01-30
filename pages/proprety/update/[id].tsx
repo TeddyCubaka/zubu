@@ -23,7 +23,7 @@ export default function Publication() {
 	useEffect(() => {
 		axios(process.env.NEXT_PUBLIC_DB_URL + "/proprety/" + propretyId)
 			.then((res) => {
-				proprety.setProprety(res.data);
+				if (!res.data[0]) proprety.setProprety(res.data);
 			})
 			.catch((err) => console.log(err));
 	}, [propretyId]);
@@ -51,7 +51,7 @@ export default function Publication() {
 						<InternalDescription />
 					</div>
 					<div>
-						<div>
+						<div onClick={() => console.log(proprety)}>
 							zuirhfuifuiozhfiohfiozhfiohziohfziohfioz zoifhiofhiozhf
 							fzoizfioznfionfioznf zfoni
 						</div>
