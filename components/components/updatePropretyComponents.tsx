@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
-import { propretyStore, loaderStatus } from "../../store/proprety";
+import {
+	propretyStore,
+	loaderStatus,
+	UpdateDescription,
+} from "../../store/proprety";
 import { RoomDetails } from "../interface/proprety";
 import Image from "next/image";
 import axios from "axios";
@@ -459,8 +463,22 @@ function SectionAddDetailButton(props: SectionAddDetailButton) {
 	);
 }
 
-export function InternalDescription() {
-	const proprety = propretyStore();
+interface HouseInformationUpdating {
+	getRooms: { rooms: RoomDetails[] };
+	addRooms: (string: RoomDetails) => void;
+	removeRooms: (index: number) => void;
+	_id: string;
+	title: string;
+}
+
+function HouseInformationUpdating({
+	getRooms,
+	_id,
+	title,
+	addRooms,
+	removeRooms,
+}: HouseInformationUpdating) {
+	const propretyDescription = propretyStore().proprety.description;
 	const [partialRoom, setPartialRoom] = useState<RoomDetails>({
 		name: "",
 		size: 0,
@@ -489,13 +507,11 @@ export function InternalDescription() {
 	return (
 		<div className="grid row_gap-10 m_top-10">
 			<SectionHead
-				title={"Intérieur"}
+				title={title}
 				sendToServerProps={{
-					path: "/proprety/" + proprety.proprety._id,
+					path: "/proprety/" + _id,
 					data: {
-						description: {
-							interior: proprety.proprety.description.interior,
-						},
+						description: propretyDescription,
 					},
 					getStatus: setUpdatingStatus,
 				}}
@@ -503,12 +519,12 @@ export function InternalDescription() {
 				setUpdatingStatus={setUpdatingStatus}
 			/>
 			<div className="grid row_gap-10">
-				{proprety.proprety.description.interior.rooms.length > 0
-					? proprety.proprety.description.interior.rooms.map((room, index) => (
+				{getRooms.rooms.length > 0
+					? getRooms.rooms.map((room, index) => (
 							<SectionDetailCard
 								index={index}
 								room={room}
-								removeRoom={proprety.updateDescription.removeInteriorRoom}
+								removeRoom={removeRooms}
 								key={index}
 							/>
 					  ))
@@ -553,10 +569,36 @@ export function InternalDescription() {
 							setRoomObject("");
 							setRoomArea(0);
 						}}
-						sendToStore={proprety.updateDescription.addInteriorRoom}
+						sendToStore={addRooms}
 					/>
 				</div>
 			</div>
 		</div>
+	);
+}
+
+export function InternalDescription() {
+	const proprety = propretyStore();
+	return (
+		<HouseInformationUpdating
+			_id={proprety.proprety._id}
+			getRooms={proprety.proprety.description.interior}
+			addRooms={proprety.updateDescription.addInteriorRoom}
+			removeRooms={proprety.updateDescription.removeInteriorRoom}
+			title={"Intérior"}
+		/>
+	);
+}
+
+export function ExternalDescription() {
+	const proprety = propretyStore();
+	return (
+		<HouseInformationUpdating
+			_id={proprety.proprety._id}
+			getRooms={proprety.proprety.description.external}
+			addRooms={proprety.updateDescription.addExternalRoom}
+			removeRooms={proprety.updateDescription.removeExternalRoom}
+			title={"Extérieur"}
+		/>
 	);
 }
