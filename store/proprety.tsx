@@ -240,10 +240,34 @@ export const propretyStore = create<PropretyStore>((set) => ({
 			})),
 	},
 	updateDescription: {
-		addInteriorRoom: () => {},
+		addInteriorRoom: (room) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					description: {
+						...store.proprety.description,
+						interior: {
+							rooms: [...store.proprety.description.interior.rooms, room],
+						},
+					},
+				},
+			})),
+		removeInteriorRoom: (index) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					description: {
+						...store.proprety.description,
+						interior: {
+							rooms: store.proprety.description.interior.rooms.filter(
+								(room, currentIndex) => currentIndex !== index
+							),
+						},
+					},
+				},
+			})),
 		addExternalPiece: () => {},
 		addTenantCharge: () => {},
-		removeInteriorRoom: () => {},
 	},
 }));
 

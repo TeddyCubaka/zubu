@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
 import { propretyStore, loaderStatus } from "../../store/proprety";
-import {
-	propretyDescription,
-	PropretyDescriptionModel,
-} from "../../store/updatePropretyStore";
+import { RoomDetails } from "../interface/proprety";
 import Image from "next/image";
 import axios from "axios";
 import { FiEdit } from "react-icons/fi";
@@ -65,7 +62,7 @@ function sendToServer(props: SendToServer) {
 		data: props.data,
 	})
 		.then((res) => {
-			console.log("succes", res.data), props.getStatus("Mis à jour");
+			console.log("succes", res.data), props.getStatus("Mis à jour réussie");
 		})
 		.catch((err) => {
 			console.log("error", err);
@@ -129,10 +126,12 @@ function InputHasDetails({
 				{hasInput ? (
 					<input
 						type="text"
-						value={store}
+						value={store.length > 0 ? store : ""}
 						className="m_x-5 w_max txt_normal"
+						placeholder="Écrivez..."
 						onChange={(e) => {
 							e.preventDefault();
+							if (e.target.value === "") sendToStore(detailsData[0]);
 							sendToStore(e.target.value);
 						}}
 					/>
@@ -154,9 +153,9 @@ function InputHasDetails({
 						else setShowDetails(true);
 					}}>
 					{showDetails ? (
-						<GoChevronDown size="18" />
-					) : (
 						<GoChevronUp size="18" />
+					) : (
+						<GoChevronDown size="18" />
 					)}
 				</button>
 			</div>
@@ -387,20 +386,31 @@ export function UpdateRentalInformation() {
 }
 
 export function InternalDescription() {
-	const description = propretyDescription();
-	const [partialRoom, setPartialRoom] = useState<PropretyDescriptionModel>({
+	const proprety = propretyStore();
+	const [partialRoom, setPartialRoom] = useState<RoomDetails>({
 		name: "",
-		details: "",
+		size: 0,
+		unit: "m²",
 	});
 	const [getRoomObject, setRoomObject] = useState<string>("");
-	const [getRoomDetails, setRoomDetails] = useState<string>("");
+	const [getRoomUnit, setRoomUnit] = useState<string>("m²");
+	const [getRoomArea, setRoomArea] = useState<number>(0);
+	const [updatingStatus, setUpdatingStatus] = useState<string>("");
 
 	useEffect(() => {
+		setUpdatingStatus("Mettre à jour");
 		setPartialRoom({ ...partialRoom, name: getRoomObject });
 	}, [getRoomObject]);
+
 	useEffect(() => {
-		setPartialRoom({ ...partialRoom, details: getRoomDetails });
-	}, [getRoomDetails]);
+		setUpdatingStatus("Mettre à jour");
+		setPartialRoom({ ...partialRoom, unit: getRoomUnit });
+	}, [getRoomUnit]);
+
+	useEffect(() => {
+		setUpdatingStatus("Mettre à jour");
+		setPartialRoom({ ...partialRoom, size: getRoomArea });
+	}, [getRoomArea]);
 
 	return (
 		<div className="grid row_gap-10 m_top-10">
@@ -409,78 +419,91 @@ export function InternalDescription() {
 				<button
 					className="btn_s btn color_blue br txt_normal"
 					onClick={() => {
+						setUpdatingStatus("Envoie...");
 						const data = {
 							description: {
-								interior: description.interior,
+								interior: proprety.proprety.description.interior,
 							},
 						};
-						axios({
-							method: "POST",
-							url:
-								process.env.NEXT_PUBLIC_DB_URL +
-								"/proprety/63d589cbce5ae8b6304fcf60",
+						const sendToServerProps: SendToServer = {
+							path: "/proprety/" + proprety.proprety._id,
 							data: data,
-						})
-							.then((res) => {
-								console.log("succes", res.data);
-							})
-							.catch((err) => {
-								console.log("error", err);
-							});
+							getStatus: setUpdatingStatus,
+						};
+						sendToServer(sendToServerProps);
 					}}>
-					Mettre à jour
+					{updatingStatus}
 				</button>
 			</div>
 			<div className="grid row_gap-10">
-				{description.interior.rooms.length > 0
-					? description.interior.rooms.map((room, index) => (
+				{proprety.proprety.description.interior.rooms.length > 0
+					? proprety.proprety.description.interior.rooms.map((room, index) => (
 							<div className="flex" key={index}>
 								<div className="flex pd-5 br border-gray w_max m_right-10">
 									<div className="one_line_txt m_right-20 txt_meddium">
 										{room.name} {" :"}
 									</div>
-									<div className="w_max">{room.details}</div>
+									<div className="w_max">
+										{room.size} {room.unit}{" "}
+									</div>
 								</div>
 								<button
 									className="btn_p btn br color_w w_50"
-									onClick={() => description.removeInteriorRoom(index)}>
+									onClick={() =>
+										proprety.updateDescription.removeInteriorRoom(index)
+									}>
 									<RxCross1 size="20px" />
 								</button>
 							</div>
 					  ))
 					: ""}
 				<div className="flex">
-					<div className="w_max double_column m_right-10">
+					<div className="w_max flex m_right-10">
 						<InputHasDetails
 							detailsData={["Salon", "Salle à manger", "Toillettes", "Douches"]}
 							store={getRoomObject}
 							object={"Pièces"}
 							sendToStore={setRoomObject}
-							customClass={"m_right-10 "}
+							customClass={"m_right-10"}
 							hasInput={true}
 						/>
-						<Input
-							value={getRoomDetails}
-							sendToStore={setRoomDetails}
-							type={"text"}
-							subject={"Details"}
+						<div className={"input_w_label m_right-10"}>
+							<label className="txt_meddium one_line_txt"> Surface</label>
+							<input
+								type="number"
+								placeholder="aire"
+								className={"br w_max txt_normal "}
+								value={getRoomArea}
+								onChange={(e) => {
+									e.preventDefault();
+									if (Number(e.target.value))
+										setRoomArea(Number(e.target.value));
+								}}
+							/>
+						</div>
+						<InputHasDetails
+							detailsData={["m²", "ft"]}
+							store={getRoomUnit}
+							object={"Unités"}
+							sendToStore={setRoomUnit}
+							customClass={"m_right-10 "}
+							hasInput={true}
 						/>
 					</div>
 					<div
 						className={"flex_center-xy w_50"}
 						onClick={() => {
-							getRoomObject.length > 1 && getRoomDetails.length > 1
-								? description.addInteriorRoom(partialRoom)
-								: "";
-							setRoomObject("");
-							setRoomDetails("");
+							if (getRoomObject.length > 1 && getRoomArea > 0) {
+								console.log(partialRoom);
+								proprety.updateDescription.addInteriorRoom(partialRoom);
+								setRoomObject("");
+								setRoomArea(0);
+							}
 						}}>
 						<AiFillPlusCircle
 							size={30}
 							color={
-								getRoomObject.length > 1 && getRoomDetails.length > 1
-									? "#123853"
-									: "gray"
+								getRoomObject.length > 1 && getRoomArea > 0 ? "#123853" : "gray"
 							}
 						/>
 					</div>
