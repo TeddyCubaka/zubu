@@ -29,9 +29,10 @@ export interface PropretyDescriptionModel {
 
 export interface UpdateDescription {
 	addInteriorRoom: (rooms: RoomDetails) => void;
-	addExternalPiece: (piece: RoomDetails) => void;
+	addExternalRoom: (piece: RoomDetails) => void;
 	addTenantCharge: (charge: TenantCharge) => void;
 	removeInteriorRoom: (index: number) => void;
+	removeExternalRoom: (index: number) => void;
 }
 
 interface PropretyStore {
@@ -266,7 +267,32 @@ export const propretyStore = create<PropretyStore>((set) => ({
 					},
 				},
 			})),
-		addExternalPiece: () => {},
+		addExternalRoom: (room) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					description: {
+						...store.proprety.description,
+						external: {
+							rooms: [...store.proprety.description.external.rooms, room],
+						},
+					},
+				},
+			})),
+		removeExternalRoom: (index) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					description: {
+						...store.proprety.description,
+						external: {
+							rooms: store.proprety.description.external.rooms.filter(
+								(room, currentIndex) => currentIndex !== index
+							),
+						},
+					},
+				},
+			})),
 		addTenantCharge: () => {},
 	},
 }));
