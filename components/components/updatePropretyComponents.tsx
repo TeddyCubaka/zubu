@@ -385,6 +385,80 @@ export function UpdateRentalInformation() {
 	);
 }
 
+interface SectionHead {
+	title: string;
+	setUpdatingStatus: (status: string) => void;
+	sendToServerProps: SendToServer;
+	updatingStatus: string;
+}
+
+function SectionHead(props: SectionHead) {
+	return (
+		<div className="flex space_between">
+			<h3>{props.title}</h3>
+			<button
+				className="btn_s btn color_blue br txt_normal"
+				onClick={() => {
+					props.setUpdatingStatus("Envoie...");
+					sendToServer(props.sendToServerProps);
+				}}>
+				{props.updatingStatus}
+			</button>
+		</div>
+	);
+}
+
+interface SectionDetailCard {
+	index: number;
+	room: RoomDetails;
+	removeRoom: (index: number) => void;
+}
+
+function SectionDetailCard(props: SectionDetailCard) {
+	return (
+		<div className="flex">
+			<div className="flex pd-5 br border-gray w_max m_right-10">
+				<div className="one_line_txt m_right-20 txt_meddium">
+					{props.room.name} {" :"}
+				</div>
+				<div className="w_max">
+					{props.room.size} {props.room.unit}{" "}
+				</div>
+			</div>
+			<button
+				className="btn_p btn br color_w w_50"
+				onClick={() => props.removeRoom(props.index)}>
+				<RxCross1 size="20px" />
+			</button>
+		</div>
+	);
+}
+
+interface SectionAddDetailButton {
+	conditionToPass: boolean;
+	reseter: () => void;
+	sendToStore: (data: any) => void;
+	data: any;
+}
+
+function SectionAddDetailButton(props: SectionAddDetailButton) {
+	return (
+		<div
+			className={"flex_center-xy w_50"}
+			onClick={() => {
+				if (props.conditionToPass) {
+					props.sendToStore(props.data);
+					props.reseter();
+				}
+			}}>
+			<AiFillPlusCircle
+				size={30}
+				color={props.conditionToPass ? "#123853" : "gray"}
+			/>
+		</div>
+	);
+}
+
 export function InternalDescription() {
 	const proprety = propretyStore();
 	const [partialRoom, setPartialRoom] = useState<RoomDetails>({
@@ -414,47 +488,29 @@ export function InternalDescription() {
 
 	return (
 		<div className="grid row_gap-10 m_top-10">
-			<div className="flex space_between">
-				<h3>Intérieur</h3>
-				<button
-					className="btn_s btn color_blue br txt_normal"
-					onClick={() => {
-						setUpdatingStatus("Envoie...");
-						const data = {
-							description: {
-								interior: proprety.proprety.description.interior,
-							},
-						};
-						const sendToServerProps: SendToServer = {
-							path: "/proprety/" + proprety.proprety._id,
-							data: data,
-							getStatus: setUpdatingStatus,
-						};
-						sendToServer(sendToServerProps);
-					}}>
-					{updatingStatus}
-				</button>
-			</div>
+			<SectionHead
+				title={"Intérieur"}
+				sendToServerProps={{
+					path: "/proprety/" + proprety.proprety._id,
+					data: {
+						description: {
+							interior: proprety.proprety.description.interior,
+						},
+					},
+					getStatus: setUpdatingStatus,
+				}}
+				updatingStatus={updatingStatus}
+				setUpdatingStatus={setUpdatingStatus}
+			/>
 			<div className="grid row_gap-10">
 				{proprety.proprety.description.interior.rooms.length > 0
 					? proprety.proprety.description.interior.rooms.map((room, index) => (
-							<div className="flex" key={index}>
-								<div className="flex pd-5 br border-gray w_max m_right-10">
-									<div className="one_line_txt m_right-20 txt_meddium">
-										{room.name} {" :"}
-									</div>
-									<div className="w_max">
-										{room.size} {room.unit}{" "}
-									</div>
-								</div>
-								<button
-									className="btn_p btn br color_w w_50"
-									onClick={() =>
-										proprety.updateDescription.removeInteriorRoom(index)
-									}>
-									<RxCross1 size="20px" />
-								</button>
-							</div>
+							<SectionDetailCard
+								index={index}
+								room={room}
+								removeRoom={proprety.updateDescription.removeInteriorRoom}
+								key={index}
+							/>
 					  ))
 					: ""}
 				<div className="flex">
@@ -490,23 +546,15 @@ export function InternalDescription() {
 							hasInput={true}
 						/>
 					</div>
-					<div
-						className={"flex_center-xy w_50"}
-						onClick={() => {
-							if (getRoomObject.length > 1 && getRoomArea > 0) {
-								console.log(partialRoom);
-								proprety.updateDescription.addInteriorRoom(partialRoom);
-								setRoomObject("");
-								setRoomArea(0);
-							}
-						}}>
-						<AiFillPlusCircle
-							size={30}
-							color={
-								getRoomObject.length > 1 && getRoomArea > 0 ? "#123853" : "gray"
-							}
-						/>
-					</div>
+					<SectionAddDetailButton
+						conditionToPass={getRoomObject.length > 1 && getRoomArea > 0}
+						data={partialRoom}
+						reseter={() => {
+							setRoomObject("");
+							setRoomArea(0);
+						}}
+						sendToStore={proprety.updateDescription.addInteriorRoom}
+					/>
 				</div>
 			</div>
 		</div>
