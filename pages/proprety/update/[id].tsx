@@ -6,6 +6,7 @@ import axios from "axios";
 import {
 	ExternalDescription,
 	InternalDescription,
+	TenantCharge,
 	UpdateRentalInformation,
 } from "../../../components/components/updatePropretyComponents";
 import { propretyStore } from "../../../store/proprety";
@@ -51,6 +52,7 @@ export default function Publication() {
 						</div>
 						<InternalDescription />
 						<ExternalDescription />
+						<TenantCharge />
 					</div>
 					<div>
 						<div onClick={() => console.log(proprety)}>
