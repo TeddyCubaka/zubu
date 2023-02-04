@@ -5,7 +5,7 @@ import {
 	loaderStatus,
 	UpdateDescription,
 } from "../../store/proprety";
-import { RoomDetails } from "../interface/proprety";
+import { RoomDetails, TenantCharge } from "../interface/proprety";
 import Image from "next/image";
 import axios from "axios";
 import { FiEdit } from "react-icons/fi";
@@ -25,6 +25,13 @@ interface InputProps {
 	value: string;
 	sendToStore: (string: string) => void;
 	type?: string;
+	subject: string;
+	customClass?: string;
+	placeholder?: string;
+}
+interface InputNumberProps {
+	value: number;
+	sendToStore: (value: number) => void;
 	subject: string;
 	customClass?: string;
 	placeholder?: string;
@@ -66,7 +73,7 @@ function sendToServer(props: SendToServer) {
 		data: props.data,
 	})
 		.then((res) => {
-			console.log("succes", res.data), props.getStatus("Mis à jour réussie");
+			console.log("succes", res.data), props.getStatus("À jour");
 		})
 		.catch((err) => {
 			console.log("error", err);
@@ -103,6 +110,24 @@ function Input({
 				onChange={(e) => {
 					e.preventDefault();
 					sendToStore(e.target.value);
+				}}
+			/>
+		</div>
+	);
+}
+function InputNumber(props: InputNumberProps) {
+	return (
+		<div className={"input_w_label m_right-10"}>
+			<label className="txt_meddium one_line_txt"> {props.subject} </label>
+			<input
+				type="number"
+				placeholder="aire"
+				className={"br w_max txt_normal " + props.customClass}
+				value={props.value === 0 ? "" : props.value}
+				onChange={(e) => {
+					e.preventDefault();
+					if (e.target.value === "") props.sendToStore(0);
+					if (Number(e.target.value)) props.sendToStore(Number(e.target.value));
 				}}
 			/>
 		</div>
@@ -539,20 +564,11 @@ function HouseInformationUpdating({
 							customClass={"m_right-10"}
 							hasInput={true}
 						/>
-						<div className={"input_w_label m_right-10"}>
-							<label className="txt_meddium one_line_txt"> Surface</label>
-							<input
-								type="number"
-								placeholder="aire"
-								className={"br w_max txt_normal "}
-								value={getRoomArea}
-								onChange={(e) => {
-									e.preventDefault();
-									if (Number(e.target.value))
-										setRoomArea(Number(e.target.value));
-								}}
-							/>
-						</div>
+						<InputNumber
+							subject="Surface"
+							value={getRoomArea}
+							sendToStore={setRoomArea}
+						/>
 						<InputHasDetails
 							detailsData={["m²", "ft"]}
 							store={getRoomUnit}
@@ -600,5 +616,106 @@ export function ExternalDescription() {
 			removeRooms={proprety.updateDescription.removeExternalRoom}
 			title={"Extérieur"}
 		/>
+	);
+}
+
+export function TenantCharge() {
+	const proprety = propretyStore();
+	const [sendToServerStatus, setSendToServerStatus] =
+		useState<string>("À jour");
+
+	const [charge, setCharge] = useState<TenantCharge>({
+		charge: "",
+		price: 0,
+		currency: "m²",
+	});
+
+	const [getChargeName, setChargeName] = useState<string>("");
+	const [getPrice, setPrice] = useState<number>(0);
+	const [getCurrency, setCurrency] = useState<string>("USD");
+	const [updatingStatus, setUpdatingStatus] = useState<string>("");
+
+	useEffect(() => {
+		setUpdatingStatus("Mettre à jour");
+		setCharge({ ...charge, charge: getChargeName });
+	}, [getChargeName]);
+
+	useEffect(() => {
+		setUpdatingStatus("Mettre à jour");
+		setCharge({ ...charge, price: getPrice });
+	}, [getPrice]);
+
+	useEffect(() => {
+		setUpdatingStatus("Mettre à jour");
+		setCharge({ ...charge, currency: getCurrency });
+	}, [getCurrency]);
+
+	return (
+		<div className="grid row_gap-10 m_top-10">
+			<SectionHead
+				title={"Charge du locateur"}
+				sendToServerProps={{
+					path: "/proprety/" + proprety.proprety._id,
+					data: {
+						description: proprety.proprety.description,
+					},
+					getStatus: () => {},
+				}}
+				updatingStatus={sendToServerStatus}
+				setUpdatingStatus={setSendToServerStatus}
+			/>
+			<div className="grid row_gap-10">
+				{proprety.proprety.description.tenantCharges.length > 0
+					? proprety.proprety.description.tenantCharges.map((charge, index) => (
+							<div className="flex">
+								<div className="flex pd-5 br border-gray w_max m_right-10">
+									<div className="one_line_txt m_right-20 txt_meddium">
+										{charge.charge} {" :"}
+									</div>
+									<div className="w_max">
+										{charge.price} {charge.currency === "USD" ? "$" : "fc"}{" "}
+									</div>
+								</div>
+								<button
+									className="btn_p btn br color_w w_50"
+									onClick={() =>
+										proprety.updateDescription.removeTenantCharge(index)
+									}>
+									<RxCross1 size="20px" />
+								</button>
+							</div>
+					  ))
+					: ""}
+			</div>
+			<div className="flex">
+				<div className="w_max flex m_right-10">
+					<InputHasDetails
+						detailsData={["Eau", "Electricité", "Poubelle"]}
+						store={getChargeName}
+						object={"Charge"}
+						sendToStore={setChargeName}
+						customClass={"m_right-10"}
+						hasInput={true}
+					/>
+					<InputNumber subject="Prix" value={getPrice} sendToStore={setPrice} />
+					<InputHasDetails
+						detailsData={["USD", "CDF"]}
+						store={getCurrency}
+						object={""}
+						sendToStore={setCurrency}
+						customClass={""}
+					/>
+				</div>
+				<SectionAddDetailButton
+					conditionToPass={getChargeName.length > 1 && getPrice > 0}
+					data={charge}
+					reseter={() => {
+						setChargeName("");
+						setPrice(0);
+					}}
+					sendToStore={proprety.updateDescription.addTenantCharge}
+				/>
+			</div>
+		</div>
 	);
 }

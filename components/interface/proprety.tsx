@@ -34,6 +34,7 @@ export interface PropretyGalleryImage {
 export interface TenantCharge {
 	charge: string;
 	price: number;
+	currency: string;
 }
 
 export interface RoomDetails {
