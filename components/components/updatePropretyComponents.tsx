@@ -12,6 +12,7 @@ import { FiEdit } from "react-icons/fi";
 import { IoReloadSharp } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
+import { toTriadeNumber } from "../usefulFuction/numbers";
 
 interface InputHasDetailsProps {
 	detailsData: string[];
@@ -451,7 +452,7 @@ function SectionDetailCard(props: SectionDetailCard) {
 					{props.room.name} {" :"}
 				</div>
 				<div className="w_max">
-					{props.room.size} {props.room.unit}{" "}
+					{toTriadeNumber(props.room.size)} {props.room.unit}{" "}
 				</div>
 			</div>
 			<button
@@ -673,7 +674,8 @@ export function TenantCharge() {
 										{charge.charge} {" :"}
 									</div>
 									<div className="w_max">
-										{charge.price} {charge.currency === "USD" ? "$" : "fc"}{" "}
+										{toTriadeNumber(charge.price)}{" "}
+										{charge.currency === "USD" ? "$" : "fc"}{" "}
 									</div>
 								</div>
 								<button
