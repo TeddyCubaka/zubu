@@ -3,7 +3,7 @@ import Head from "next/head";
 import Header from "../../../components/general/header";
 import { useRouter } from "next/router";
 import axios from "axios";
-import {
+import QuiltedImageList, {
 	ExternalDescription,
 	InternalDescription,
 	TenantCharge,
@@ -55,10 +55,7 @@ export default function Publication() {
 						<TenantCharge />
 					</div>
 					<div>
-						<div onClick={() => console.log(proprety)}>
-							zuirhfuifuiozhfiohfiozhfiohziohfziohfioz zoifhiofhiozhf
-							fzoizfioznfionfioznf zfoni
-						</div>
+						<QuiltedImageList />
 					</div>
 				</div>
 			</main>

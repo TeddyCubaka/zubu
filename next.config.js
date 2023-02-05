@@ -12,6 +12,7 @@ module.exports = {
 			"www.shutterstock.com",
 			"play-lh.googleusercontent.com",
 			"res.cloudinary.com",
+			"images.unsplash.com",
 		],
 	},
 };

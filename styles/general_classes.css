@@ -300,6 +300,9 @@
 	display: grid;
 	grid-template-columns: 50% 50%;
 }
+.two_part_y {
+	grid-template-rows: 50% 50%;
+}
 .min_w-100 {
 	min-width: 150px;
 }
@@ -315,4 +318,7 @@
 .description_content_card {
 	display: grid;
 	grid-template-columns: 25% 75%;
+}
+.hidden {
+	overflow: hidden;
 }

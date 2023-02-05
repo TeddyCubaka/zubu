@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
-import {
-	propretyStore,
-	loaderStatus,
-	UpdateDescription,
-} from "../../store/proprety";
+import { propretyStore, loaderStatus } from "../../store/proprety";
 import { RoomDetails, TenantCharge } from "../interface/proprety";
 import Image from "next/image";
 import axios from "axios";
@@ -13,6 +9,10 @@ import { IoReloadSharp } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
 import { toTriadeNumber } from "../usefulFuction/numbers";
+import {
+	ImageListZubuWithFirstBigImage,
+	ImageListZubuWithLastBigImage,
+} from "./imageList";
 
 interface InputHasDetailsProps {
 	detailsData: string[];
@@ -300,7 +300,7 @@ function CoverPicture() {
 						: loader.uploadingCoverPicture === "load"
 						? "Envoie..."
 						: loader.uploadingCoverPicture === "finish"
-						? "image d'origine"
+						? "À jour"
 						: "Mettre à jour"}
 				</button>
 			)}
@@ -513,20 +513,17 @@ function HouseInformationUpdating({
 	const [getRoomObject, setRoomObject] = useState<string>("");
 	const [getRoomUnit, setRoomUnit] = useState<string>("m²");
 	const [getRoomArea, setRoomArea] = useState<number>(0);
-	const [updatingStatus, setUpdatingStatus] = useState<string>("");
+	const [updatingStatus, setUpdatingStatus] = useState<string>("À jour");
 
 	useEffect(() => {
-		setUpdatingStatus("Mettre à jour");
 		setPartialRoom({ ...partialRoom, name: getRoomObject });
 	}, [getRoomObject]);
 
 	useEffect(() => {
-		setUpdatingStatus("Mettre à jour");
 		setPartialRoom({ ...partialRoom, unit: getRoomUnit });
 	}, [getRoomUnit]);
 
 	useEffect(() => {
-		setUpdatingStatus("Mettre à jour");
 		setPartialRoom({ ...partialRoom, size: getRoomArea });
 	}, [getRoomArea]);
 
@@ -545,16 +542,18 @@ function HouseInformationUpdating({
 				setUpdatingStatus={setUpdatingStatus}
 			/>
 			<div className="grid row_gap-10">
-				{getRooms.rooms.length > 0
-					? getRooms.rooms.map((room, index) => (
-							<SectionDetailCard
-								index={index}
-								room={room}
-								removeRoom={removeRooms}
-								key={index}
-							/>
-					  ))
-					: ""}
+				{getRooms.rooms.length > 0 ? (
+					getRooms.rooms.map((room, index) => (
+						<SectionDetailCard
+							index={index}
+							room={room}
+							removeRoom={removeRooms}
+							key={index}
+						/>
+					))
+				) : (
+					<div>Aucune information pour l'instant</div>
+				)}
 				<div className="flex">
 					<div className="w_max flex m_right-10">
 						<InputHasDetails
@@ -583,6 +582,7 @@ function HouseInformationUpdating({
 						conditionToPass={getRoomObject.length > 1 && getRoomArea > 0}
 						data={partialRoom}
 						reseter={() => {
+							setUpdatingStatus("Mettre à jour");
 							setRoomObject("");
 							setRoomArea(0);
 						}}
@@ -622,8 +622,6 @@ export function ExternalDescription() {
 
 export function TenantCharge() {
 	const proprety = propretyStore();
-	const [sendToServerStatus, setSendToServerStatus] =
-		useState<string>("À jour");
 
 	const [charge, setCharge] = useState<TenantCharge>({
 		charge: "",
@@ -634,20 +632,17 @@ export function TenantCharge() {
 	const [getChargeName, setChargeName] = useState<string>("");
 	const [getPrice, setPrice] = useState<number>(0);
 	const [getCurrency, setCurrency] = useState<string>("USD");
-	const [updatingStatus, setUpdatingStatus] = useState<string>("");
+	const [updatingStatus, setUpdatingStatus] = useState<string>("À jour");
 
 	useEffect(() => {
-		setUpdatingStatus("Mettre à jour");
 		setCharge({ ...charge, charge: getChargeName });
 	}, [getChargeName]);
 
 	useEffect(() => {
-		setUpdatingStatus("Mettre à jour");
 		setCharge({ ...charge, price: getPrice });
 	}, [getPrice]);
 
 	useEffect(() => {
-		setUpdatingStatus("Mettre à jour");
 		setCharge({ ...charge, currency: getCurrency });
 	}, [getCurrency]);
 
@@ -662,32 +657,34 @@ export function TenantCharge() {
 					},
 					getStatus: () => {},
 				}}
-				updatingStatus={sendToServerStatus}
-				setUpdatingStatus={setSendToServerStatus}
+				updatingStatus={updatingStatus}
+				setUpdatingStatus={setUpdatingStatus}
 			/>
 			<div className="grid row_gap-10">
-				{proprety.proprety.description.tenantCharges.length > 0
-					? proprety.proprety.description.tenantCharges.map((charge, index) => (
-							<div className="flex">
-								<div className="flex pd-5 br border-gray w_max m_right-10">
-									<div className="one_line_txt m_right-20 txt_meddium">
-										{charge.charge} {" :"}
-									</div>
-									<div className="w_max">
-										{toTriadeNumber(charge.price)}{" "}
-										{charge.currency === "USD" ? "$" : "fc"}{" "}
-									</div>
+				{proprety.proprety.description.tenantCharges.length > 0 ? (
+					proprety.proprety.description.tenantCharges.map((charge, index) => (
+						<div className="flex" key={index}>
+							<div className="flex pd-5 br border-gray w_max m_right-10">
+								<div className="one_line_txt m_right-20 txt_meddium">
+									{charge.charge} {" :"}
 								</div>
-								<button
-									className="btn_p btn br color_w w_50"
-									onClick={() =>
-										proprety.updateDescription.removeTenantCharge(index)
-									}>
-									<RxCross1 size="20px" />
-								</button>
+								<div className="w_max">
+									{toTriadeNumber(charge.price)}{" "}
+									{charge.currency === "USD" ? "$" : "fc"}{" "}
+								</div>
 							</div>
-					  ))
-					: ""}
+							<button
+								className="btn_p btn br color_w w_50"
+								onClick={() =>
+									proprety.updateDescription.removeTenantCharge(index)
+								}>
+								<RxCross1 size="20px" />
+							</button>
+						</div>
+					))
+				) : (
+					<div>Aucune information pour l'instant</div>
+				)}
 			</div>
 			<div className="flex">
 				<div className="w_max flex m_right-10">
@@ -712,12 +709,35 @@ export function TenantCharge() {
 					conditionToPass={getChargeName.length > 1 && getPrice > 0}
 					data={charge}
 					reseter={() => {
+						setUpdatingStatus("Mettre à jour");
 						setChargeName("");
 						setPrice(0);
 					}}
 					sendToStore={proprety.updateDescription.addTenantCharge}
 				/>
 			</div>
+		</div>
+	);
+}
+
+export default function QuiltedImageList() {
+	const proprety = propretyStore();
+	return (
+		<div className="pd-20 border-gray br m_x-20 h_auto">
+			<SectionHead
+				title={"Gallery"}
+				sendToServerProps={{
+					path: "/proprety/" + proprety.proprety._id,
+					data: {
+						description: proprety.proprety.description,
+					},
+					getStatus: () => {},
+				}}
+				updatingStatus={"Mettre à jour"}
+				setUpdatingStatus={() => {}}
+			/>
+			<ImageListZubuWithFirstBigImage />
+			<ImageListZubuWithLastBigImage />
 		</div>
 	);
 }
