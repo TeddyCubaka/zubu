@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Header from "../../components/general/header";
 import AllPropreties from "../../components/general/AllPropreties";
+import Footer from "../../components/general/footer";
 
 export default function Publication() {
 	return (
@@ -19,6 +20,7 @@ export default function Publication() {
 				<Header />
 				<div className="flex m_wax h_max">Chéh</div>
 				<AllPropreties />
+				<Footer />
 			</main>
 		</>
 	);

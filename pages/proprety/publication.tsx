@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Header from "../../components/general/header";
 import AddPropretiyForm from "../../components/components/addPropretyForm";
+import Footer from "../../components/general/footer";
 
 export default function Publication() {
 	return (
@@ -20,6 +21,7 @@ export default function Publication() {
 				<div className="publication_section">
 					<AddPropretiyForm />
 				</div>
+				<Footer />
 			</main>
 		</>
 	);

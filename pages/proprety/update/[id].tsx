@@ -11,6 +11,7 @@ import QuiltedImageList, {
 } from "../../../components/components/updatePropretyComponents";
 import { propretyStore } from "../../../store/proprety";
 import PropretyNavbar from "../../../components/components/PropretyNavbar";
+import Footer from "../../../components/general/footer";
 
 export default function Publication() {
 	const proprety = propretyStore();
@@ -58,6 +59,7 @@ export default function Publication() {
 						<QuiltedImageList />
 					</div>
 				</div>
+				<Footer />
 			</main>
 		</>
 	);
