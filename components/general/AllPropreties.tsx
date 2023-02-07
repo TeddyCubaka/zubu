@@ -1,37 +1,28 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
+import { FaMapMarkerAlt, FaPercent } from "react-icons/fa";
+import { IoMdPricetag } from "react-icons/io";
+import { MdOutlineBedroomChild } from "react-icons/md";
+import { RentalInformation, Proprety } from "../interface/proprety";
+import { BsFillHouseFill } from "react-icons/bs";
+import Image from "next/image";
 
-interface Proprety {
+interface PropretyCard {
 	_id: string;
-	rentalInformation: {
-		adress: string;
-		guarantee: string;
-		lessor: { fullName: string; contacts: string };
-		currency: string;
-		rentalType: string;
-	};
+	rentalInformation: RentalInformation;
 }
 
 export default function AllPropreties() {
-	const [propreties, setPropreties] = useState<Proprety[]>([]);
+	const [propreties, setPropreties] = useState<PropretyCard[]>([]);
 	const getData = () => {
 		axios(process.env.NEXT_PUBLIC_DB_URL + "/proprety")
 			.then((res) => {
-				const response: Proprety[] = [];
-				res.data.map((proprety: any, index: number) => {
+				const response: PropretyCard[] = [];
+				res.data.map((proprety: Proprety, index: number) => {
 					response.push({
 						_id: proprety._id,
-						rentalInformation: {
-							adress: proprety.rentalInformation.address,
-							guarantee: proprety.rentalInformation.guaranteeValue,
-							lessor: {
-								fullName: proprety.rentalInformation.lessor.fullName,
-								contacts: proprety.rentalInformation.lessor.contacts,
-							},
-							currency: proprety.rentalInformation.monetaryCurrency,
-							rentalType: proprety.rentalInformation.typeOfRental,
-						},
+						rentalInformation: { ...proprety.rentalInformation },
 					});
 				});
 				setPropreties(response);
@@ -44,24 +35,62 @@ export default function AllPropreties() {
 			<button onClick={() => getData()}>Get all propreties</button>;
 			<div>
 				{propreties.map((proprety) => (
-					<div key={proprety._id}>
-						<h4>
-							{" "}
-							<Link href={"/proprety/update/" + proprety._id}>
+					<div
+						key={proprety._id}
+						onClick={() =>
+							(window.location.href = "/proprety/update/" + proprety._id)
+						}
+						className="border-b w_auto"
+						style={{ width: "300px" }}>
+						<div
+							style={{
+								height: "100px",
+								overflow: "hidden",
+								backgroundColor: "#F5F5F5",
+								minHeight: "100px",
+							}}
+							className="flex_center-xy border-gray">
+							{proprety.rentalInformation.coverPicture ? (
+								<Image
+									width={170}
+									height={95.625}
+									className="cover_picture_card"
+									src={proprety.rentalInformation.coverPicture}
+									alt="Random image"
+								/>
+							) : (
+								<BsFillHouseFill size="50px" color="#B9B9B9" />
+							)}
+						</div>
+						<div className="pd-10 w_max">
+							<div className="flex m_y-5">
 								{" "}
-								{proprety._id}{" "}
-							</Link>{" "}
-						</h4>
-						<ul>
-							<li> {proprety.rentalInformation.adress} </li>
-							<li> {proprety.rentalInformation.currency} </li>
-							<li> {proprety.rentalInformation.guarantee} </li>
-							<li>
-								{" "}
-								{proprety.rentalInformation.lessor.fullName} et contact{" "}
-								{proprety.rentalInformation.lessor.contacts}{" "}
-							</li>
-						</ul>
+								<FaMapMarkerAlt size="18px" />{" "}
+								{proprety.rentalInformation.address}{" "}
+							</div>
+							<div className="flex m_y-5">
+								<div className="w_max">
+									{" "}
+									<IoMdPricetag size="18px" />{" "}
+									{proprety.rentalInformation.price}
+								</div>
+								<div className="w_max">
+									<FaPercent size="18px" />{" "}
+									{proprety.rentalInformation.guaranteeValue}{" "}
+								</div>
+							</div>
+							<div className="flex m_y-5">
+								<div className="w_max">
+									{" "}
+									<MdOutlineBedroomChild size="18px" />{" "}
+									{proprety.rentalInformation.bedRooms} chs
+								</div>
+								<div className="w_max">
+									<BsFillHouseFill size="18px" />{" "}
+									{proprety.rentalInformation.guaranteeValue}{" "}
+								</div>
+							</div>
+						</div>
 					</div>
 				))}
 			</div>

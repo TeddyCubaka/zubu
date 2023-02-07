@@ -16,7 +16,7 @@ export interface UpdateRentalInformation {
 	setCurrency: (currency: string) => void;
 	setCoverPicture: (url: string) => void;
 	setAddress: (address: string) => void;
-	setArea: (area: string) => void;
+	setbedRooms: (bedRooms: string) => void;
 	setLessor: (lessor: Lessor) => void;
 	setFiles: (file: File) => void;
 	clearFiles: () => void;
@@ -61,7 +61,7 @@ export const propretyStore = create<PropretyStore>((set) => ({
 			monetaryCurrency: "",
 			coverPicture: "",
 			address: "",
-			area: "",
+			bedRooms: "",
 			lessor: { fullName: "", contacts: "" },
 		},
 		description: {
@@ -206,13 +206,13 @@ export const propretyStore = create<PropretyStore>((set) => ({
 					},
 				},
 			})),
-		setArea: (area) =>
+		setbedRooms: (bedRooms) =>
 			set((store) => ({
 				proprety: {
 					...store.proprety,
 					rentalInformation: {
 						...store.proprety.rentalInformation,
-						area: area,
+						bedRooms: bedRooms,
 					},
 				},
 			})),

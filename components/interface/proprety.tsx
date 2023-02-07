@@ -18,7 +18,7 @@ export interface RentalInformation {
 	monetaryCurrency: string;
 	coverPicture: string;
 	address: string;
-	area: string;
+	bedRooms: string;
 	lessor: Lessor;
 }
 
@@ -111,7 +111,7 @@ export interface Proprety {
 }
 
 // interior: {
-// 	bedrooms: string;
+// 	bedRooms: string;
 // 	livingRoom: string;
 // 	lounge: string;
 // 	diningRoom: string;

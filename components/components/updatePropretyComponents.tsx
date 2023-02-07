@@ -376,11 +376,11 @@ export function UpdateRentalInformation() {
 						customClass={"m_right-10"}
 					/>
 					<Input
-						value={proprety.proprety.rentalInformation.area}
-						sendToStore={proprety.updateRenatlInformation.setArea}
+						value={proprety.proprety.rentalInformation.bedRooms}
+						sendToStore={proprety.updateRenatlInformation.setbedRooms}
 						type={"text"}
-						subject={"Surface"}
-						placeholder={"Spécifier l'aire habitable"}
+						subject={"Chambres"}
+						placeholder={"Nombre des chambres"}
 					/>
 				</div>
 			</div>
@@ -512,7 +512,7 @@ function HouseInformationUpdating({
 	});
 	const [getRoomObject, setRoomObject] = useState<string>("");
 	const [getRoomUnit, setRoomUnit] = useState<string>("m²");
-	const [getRoomArea, setRoomArea] = useState<number>(0);
+	const [getRoombedRooms, setRoombedRooms] = useState<number>(0);
 	const [updatingStatus, setUpdatingStatus] = useState<string>("À jour");
 
 	useEffect(() => {
@@ -524,8 +524,8 @@ function HouseInformationUpdating({
 	}, [getRoomUnit]);
 
 	useEffect(() => {
-		setPartialRoom({ ...partialRoom, size: getRoomArea });
-	}, [getRoomArea]);
+		setPartialRoom({ ...partialRoom, size: getRoombedRooms });
+	}, [getRoombedRooms]);
 
 	return (
 		<div className="grid row_gap-10 m_top-10">
@@ -566,8 +566,8 @@ function HouseInformationUpdating({
 						/>
 						<InputNumber
 							subject="Surface"
-							value={getRoomArea}
-							sendToStore={setRoomArea}
+							value={getRoombedRooms}
+							sendToStore={setRoombedRooms}
 						/>
 						<InputHasDetails
 							detailsData={["m²", "ft"]}
@@ -579,12 +579,12 @@ function HouseInformationUpdating({
 						/>
 					</div>
 					<SectionAddDetailButton
-						conditionToPass={getRoomObject.length > 1 && getRoomArea > 0}
+						conditionToPass={getRoomObject.length > 1 && getRoombedRooms > 0}
 						data={partialRoom}
 						reseter={() => {
 							setUpdatingStatus("Mettre à jour");
 							setRoomObject("");
-							setRoomArea(0);
+							setRoombedRooms(0);
 						}}
 						sendToStore={addRooms}
 					/>
