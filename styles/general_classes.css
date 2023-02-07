@@ -224,7 +224,7 @@
 .opacity_0 {
 	opacity: 0;
 }
-.opacity_1{
+.opacity_1 {
 	opacity: 1;
 }
 .block {
@@ -330,4 +330,10 @@
 }
 .min_h-vh_max {
 	min-height: 100vh;
+}
+.flex_x_center-wrap {
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	gap: 10px;
 }

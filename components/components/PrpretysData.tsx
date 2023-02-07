@@ -27,8 +27,8 @@ interface Lessor {
 
 interface RentalPrice {
 	price: string;
-	guarantee_value: string;
-	monetary_currency: string;
+	guaranteeValue: string;
+	monetaryCurrency: string;
 }
 
 interface PostedDate {
@@ -36,8 +36,8 @@ interface PostedDate {
 	type_of_rental: string;
 	lessor: Lessor;
 	price: string;
-	guarantee_value: string;
-	monetary_currency: string;
+	guaranteeValue: string;
+	monetaryCurrency: string;
 }
 
 function TwoButton({
@@ -237,8 +237,8 @@ export function GetLosor() {
 export function GetPrice() {
 	const [rentalPrice, GetRentalPrice] = useState<RentalPrice>({
 		price: "",
-		guarantee_value: "",
-		monetary_currency: "USD",
+		guaranteeValue: "",
+		monetaryCurrency: "USD",
 	});
 	const [conditionForPricePassed, setConditionForPricePassed] =
 		useState<string>("");
@@ -252,10 +252,10 @@ export function GetPrice() {
 			<div className="flex">
 				<span
 					onClick={() =>
-						GetRentalPrice({ ...rentalPrice, monetary_currency: "USD" })
+						GetRentalPrice({ ...rentalPrice, monetaryCurrency: "USD" })
 					}
 					className={
-						rentalPrice.monetary_currency === "USD"
+						rentalPrice.monetaryCurrency === "USD"
 							? "currency_button_selected_span block"
 							: "currency_button block"
 					}>
@@ -263,10 +263,10 @@ export function GetPrice() {
 				</span>
 				<span
 					onClick={() =>
-						GetRentalPrice({ ...rentalPrice, monetary_currency: "CDF" })
+						GetRentalPrice({ ...rentalPrice, monetaryCurrency: "CDF" })
 					}
 					className={
-						rentalPrice.monetary_currency === "CDF"
+						rentalPrice.monetaryCurrency === "CDF"
 							? "currency_button_selected_span m_x-5"
 							: "currency_button m_x-5"
 					}>
@@ -278,8 +278,8 @@ export function GetPrice() {
 
 	useEffect(() => {
 		if (
-			rentalPrice.guarantee_value.length > 0 &&
-			rentalPrice.monetary_currency.length > 0 &&
+			rentalPrice.guaranteeValue.length > 0 &&
+			rentalPrice.monetaryCurrency.length > 0 &&
 			rentalPrice.price.length > 0
 		) {
 			setConditionForPricePassed("can pass");
@@ -311,7 +311,7 @@ export function GetPrice() {
 						onChange={(e) =>
 							GetRentalPrice({
 								...rentalPrice,
-								guarantee_value: e.target.value,
+								guaranteeValue: e.target.value,
 							})
 						}
 					/>
@@ -335,8 +335,8 @@ export function ViewInformationPuted() {
 		lessor,
 		rentalPrice,
 		resetCount,
-		setCount,
 		setDatabaseResponseStatus,
+		setCount,
 	] = publicationStore(
 		(state) => [
 			state.address,
@@ -344,8 +344,8 @@ export function ViewInformationPuted() {
 			state.lessor,
 			state.rentalPrice,
 			state.resetCount,
-			state.setCount,
 			state.setDatabaseResponseStatus,
+			state.setCount,
 		],
 		shallow
 	);
@@ -366,19 +366,11 @@ export function ViewInformationPuted() {
 				propretyType,
 				lessor.contacts,
 				lessor.fullName,
-				rentalPrice.guarantee_value,
-				rentalPrice.monetary_currency,
+				rentalPrice.guaranteeValue,
+				rentalPrice.monetaryCurrency,
 				rentalPrice.price,
 			])
 		) {
-			console.log({
-				address: address,
-				typeOfRental: propretyType,
-				lessor: lessor,
-				price: rentalPrice.price,
-				guaranteeValue: rentalPrice.guarantee_value,
-				monetaryCurrency: rentalPrice.monetary_currency,
-			});
 			axios({
 				method: "post",
 				url: process.env.NEXT_PUBLIC_DB_URL + "/proprety",
@@ -388,8 +380,8 @@ export function ViewInformationPuted() {
 						typeOfRental: propretyType,
 						lessor: lessor,
 						price: rentalPrice.price,
-						guaranteeValue: rentalPrice.guarantee_value,
-						monetaryCurrency: rentalPrice.monetary_currency,
+						guaranteeValue: rentalPrice.guaranteeValue,
+						monetaryCurrency: rentalPrice.monetaryCurrency,
 					},
 				},
 			})
@@ -420,10 +412,10 @@ export function ViewInformationPuted() {
 				</li>
 				<li>
 					<b>Prix de la propriété :</b>, {rentalPrice.price}{" "}
-					{rentalPrice.monetary_currency === "USD" ? "$" : "fc"}{" "}
+					{rentalPrice.monetaryCurrency === "USD" ? "$" : "fc"}{" "}
 				</li>
 				<li>
-					<b>Garantie : </b> {rentalPrice.guarantee_value}{" "}
+					<b>Garantie : </b> {rentalPrice.guaranteeValue}{" "}
 				</li>
 			</ul>
 			<div className="flex w_max m_y-10">
@@ -435,6 +427,14 @@ export function ViewInformationPuted() {
 				<button
 					className="btn_p btn br color_w txt_normal w_max m_x-20"
 					onClick={() => {
+						console.log({
+							address: address,
+							typeOfRental: propretyType,
+							lessor: lessor,
+							price: rentalPrice.price,
+							guaranteeValue: rentalPrice.guaranteeValue,
+							monetaryCurrency: rentalPrice.monetaryCurrency,
+						});
 						postDataToServer();
 						setCount();
 					}}>
