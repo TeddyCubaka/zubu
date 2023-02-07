@@ -377,7 +377,7 @@ export function ViewInformationPuted() {
 				data: {
 					rentalInformation: {
 						address: address,
-						typeOfRental: propretyType,
+						RentalType: propretyType,
 						lessor: lessor,
 						price: rentalPrice.price,
 						guaranteeValue: rentalPrice.guaranteeValue,

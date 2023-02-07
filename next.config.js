@@ -13,6 +13,9 @@ module.exports = {
 			"play-lh.googleusercontent.com",
 			"res.cloudinary.com",
 			"images.unsplash.com",
+			"static.orpi.com",
+			"www.book-a-flat.com",
+			"media.gettyimages.com"
 		],
 	},
 };

@@ -122,6 +122,9 @@
 .border-w {
 	border: 1px solid white;
 }
+.border-w_25 {
+	border: 2.5px solid white;
+}
 .border-b {
 	border: 2px solid black;
 }

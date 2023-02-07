@@ -9,10 +9,8 @@ import { IoReloadSharp } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
 import { toTriadeNumber } from "../usefulFuction/numbers";
-import {
-	ImageListZubuWithFirstBigImage,
-	ImageListZubuWithLastBigImage,
-} from "./imageList";
+import { AdaptedImages } from "./imageList";
+import { BsFillHouseFill } from "react-icons/bs";
 
 interface InputHasDetailsProps {
 	detailsData: string[];
@@ -88,6 +86,8 @@ const propretyType = [
 	"appartement",
 	"Commerce",
 	"Burreau",
+	"Salle de fête",
+	"Terrasse",
 ];
 
 function Input({
@@ -218,6 +218,31 @@ function CoverPicture() {
 	const proprety = propretyStore();
 	const divCoverPicture = useRef<HTMLDivElement>(null);
 
+	const UploadPictureLoading = () => {
+		return loader.uploadingCoverPicture === "error" ? (
+			<div className="h_max w_max flex_y_center-xy color_w">
+				Sorry, please try again
+				<span>
+					<IoReloadSharp />
+				</span>
+			</div>
+		) : loader.uploadingCoverPicture === "load" ? (
+			<div className="h_max w_max flex_y_center-xy border-b color_w">
+				<span className="uploading">
+					<IoReloadSharp />
+				</span>
+			</div>
+		) : (
+			<Image
+				width={170}
+				height={95.625}
+				className="cover_picture_card"
+				src={proprety.proprety.rentalInformation.coverPicture}
+				alt="Random image"
+			/>
+		);
+	};
+
 	return (
 		<div className="h_max w_max space_between-y">
 			<div className="space_between-x w_max">
@@ -245,38 +270,35 @@ function CoverPicture() {
 					width: "98%",
 					height: "100px",
 					overflow: "hidden",
-					backgroundColor: "#B9B9B9",
+					backgroundColor: "#F5F5F5",
 					border: "1px solid #B9B9B9",
 					minHeight: "100px",
 				}}
 				className="flex_center-xy br">
-				{loader.uploadingCoverPicture === "error" ? (
-					<div className="h_max w_max flex_y_center-xy color_w">
-						Sorry, please try again
-						<span>
-							<IoReloadSharp />
-						</span>
-					</div>
-				) : loader.uploadingCoverPicture === "load" ? (
-					<div className="h_max w_max flex_y_center-xy border-b color_w">
-						<span className="uploading">
-							<IoReloadSharp />
-						</span>
-					</div>
-				) : (
+				{loader.uploadingCoverPicture.length > 0 ? (
+					<UploadPictureLoading />
+				) : src.length > 0 ? (
+					<Image
+						width={170}
+						height={95.625}
+						className="cover_picture_card"
+						src={src}
+						alt="Random image"
+					/>
+				) : proprety.proprety.rentalInformation.coverPicture ? (
 					<Image
 						width={170}
 						height={95.625}
 						className="cover_picture_card"
 						src={
-							src.length > 0
-								? src
-								: proprety.proprety.rentalInformation.coverPicture
+							proprety.proprety.rentalInformation.coverPicture.length > 0
 								? proprety.proprety.rentalInformation.coverPicture
-								: "https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1"
+								: ""
 						}
 						alt="Random image"
 					/>
+				) : (
+					<BsFillHouseFill size="50px" color="#B9B9B9" />
 				)}
 			</div>
 			{src.length === 0 ? (
@@ -363,7 +385,7 @@ export function UpdateRentalInformation() {
 						value={proprety.proprety.rentalInformation.availabilityDate}
 						sendToStore={proprety.updateRenatlInformation.setAvailabilyDate}
 						type={"date"}
-						subject={"Liberé"}
+						subject={"Libre au"}
 					/>
 				</div>
 				<div className="double_column">
@@ -552,7 +574,7 @@ function HouseInformationUpdating({
 						/>
 					))
 				) : (
-					<div>Aucune information pour l'instant</div>
+					<div>Ajoutez une information</div>
 				)}
 				<div className="flex">
 					<div className="w_max flex m_right-10">
@@ -683,7 +705,7 @@ export function TenantCharge() {
 						</div>
 					))
 				) : (
-					<div>Aucune information pour l'instant</div>
+					<div>Ajoutez une information</div>
 				)}
 			</div>
 			<div className="flex">
@@ -736,8 +758,7 @@ export default function QuiltedImageList() {
 				updatingStatus={"Mettre à jour"}
 				setUpdatingStatus={() => {}}
 			/>
-			<ImageListZubuWithFirstBigImage />
-			<ImageListZubuWithLastBigImage />
+			<AdaptedImages />
 		</div>
 	);
 }
