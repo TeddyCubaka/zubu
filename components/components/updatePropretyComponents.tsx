@@ -219,27 +219,29 @@ function CoverPicture() {
 	const divCoverPicture = useRef<HTMLDivElement>(null);
 
 	const UploadPictureLoading = () => {
-		return loader.uploadingCoverPicture === "error" ? (
+		return loader.uploadingCoverPicture === "load" ? (
+			<div className="h_max w_max flex_y_center-xy border-b color_w">
+				<span className="uploading">
+					<IoReloadSharp />
+				</span>
+			</div>
+		) : loader.uploadingCoverPicture === "error" ? (
 			<div className="h_max w_max flex_y_center-xy color_w">
 				Sorry, please try again
 				<span>
 					<IoReloadSharp />
 				</span>
 			</div>
-		) : loader.uploadingCoverPicture === "load" ? (
-			<div className="h_max w_max flex_y_center-xy border-b color_w">
-				<span className="uploading">
-					<IoReloadSharp />
-				</span>
-			</div>
-		) : (
+		) : loader.uploadingCoverPicture === "finish" ? (
 			<Image
-				width={170}
-				height={95.625}
+				width={160}
+				height={90}
 				className="cover_picture_card"
 				src={proprety.proprety.rentalInformation.coverPicture}
-				alt="Random image"
+				alt={"Cover picture of the proprety " + proprety.proprety._id}
 			/>
+		) : (
+			<span></span>
 		);
 	};
 
@@ -267,27 +269,23 @@ function CoverPicture() {
 			<div
 				ref={divCoverPicture}
 				style={{
-					width: "98%",
-					height: "100px",
+					maxHeight: "100px",
 					overflow: "hidden",
 					backgroundColor: "#F5F5F5",
 					border: "1px solid #B9B9B9",
-					minHeight: "100px",
 				}}
-				onClick={() =>
-					console.log(proprety.proprety.rentalInformation.coverPicture)
-				}
-				className="flex_center-xy br">
-				{loader.uploadingCoverPicture.length > 0 ? (
-					<UploadPictureLoading />
-				) : src.length > 0 ? (
+				onClick={() => console.log(divCoverPicture.current)}
+				className="flex_center-xy br w_max h_auto m_y-5">
+				{src.length > 0 ? (
 					<Image
-						width={170}
-						height={95.625}
+						width={160}
+						height={90}
 						className="cover_picture_card"
 						src={src}
-						alt="Random image"
+						alt={"Cover picture of the proprety " + proprety.proprety._id}
 					/>
+				) : loader.uploadingCoverPicture.length > 0 ? (
+					<UploadPictureLoading />
 				) : proprety.proprety.rentalInformation.coverPicture ? (
 					<Image
 						width={170}
@@ -351,14 +349,14 @@ export function UpdateRentalInformation() {
 	return (
 		<div className="rental_information_card">
 			<div className="rental_information_input m_right-10">
-				<Input
+				{/* <Input
 					value={proprety.proprety.rentalInformation.address}
 					sendToStore={proprety.updateRenatlInformation.setAddress}
 					type={"text"}
 					subject={"Adress"}
 					placeholder={"Ajoutez une adress"}
 					customClass={""}
-				/>
+				/> */}
 				<div className="space_between">
 					<Input
 						value={proprety.proprety.rentalInformation.price}

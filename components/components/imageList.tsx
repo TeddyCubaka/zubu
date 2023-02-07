@@ -20,7 +20,7 @@ const link = [
 
 function PropretyImage(props: ImageProps) {
 	const [topBarDisplayed, setTopBarDisplayed] = React.useState<boolean>(false);
-	const imageRef = useRef<HTMLDivElement>();
+	const imageRef = useRef<null | HTMLImageElement>(null);
 
 	return (
 		<div
@@ -30,12 +30,8 @@ function PropretyImage(props: ImageProps) {
 			{topBarDisplayed ? (
 				<div
 					className="image_topbar_in_proprety_gallery space_between txt_normal color_w"
-					onClick={() =>
-						imageRef.current
-							? console.log(imageRef.current.offsetWidth)
-							: console.log("null")
-					}>
-					<a href={getDownloadLink(props.source)} download={"zubu_image"}>
+					onClick={() => console.log(imageRef.current)}>
+					<a href={imageRef.current?.currentSrc} download={"shesh"}>
 						<MdDownload size="18px" color="white" />{" "}
 					</a>
 					<MdDelete size="18px" />
@@ -44,6 +40,7 @@ function PropretyImage(props: ImageProps) {
 				""
 			)}
 			<Image
+				ref={imageRef}
 				className="h_auto w_max"
 				src={props.source}
 				width={300}

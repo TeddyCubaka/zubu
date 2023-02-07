@@ -2,9 +2,10 @@ import React from "react";
 import { FaMapMarkerAlt, FaPercent } from "react-icons/fa";
 import { IoMdPricetag } from "react-icons/io";
 import { MdOutlineBedroomChild } from "react-icons/md";
-import { RentalInformation, Proprety } from "../interface/proprety";
+import { RentalInformation } from "../interface/proprety";
 import { BsFillHouseFill } from "react-icons/bs";
 import Image from "next/image";
+import { getPublicAdress } from "../usefulFuction/getPublicAdress";
 
 interface PropretyCard {
 	_id: string;
@@ -20,20 +21,28 @@ export default function PropretyCard(proprety: PropretyCard) {
 			}
 			className="border-gray br w_auto"
 			style={{ width: "300px" }}>
+			<div className="tag_on_proprety_card space_between txt_normal color_w">
+				{" "}
+				<div></div>{" "}
+				{proprety.rentalInformation.isAvailable ? (
+					<div className="br pd-3 color-green bg-green">libre</div>
+				) : (
+					<div className="br pd-3 color-green bg-red">Occupé</div>
+				)}
+			</div>
 			<div
 				style={{
-					height: "100px",
+					minHeight: "84.3x",
 					overflow: "hidden",
 					backgroundColor: "#F5F5F5",
-					minHeight: "100px",
 					borderBottom: "1px solid #B9B9B9",
-					borderRadius: "5px 5px 0px 0px"
+					borderRadius: "5px 5px 0px 0px",
 				}}
 				className="flex_center-xy">
 				{proprety.rentalInformation.coverPicture ? (
 					<Image
 						width={170}
-						height={95.625}
+						height={100}
 						className="cover_picture_card"
 						src={proprety.rentalInformation.coverPicture}
 						alt="Random image"
@@ -45,7 +54,8 @@ export default function PropretyCard(proprety: PropretyCard) {
 			<div className="pd-10 w_max">
 				<div className="flex m_y-5">
 					{" "}
-					<FaMapMarkerAlt size="18px" /> {proprety.rentalInformation.address}{" "}
+					<FaMapMarkerAlt size="18px" />{" "}
+					{getPublicAdress(proprety.rentalInformation.address)}{" "}
 				</div>
 				<div className="flex m_y-5">
 					<div className="w_max">
