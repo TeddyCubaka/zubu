@@ -162,3 +162,10 @@ main {
 	flex-direction: column;
 	justify-content: space-between;
 }
+.image_topbar_in_proprety_gallery {
+	margin-bottom: -32px;
+	z-index: 1;
+	padding: 5px 10px;
+	background-color: #00000080;
+	transform: scale(1);
+}

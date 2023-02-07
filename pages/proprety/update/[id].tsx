@@ -3,7 +3,7 @@ import Head from "next/head";
 import Header from "../../../components/general/header";
 import { useRouter } from "next/router";
 import axios from "axios";
-import QuiltedImageList, {
+import PropretyGalleryUpdate, {
 	ExternalDescription,
 	InternalDescription,
 	TenantCharge,
@@ -56,7 +56,7 @@ export default function Publication() {
 						<TenantCharge />
 					</div>
 					<div>
-						<QuiltedImageList />
+						<PropretyGalleryUpdate />
 					</div>
 				</div>
 				<Footer />

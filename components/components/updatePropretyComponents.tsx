@@ -274,6 +274,9 @@ function CoverPicture() {
 					border: "1px solid #B9B9B9",
 					minHeight: "100px",
 				}}
+				onClick={() =>
+					console.log(proprety.proprety.rentalInformation.coverPicture)
+				}
 				className="flex_center-xy br">
 				{loader.uploadingCoverPicture.length > 0 ? (
 					<UploadPictureLoading />
@@ -742,7 +745,7 @@ export function TenantCharge() {
 	);
 }
 
-export default function QuiltedImageList() {
+export default function PropretyGalleryUpdate() {
 	const proprety = propretyStore();
 	return (
 		<div className="pd-20 border-gray br m_x-20 h_auto">

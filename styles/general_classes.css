@@ -340,3 +340,15 @@
 	flex-wrap: wrap;
 	gap: 20px;
 }
+.absolute {
+	position: absolute;
+}
+.bg-none {
+	background-color: #ffffff00;
+}
+.bg-transparent_50{
+	background-color: #00000080;
+}
+.border-none {
+	border: none;
+}
