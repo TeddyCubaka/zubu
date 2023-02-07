@@ -27,13 +27,12 @@ export default function AllPropreties() {
 					});
 				});
 				setPropreties(response);
-				console.log(res.data);
 			})
 			.catch((err) => console.log(err));
 	}, []);
 	return (
 		<div>
-			<div className="pd-20">
+			<div className="pd-20 flex_x_center-wrap ">
 				{propreties.length === 0 ? (
 					<div className="flex_center-xy">Empty</div>
 				) : (
@@ -41,6 +40,7 @@ export default function AllPropreties() {
 						<PropretyCard
 							_id={proprety._id}
 							rentalInformation={proprety.rentalInformation}
+							key={proprety._id}
 						/>
 					))
 				)}

@@ -18,7 +18,7 @@ export default function PropretyCard(proprety: PropretyCard) {
 			onClick={() =>
 				(window.location.href = "/proprety/update/" + proprety._id)
 			}
-			className="border-b w_auto"
+			className="border-gray br w_auto"
 			style={{ width: "300px" }}>
 			<div
 				style={{
@@ -26,8 +26,10 @@ export default function PropretyCard(proprety: PropretyCard) {
 					overflow: "hidden",
 					backgroundColor: "#F5F5F5",
 					minHeight: "100px",
+					borderBottom: "1px solid #B9B9B9",
+					borderRadius: "5px 5px 0px 0px"
 				}}
-				className="flex_center-xy border-gray">
+				className="flex_center-xy">
 				{proprety.rentalInformation.coverPicture ? (
 					<Image
 						width={170}
