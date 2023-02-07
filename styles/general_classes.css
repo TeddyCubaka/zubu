@@ -224,6 +224,9 @@
 .opacity_0 {
 	opacity: 0;
 }
+.opacity_1{
+	opacity: 1;
+}
 .block {
 	display: block;
 }
@@ -321,4 +324,10 @@
 }
 .hidden {
 	overflow: hidden;
+}
+.min_w-vw_max {
+	min-width: 100vw;
+}
+.min_h-vh_max {
+	min-height: 100vh;
 }

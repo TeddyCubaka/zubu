@@ -3,7 +3,6 @@ import React from "react";
 export default function Main() {
 	return (
 		<div className="main">
-			<div className="main_cover_picture"></div>
 			<div className="main_desc color_w">
 				<h1 className="m_y-20">
 					Bienvenue sur Zubu, un site qui met en avant votre bien immobilier
@@ -19,7 +18,9 @@ export default function Main() {
 						<span className="m_x-20">Ville</span>
 						<span className="m_x-20">Pièces</span>
 					</div>
-					<button className="btn_p btn color_w br txt_normal m_x-10">
+					<button
+						className="btn_p btn color_w br txt_normal m_x-10"
+						onClick={() => (window.location.href = "/proprety")}>
 						Rechercher
 					</button>
 				</div>

@@ -44,21 +44,12 @@ h5 {
 }
 .main {
 	height: 400px;
-}
-.main_cover_picture {
-	height: 400px;
 	width: 100%;
-	background-image: url("../components/images/cover\ picture.jpg");
-	backdrop-filter: blur(5%);
-	filter: sepia(0.6) brightness(0.5) contrast(0.9);
-	background-repeat: no-repeat;
-	background-size: cover;
+	background-image: url("../components/images/cover_picture.png");
 }
 .main_desc {
 	height: 400px;
 	width: 100%;
-	position: relative;
-	top: -400px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -164,4 +155,10 @@ h5 {
 	font-size: 40px;
 	font-weight: 500;
 	margin-top: 20px;
+}
+main {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }

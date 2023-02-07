@@ -18,7 +18,6 @@ export default function Publication() {
 			</Head>
 			<main>
 				<Header />
-				<div className="flex m_wax h_max">Chéh</div>
 				<AllPropreties />
 				<Footer />
 			</main>
