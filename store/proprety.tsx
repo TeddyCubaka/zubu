@@ -20,6 +20,8 @@ export interface UpdateRentalInformation {
 	setLessor: (lessor: Lessor) => void;
 	setFiles: (file: File) => void;
 	clearFiles: () => void;
+	setLessorName: (name: string) => void;
+	setLessorContact: (number: string) => void;
 }
 
 export interface PropretyDescriptionModel {
@@ -216,16 +218,6 @@ export const propretyStore = create<PropretyStore>((set) => ({
 					},
 				},
 			})),
-		setLessor: (lessor) =>
-			set((store) => ({
-				proprety: {
-					...store.proprety,
-					rentalInformation: {
-						...store.proprety.rentalInformation,
-						lessor: lessor,
-					},
-				},
-			})),
 		setFiles: (file) =>
 			set((store) => ({
 				updateRenatlInformation: {
@@ -238,6 +230,42 @@ export const propretyStore = create<PropretyStore>((set) => ({
 				updateRenatlInformation: {
 					...store.updateRenatlInformation,
 					files: "",
+				},
+			})),
+		setLessor: (lessor) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					rentalInformation: {
+						...store.proprety.rentalInformation,
+						lessor: lessor,
+					},
+				},
+			})),
+		setLessorName: (name) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					rentalInformation: {
+						...store.proprety.rentalInformation,
+						lessor: {
+							...store.proprety.rentalInformation.lessor,
+							name: name,
+						},
+					},
+				},
+			})),
+		setLessorContact: (contacts) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					rentalInformation: {
+						...store.proprety.rentalInformation,
+						lessor: {
+							...store.proprety.rentalInformation.lessor,
+							contacts: contacts,
+						},
+					},
 				},
 			})),
 	},

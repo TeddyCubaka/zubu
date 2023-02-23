@@ -10,7 +10,8 @@ import { RxCross1 } from "react-icons/rx";
 import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
 import { toTriadeNumber } from "../usefulFuction/numbers";
 import { AdaptedImages } from "./imageList";
-import { BsFillHouseFill } from "react-icons/bs";
+import { BsFillCircleFill, BsFillHouseFill } from "react-icons/bs";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 interface InputHasDetailsProps {
 	detailsData: string[];
@@ -71,13 +72,8 @@ function sendToServer(props: SendToServer) {
 		url: process.env.NEXT_PUBLIC_DB_URL + props.path,
 		data: props.data,
 	})
-		.then((res) => {
-			console.log("succes", res.data), props.getStatus("À jour");
-		})
-		.catch((err) => {
-			console.log("error", err);
-			props.getStatus("Echec de mise à jour");
-		});
+		.then(() => props.getStatus("À jour"))
+		.catch(() => props.getStatus("Echec de mise à jour"));
 }
 
 const propretyType = [
@@ -98,9 +94,16 @@ function Input({
 	customClass,
 	placeholder,
 }: InputProps) {
+	const [fullInputWidth, setFullInputWidth] = useState<boolean>(false);
 	return (
-		<div className={"input_w_label " + customClass}>
-			<label className="txt_meddium one_line_txt"> {subject} </label>
+		<div
+			className={"input_w_label " + customClass}
+			onClick={() => setFullInputWidth(true)}
+			onMouseLeave={() => setFullInputWidth(false)}>
+			<label className={fullInputWidth ? "hide" : "txt_meddium one_line_txt"}>
+				{" "}
+				{subject}{" "}
+			</label>
 			<input
 				type={type ? type : "text"}
 				placeholder={placeholder}
@@ -116,13 +119,14 @@ function Input({
 		</div>
 	);
 }
+
 function InputNumber(props: InputNumberProps) {
 	return (
 		<div className={"input_w_label m_right-10"}>
 			<label className="txt_meddium one_line_txt"> {props.subject} </label>
 			<input
 				type="number"
-				placeholder="aire"
+				placeholder={props.subject ? props.subject : "Ajouter"}
 				className={"br w_max txt_normal " + props.customClass}
 				value={props.value === 0 ? "" : props.value}
 				onChange={(e) => {
@@ -216,7 +220,6 @@ function CoverPicture() {
 	const [src, setSrc] = useState<string>("");
 	const loader = loaderStatus();
 	const proprety = propretyStore();
-	const divCoverPicture = useRef<HTMLDivElement>(null);
 
 	const UploadPictureLoading = () => {
 		return loader.uploadingCoverPicture === "load" ? (
@@ -267,14 +270,13 @@ function CoverPicture() {
 				</div>
 			</div>
 			<div
-				ref={divCoverPicture}
 				style={{
-					maxHeight: "100px",
+					height: "100%",
+					minHeight: "100px",
 					overflow: "hidden",
-					backgroundColor: "#F5F5F5",
+					backgroundColor: "#D9D9D9",
 					border: "1px solid #B9B9B9",
 				}}
-				onClick={() => console.log(divCoverPicture.current)}
 				className="flex_center-xy br w_max h_auto m_y-5">
 				{src.length > 0 ? (
 					<Image
@@ -349,14 +351,24 @@ export function UpdateRentalInformation() {
 	return (
 		<div className="rental_information_card">
 			<div className="rental_information_input m_right-10">
-				{/* <Input
-					value={proprety.proprety.rentalInformation.address}
-					sendToStore={proprety.updateRenatlInformation.setAddress}
-					type={"text"}
-					subject={"Adress"}
-					placeholder={"Ajoutez une adress"}
-					customClass={""}
-				/> */}
+				<div className="space_between">
+					<Input
+						value={proprety.proprety.rentalInformation.lessor.fullName}
+						sendToStore={proprety.updateRenatlInformation.setLessorName}
+						type={"text"}
+						subject={"Bailleur"}
+						customClass={"w_max m_right-10"}
+						placeholder={"Nom"}
+					/>
+					<Input
+						value={proprety.proprety.rentalInformation.lessor.contacts}
+						sendToStore={proprety.updateRenatlInformation.setLessorContact}
+						type={"text"}
+						subject={"Contacts"}
+						customClass={"w_max m_right-10"}
+						placeholder={"Numéro"}
+					/>
+				</div>
 				<div className="space_between">
 					<Input
 						value={proprety.proprety.rentalInformation.price}
@@ -465,6 +477,7 @@ interface SectionDetailCard {
 	index: number;
 	room: RoomDetails;
 	removeRoom: (index: number) => void;
+	updateStatus: () => void;
 }
 
 function SectionDetailCard(props: SectionDetailCard) {
@@ -480,7 +493,10 @@ function SectionDetailCard(props: SectionDetailCard) {
 			</div>
 			<button
 				className="btn_p btn br color_w w_50"
-				onClick={() => props.removeRoom(props.index)}>
+				onClick={() => {
+					props.removeRoom(props.index);
+					props.updateStatus();
+				}}>
 				<RxCross1 size="20px" />
 			</button>
 		</div>
@@ -572,6 +588,7 @@ function HouseInformationUpdating({
 							room={room}
 							removeRoom={removeRooms}
 							key={index}
+							updateStatus={() => setUpdatingStatus("Mettre à jour")}
 						/>
 					))
 				) : (
@@ -678,7 +695,7 @@ export function TenantCharge() {
 					data: {
 						description: proprety.proprety.description,
 					},
-					getStatus: () => {},
+					getStatus: setUpdatingStatus,
 				}}
 				updatingStatus={updatingStatus}
 				setUpdatingStatus={setUpdatingStatus}
@@ -743,7 +760,7 @@ export function TenantCharge() {
 	);
 }
 
-export default function PropretyGalleryUpdate() {
+export function PropretyGalleryUpdate() {
 	const proprety = propretyStore();
 	return (
 		<div className="pd-20 border-gray br m_x-20 h_auto">
@@ -760,6 +777,32 @@ export default function PropretyGalleryUpdate() {
 				setUpdatingStatus={() => {}}
 			/>
 			<AdaptedImages />
+		</div>
+	);
+}
+
+export function PropretyBanner() {
+	const proprety = propretyStore();
+	return (
+		<div className="space_between pd-10 border-b m_bottom-20">
+			<div className="flex_center-x">
+				{" "}
+				<FaMapMarkerAlt size={18} className="m_x-5" />{" "}
+				{proprety.proprety.rentalInformation.address}
+			</div>
+			<div className="flex_center-x">
+				{" "}
+				{proprety.proprety.rentalInformation.isAvailable ? (
+					<>
+						<BsFillCircleFill color="green" size="10px" className="m_x-5" />{" "}
+						Libre
+					</>
+				) : (
+					<>
+						<BsFillCircleFill color="red" size="10px" /> Occupé
+					</>
+				)}{" "}
+			</div>
 		</div>
 	);
 }

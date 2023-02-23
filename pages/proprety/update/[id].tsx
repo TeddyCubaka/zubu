@@ -3,11 +3,13 @@ import Head from "next/head";
 import Header from "../../../components/general/header";
 import { useRouter } from "next/router";
 import axios from "axios";
-import PropretyGalleryUpdate, {
+import {
+	PropretyGalleryUpdate,
 	ExternalDescription,
 	InternalDescription,
 	TenantCharge,
 	UpdateRentalInformation,
+	PropretyBanner,
 } from "../../../components/components/updatePropretyComponents";
 import { propretyStore } from "../../../store/proprety";
 import PropretyNavbar from "../../../components/components/PropretyNavbar";
@@ -47,6 +49,7 @@ export default function Publication() {
 				<div className="flex m_wax h_max"> updating a random proprety </div>
 				<div className="two_part m_x-20">
 					<div className="">
+						<PropretyBanner />
 						<UpdateRentalInformation />
 						<div className="m_top-10">
 							<PropretyNavbar />

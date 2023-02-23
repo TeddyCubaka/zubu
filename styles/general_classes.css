@@ -112,6 +112,11 @@
 	justify-content: center;
 	align-items: center;
 }
+.flex_center-x {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .flex {
 	display: flex;
 }
@@ -284,6 +289,9 @@
 .m_bottom-10 {
 	margin-bottom: 10px;
 }
+.m_bottom-20 {
+	margin-bottom: 20px;
+}
 .space_between {
 	display: flex;
 	justify-content: space-between;
@@ -360,4 +368,7 @@
 }
 .bg-red {
 	background-color: red;
+}
+.hide {
+	display: none;
 }
