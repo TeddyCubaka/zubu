@@ -6,7 +6,10 @@ import Header from "../../../components/general/header";
 import { propretyStore } from "../../../store/proprety";
 import Footer from "../../../components/general/footer";
 import PropretyNavbar from "../../../components/components/PropretyNavbar";
-import { RentalInformation } from "../../../components/components/propretyView";
+import {
+	PropretyViewBanner,
+	RentalInformation,
+} from "../../../components/components/propretyView";
 
 export default function PropretyView() {
 	const proprety = propretyStore();
@@ -42,6 +45,7 @@ export default function PropretyView() {
 				<div className="two_part m_x-20">
 					<div>Gallery</div>
 					<div>
+						<PropretyViewBanner />
 						<RentalInformation />
 					</div>
 				</div>
