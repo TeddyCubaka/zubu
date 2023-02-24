@@ -4,7 +4,7 @@ import { propretyStore } from "../../store/proprety";
 export default function PropretyAvailability() {
 	const proprety = propretyStore();
 	return (
-		<div className="flex_center-x">
+		<div className="flex_center-x m_x-10">
 			{" "}
 			{proprety.proprety.rentalInformation.isAvailable ? (
 				<>
@@ -12,7 +12,7 @@ export default function PropretyAvailability() {
 				</>
 			) : (
 				<>
-					<BsFillCircleFill color="red" size="10px" /> Occupé
+					<BsFillCircleFill color="red" size="10px" /> {" "} Occupé
 				</>
 			)}{" "}
 		</div>
