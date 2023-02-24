@@ -25,11 +25,34 @@ export function PropretyViewBanner() {
 }
 
 export function RentalInformation() {
-	const proprety = propretyStore();
-	console.log(proprety.proprety);
+	const RentalInformation = propretyStore().proprety.rentalInformation;
+	const chakeAvaibality = () => {
+		return RentalInformation.isAvailable ? "Libre" : "Occupée";
+	};
 	return (
-		<div>
-			<h1>I'm the boss</h1>
+		<div className="flex m_x-20">
+			<div className="strong m_x-20 flex_center-xy">
+				{" "}
+				{RentalInformation.price} {RentalInformation.monetaryCurrency} /mois{" "}
+			</div>
+			<div>
+				<div className="m_y-10">
+					{" "}
+					<span className="strong">Adresse :</span> {RentalInformation.address}{" "}
+				</div>
+				<div className="m_y-10">
+					{" "}
+					<span className="strong">Garantie :</span>{" "}
+					{RentalInformation.guaranteeValue}{" "}
+				</div>
+				<div className="m_y-10">
+					{" "}
+					<span className="strong">Libre au :</span>{" "}
+					{RentalInformation.availabilityDate
+						? RentalInformation.availabilityDate
+						: chakeAvaibality()}{" "}
+				</div>
+			</div>
 		</div>
 	);
 }

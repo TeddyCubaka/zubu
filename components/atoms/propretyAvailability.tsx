@@ -12,7 +12,7 @@ export default function PropretyAvailability() {
 				</>
 			) : (
 				<>
-					<BsFillCircleFill color="red" size="10px" /> {" "} Occupé
+					<BsFillCircleFill color="red" size="10px" className="m_x-5" /> Occupé
 				</>
 			)}{" "}
 		</div>
