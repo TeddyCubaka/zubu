@@ -12,6 +12,7 @@ import { toTriadeNumber } from "../usefulFuction/numbers";
 import { AdaptedImages } from "./imageList";
 import { BsFillCircleFill, BsFillHouseFill } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import PropretyAvailability from "../atoms/propretyAvailability";
 
 interface InputHasDetailsProps {
 	detailsData: string[];
@@ -790,19 +791,7 @@ export function PropretyBanner() {
 				<FaMapMarkerAlt size={18} className="m_x-5" />{" "}
 				{proprety.proprety.rentalInformation.address}
 			</div>
-			<div className="flex_center-x">
-				{" "}
-				{proprety.proprety.rentalInformation.isAvailable ? (
-					<>
-						<BsFillCircleFill color="green" size="10px" className="m_x-5" />{" "}
-						Libre
-					</>
-				) : (
-					<>
-						<BsFillCircleFill color="red" size="10px" /> Occupé
-					</>
-				)}{" "}
-			</div>
+			<PropretyAvailability />
 		</div>
 	);
 }
