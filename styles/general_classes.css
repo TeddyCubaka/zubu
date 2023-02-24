@@ -332,6 +332,12 @@
 .row_gap-10 {
 	grid-row-gap: 10px;
 }
+.row_gap-20 {
+	grid-row-gap: 20px;
+}
+.column_gap-10 {
+	grid-column-gap: 10px;
+}
 .description_content_card {
 	display: grid;
 	grid-template-columns: 25% 75%;
@@ -371,4 +377,7 @@
 }
 .hide {
 	display: none;
+}
+.gap-10 {
+	gap: 10px;
 }

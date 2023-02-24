@@ -10,7 +10,7 @@ import {
 
 export function PropretyViewBanner() {
 	return (
-		<div className="space_between pd-20 border-b m_bottom-20">
+		<div className="space_between pd-20 border-b m_y-10">
 			<div className="strong">
 				{" "}
 				<BsHouseFill size="18" />{" "}
@@ -34,7 +34,7 @@ export function RentalInformation() {
 		return RentalInformation.isAvailable ? "Libre" : "Occupée";
 	};
 	return (
-		<div className="flex m_x-20">
+		<div className="flex m_x-20 m_y-10">
 			<h1 className="m_x-20 flex_center-xy">
 				{" "}
 				{RentalInformation.price}{" "}
@@ -63,6 +63,19 @@ export function RentalInformation() {
 					{RentalInformation.bedRooms}{" "}
 				</div>
 			</div>
+		</div>
+	);
+}
+
+export function AskForVisit() {
+	return (
+		<div className="two_part column_gap-10 m_y-10">
+			<button className="btn_p btn br color_w txt_normal w_max">
+				Demander à visiter
+			</button>
+			<button className="btn_s btn br color_b txt_normal w_max">
+				Donner une offre
+			</button>
 		</div>
 	);
 }

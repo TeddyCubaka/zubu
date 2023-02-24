@@ -7,6 +7,7 @@ import { propretyStore } from "../../../store/proprety";
 import Footer from "../../../components/general/footer";
 import PropretyNavbar from "../../../components/components/PropretyNavbar";
 import {
+	AskForVisit,
 	PropretyViewBanner,
 	RentalInformation,
 } from "../../../components/components/propretyView";
@@ -47,9 +48,9 @@ export default function PropretyView() {
 					<div>
 						<PropretyViewBanner />
 						<RentalInformation />
+						<AskForVisit />
 					</div>
 				</div>
-
 				<Footer />
 			</main>
 		</>
