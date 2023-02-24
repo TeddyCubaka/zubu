@@ -3,6 +3,10 @@ import { MdShare } from "react-icons/md";
 import { propretyStore } from "../../store/proprety";
 import PropretyAvailability from "../atoms/propretyAvailability";
 import { SaveProprety } from "../atoms/saveProprety";
+import {
+	getAdressForTenant,
+	getCurrencySymbol,
+} from "../usefulFuction/propretyFunctions";
 
 export function PropretyViewBanner() {
 	return (
@@ -31,14 +35,16 @@ export function RentalInformation() {
 	};
 	return (
 		<div className="flex m_x-20">
-			<div className="strong m_x-20 flex_center-xy">
+			<h1 className="m_x-20 flex_center-xy">
 				{" "}
-				{RentalInformation.price} {RentalInformation.monetaryCurrency} /mois{" "}
-			</div>
+				{RentalInformation.price}{" "}
+				{getCurrencySymbol(RentalInformation.monetaryCurrency)} /mois{" "}
+			</h1>
 			<div>
 				<div className="m_y-10">
 					{" "}
-					<span className="strong">Adresse :</span> {RentalInformation.address}{" "}
+					<span className="strong">Adresse :</span>{" "}
+					{getAdressForTenant(RentalInformation.address)}
 				</div>
 				<div className="m_y-10">
 					{" "}
@@ -51,6 +57,10 @@ export function RentalInformation() {
 					{RentalInformation.availabilityDate
 						? RentalInformation.availabilityDate
 						: chakeAvaibality()}{" "}
+				</div>
+				<div>
+					<span className="strong">Chambres :</span>{" "}
+					{RentalInformation.bedRooms}{" "}
 				</div>
 			</div>
 		</div>
