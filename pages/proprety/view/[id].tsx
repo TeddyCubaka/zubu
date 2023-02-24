@@ -8,8 +8,11 @@ import Footer from "../../../components/general/footer";
 import PropretyNavbar from "../../../components/components/PropretyNavbar";
 import {
 	AskForVisit,
+	ExternalRooms,
+	InternalRooms,
 	PropretyViewBanner,
 	RentalInformation,
+	TenantCharges,
 } from "../../../components/components/propretyView";
 
 export default function PropretyView() {
@@ -45,10 +48,13 @@ export default function PropretyView() {
 				<Header />
 				<div className="two_part m_x-20">
 					<div>Gallery</div>
-					<div>
+					<div className="grid row_gap-20">
 						<PropretyViewBanner />
 						<RentalInformation />
 						<AskForVisit />
+						<InternalRooms />
+						<ExternalRooms />
+						<TenantCharges />
 					</div>
 				</div>
 				<Footer />

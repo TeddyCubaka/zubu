@@ -3,10 +3,12 @@ import { MdShare } from "react-icons/md";
 import { propretyStore } from "../../store/proprety";
 import PropretyAvailability from "../atoms/propretyAvailability";
 import { SaveProprety } from "../atoms/saveProprety";
+import { RoomDetails } from "../interface/proprety";
 import {
 	getAdressForTenant,
 	getCurrencySymbol,
 } from "../usefulFuction/propretyFunctions";
+import { toTriadeNumber } from "../usefulFuction/numbers";
 
 export function PropretyViewBanner() {
 	return (
@@ -41,17 +43,17 @@ export function RentalInformation() {
 				{getCurrencySymbol(RentalInformation.monetaryCurrency)} /mois{" "}
 			</h1>
 			<div>
-				<div className="m_y-10">
+				<div className="m_y-5">
 					{" "}
 					<span className="strong">Adresse :</span>{" "}
 					{getAdressForTenant(RentalInformation.address)}
 				</div>
-				<div className="m_y-10">
+				<div className="m_y-5">
 					{" "}
 					<span className="strong">Garantie :</span>{" "}
 					{RentalInformation.guaranteeValue}{" "}
 				</div>
-				<div className="m_y-10">
+				<div className="m_y-5">
 					{" "}
 					<span className="strong">Libre au :</span>{" "}
 					{RentalInformation.availabilityDate
@@ -69,13 +71,81 @@ export function RentalInformation() {
 
 export function AskForVisit() {
 	return (
-		<div className="two_part column_gap-10 m_y-10">
+		<div className="two_part column_gap-10  m_y-10">
 			<button className="btn_p btn br color_w txt_normal w_max">
 				Demander à visiter
 			</button>
 			<button className="btn_s btn br color_b txt_normal w_max">
 				Donner une offre
 			</button>
+		</div>
+	);
+}
+
+function Room(props: RoomDetails) {
+	return (
+		<div className="one_line_txt">
+			<span className="strong">
+				{" "}
+				{props.name} {" : "}{" "}
+			</span>
+			<span className="one_line_txt">
+				{" "}
+				{toTriadeNumber(props.size)} {props.unit}{" "}
+			</span>
+		</div>
+	);
+}
+
+export function InternalRooms() {
+	const internalRooms = propretyStore().proprety.description.interior.rooms;
+	return (
+		<div className="grid row_gap-10 m_y-10">
+			<h3>Intérieur</h3>
+			<div className="grid row_gap-10">
+				{internalRooms.map((room) => (
+					<Room name={room.name} size={room.size} unit={room.unit} />
+				))}
+			</div>
+		</div>
+	);
+}
+
+export function ExternalRooms() {
+	const internalRooms = propretyStore().proprety.description.external.rooms;
+	return (
+		<div className="grid row_gap-10 m_y-10">
+			<h3>Extérieur</h3>
+			<div className="grid row_gap-10">
+				{internalRooms.map((room) => (
+					<Room name={room.name} size={room.size} unit={room.unit} />
+				))}
+			</div>
+		</div>
+	);
+}
+
+export function TenantCharges() {
+	const tenantCharges = propretyStore().proprety.description.tenantCharges;
+	return (
+		<div className="grid row_gap-10 m_y-10">
+			<h3>Charges supporté par le locataire</h3>
+			<div className="grid row_gap-10">
+				{tenantCharges.map((charge) => (
+					<div>
+						<span className="strong">
+							{" "}
+							{charge.charge}
+							{" : "}{" "}
+						</span>
+						<span>
+							{" "}
+							{toTriadeNumber(Number(charge.price))}{" "}
+							{getCurrencySymbol(charge.currency)}{" "}
+						</span>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }

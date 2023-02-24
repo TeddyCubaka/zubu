@@ -329,6 +329,9 @@
 .scroll_hidden::-webkit-scrollbar {
 	width: 0 !important;
 }
+.row_gap-7 {
+	grid-row-gap: 7px;
+}
 .row_gap-10 {
 	grid-row-gap: 10px;
 }
