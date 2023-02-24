@@ -1,3 +1,4 @@
+import { BsHouseFill } from "react-icons/bs";
 import { MdShare } from "react-icons/md";
 import { propretyStore } from "../../store/proprety";
 import PropretyAvailability from "../atoms/propretyAvailability";
@@ -5,8 +6,12 @@ import { SaveProprety } from "../atoms/saveProprety";
 
 export function PropretyViewBanner() {
 	return (
-		<div className="space_between pd-10 border-b m_bottom-20">
-			<div>Type of proprety</div>
+		<div className="space_between pd-20 border-b m_bottom-20">
+			<div className="strong">
+				{" "}
+				<BsHouseFill size="18" />{" "}
+				{propretyStore().proprety.rentalInformation.RentalType}{" "}
+			</div>
 			<div className="flex">
 				<PropretyAvailability />
 				<SaveProprety />
