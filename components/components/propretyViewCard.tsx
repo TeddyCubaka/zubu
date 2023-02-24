@@ -16,9 +16,7 @@ export default function PropretyCard(proprety: PropretyCard) {
 	return (
 		<div
 			key={proprety._id}
-			onClick={() =>
-				(window.location.href = "/proprety/update/" + proprety._id)
-			}
+			// onClick={() => (window.location.href = "/proprety/view/" + proprety._id)}
 			className="border-gray br w_auto"
 			style={{ width: "300px" }}>
 			<div className="tag_on_proprety_card space_between txt_normal color_w">
@@ -38,6 +36,9 @@ export default function PropretyCard(proprety: PropretyCard) {
 					borderBottom: "1px solid #B9B9B9",
 					borderRadius: "5px 5px 0px 0px",
 				}}
+				onClick={() =>
+					(window.location.href = "/proprety/update/" + proprety._id)
+				}
 				className="flex_center-xy">
 				{proprety.rentalInformation.coverPicture ? (
 					<Image
@@ -51,7 +52,11 @@ export default function PropretyCard(proprety: PropretyCard) {
 					<BsFillHouseFill size="50px" color="#B9B9B9" />
 				)}
 			</div>
-			<div className="pd-10 w_max">
+			<div
+				className="pd-10 w_max"
+				onClick={() =>
+					(window.location.href = "/proprety/view/" + proprety._id)
+				}>
 				<div className="flex m_y-5">
 					{" "}
 					<FaMapMarkerAlt size="18px" />{" "}

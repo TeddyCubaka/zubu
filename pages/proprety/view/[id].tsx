@@ -6,16 +6,9 @@ import Header from "../../../components/general/header";
 import { propretyStore } from "../../../store/proprety";
 import Footer from "../../../components/general/footer";
 import PropretyNavbar from "../../../components/components/PropretyNavbar";
-import {
-	PropretyGalleryUpdate,
-	ExternalDescription,
-	InternalDescription,
-	TenantCharge,
-	UpdateRentalInformation,
-	PropretyBanner,
-} from "../../../components/components/updatePropretyComponents";
+import { RentalInformation } from "../../../components/components/propretyView";
 
-export default function Publication() {
+export default function PropretyView() {
 	const proprety = propretyStore();
 	const router = useRouter();
 	const [propretyId, setPropretyId] = React.useState<string>("");
@@ -46,22 +39,13 @@ export default function Publication() {
 			</Head>
 			<main>
 				<Header />
-				<div className="flex m_wax h_max"> updating a random proprety </div>
 				<div className="two_part m_x-20">
-					<div className="">
-						<PropretyBanner />
-						<UpdateRentalInformation />
-						<div className="m_top-10">
-							<PropretyNavbar />
-						</div>
-						<InternalDescription />
-						<ExternalDescription />
-						<TenantCharge />
-					</div>
+					<div>Gallery</div>
 					<div>
-						<PropretyGalleryUpdate />
+						<RentalInformation />
 					</div>
 				</div>
+
 				<Footer />
 			</main>
 		</>

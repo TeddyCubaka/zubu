@@ -8,12 +8,16 @@ export default function Header() {
 	return (
 		<div className="header">
 			<div>
-				<Image src={logo} width="80" height="80" alt="logo du site" />
+				<Link href="/">
+					<Image src={logo} width="80" height="80" alt="logo du site" />
+				</Link>
 				<div>
 					<Link href="#" className="color_w text_dec_none m_x-20">
 						Louer un bien
 					</Link>
-					<Link href="/proprety/publication" className="color_w text_dec_none m_x-20 ">
+					<Link
+						href="/proprety/publication"
+						className="color_w text_dec_none m_x-20 ">
 						Publier un bien
 					</Link>
 					<Link href="#" className="color_w text_dec_none m_x-20">
