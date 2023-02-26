@@ -11,18 +11,26 @@ interface ImageProps {
 
 export function AdaptedImages() {
 	const [files, setFiles] = useState<File[]>([]);
-	const [urls, setUrls] = useState<string[]>([]);
+	const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
 
-	const firstColumn: string[] = urls.slice(0, Math.round(urls.length / 2));
-	const secondColumn: string[] = urls.slice(
-		Math.round(urls.length / 2),
-		urls.length
+	const firstColumn: string[] = galleryUrls.slice(
+		0,
+		Math.round(galleryUrls.length / 2)
+	);
+	const secondColumn: string[] = galleryUrls.slice(
+		Math.round(galleryUrls.length / 2),
+		galleryUrls.length
 	);
 
 	function PropretyImage(props: ImageProps) {
 		const [topBarDisplayed, setTopBarDisplayed] =
 			React.useState<boolean>(false);
 		const imageRef = useRef<null | HTMLImageElement>(null);
+		const galleryUrlsFilter = (urlToDelete: string) => {
+			setGalleryUrls((oldGallery) =>
+				oldGallery.filter((url) => url !== urlToDelete)
+			);
+		};
 
 		return (
 			<div
@@ -34,7 +42,12 @@ export function AdaptedImages() {
 						<a href={imageRef.current?.currentSrc} download={"shesh"}>
 							<MdDownload size="18px" color="white" />{" "}
 						</a>
-						<MdDelete size="18px" />
+						<MdDelete
+							size="18px"
+							onClick={() => {
+								galleryUrlsFilter(props.source);
+							}}
+						/>
 					</div>
 				) : (
 					""
@@ -83,10 +96,9 @@ export function AdaptedImages() {
 					onChange={(e) => {
 						if (e.target.files && Array.from(e.target.files).length > -1) {
 							Array.from(e.target.files).map((file, index) => {
-								console.log(didThisFilesSizePass(file), file.size);
 								if (index < 16 && didThisFilesSizePass(file)) {
 									setFiles((oldFiles) => [...oldFiles, file]);
-									setUrls((oldFiles) => [
+									setGalleryUrls((oldFiles) => [
 										URL.createObjectURL(file),
 										...oldFiles,
 									]);
