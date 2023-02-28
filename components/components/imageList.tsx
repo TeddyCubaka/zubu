@@ -70,13 +70,14 @@ export function AdaptedImages() {
 			},
 			getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
 		});
-	}, [proprety.proprety.description.gallery, proprety.updateDescription.files]);
+	}, [proprety.proprety.description.gallery]);
 
 	function PropretyImage(props: ImageProps) {
 		const [topBarDisplayed, setTopBarDisplayed] =
 			React.useState<boolean>(false);
 		const imageRef = useRef<null | HTMLImageElement>(null);
 		const galleryUrlsFilter = (urlToDelete: string) => {
+			proprety.updateDescription.deleteImageFromGallery(urlToDelete);
 			setGalleryUrls((oldGallery) =>
 				oldGallery.filter((url) => url !== urlToDelete)
 			);
@@ -118,7 +119,18 @@ export function AdaptedImages() {
 		<>
 			<SectionHead
 				title={"Gallery"}
-				uploadImages={uploadImagesToCloud}
+				uploadImages={() => {
+					if (proprety.updateDescription.files.length > 0)
+						uploadImagesToCloud();
+					else
+						sendToServer({
+							path: "/proprety/" + proprety.proprety._id,
+							data: {
+								description: proprety.proprety.description,
+							},
+							getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
+						});
+				}}
 				sendToServerProps={{
 					path: "/proprety/" + proprety.proprety._id,
 					data: {
