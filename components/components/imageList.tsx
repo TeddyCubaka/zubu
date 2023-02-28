@@ -1,8 +1,14 @@
+import axios from "axios";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import { propretyStore } from "../../store/proprety";
 import { MdDelete, MdDownload } from "react-icons/md";
-import { getDownloadLink } from "../usefulFuction/dowloadImageLink";
+import React, { useEffect, useRef, useState } from "react";
 import { didThisFilesSizePass } from "../usefulFuction/files";
+import {
+	SectionHead,
+	sendToServer,
+	uploadImage,
+} from "./updatePropretyComponents";
 
 interface ImageProps {
 	source: string;
@@ -10,7 +16,7 @@ interface ImageProps {
 }
 
 export function AdaptedImages() {
-	const [files, setFiles] = useState<File[]>([]);
+	const proprety = propretyStore();
 	const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
 
 	const firstColumn: string[] = galleryUrls.slice(
@@ -21,6 +27,49 @@ export function AdaptedImages() {
 		Math.round(galleryUrls.length / 2),
 		galleryUrls.length
 	);
+
+	const uploadImagesToCloud = async () => {
+		let images: File[] = [];
+		setGalleryUrls([]);
+		if (proprety.updateDescription.files.length > 0) {
+			images = Array.from(proprety.updateDescription.files);
+			images.map(async (file) => {
+				uploadImage({
+					file: file,
+					getUrl: () => {},
+					getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
+					clearFileFunction: proprety.updateDescription.cleanFiles,
+					getImage: proprety.updateDescription.addImagesToGallery,
+				});
+			});
+		} else console.log("Empty");
+	};
+
+	useEffect(() => {
+		if (proprety.updateDescription.files.length > 0) {
+			proprety.updateDescription.files.map((file, index) => {
+				if (index < 16 && didThisFilesSizePass(file)) {
+					setGalleryUrls((oldFiles) => [
+						URL.createObjectURL(file),
+						...oldFiles,
+					]);
+				}
+			});
+		}
+	}, [proprety.updateDescription.files]);
+
+	useEffect(() => {
+		proprety.proprety.description.gallery.map((image) =>
+			setGalleryUrls((prev) => [...prev, image.url])
+		);
+		sendToServer({
+			path: "/proprety/" + proprety.proprety._id,
+			data: {
+				description: proprety.proprety.description,
+			},
+			getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
+		});
+	}, [proprety.proprety.description.gallery, proprety.updateDescription.files]);
 
 	function PropretyImage(props: ImageProps) {
 		const [topBarDisplayed, setTopBarDisplayed] =
@@ -65,49 +114,57 @@ export function AdaptedImages() {
 	}
 
 	return (
-		<div>
+		<>
+			<SectionHead
+				title={"Gallery"}
+				uploadImages={uploadImagesToCloud}
+				sendToServerProps={{
+					path: "/proprety/" + proprety.proprety._id,
+					data: {
+						description: proprety.proprety.description,
+					},
+					getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
+				}}
+				updatingStatus={proprety.updateDescription.updatingGalleryStatus}
+				setUpdatingStatus={proprety.updateDescription.setUpdatingGalleryStatus}
+			/>
 			<div>
-				<span className="txt_meddium">Note :</span> Seules les images avec une
-				taille inférieure à 5M sont considérées
-			</div>
-			<div className="two_part">
-				<div className="border-w_25">
-					{firstColumn.map((image, index) => (
-						<PropretyImage
-							source={image}
-							description="BreackFasct"
-							key={image + index}
-						/>
-					))}
+				<button
+					onClick={() => console.log(proprety.proprety.description)}>
+					Click
+				</button>
+				<div className="two_part">
+					<div className="border-w_25">
+						{firstColumn.map((image, index) => (
+							<PropretyImage
+								source={image}
+								description="BreackFasct"
+								key={image + index}
+							/>
+						))}
+					</div>
+					<div className="border-w_25">
+						{secondColumn.map((image, index) => (
+							<PropretyImage
+								source={image}
+								description="BreackFasct"
+								key={image + index}
+							/>
+						))}
+					</div>
+					<input
+						type="file"
+						multiple
+						accept=".png, .jpg, .jpeg"
+						onChange={(e) => {
+							console.log(e.target.files);
+							if (e.target.files && Array.from(e.target.files).length > -1) {
+								proprety.updateDescription.setFiles(Array.from(e.target.files));
+							}
+						}}
+					/>
 				</div>
-				<div className="border-w_25">
-					{secondColumn.map((image, index) => (
-						<PropretyImage
-							source={image}
-							description="BreackFasct"
-							key={image + index}
-						/>
-					))}
-				</div>
-				<input
-					type="file"
-					multiple
-					accept=".png, .jpg, .jpeg"
-					onChange={(e) => {
-						if (e.target.files && Array.from(e.target.files).length > -1) {
-							Array.from(e.target.files).map((file, index) => {
-								if (index < 16 && didThisFilesSizePass(file)) {
-									setFiles((oldFiles) => [...oldFiles, file]);
-									setGalleryUrls((oldFiles) => [
-										URL.createObjectURL(file),
-										...oldFiles,
-									]);
-								}
-							});
-						}
-					}}
-				/>
 			</div>
-		</div>
+		</>
 	);
 }

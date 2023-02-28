@@ -4,6 +4,7 @@ import {
 	Lessor,
 	TenantCharge,
 	RoomDetails,
+	PropretyGalleryImage,
 } from "../components/interface/proprety";
 
 export interface UpdateRentalInformation {
@@ -30,12 +31,19 @@ export interface PropretyDescriptionModel {
 }
 
 export interface UpdateDescription {
+	files: File[];
+	updatingGalleryStatus: string;
+	setFiles: (files: File[]) => void;
 	addInteriorRoom: (rooms: RoomDetails) => void;
 	addExternalRoom: (piece: RoomDetails) => void;
 	addTenantCharge: (charge: TenantCharge) => void;
+	addImagesToGallery: (image: PropretyGalleryImage) => void;
 	removeInteriorRoom: (index: number) => void;
 	removeExternalRoom: (index: number) => void;
 	removeTenantCharge: (index: number) => void;
+	cleanFiles: () => void;
+	deleteImageFromGallery: (index: number) => void;
+	setUpdatingGalleryStatus: (status: string) => void;
 }
 
 interface PropretyStore {
@@ -270,6 +278,15 @@ export const propretyStore = create<PropretyStore>((set) => ({
 			})),
 	},
 	updateDescription: {
+		files: [],
+		updatingGalleryStatus: "À jour",
+		setUpdatingGalleryStatus: (string) =>
+			set((store) => ({
+				updateDescription: {
+					...store.updateDescription,
+					updatingGalleryStatus: string,
+				},
+			})),
 		addInteriorRoom: (room) =>
 			set((store) => ({
 				proprety: {
@@ -345,6 +362,42 @@ export const propretyStore = create<PropretyStore>((set) => ({
 							(charge, currentIndex) => currentIndex !== index
 						),
 					},
+				},
+			})),
+		setFiles: (files) =>
+			set((store) => ({
+				updateDescription: {
+					...store.updateDescription,
+					files: store.updateDescription.files.concat(files),
+				},
+			})),
+		addImagesToGallery: (image) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					description: {
+						...store.proprety.description,
+						gallery: [...store.proprety.description.gallery, image],
+					},
+				},
+			})),
+		deleteImageFromGallery: (index) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					description: {
+						...store.proprety.description,
+						gallery: store.proprety.description.gallery.filter(
+							(image, place) => place !== index
+						),
+					},
+				},
+			})),
+		cleanFiles: () =>
+			set((store) => ({
+				updateDescription: {
+					...store.updateDescription,
+					files: [],
 				},
 			})),
 	},

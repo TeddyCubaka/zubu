@@ -23,7 +23,6 @@ export interface RentalInformation {
 }
 
 export interface PropretyGalleryImage {
-	_id: string;
 	url: string;
 	width: number;
 	height: number;

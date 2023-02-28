@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
 import { propretyStore, loaderStatus } from "../../store/proprety";
-import { RoomDetails, TenantCharge } from "../interface/proprety";
+import {
+	PropretyGalleryImage,
+	RoomDetails,
+	TenantCharge,
+} from "../interface/proprety";
 import Image from "next/image";
 import axios from "axios";
 import { FiEdit } from "react-icons/fi";
@@ -42,6 +46,7 @@ interface UploadImage {
 	getUrl: (string: string) => void;
 	getStatus: (string: string) => void;
 	clearFileFunction: () => void;
+	getImage?: (images: PropretyGalleryImage) => void;
 }
 
 interface SendToServer {
@@ -49,8 +54,8 @@ interface SendToServer {
 	data: Object;
 	getStatus: (status: string) => void;
 }
-const uploadImage = async (props: UploadImage) => {
-	props.getStatus("load");
+export const uploadImage = async (props: UploadImage) => {
+	props.getStatus("Envoie d'images");
 	const formData = new FormData();
 	formData.append("file", props.file);
 	formData.append("upload_preset", "zubustein");
@@ -59,7 +64,15 @@ const uploadImage = async (props: UploadImage) => {
 		.then((res) => {
 			console.log(res.data);
 			props.getUrl(res.data.secure_url);
-			props.getStatus("finish");
+			if (props.getImage)
+				props.getImage({
+					url: res.data.secure_url,
+					width: res.data.width,
+					height: res.data.height,
+					size: res.data.bytes,
+					uploadDate: res.data.created_at,
+				});
+			props.getStatus("Images envoyées");
 			props.clearFileFunction();
 		})
 		.catch((err) => {
@@ -67,13 +80,13 @@ const uploadImage = async (props: UploadImage) => {
 		});
 };
 
-function sendToServer(props: SendToServer) {
+export function sendToServer(props: SendToServer) {
 	axios({
 		method: "POST",
 		url: process.env.NEXT_PUBLIC_DB_URL + props.path,
 		data: props.data,
 	})
-		.then(() => props.getStatus("À jour"))
+		.then((res) => props.getStatus("À jour"))
 		.catch(() => props.getStatus("Echec de mise à jour"));
 }
 
@@ -456,17 +469,21 @@ interface SectionHead {
 	setUpdatingStatus: (status: string) => void;
 	sendToServerProps: SendToServer;
 	updatingStatus: string;
+	uploadImages?: () => void;
 }
 
-function SectionHead(props: SectionHead) {
+export function SectionHead(props: SectionHead) {
 	return (
 		<div className="flex space_between">
 			<h3>{props.title}</h3>
 			<button
 				className="btn_s btn color_blue br txt_normal"
-				onClick={() => {
-					props.setUpdatingStatus("Envoie...");
-					sendToServer(props.sendToServerProps);
+				onClick={async () => {
+					if (props.uploadImages) props.uploadImages();
+					else {
+						props.setUpdatingStatus("Envoie...");
+						sendToServer(props.sendToServerProps);
+					}
 				}}>
 				{props.updatingStatus}
 			</button>
@@ -762,21 +779,8 @@ export function TenantCharge() {
 }
 
 export function PropretyGalleryUpdate() {
-	const proprety = propretyStore();
 	return (
 		<div className="pd-20 border-gray br m_x-20 h_auto">
-			<SectionHead
-				title={"Gallery"}
-				sendToServerProps={{
-					path: "/proprety/" + proprety.proprety._id,
-					data: {
-						description: proprety.proprety.description,
-					},
-					getStatus: () => {},
-				}}
-				updatingStatus={"Mettre à jour"}
-				setUpdatingStatus={() => {}}
-			/>
 			<AdaptedImages />
 		</div>
 	);
