@@ -59,6 +59,7 @@ export function AdaptedImages() {
 	}, [proprety.updateDescription.files]);
 
 	useEffect(() => {
+		setGalleryUrls([]);
 		proprety.proprety.description.gallery.map((image) =>
 			setGalleryUrls((prev) => [...prev, image.url])
 		);
@@ -129,8 +130,7 @@ export function AdaptedImages() {
 				setUpdatingStatus={proprety.updateDescription.setUpdatingGalleryStatus}
 			/>
 			<div>
-				<button
-					onClick={() => console.log(proprety.proprety.description)}>
+				<button onClick={() => console.log(proprety.proprety.description)}>
 					Click
 				</button>
 				<div className="two_part">
