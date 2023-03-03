@@ -31,7 +31,7 @@ export default function PropretyView() {
 				if (!res.data[0]) proprety.setProprety(res.data);
 			})
 			.catch((err) => console.log(err));
-	}, [propretyId]);
+	}, [propretyId, proprety]);
 
 	return (
 		<>

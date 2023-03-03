@@ -113,7 +113,7 @@ export function GetAddress() {
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
-			<h3>Reseignez l'addresse</h3>
+			<h3>Reseignez l`&apos;`addresse</h3>
 			<div className="w_max">
 				<span>
 					format : n° <strong>/</strong>av<strong>/</strong>quartier
@@ -195,7 +195,7 @@ export function GetLosor() {
 		if (lessor.fullName.length > 3 && lessor.contacts.length > 9)
 			setLessorConditionToPass("pass");
 		else setLessorConditionToPass("");
-	}, [lessor.fullName, lessor.contacts]);
+	});
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
@@ -284,11 +284,15 @@ export function GetPrice() {
 		) {
 			setConditionForPricePassed("can pass");
 		}
-	});
+	}, [
+		rentalPrice.guaranteeValue.length,
+		rentalPrice.monetaryCurrency.length,
+		rentalPrice.price.length,
+	]);
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
-			<h3>Reseignez l'addresse</h3>
+			<h3>Reseignez l`&apos;`addresse</h3>
 			<div className="w_max">
 				<div className="m_y-10 input_w_label">
 					<label>Prix</label>
@@ -474,7 +478,7 @@ export function CreatePropretyStatus() {
 			) : (
 				<div className="flex_x-center">
 					<span className="steped_loader"></span>
-					<span>Création de la propriété, patientez-s'il vous plait</span>
+					<span>Création de la propriété, patientez-s`&apos;`il vous plait</span>
 				</div>
 			)}
 		</div>

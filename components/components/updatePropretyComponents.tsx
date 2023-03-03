@@ -320,7 +320,7 @@ function CoverPicture() {
 			</div>
 			{src.length === 0 ? (
 				<div className=" color_blue br txt_normal txt_center border-blue pd-5">
-					Image d'origine
+					Image d`&apos;`origine
 				</div>
 			) : (
 				<button

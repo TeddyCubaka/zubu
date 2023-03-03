@@ -103,8 +103,13 @@ export function InternalRooms() {
 		<div className="grid row_gap-10 m_y-10">
 			<h3>Intérieur</h3>
 			<div className="grid row_gap-10">
-				{internalRooms.map((room) => (
-					<Room name={room.name} size={room.size} unit={room.unit} />
+				{internalRooms.map((room, index) => (
+					<Room
+						name={room.name}
+						size={room.size}
+						unit={room.unit}
+						key={"" + room.name + room.size + index}
+					/>
 				))}
 			</div>
 		</div>
@@ -117,8 +122,13 @@ export function ExternalRooms() {
 		<div className="grid row_gap-10 m_y-10">
 			<h3>Extérieur</h3>
 			<div className="grid row_gap-10">
-				{internalRooms.map((room) => (
-					<Room name={room.name} size={room.size} unit={room.unit} />
+				{internalRooms.map((room, index) => (
+					<Room
+						name={room.name}
+						size={room.size}
+						unit={room.unit}
+						key={"" + room.name + room.size + index}
+					/>
 				))}
 			</div>
 		</div>
@@ -131,8 +141,8 @@ export function TenantCharges() {
 		<div className="grid row_gap-10 m_y-10">
 			<h3>Charges supporté par le locataire</h3>
 			<div className="grid row_gap-10">
-				{tenantCharges.map((charge) => (
-					<div>
+				{tenantCharges.map((charge, index) => (
+					<div key={"" + charge.charge + charge.price + index}>
 						<span className="strong">
 							{" "}
 							{charge.charge}

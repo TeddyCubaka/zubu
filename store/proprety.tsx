@@ -42,6 +42,7 @@ export interface UpdateDescription {
 	removeExternalRoom: (index: number) => void;
 	removeTenantCharge: (index: number) => void;
 	cleanFiles: () => void;
+	deleteFile: (url: number) => void;
 	deleteImageFromGallery: (url: string) => void;
 	setUpdatingGalleryStatus: (status: string) => void;
 }
@@ -398,6 +399,15 @@ export const propretyStore = create<PropretyStore>((set) => ({
 				updateDescription: {
 					...store.updateDescription,
 					files: [],
+				},
+			})),
+		deleteFile: (index) =>
+			set((store) => ({
+				updateDescription: {
+					...store.updateDescription,
+					files: store.updateDescription.files.filter(
+						(file, place) => place !== index
+					),
 				},
 			})),
 	},

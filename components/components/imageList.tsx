@@ -18,6 +18,8 @@ interface ImageProps {
 export function AdaptedImages() {
 	const proprety = propretyStore();
 	const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
+	const [uploadingImagesToCloud, setUploadingImagesToCloud] =
+		useState<boolean>(false);
 
 	const firstColumn: string[] = galleryUrls.slice(
 		0,
@@ -29,6 +31,7 @@ export function AdaptedImages() {
 	);
 
 	const uploadImagesToCloud = async () => {
+		setUploadingImagesToCloud(true);
 		let images: File[] = [];
 		setGalleryUrls([]);
 		if (proprety.updateDescription.files.length > 0) {
@@ -41,6 +44,7 @@ export function AdaptedImages() {
 					clearFileFunction: proprety.updateDescription.cleanFiles,
 					getImage: proprety.updateDescription.addImagesToGallery,
 				});
+				setUploadingImagesToCloud(false);
 			});
 		} else console.log("Empty");
 	};
@@ -50,7 +54,7 @@ export function AdaptedImages() {
 			proprety.updateDescription.files.map((file, index) => {
 				if (index < 16 && didThisFilesSizePass(file)) {
 					setGalleryUrls((oldFiles) => [
-						URL.createObjectURL(file),
+						URL.createObjectURL(file) + "there is index" + index,
 						...oldFiles,
 					]);
 				}
@@ -70,13 +74,22 @@ export function AdaptedImages() {
 			},
 			getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
 		});
-	}, [proprety.proprety.description.gallery]);
+	}, [
+		proprety.proprety.description.gallery,
+		proprety.proprety._id,
+		proprety.proprety.description,
+		proprety.updateDescription.setUpdatingGalleryStatus,
+	]);
 
 	function PropretyImage(props: ImageProps) {
 		const [topBarDisplayed, setTopBarDisplayed] =
 			React.useState<boolean>(false);
 		const imageRef = useRef<null | HTMLImageElement>(null);
 		const galleryUrlsFilter = (urlToDelete: string) => {
+			console.log(Number(urlToDelete.split("there is index")[1]));
+			proprety.updateDescription.deleteFile(
+				Number(urlToDelete.split("there is index")[1])
+			);
 			proprety.updateDescription.deleteImageFromGallery(urlToDelete);
 			setGalleryUrls((oldGallery) =>
 				oldGallery.filter((url) => url !== urlToDelete)
@@ -142,40 +155,55 @@ export function AdaptedImages() {
 				setUpdatingStatus={proprety.updateDescription.setUpdatingGalleryStatus}
 			/>
 			<div>
-				<button onClick={() => console.log(proprety.proprety.description)}>
+				<button onClick={() => console.log(proprety.updateDescription.files)}>
 					Click
 				</button>
-				<div className="two_part">
-					<div className="border-w_25">
-						{firstColumn.map((image, index) => (
-							<PropretyImage
-								source={image}
-								description="BreackFasct"
-								key={image + index}
-							/>
-						))}
+				{uploadingImagesToCloud ? (
+					<div>Envoies des images au cloud...</div>
+				) : (
+					<div className="two_part">
+						<div className="border-w_25">
+							{firstColumn.map((image, index) => (
+								<PropretyImage
+									source={image.split("there is index")[0]}
+									description="BreackFasct"
+									key={image + index}
+								/>
+							))}
+						</div>
+						<div className="border-w_25">
+							{secondColumn.map((image, index) => (
+								<PropretyImage
+									source={image.split("there is index")[0]}
+									description="BreackFasct"
+									key={image + index}
+								/>
+							))}
+						</div>
+						<input
+							type="file"
+							multiple
+							max={4}
+							accept=".png, .jpg, .jpeg"
+							onChange={(e) => {
+								if (e.target.files) console.log(e.target.files);
+								// 	if (e.target.files && Array.from(e.target.files).length > -1) {
+								// 		proprety.updateDescription.setFiles(
+								// 			Array.from(e.target.files)
+								// 		);
+								// 		Array.from(e.target.files).map((file, index) => {
+								// 			if (index < 16) {
+								// 				setGalleryUrls((oldFiles) => [
+								// 					URL.createObjectURL(file) + "there is index" + index,
+								// 					...oldFiles,
+								// 				]);
+								// 			}
+								// 		});
+								// 	}
+							}}
+						/>
 					</div>
-					<div className="border-w_25">
-						{secondColumn.map((image, index) => (
-							<PropretyImage
-								source={image}
-								description="BreackFasct"
-								key={image + index}
-							/>
-						))}
-					</div>
-					<input
-						type="file"
-						multiple
-						accept=".png, .jpg, .jpeg"
-						onChange={(e) => {
-							console.log(e.target.files);
-							if (e.target.files && Array.from(e.target.files).length > -1) {
-								proprety.updateDescription.setFiles(Array.from(e.target.files));
-							}
-						}}
-					/>
-				</div>
+				)}
 			</div>
 		</>
 	);
