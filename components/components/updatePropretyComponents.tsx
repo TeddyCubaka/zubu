@@ -573,15 +573,15 @@ function HouseInformationUpdating({
 	const [updatingStatus, setUpdatingStatus] = useState<string>("À jour");
 
 	useEffect(() => {
-		setPartialRoom({ ...partialRoom, name: getRoomObject });
+		setPartialRoom((prev) => ({ ...prev, name: getRoomObject }));
 	}, [getRoomObject]);
 
 	useEffect(() => {
-		setPartialRoom({ ...partialRoom, unit: getRoomUnit });
+		setPartialRoom((prev) => ({ ...prev, unit: getRoomUnit }));
 	}, [getRoomUnit]);
 
 	useEffect(() => {
-		setPartialRoom({ ...partialRoom, size: getRoombedRooms });
+		setPartialRoom((prev) => ({ ...prev, size: getRoombedRooms }));
 	}, [getRoombedRooms]);
 
 	return (
@@ -693,15 +693,15 @@ export function TenantCharge() {
 	const [updatingStatus, setUpdatingStatus] = useState<string>("À jour");
 
 	useEffect(() => {
-		setCharge({ ...charge, charge: getChargeName });
+		setCharge((prev) => ({ ...prev, charge: getChargeName }));
 	}, [getChargeName]);
 
 	useEffect(() => {
-		setCharge({ ...charge, price: getPrice });
+		setCharge((prev) => ({ ...prev, price: getPrice }));
 	}, [getPrice]);
 
 	useEffect(() => {
-		setCharge({ ...charge, currency: getCurrency });
+		setCharge((prev) => ({ ...prev, currency: getCurrency }));
 	}, [getCurrency]);
 
 	return (

@@ -195,7 +195,7 @@ export function GetLosor() {
 		if (lessor.fullName.length > 3 && lessor.contacts.length > 9)
 			setLessorConditionToPass("pass");
 		else setLessorConditionToPass("");
-	});
+	}, [lessor.contacts, lessor.fullName]);
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
