@@ -39,38 +39,19 @@
 }
 
 .uploading {
-	animation: uploading 0.5s infinite;
+	width: 18px;
+	height: 18px;
+	border: 3px solid #fff;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	display: inline-block;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
 }
-@keyframes uploading {
+
+@keyframes rotation {
 	0% {
 		transform: rotate(0deg);
-	}
-	10% {
-		transform: rotate(36deg);
-	}
-	20% {
-		transform: rotate(72deg);
-	}
-	30% {
-		transform: rotate(108deg);
-	}
-	40% {
-		transform: rotate(144deg);
-	}
-	50% {
-		transform: rotate(180deg);
-	}
-	60% {
-		transform: rotate(216deg);
-	}
-	70% {
-		transform: rotate(252deg);
-	}
-	80% {
-		transform: rotate(288deg);
-	}
-	90% {
-		transform: rotate(324deg);
 	}
 	100% {
 		transform: rotate(360deg);
