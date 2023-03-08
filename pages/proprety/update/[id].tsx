@@ -17,6 +17,7 @@ import {
 
 export default function Publication() {
 	const proprety = propretyStore();
+	const setProprety = proprety.setProprety
 	const router = useRouter();
 	const [propretyId, setPropretyId] = React.useState<string>("");
 
@@ -26,12 +27,12 @@ export default function Publication() {
 	}, [router.query.id]);
 
 	useEffect(() => {
-		axios(process.env.NEXT_PUBLIC_DB_URL + "/proprety/" + propretyId)
+		axios.get(process.env.NEXT_PUBLIC_DB_URL + "/proprety/" + propretyId)
 			.then((res) => {
-				if (!res.data[0]) proprety.setProprety(res.data);
+				if (!res.data[0]) setProprety(res.data);
 			})
 			.catch((err) => console.log(err));
-	}, [propretyId, proprety]);
+	}, [propretyId, setProprety]);
 
 	return (
 		<>

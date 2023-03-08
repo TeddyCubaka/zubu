@@ -378,9 +378,15 @@
 .bg-red {
 	background-color: red;
 }
+.bg-white{
+	background-color: white;
+}
 .hide {
 	display: none;
 }
 .gap-10 {
 	gap: 10px;
+}
+.fixed{
+	position: fixed;
 }

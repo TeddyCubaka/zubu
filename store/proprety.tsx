@@ -47,7 +47,7 @@ export interface UpdateDescription {
 	setUpdatingGalleryStatus: (status: string) => void;
 }
 
-interface PropretyStore {
+export interface PropretyStore {
 	proprety: Proprety;
 	setProprety: (proprety: Proprety) => void;
 	updateRenatlInformation: UpdateRentalInformation;
@@ -369,7 +369,7 @@ export const propretyStore = create<PropretyStore>((set) => ({
 			set((store) => ({
 				updateDescription: {
 					...store.updateDescription,
-					files: store.updateDescription.files.concat(files),
+					files: files,
 				},
 			})),
 		addImagesToGallery: (image) =>
