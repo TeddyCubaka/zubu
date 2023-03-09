@@ -1,15 +1,13 @@
-import axios from "axios";
 import Image from "next/image";
+import { HiPlusSm } from "react-icons/hi";
 import { PropretyStore, propretyStore } from "../../store/proprety";
 import { MdDelete, MdDownload } from "react-icons/md";
-import React, { useEffect, useRef, useState } from "react";
-import { didThisFilesSizePass } from "../usefulFuction/files";
+import React, { useRef, useState } from "react";
 import {
 	SectionHead,
 	sendToServer,
 	uploadImage,
 } from "./updatePropretyComponents";
-import { HiPlusSm } from "react-icons/hi";
 
 interface ImageProps {
 	source: string;
@@ -64,9 +62,6 @@ function UploadToCloudButton({
 	_setDispalyUploadImages,
 }: UploadToCloudButton) {
 	const [upload, _setUpload] = useState<Boolean>(false);
-	const [message, setMessage] = useState<string>(
-		proprety.updateDescription.updatingGalleryStatus
-	);
 
 	return (
 		<div
@@ -95,7 +90,11 @@ function UploadToCloudButton({
 					}
 				}
 			}}>
-			{upload ? <span className="uploading"></span> : message}
+			{upload ? (
+				<span className="uploading"></span>
+			) : (
+				proprety.updateDescription.updatingGalleryStatus
+			)}
 		</div>
 	);
 }
@@ -139,7 +138,9 @@ export function AdaptedImages() {
 						<PropretyImage
 							source={img.url}
 							description={img.publicId + img.uploadDate}
-							deleter={() => proprety.updateDescription.deleteImageFromGallery(img.url)}
+							deleter={() =>
+								proprety.updateDescription.deleteImageFromGallery(img.url)
+							}
 							key={img.publicId}
 						/>
 					))}

@@ -3,16 +3,18 @@ import { MdShare } from "react-icons/md";
 import { propretyStore } from "../../store/proprety";
 import PropretyAvailability from "../atoms/propretyAvailability";
 import { SaveProprety } from "../atoms/saveProprety";
-import { RoomDetails } from "../interface/proprety";
+import { PropretyGalleryImage, RoomDetails } from "../interface/proprety";
 import {
 	getAdressForTenant,
 	getCurrencySymbol,
 } from "../usefulFuction/propretyFunctions";
 import { toTriadeNumber } from "../usefulFuction/numbers";
+import Image from "next/image";
+import { IoMdImage } from "react-icons/io";
 
 export function PropretyViewBanner() {
 	return (
-		<div className="space_between pd-20 border-b m_y-10">
+		<div className="space_between pd-20 border-b">
 			<div className="strong">
 				{" "}
 				<BsHouseFill size="18" />{" "}
@@ -71,7 +73,7 @@ export function RentalInformation() {
 
 export function AskForVisit() {
 	return (
-		<div className="two_part column_gap-10  m_y-10">
+		<div style={{ columnCount: 2 }} className="m_y-10">
 			<button className="btn_p btn br color_w txt_normal w_max">
 				Demander à visiter
 			</button>
@@ -157,5 +159,40 @@ export function TenantCharges() {
 				))}
 			</div>
 		</div>
+	);
+}
+
+export function PropretyGalleryView() {
+	const gallery: PropretyGalleryImage[] =
+		propretyStore().proprety.description.gallery;
+	return (
+		<>
+			<div>
+				<span className="strong txt_big">Gallery</span>
+			</div>
+			<div
+				className="h_max"
+				style={{
+					columnCount: gallery.length > 2 ? 2 : 1,
+				}}>
+				{gallery.length > 0 ? (
+					gallery.map((image) => (
+						<div className="w_max h_auto hidden m_y-10" key={image._id}>
+							<Image
+								className="h_auto w_max border-gray br"
+								src={image.url}
+								width={300}
+								height={300}
+								alt={image.uploadDate}
+							/>
+						</div>
+					))
+				) : (
+					<div className="flex_y_center-xy h_max color_gray">
+						<IoMdImage size={75} /> vide pour le moment
+					</div>
+				)}
+			</div>
+		</>
 	);
 }

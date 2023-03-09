@@ -10,14 +10,15 @@ import {
 	AskForVisit,
 	ExternalRooms,
 	InternalRooms,
+	PropretyGalleryView,
 	PropretyViewBanner,
 	RentalInformation,
 	TenantCharges,
 } from "../../../components/components/propretyView";
 
 export default function PropretyView() {
-	const proprety = propretyStore();
 	const router = useRouter();
+	const setProprety = propretyStore().setProprety;
 	const [propretyId, setPropretyId] = React.useState<string>("");
 
 	useEffect(() => {
@@ -26,12 +27,13 @@ export default function PropretyView() {
 	}, [router.query.id]);
 
 	useEffect(() => {
-		axios.get(process.env.NEXT_PUBLIC_DB_URL + "/proprety/" + propretyId)
+		axios
+			.get(process.env.NEXT_PUBLIC_DB_URL + "/proprety/" + propretyId)
 			.then((res) => {
-				if (!res.data[0]) proprety.setProprety(res.data);
+				if (!res.data[0]) setProprety(res.data);
 			})
 			.catch((err) => console.log(err));
-	}, [propretyId, proprety]);
+	}, [propretyId, setProprety]);
 
 	return (
 		<>
@@ -46,9 +48,11 @@ export default function PropretyView() {
 			</Head>
 			<main>
 				<Header />
-				<div className="two_part m_x-20">
-					<div>Gallery</div>
-					<div className="grid row_gap-20">
+				<div className="two_part m_y-10">
+					<div className="border-gray br m_y-2 m_x-10 pd-10 h_max">
+						<PropretyGalleryView />
+					</div>
+					<div className="grid m_right-10">
 						<PropretyViewBanner />
 						<RentalInformation />
 						<AskForVisit />

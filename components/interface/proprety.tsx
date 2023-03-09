@@ -23,12 +23,13 @@ export interface RentalInformation {
 }
 
 export interface PropretyGalleryImage {
+	_id: string;
 	url: string;
 	width: number;
 	height: number;
 	size: number;
 	uploadDate: string;
-	publicId : string
+	publicId: string;
 }
 
 export interface TenantCharge {
