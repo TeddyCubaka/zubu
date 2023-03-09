@@ -280,7 +280,7 @@ export const propretyStore = create<PropretyStore>((set) => ({
 	},
 	updateDescription: {
 		files: [],
-		updatingGalleryStatus: "À jour",
+		updatingGalleryStatus: "Sauvegarder",
 		setUpdatingGalleryStatus: (string) =>
 			set((store) => ({
 				updateDescription: {

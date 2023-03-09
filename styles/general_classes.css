@@ -274,6 +274,9 @@
 .h_auto {
 	height: auto;
 }
+.h_75{
+	height: 75%;
+}
 .w_hug {
 	width: intrinsic;
 }

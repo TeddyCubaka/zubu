@@ -9,6 +9,7 @@ import {
 	sendToServer,
 	uploadImage,
 } from "./updatePropretyComponents";
+import { HiPlusSm } from "react-icons/hi";
 
 interface ImageProps {
 	source: string;
@@ -22,26 +23,10 @@ interface UploadImagesToCloudProps {
 	proprety: PropretyStore;
 }
 
-const uploadImagesToCloud = async ({
-	setUploadingImagesToCloud,
-	proprety,
-}: UploadImagesToCloudProps) => {
-	setUploadingImagesToCloud(true);
-	let images: File[] = [];
-	if (proprety.updateDescription.files.length > 0) {
-		images = proprety.updateDescription.files;
-		images.map(async (file) => {
-			uploadImage({
-				file: file,
-				getUrl: () => {},
-				getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
-				clearFileFunction: proprety.updateDescription.cleanFiles,
-				getImage: proprety.updateDescription.addImagesToGallery,
-			});
-			setUploadingImagesToCloud(false);
-		});
-	} else console.log("Empty");
-};
+interface UploadToCloudButton {
+	proprety: PropretyStore;
+	_setDispalyUploadImages: (state: boolean) => void;
+}
 
 function PropretyImage(props: ImageProps) {
 	const [topBarDisplayed, setTopBarDisplayed] = React.useState<boolean>(false);
@@ -49,7 +34,7 @@ function PropretyImage(props: ImageProps) {
 
 	return (
 		<div
-			className="w_max h_auto hidden border-w"
+			className="w_max h_auto hidden border-gray m_y-10"
 			onMouseOver={() => setTopBarDisplayed(true)}
 			onMouseLeave={() => setTopBarDisplayed(false)}>
 			{topBarDisplayed ? (
@@ -66,20 +51,51 @@ function PropretyImage(props: ImageProps) {
 				ref={imageRef}
 				className="h_auto w_max"
 				src={props.source}
-				width={300}
-				height={300}
+				width={100}
+				height={100}
 				alt={props.description}
 			/>
 		</div>
 	);
 }
 
-function UploadToCloudButton() {
+function UploadToCloudButton({
+	proprety,
+	_setDispalyUploadImages,
+}: UploadToCloudButton) {
 	const [upload, _setUpload] = useState<Boolean>(false);
+	const [message, setMessage] = useState<string>(
+		proprety.updateDescription.updatingGalleryStatus
+	);
 
 	return (
-		<div className="m_x-10_0 btn_p btn br color_w" onClick={() => (upload ? _setUpload(false) : _setUpload(true))}>
-			{upload ? <span className="uploading"></span> : "Sauvegarder"}
+		<div
+			className="m_x-10_0 btn_p btn br color_w"
+			onClick={async () => {
+				_setUpload(true);
+				for (let i = 0; i < proprety.updateDescription.files.length; i++) {
+					await uploadImage({
+						file: proprety.updateDescription.files[i],
+						getUrl: () => {},
+						getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
+						clearFileFunction: () => proprety.updateDescription.deleteFile(0),
+						getImage: proprety.updateDescription.addImagesToGallery,
+					});
+					if (i === proprety.updateDescription.files.length - 1) {
+						const sendToServerData = {
+							path: "/proprety/" + proprety.proprety._id,
+							data: {
+								description: proprety.proprety.description,
+							},
+							getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
+						};
+						sendToServer(sendToServerData);
+						_setUpload(false);
+						_setDispalyUploadImages(false);
+					}
+				}
+			}}>
+			{upload ? <span className="uploading"></span> : message}
 		</div>
 	);
 }
@@ -94,17 +110,13 @@ export function AdaptedImages() {
 			<SectionHead
 				title={"Gallery"}
 				uploadImages={() => {
-					if (proprety.updateDescription.files.length > 0)
-						// uploadImagesToCloud();
-						console.log("siuuu");
-					else
-						sendToServer({
-							path: "/proprety/" + proprety.proprety._id,
-							data: {
-								description: proprety.proprety.description,
-							},
-							getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
-						});
+					sendToServer({
+						path: "/proprety/" + proprety.proprety._id,
+						data: {
+							description: proprety.proprety.description,
+						},
+						getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
+					});
 				}}
 				sendToServerProps={{
 					path: "/proprety/" + proprety.proprety._id,
@@ -117,53 +129,89 @@ export function AdaptedImages() {
 				setUpdatingStatus={proprety.updateDescription.setUpdatingGalleryStatus}
 			/>
 			<div>
-				<button onClick={() => console.log(proprety.updateDescription.files)}>
+				<button onClick={() => console.log(proprety.proprety.description)}>
 					Click here
 				</button>
 				<button onClick={() => _setDispalyUploadImages(true)}>display</button>
-				<input
-					type={"file"}
-					multiple
-					accept="image/*"
-					onChange={(e) => {
-						proprety.updateDescription.setFiles(
-							Array.prototype.slice.call(e.target.files)
-						);
-						console.log(Array.prototype.slice.call(e.target.files));
-						_setDispalyUploadImages(true);
-					}}
-				/>
 			</div>
+			{proprety.proprety.description.gallery.length > 0 ? (
+				<div style={{ columnCount: 2 }}>
+					{proprety.proprety.description.gallery.map((img) => (
+						<PropretyImage
+							source={img.url}
+							description={img.publicId + img.uploadDate}
+							deleter={() => {}}
+							key={img.publicId}
+						/>
+					))}
+				</div>
+			) : (
+				""
+			)}
 			{displayUploadImages ? (
 				<div className="fixed displayer_uploaded_images_card">
-					<div className="bg-white m_x-20 br h_max">
+					<div className="bg-white m_x-20 br h_75">
 						<div className="m-10 flex space_between">
 							<div>
 								<b>Gallery : </b>
 								{proprety.updateDescription.files.length} Images selectionés
 							</div>
 							<div className="flex">
-								<button className="btn_s btn br color_b txt_normal" onClick={() => _setDispalyUploadImages(false)}>
+								<button
+									className="btn_s btn br color_b txt_normal"
+									onClick={() => {
+										proprety.updateDescription.cleanFiles();
+										_setDispalyUploadImages(false);
+									}}>
 									Annuler
 								</button>
-								<UploadToCloudButton />
+								<UploadToCloudButton
+									proprety={proprety}
+									_setDispalyUploadImages={_setDispalyUploadImages}
+								/>
 							</div>
 						</div>
-						<div className="displayer_uploaded_images">
-							{proprety.updateDescription.files.map((file, index) => (
-								<PropretyImage
-									key={file.lastModified + file.name}
-									source={URL.createObjectURL(file)}
-									description={`Image ${index} de Teddy actiuo`}
-									deleter={() => proprety.updateDescription.deleteFile(index)}
-								/>
-							))}
+						<div
+							style={{
+								height: "80%",
+								overflow: "hidden",
+								overflowY: "scroll",
+							}}
+							className="m_x-10 br border-gray">
+							<div className="displayer_uploaded_images">
+								{proprety.updateDescription.files.map((file, index) => (
+									<PropretyImage
+										key={file.lastModified + file.name}
+										source={URL.createObjectURL(file)}
+										description={`Image ${index} de Teddy actiuo`}
+										deleter={() => proprety.updateDescription.deleteFile(index)}
+									/>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>
 			) : (
 				""
 			)}
+			<label htmlFor="file" className="btn_s btn color_b br">
+				<HiPlusSm size={18} /> Ajouter une image
+			</label>
+			<input
+				type={"file"}
+				id="file"
+				className="hide"
+				multiple
+				accept="image/*"
+				onChange={(e) => {
+					proprety.updateDescription.setFiles(
+						Array.prototype.slice
+							.call(e.target.files)
+							.filter((file, index) => index < 15)
+					);
+					_setDispalyUploadImages(true);
+				}}
+			/>
 		</>
 	);
 }

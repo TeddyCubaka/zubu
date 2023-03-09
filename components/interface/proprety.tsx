@@ -28,6 +28,7 @@ export interface PropretyGalleryImage {
 	height: number;
 	size: number;
 	uploadDate: string;
+	publicId : string
 }
 
 export interface TenantCharge {

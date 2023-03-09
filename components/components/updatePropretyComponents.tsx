@@ -71,8 +71,9 @@ export const uploadImage = async (props: UploadImage) => {
 					height: res.data.height,
 					size: res.data.bytes,
 					uploadDate: res.data.created_at,
+					publicId: res.data.public_id,
 				});
-			props.getStatus("Images envoyées");
+			props.getStatus("finish");
 			props.clearFileFunction();
 		})
 		.catch((err) => {
@@ -86,7 +87,10 @@ export function sendToServer(props: SendToServer) {
 		url: process.env.NEXT_PUBLIC_DB_URL + props.path,
 		data: props.data,
 	})
-		.then((res) => props.getStatus("À jour"))
+		.then((res) => {
+			console.log(res.data);
+			props.getStatus("À jour");
+		})
 		.catch(() => props.getStatus("Echec de mise à jour"));
 }
 

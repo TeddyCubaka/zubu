@@ -181,7 +181,6 @@ main {
 	top: 0;
 	left: 0%;
 	z-index: 2;
-	overflow: scroll;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -190,8 +189,16 @@ main {
 	padding: 10px;
 	margin: auto 0;
 	column-count: 5;
-	overflow: scroll;
-	overflow-y: scroll;
-	/* overflow-x: hidden; */
-	max-height: 70%;
+}
+
+.label-file {
+    cursor: pointer;
+    color: #00b1ca;
+    font-weight: bold;
+}
+.label-file:hover {
+    color: #25a5c4;
+}
+.input-file {
+    display: none;
 }
