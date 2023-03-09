@@ -51,8 +51,8 @@ function PropretyImage(props: ImageProps) {
 				ref={imageRef}
 				className="h_auto w_max"
 				src={props.source}
-				width={100}
-				height={100}
+				width={300}
+				height={300}
 				alt={props.description}
 			/>
 		</div>
