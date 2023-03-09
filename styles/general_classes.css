@@ -278,10 +278,13 @@
 	height: 75%;
 }
 .w_hug {
-	width: intrinsic;
+	width: fit-content;
 }
 .m_top-10 {
 	margin-top: 10px;
+}
+.m_right-5 {
+	margin-right: 5px;
 }
 .m_right-10 {
 	margin-right: 10px;
@@ -294,6 +297,9 @@
 }
 .m_bottom-20 {
 	margin-bottom: 20px;
+}
+.m_auto{
+	margin: auto;
 }
 .space_between {
 	display: flex;
@@ -310,7 +316,7 @@
 }
 .space_between-x-y_center {
 	display: flex;
-	align-items: space-between;
+	/* align-items: space-between; */
 	align-items: center;
 }
 .scroll_x {

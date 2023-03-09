@@ -128,19 +128,18 @@ export function AdaptedImages() {
 				updatingStatus={proprety.updateDescription.updatingGalleryStatus}
 				setUpdatingStatus={proprety.updateDescription.setUpdatingGalleryStatus}
 			/>
-			<div>
-				<button onClick={() => console.log(proprety.proprety.description)}>
-					Click here
-				</button>
-				<button onClick={() => _setDispalyUploadImages(true)}>display</button>
-			</div>
 			{proprety.proprety.description.gallery.length > 0 ? (
-				<div style={{ columnCount: 2 }}>
+				<div
+					style={{
+						columnCount:
+							proprety.proprety.description.gallery.length > 2 ? 2 : 1,
+					}}
+					className="m_y-10">
 					{proprety.proprety.description.gallery.map((img) => (
 						<PropretyImage
 							source={img.url}
 							description={img.publicId + img.uploadDate}
-							deleter={() => {}}
+							deleter={() => proprety.updateDescription.deleteImageFromGallery(img.url)}
 							key={img.publicId}
 						/>
 					))}
@@ -194,8 +193,8 @@ export function AdaptedImages() {
 			) : (
 				""
 			)}
-			<label htmlFor="file" className="btn_s btn color_b br">
-				<HiPlusSm size={18} /> Ajouter une image
+			<label htmlFor="file" className="btn_s btn color_b br flex w_hug">
+				<HiPlusSm size={18} className="m_right-5" /> Ajouter une image
 			</label>
 			<input
 				type={"file"}
