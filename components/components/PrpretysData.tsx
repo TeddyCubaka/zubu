@@ -5,6 +5,7 @@ import { ImRadioChecked, ImRadioChecked2 } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
 import { BsHouseFill } from "react-icons/bs";
 import axios from "axios";
+import { Input, InputNumber } from "./updatePropretyComponents";
 
 interface ButtonCOndition {
 	conditionToPass: string;
@@ -38,6 +39,14 @@ interface PostedDate {
 	price: string;
 	guaranteeValue: string;
 	monetaryCurrency: string;
+}
+
+interface adress {
+	number: string;
+	avenue: string;
+	quoter: string;
+	township: string;
+	city: string;
 }
 
 function TwoButton({
@@ -81,7 +90,6 @@ function TwoButton({
 						seterRentalPrice && priceObject
 							? seterRentalPrice(priceObject)
 							: "";
-						console.log("pass");
 					}
 				}}>
 				Suivant
@@ -91,48 +99,92 @@ function TwoButton({
 }
 
 export function GetAddress() {
-	const [address, getaddress] = useState<string>("");
-	const [goodFormat, setGoodFormat] = useState<string>("");
-	const [setAddres] = publicationStore(
-		(state) => [state.setAddress, state.setCount, state.unSetCount],
+	const [setAddres, address] = publicationStore(
+		(state) => [state.setAddress, state.address],
 		shallow
 	);
+	const [adressSplited, setAddressSplited] = useState<adress>({
+		number: address.split("/")[0] || "",
+		avenue: address.split("/")[1] || "",
+		quoter: address.split("/")[2] || "",
+		township: address.split("/")[3] || "",
+		city: address.split("/")[4] || "",
+	});
 
-	function addressFormatValidator(str: string) {
-		if (str.split("/").length === 5) {
-			setGoodFormat("br_green");
-			getaddress(str);
-		} else if (str.length < 2) {
-			setAddres("");
-			setGoodFormat("br_blue");
-		} else {
-			setAddres("");
-			setGoodFormat("br_red");
-		}
-	}
+	const validator = (string: string) => (string.length > 0 ? string + "/" : "");
+
+	useEffect(() => {
+		setAddres(
+			validator(adressSplited.number) +
+				validator(adressSplited.avenue) +
+				validator(adressSplited.city) +
+				validator(adressSplited.quoter) +
+				(adressSplited.township.length > 0
+					? adressSplited.township
+					: "//////////")
+		);
+	}, [
+		adressSplited.avenue,
+		adressSplited.city,
+		adressSplited.number,
+		adressSplited.quoter,
+		adressSplited.township,
+	]);
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
-			<h3>Reseignez l`&apos;`addresse</h3>
+			<h3 className="m_y-10">Reseignez l&apos;addresse</h3>
 			<div className="w_max">
-				<span>
-					format : n° <strong>/</strong>av<strong>/</strong>quartier
-					<strong>/</strong>commune<strong>/</strong>ville
-				</span>
-				<div className="m_y-10 input_w_label">
-					<label>address</label>
-					<input
-						type="text"
-						placeholder="Ex : 17/kamwe/tondolo/Mont-ngafula/kinshasa"
-						className={`br ${goodFormat} w_max`}
-						onChange={(e) => {
-							addressFormatValidator(e.target.value);
-						}}
-					/>
-				</div>
+				<Input
+					value={adressSplited.number}
+					sendToStore={(e) =>
+						setAddressSplited((prev) =>
+							Number(e) || e === "" ? { ...prev, number: e } : { ...prev }
+						)
+					}
+					subject={"avenue ou rue : "}
+					customClass={"w_max m_y-5"}
+					placeholder={"Renseigner..."}
+				/>
+				<Input
+					value={adressSplited.avenue}
+					sendToStore={(e) =>
+						setAddressSplited((prev) => ({ ...prev, avenue: e }))
+					}
+					subject={"avenue ou rue : "}
+					customClass={"w_max m_y-5"}
+					placeholder={"Rensigner..."}
+				/>
+				<Input
+					value={adressSplited.quoter}
+					sendToStore={(e) =>
+						setAddressSplited((prev) => ({ ...prev, quoter: e }))
+					}
+					subject={"quartier : "}
+					customClass={"w_max m_y-5"}
+					placeholder={"Rensigner..."}
+				/>
+				<Input
+					value={adressSplited.township}
+					sendToStore={(e) =>
+						setAddressSplited((prev) => ({ ...prev, township: e }))
+					}
+					subject={"commune : "}
+					customClass={"w_max m_y-5"}
+					placeholder={"Rensigner..."}
+				/>
+				<Input
+					value={adressSplited.city}
+					sendToStore={(e) =>
+						setAddressSplited((prev) => ({ ...prev, city: e }))
+					}
+					subject={"ville : "}
+					customClass={"w_max m_y-5"}
+					placeholder={"Rensigner..."}
+				/>
 			</div>
 			<TwoButton
-				conditionToPass={address}
+				conditionToPass={address.split("/").length === 5 ? address : ""}
 				seter={setAddres}
 				hideBackButton={true}
 			/>
@@ -141,15 +193,10 @@ export function GetAddress() {
 }
 
 export function GetPropretyType() {
-	const [propretyType, getPropretyType] = useState<string>("");
-	const [setPropretyType] = publicationStore(
-		(state) => [state.setPropretyType],
+	const [setPropretyType, propretyType] = publicationStore(
+		(state) => [state.setPropretyType, state.propretyType],
 		shallow
 	);
-	function getValue(value: string) {
-		getPropretyType(value);
-		setPropretyType(value);
-	}
 
 	const InputRadio = ({ value }: InputRadioType) => {
 		const RadioButton = () => {
@@ -160,7 +207,7 @@ export function GetPropretyType() {
 			);
 		};
 		return (
-			<div onClick={() => getValue(value)} className="m_y-5 m_x-10_0">
+			<div onClick={() => setPropretyType(value)} className="m_y-5 m_x-10_0">
 				{" "}
 				<RadioButton /> {value}{" "}
 			</div>
@@ -186,46 +233,34 @@ export function GetPropretyType() {
 }
 
 export function GetLosor() {
-	const [lessor, getLessor] = useState<Lessor>({ fullName: "", contacts: "" });
-	const [setLessor] = publicationStore((state) => [state.setLessor], shallow);
-	const [lessorConditionToPass, setLessorConditionToPass] =
-		useState<string>("");
-
-	useEffect(() => {
-		if (lessor.fullName.length > 3 && lessor.contacts.length > 9)
-			setLessorConditionToPass("pass");
-		else setLessorConditionToPass("");
-	}, [lessor.contacts, lessor.fullName]);
+	const [setLessor, lessor] = publicationStore(
+		(state) => [state.setLessor, state.lessor],
+		shallow
+	);
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
 			<h3>Information sur le bailleur ?</h3>
 			<div className="w_max">
-				<div className="m_y-10 input_w_label">
-					<label>Nom complet :</label>
-					<input
-						type="text"
-						placeholder="Ex : Mutombo Amani"
-						className={`br w_max`}
-						onChange={(e) => {
-							getLessor({ ...lessor, fullName: e.target.value });
-						}}
-					/>
-				</div>
-				<div className="m_y-10 input_w_label">
-					<label>Téléphone ou mail :</label>
-					<input
-						type="email"
-						placeholder="Ex : +243 990 000 000 ou user@gmail.com"
-						className={`br w_max`}
-						onChange={(e) => {
-							getLessor({ ...lessor, contacts: e.target.value });
-						}}
-					/>
-				</div>
+				<Input
+					value={lessor.fullName}
+					sendToStore={(e) => setLessor({ ...lessor, fullName: e })}
+					subject={"Nom complet : "}
+					customClass={"w_max m_y-10"}
+					placeholder={"nom du bailleur ici"}
+				/>
+				<Input
+					value={lessor.contacts}
+					sendToStore={(e) => setLessor({ ...lessor, contacts: e })}
+					subject={"numéro de téléphone ou mail : "}
+					customClass={"w_max m_y-10"}
+					placeholder="Ex : +243 990 000 000 ou user@gmail.com"
+				/>
 			</div>
 			<TwoButton
-				conditionToPass={lessorConditionToPass}
+				conditionToPass={
+					lessor.fullName.length > 3 && lessor.contacts.length > 9 ? "pass" : ""
+				}
 				seter={() => {}}
 				conditionHasObject={lessor}
 				seterLessor={setLessor}
@@ -235,60 +270,29 @@ export function GetLosor() {
 }
 
 export function GetPrice() {
-	const [rentalPrice, GetRentalPrice] = useState<RentalPrice>({
-		price: "",
-		guaranteeValue: "",
-		monetaryCurrency: "USD",
-	});
-	const [conditionForPricePassed, setConditionForPricePassed] =
-		useState<string>("");
-	const [setRentalPrice] = publicationStore(
-		(state) => [state.setRentalPrice],
+	const [setRentalPrice, rentalPrice] = publicationStore(
+		(state) => [state.setRentalPrice, state.rentalPrice],
 		shallow
 	);
 
 	function SetCurrency() {
+		const getClassName = (ref: string) =>
+			rentalPrice.monetaryCurrency === ref
+				? "currency_button_selected_span"
+				: "currency_button";
+		const setStore = (value: string) =>
+			setRentalPrice({ ...rentalPrice, monetaryCurrency: value });
 		return (
 			<div className="flex">
-				<span
-					onClick={() =>
-						GetRentalPrice({ ...rentalPrice, monetaryCurrency: "USD" })
-					}
-					className={
-						rentalPrice.monetaryCurrency === "USD"
-							? "currency_button_selected_span block"
-							: "currency_button block"
-					}>
+				<span onClick={() => setStore("USD")} className={getClassName("USD")}>
 					USD - $
 				</span>
-				<span
-					onClick={() =>
-						GetRentalPrice({ ...rentalPrice, monetaryCurrency: "CDF" })
-					}
-					className={
-						rentalPrice.monetaryCurrency === "CDF"
-							? "currency_button_selected_span m_x-5"
-							: "currency_button m_x-5"
-					}>
+				<span onClick={() => setStore("CDF")} className={getClassName("CDF")}>
 					CDF - fc
 				</span>
 			</div>
 		);
 	}
-
-	useEffect(() => {
-		if (
-			rentalPrice.guaranteeValue.length > 0 &&
-			rentalPrice.monetaryCurrency.length > 0 &&
-			rentalPrice.price.length > 0
-		) {
-			setConditionForPricePassed("can pass");
-		}
-	}, [
-		rentalPrice.guaranteeValue.length,
-		rentalPrice.monetaryCurrency.length,
-		rentalPrice.price.length,
-	]);
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
@@ -300,8 +304,15 @@ export function GetPrice() {
 						type="text"
 						placeholder="Ex : 300"
 						className={`br w_max`}
+						value={rentalPrice.price}
 						onChange={(e) =>
-							GetRentalPrice({ ...rentalPrice, price: e.target.value })
+							setRentalPrice({
+								...rentalPrice,
+								price:
+									Number(e.target.value) || e.target.value === ""
+										? e.target.value
+										: rentalPrice.price,
+							})
 						}
 					/>
 					<SetCurrency />
@@ -312,10 +323,14 @@ export function GetPrice() {
 						type="text"
 						placeholder="Ex : 4"
 						className={`br w_max`}
+						value={rentalPrice.guaranteeValue}
 						onChange={(e) =>
-							GetRentalPrice({
+							setRentalPrice({
 								...rentalPrice,
-								guaranteeValue: e.target.value,
+								guaranteeValue:
+									Number(e.target.value) || e.target.value === ""
+										? e.target.value
+										: rentalPrice.guaranteeValue,
 							})
 						}
 					/>
@@ -323,7 +338,13 @@ export function GetPrice() {
 				</div>
 			</div>
 			<TwoButton
-				conditionToPass={conditionForPricePassed}
+				conditionToPass={
+					rentalPrice.guaranteeValue.length > 0 &&
+					rentalPrice.monetaryCurrency.length > 0 &&
+					rentalPrice.price.length > 0
+						? "pass"
+						: ""
+				}
 				seter={() => {}}
 				priceObject={rentalPrice}
 				seterRentalPrice={setRentalPrice}
@@ -333,114 +354,42 @@ export function GetPrice() {
 }
 
 export function ViewInformationPuted() {
-	const [
-		address,
-		propretyType,
-		lessor,
-		rentalPrice,
-		resetCount,
-		setDatabaseResponseStatus,
-		setCount,
-	] = publicationStore(
-		(state) => [
-			state.address,
-			state.propretyType,
-			state.lessor,
-			state.rentalPrice,
-			state.resetCount,
-			state.setDatabaseResponseStatus,
-			state.setCount,
-		],
-		shallow
-	);
-	function lengthVerificator(arr: string[]): boolean {
-		let verificator: string = "";
-		arr.map((str) => {
-			if (str.length > 1) verificator += "i";
-		});
-		if (verificator.length === arr.length) return true;
-		else return false;
-	}
+	const publish = publicationStore();
 
-	const postDataToServer = () => {
-		setDatabaseResponseStatus("");
-		if (
-			lengthVerificator([
-				address,
-				propretyType,
-				lessor.contacts,
-				lessor.fullName,
-				rentalPrice.guaranteeValue,
-				rentalPrice.monetaryCurrency,
-				rentalPrice.price,
-			])
-		) {
-			axios({
-				method: "post",
-				url: process.env.NEXT_PUBLIC_DB_URL + "/proprety",
-				data: {
-					rentalInformation: {
-						address: address,
-						RentalType: propretyType,
-						lessor: lessor,
-						price: rentalPrice.price,
-						guaranteeValue: rentalPrice.guaranteeValue,
-						monetaryCurrency: rentalPrice.monetaryCurrency,
-					},
-				},
-			})
-				.then((data) => {
-					console.log(data);
-					setDatabaseResponseStatus("created");
-				})
-				.catch((err) => {
-					console.log(err.response);
-					setDatabaseResponseStatus("not created");
-				});
-		}
-	};
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
 			<h1>Voici les information que vous avez reseigner</h1>
 			<ul className="w_max">
 				<li>
-					<b>address :</b> {address}{" "}
+					<b>address :</b> {publish.address}{" "}
 				</li>
 				<li>
 					<b>Type de la propriété :</b>
-					{propretyType}{" "}
+					{publish.propretyType}{" "}
 				</li>
 				<li>
 					<b>Bailleur :</b>
-					{lessor.fullName}, <b>ses contacts :</b> {lessor.contacts}{" "}
+					{publish.lessor.fullName}, <b>ses contacts :</b>{" "}
+					{publish.lessor.contacts}{" "}
 				</li>
 				<li>
-					<b>Prix de la propriété :</b>, {rentalPrice.price}{" "}
-					{rentalPrice.monetaryCurrency === "USD" ? "$" : "fc"}{" "}
+					<b>Prix de la propriété :</b>, {publish.rentalPrice.price}{" "}
+					{publish.rentalPrice.monetaryCurrency === "USD" ? "$" : "fc"}{" "}
 				</li>
 				<li>
-					<b>Garantie : </b> {rentalPrice.guaranteeValue}{" "}
+					<b>Garantie : </b> {publish.rentalPrice.guaranteeValue} mois
 				</li>
 			</ul>
 			<div className="flex w_max m_y-10">
 				<button
 					className="btn_s btn br color_blue txt_normal w_max m_x-20"
-					onClick={() => resetCount()}>
+					onClick={() => publish.resetCount()}>
 					Modifier
 				</button>
 				<button
 					className="btn_p btn br color_w txt_normal w_max m_x-20"
 					onClick={() => {
-						console.log({
-							address: address,
-							typeOfRental: propretyType,
-							lessor: lessor,
-							price: rentalPrice.price,
-							guaranteeValue: rentalPrice.guaranteeValue,
-							monetaryCurrency: rentalPrice.monetaryCurrency,
-						});
-						postDataToServer();
-						setCount();
+						publish.setCount();
 					}}>
 					Valider
 				</button>
@@ -450,35 +399,87 @@ export function ViewInformationPuted() {
 }
 
 export function CreatePropretyStatus() {
-	const [databaseResponseStatus, resetCount] = publicationStore(
-		(state) => [state.databaseResponseStatus, state.resetCount],
-		shallow
-	);
+	const publish = publicationStore();
+
+	function lengthVerificator(arr: string[]): boolean {
+		if (arr.filter((str) => str.length > 1).length === arr.length) return true;
+		else return false;
+	}
+
+	const postDataToServer = () => {
+		publish.setDatabaseResponseStatus("");
+		if (
+			lengthVerificator([
+				publish.address,
+				publish.propretyType,
+				publish.lessor.contacts,
+				publish.lessor.fullName,
+				publish.rentalPrice.guaranteeValue,
+				publish.rentalPrice.monetaryCurrency,
+				publish.rentalPrice.price,
+			])
+		) {
+			axios({
+				method: "post",
+				url: process.env.NEXT_PUBLIC_DB_URL + "/proprety",
+				data: {
+					rentalInformation: {
+						address: publish.address,
+						RentalType: publish.propretyType,
+						lessor: publish.lessor,
+						price: publish.rentalPrice.price,
+						guaranteeValue: publish.rentalPrice.guaranteeValue,
+						monetaryCurrency: publish.rentalPrice.monetaryCurrency,
+					},
+				},
+			})
+				.then((res) => {
+					publish.setDatabaseResponseStatus("created");
+					publish.set_id(res.data.data._id);
+					publish.setCount();
+				})
+				.catch(() => {
+					publish.setDatabaseResponseStatus("not created");
+					publish.setCount();
+				});
+		}
+	};
+
+	useEffect(() => {
+		if (publish.count === 5) postDataToServer();
+	}, [publish.count]);
 
 	return (
 		<div className="add_proprety_card border-b br">
 			<h1>Les informations sur la propriété</h1>
-			{databaseResponseStatus === "created" ? (
+			{publish.databaseResponseStatus === "created" ? (
 				<>
 					<div className="color_green flex_x-center">
 						{" "}
 						<FaCheck size="20" /> {"  "}{" "}
 						<span className="m_x-10">Propriété créée avec succès !</span>
 					</div>
-					<button className="btn_p btn br color_w txt_normal w_half m_x-20">
+					<button
+						className="btn_p btn br color_w txt_normal w_half m_x-20"
+						onClick={() => {
+							if (window)
+								window.location.href = "/proprety/update/" + publish._id;
+						}}>
 						{" "}
 						<BsHouseFill size="20" /> Voir la propriété
 					</button>
 				</>
-			) : databaseResponseStatus === "not created" ? (
+			) : publish.databaseResponseStatus === "not created" ? (
 				<>
 					<div>Désolé, il y a un problème</div>
-					<button onClick={() => resetCount()}> Retry</button>
+					<button onClick={() => publish.resetCount()}> Retry</button>
 				</>
 			) : (
 				<div className="flex_x-center">
 					<span className="steped_loader"></span>
-					<span>Création de la propriété, patientez-s`&apos;`il vous plait</span>
+					<span>
+						Création de la propriété, patientez-s`&apos;`il vous plait
+					</span>
 				</div>
 			)}
 		</div>

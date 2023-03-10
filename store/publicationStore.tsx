@@ -17,6 +17,8 @@ interface PublicationStore {
 	propretyType: string;
 	monetaryCurrency: string;
 	databaseResponseStatus: string;
+	_id: string;
+	set_id: (_id: string) => void;
 	setCount: () => void;
 	setLessor: (object: Lessor) => void;
 	unSetCount: () => void;
@@ -29,13 +31,15 @@ interface PublicationStore {
 }
 
 export const publicationStore = create<PublicationStore>((set) => ({
+	_id: "",
 	count: 0,
 	address: "",
 	propretyType: "",
 	monetaryCurrency: "",
 	databaseResponseStatus: "",
 	lessor: { fullName: "", contacts: "" },
-	rentalPrice: { price: "", guaranteeValue: "", monetaryCurrency: "" },
+	rentalPrice: { price: "", guaranteeValue: "", monetaryCurrency: "USD" },
+	set_id: (_id) => set((state) => ({ _id: _id })),
 	setCount: () => set((state) => ({ count: state.count + 1 })),
 	setLessor: (object) => set(() => ({ lessor: object })),
 	resetCount: () => set(() => ({ count: 0 })),

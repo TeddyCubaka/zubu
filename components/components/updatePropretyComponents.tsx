@@ -18,7 +18,7 @@ import { BsFillCircleFill, BsFillHouseFill } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import PropretyAvailability from "../atoms/propretyAvailability";
 
-interface InputHasDetailsProps {
+export interface InputHasDetailsProps {
 	detailsData: string[];
 	store: string;
 	object: string;
@@ -26,7 +26,7 @@ interface InputHasDetailsProps {
 	hasInput?: boolean;
 	sendToStore: (string: string) => void;
 }
-interface InputProps {
+export interface InputProps {
 	value: string;
 	sendToStore: (string: string) => void;
 	type?: string;
@@ -34,7 +34,7 @@ interface InputProps {
 	customClass?: string;
 	placeholder?: string;
 }
-interface InputNumberProps {
+export interface InputNumberProps {
 	value: number;
 	sendToStore: (value: number) => void;
 	subject: string;
@@ -66,6 +66,7 @@ export const uploadImage = async (props: UploadImage) => {
 			props.getUrl(res.data.secure_url);
 			if (props.getImage)
 				props.getImage({
+					_id: res.data._id,
 					url: res.data.secure_url,
 					width: res.data.width,
 					height: res.data.height,
@@ -104,7 +105,7 @@ const propretyType = [
 	"Terrasse",
 ];
 
-function Input({
+export function Input({
 	value,
 	sendToStore,
 	type,
@@ -138,15 +139,21 @@ function Input({
 	);
 }
 
-function InputNumber(props: InputNumberProps) {
+export function InputNumber(props: InputNumberProps) {
 	return (
-		<div className={"input_w_label m_right-10"}>
+		<div className={"input_w_label " + props.customClass}>
 			<label className="txt_meddium one_line_txt"> {props.subject} </label>
 			<input
 				type="number"
-				placeholder={props.subject ? props.subject : "Ajouter"}
-				className={"br w_max txt_normal " + props.customClass}
-				value={props.value === 0 ? "" : props.value}
+				placeholder={
+					props.placeholder
+						? props.placeholder
+						: props.subject
+						? props.subject
+						: "Ajouter"
+				}
+				className={"br w_max txt_normal "}
+				value={props.value}
 				onChange={(e) => {
 					e.preventDefault();
 					if (e.target.value === "") props.sendToStore(0);
@@ -157,7 +164,7 @@ function InputNumber(props: InputNumberProps) {
 	);
 }
 
-function InputHasDetails({
+export function InputHasDetails({
 	detailsData,
 	sendToStore,
 	store,
@@ -234,7 +241,7 @@ function InputHasDetails({
 	);
 }
 
-function CoverPicture() {
+export function CoverPicture() {
 	const [src, setSrc] = useState<string>("");
 	const loader = loaderStatus();
 	const proprety = propretyStore();
