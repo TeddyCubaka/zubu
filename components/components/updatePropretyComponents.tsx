@@ -42,11 +42,12 @@ export interface InputNumberProps {
 	placeholder?: string;
 }
 interface UploadImage {
-	file: string | Blob;
-	getUrl: (string: string) => void;
+	file: File | string;
+	getUrl?: (string: string) => void;
 	getStatus: (string: string) => void;
 	clearFileFunction: () => void;
-	getImage?: (images: PropretyGalleryImage) => void;
+	getImage: (images: PropretyGalleryImage) => void;
+	doAfterResponse?: (e: PropretyGalleryImage) => void;
 }
 
 interface SendToServer {
@@ -61,19 +62,19 @@ export const uploadImage = async (props: UploadImage) => {
 	formData.append("upload_preset", "zubustein");
 	await axios
 		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
-		.then((res) => {
-			console.log(res.data);
-			props.getUrl(res.data.secure_url);
-			if (props.getImage)
-				props.getImage({
-					_id: res.data._id,
-					url: res.data.secure_url,
-					width: res.data.width,
-					height: res.data.height,
-					size: res.data.bytes,
-					uploadDate: res.data.created_at,
-					publicId: res.data.public_id,
-				});
+		.then(async (res) => {
+			const image = {
+				_id: res.data._id,
+				url: res.data.secure_url,
+				width: res.data.width,
+				height: res.data.height,
+				size: res.data.bytes,
+				uploadDate: res.data.created_at,
+				publicId: res.data.public_id,
+			};
+			if (props.getUrl) props.getUrl(res.data.secure_url);
+			if (props.doAfterResponse) props.doAfterResponse(image);
+			props.getImage(image);
 			props.getStatus("finish");
 			props.clearFileFunction();
 		})
@@ -242,84 +243,47 @@ export function InputHasDetails({
 }
 
 export function CoverPicture() {
-	const [src, setSrc] = useState<string>("");
 	const loader = loaderStatus();
 	const proprety = propretyStore();
 
-	const UploadPictureLoading = () => {
-		return loader.uploadingCoverPicture === "load" ? (
-			<div className="h_max w_max flex_y_center-xy border-b color_w">
-				<span className="uploading">
-					<IoReloadSharp />
-				</span>
-			</div>
-		) : loader.uploadingCoverPicture === "error" ? (
-			<div className="h_max w_max flex_y_center-xy color_w">
-				Sorry, please try again
-				<span>
-					<IoReloadSharp />
-				</span>
-			</div>
-		) : loader.uploadingCoverPicture === "finish" ? (
-			<Image
-				width={160}
-				height={90}
-				className="cover_picture_card"
-				src={proprety.proprety.rentalInformation.coverPicture}
-				alt={"Cover picture of the proprety " + proprety.proprety._id}
-			/>
-		) : (
-			<span></span>
-		);
-	};
-
 	return (
 		<div className="h_max w_max space_between-y">
-			<div className="space_between-x w_max">
-				<div className="w_max">Choisir une image</div>
-				<div className="space_between-x cover_picture_input_file_div">
-					<input
-						type="file"
-						accept="image/png, image/jpeg"
-						className="upload_cover_picture_input"
-						onChange={(e) => {
-							if (e.target.files !== null) {
-								setSrc(URL.createObjectURL(e.target.files[0]));
-								proprety.updateRenatlInformation.setFiles(e.target.files[0]);
-							}
-						}}
-					/>
-					<button className="upload_cover_picture_button">
-						<FiEdit size="18px" />
-					</button>
-				</div>
-			</div>
+			<label
+				htmlFor="uploadCoverPicture"
+				className="space_between w_max">
+				Choisir une image
+				<FiEdit size="18px" />
+			</label>
+			<input
+				type="file"
+				id="uploadCoverPicture"
+				accept="image/png, image/jpeg"
+				className="hide"
+				onChange={(e) => {
+					if (e.target.files !== null) {
+						proprety.updateRenatlInformation.setFiles(e.target.files[0]);
+					}
+				}}
+			/>
 			<div
 				style={{
-					height: "100%",
-					minHeight: "100px",
+					height: "100px",
 					overflow: "hidden",
 					backgroundColor: "#D9D9D9",
 					border: "1px solid #B9B9B9",
 				}}
+				onClick={() => console.log(proprety.proprety.rentalInformation)}
 				className="flex_center-xy br w_max h_auto m_y-5">
-				{src.length > 0 ? (
+				{proprety.updateRenatlInformation.files ||
+				proprety.proprety.rentalInformation.coverPicture ? (
 					<Image
-						width={160}
-						height={90}
-						className="cover_picture_card"
-						src={src}
-						alt={"Cover picture of the proprety " + proprety.proprety._id}
-					/>
-				) : loader.uploadingCoverPicture.length > 0 ? (
-					<UploadPictureLoading />
-				) : proprety.proprety.rentalInformation.coverPicture ? (
-					<Image
-						width={170}
-						height={95.625}
+						width={340}
+						height={191.25}
 						className="cover_picture_card"
 						src={
-							proprety.proprety.rentalInformation.coverPicture.length > 0
+							proprety.updateRenatlInformation.files
+								? URL.createObjectURL(proprety.updateRenatlInformation.files)
+								: proprety.proprety.rentalInformation.coverPicture.length > 0
 								? proprety.proprety.rentalInformation.coverPicture
 								: ""
 						}
@@ -329,31 +293,29 @@ export function CoverPicture() {
 					<BsFillHouseFill size="50px" color="#B9B9B9" />
 				)}
 			</div>
-			{src.length === 0 ? (
-				<div className=" color_blue br txt_normal txt_center border-blue pd-5">
-					Image d`&apos;`origine
-				</div>
-			) : (
-				<button
-					className="btn_s color_blue br txt_normal btn w_max"
-					onClick={() => {
-						const uploadCoverPicture: UploadImage = {
-							file: proprety.updateRenatlInformation.files,
-							getStatus: loader.setUploadingCoverPicture,
-							getUrl: proprety.updateRenatlInformation.setCoverPicture,
-							clearFileFunction: proprety.updateRenatlInformation.clearFiles,
-						};
-						uploadImage(uploadCoverPicture);
-					}}>
-					{loader.uploadingCoverPicture === "error"
-						? "Erreur, réessayez"
-						: loader.uploadingCoverPicture === "load"
-						? "Envoie..."
-						: loader.uploadingCoverPicture === "finish"
-						? "À jour"
-						: "Mettre à jour"}
-				</button>
-			)}
+			<button
+				className="btn_s color_blue br txt_normal btn w_max"
+				onClick={async () => {
+					await uploadImage({
+						file: proprety.updateRenatlInformation.files
+							? proprety.updateRenatlInformation.files
+							: "",
+						getStatus: loader.setUploadingCoverPicture,
+						getUrl: proprety.updateRenatlInformation.setCoverPicture,
+						clearFileFunction: proprety.updateRenatlInformation.clearFiles,
+						getImage: () => {},
+						doAfterResponse: () =>
+							sendToServer({
+								data: {
+									rentalInformation: proprety.proprety.rentalInformation,
+								},
+								path: "/proprety/" + proprety.proprety._id,
+								getStatus: loader.setUploadingCoverPicture,
+							}),
+					});
+				}}>
+				{loader.uploadingCoverPicture}
+			</button>
 		</div>
 	);
 }

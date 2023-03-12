@@ -129,26 +129,6 @@ h5 {
 	height: auto;
 	background-color: #f5f5f5;
 }
-.cover_picture_input_file_div {
-	width: 50px;
-	margin: 0;
-}
-.upload_cover_picture_input {
-	width: 40px;
-	position: relative;
-	right: -20px;
-	height: 100%;
-	opacity: 0;
-}
-.upload_cover_picture_button {
-	width: 30px;
-	background-color: white;
-	border: none;
-	margin-right: 0px;
-	padding: 0;
-	display: flex;
-	justify-content: flex-end;
-}
 .footer {
 	background-color: #123853;
 	height: 300px;

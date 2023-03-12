@@ -8,7 +8,7 @@ import {
 } from "../components/interface/proprety";
 
 export interface UpdateRentalInformation {
-	files: string | Blob;
+	files: File | undefined;
 	changeAvailability: (state: boolean) => void;
 	setAvailabilyDate: (date: string) => void;
 	setType: (type: string) => void;
@@ -136,7 +136,7 @@ export const propretyStore = create<PropretyStore>((set) => ({
 	setProprety: (proprety) =>
 		set((state) => ({ ...state.proprety, proprety: proprety })),
 	updateRenatlInformation: {
-		files: "",
+		files: undefined,
 		changeAvailability: (state) =>
 			set((store) => ({
 				proprety: {
@@ -238,7 +238,7 @@ export const propretyStore = create<PropretyStore>((set) => ({
 			set((store) => ({
 				updateRenatlInformation: {
 					...store.updateRenatlInformation,
-					files: "",
+					files: undefined,
 				},
 			})),
 		setLessor: (lessor) =>
@@ -421,7 +421,7 @@ export interface LoaderStatus {
 }
 
 export const loaderStatus = create<LoaderStatus>((set) => ({
-	uploadingCoverPicture: "",
+	uploadingCoverPicture: "Image d'origine",
 	updatingStatus: "Mettre à jour les information",
 	setUploadingCoverPicture: (string) =>
 		set(() => ({ uploadingCoverPicture: string })),
