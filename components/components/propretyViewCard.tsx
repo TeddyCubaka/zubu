@@ -16,7 +16,6 @@ export default function PropretyCard(proprety: PropretyCard) {
 	return (
 		<div
 			key={proprety._id}
-			// onClick={() => (window.location.href = "/proprety/view/" + proprety._id)}
 			className="border-gray br w_auto"
 			style={{ width: "300px" }}>
 			<div className="tag_on_proprety_card space_between txt_normal color_w">
@@ -30,7 +29,7 @@ export default function PropretyCard(proprety: PropretyCard) {
 			</div>
 			<div
 				style={{
-					minHeight: "84.3x",
+					height: "100px",
 					overflow: "hidden",
 					backgroundColor: "#F5F5F5",
 					borderBottom: "1px solid #B9B9B9",
@@ -42,8 +41,8 @@ export default function PropretyCard(proprety: PropretyCard) {
 				className="flex_center-xy">
 				{proprety.rentalInformation.coverPicture ? (
 					<Image
-						width={170}
-						height={100}
+						width={340}
+						height={191.25}
 						className="cover_picture_card"
 						src={proprety.rentalInformation.coverPicture}
 						alt="Random image"
