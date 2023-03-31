@@ -4,7 +4,7 @@ interface Lessor {
 	fullName: string;
 	contacts: string;
 }
-interface RentalPrice {
+export interface RentalPrice {
 	price: string;
 	guaranteeValue: string;
 	monetaryCurrency: string;

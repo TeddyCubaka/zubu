@@ -5,7 +5,7 @@ import { ImRadioChecked, ImRadioChecked2 } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
 import { BsHouseFill } from "react-icons/bs";
 import axios from "axios";
-import { Input, InputNumber } from "./updatePropretyComponents";
+import { Input } from "./updatePropretyComponents";
 
 interface ButtonCOndition {
 	conditionToPass: string;
@@ -19,6 +19,8 @@ interface ButtonCOndition {
 
 interface InputRadioType {
 	value: string;
+	setPropretyType: (string: string) => void;
+	propretyType: string;
 }
 
 interface Lessor {
@@ -41,7 +43,7 @@ interface PostedDate {
 	monetaryCurrency: string;
 }
 
-interface adress {
+interface Address {
 	number: string;
 	avenue: string;
 	quoter: string;
@@ -84,12 +86,9 @@ function TwoButton({
 					if (conditionToPass.length > 0) {
 						setCount();
 						seter(conditionToPass);
-						seterLessor && conditionHasObject
-							? seterLessor(conditionHasObject)
-							: "";
-						seterRentalPrice && priceObject
-							? seterRentalPrice(priceObject)
-							: "";
+						if (seterLessor && conditionHasObject)
+							seterLessor(conditionHasObject);
+						if (seterRentalPrice && priceObject) seterRentalPrice(priceObject);
 					}
 				}}>
 				Suivant
@@ -103,7 +102,7 @@ export function GetAddress() {
 		(state) => [state.setAddress, state.address],
 		shallow
 	);
-	const [adressSplited, setAddressSplited] = useState<adress>({
+	const [addressSplited, setAddressSplited] = useState<Address>({
 		number: address.split("/")[0] || "",
 		avenue: address.split("/")[1] || "",
 		quoter: address.split("/")[2] || "",
@@ -115,20 +114,20 @@ export function GetAddress() {
 
 	useEffect(() => {
 		setAddres(
-			validator(adressSplited.number) +
-				validator(adressSplited.avenue) +
-				validator(adressSplited.city) +
-				validator(adressSplited.quoter) +
-				(adressSplited.township.length > 0
-					? adressSplited.township
+			validator(addressSplited.number) +
+				validator(addressSplited.avenue) +
+				validator(addressSplited.city) +
+				validator(addressSplited.quoter) +
+				(addressSplited.township.length > 0
+					? addressSplited.township
 					: "//////////")
 		);
 	}, [
-		adressSplited.avenue,
-		adressSplited.city,
-		adressSplited.number,
-		adressSplited.quoter,
-		adressSplited.township,
+		addressSplited.avenue,
+		addressSplited.city,
+		addressSplited.number,
+		addressSplited.quoter,
+		addressSplited.township,
 	]);
 
 	return (
@@ -136,51 +135,51 @@ export function GetAddress() {
 			<h3 className="m_y-10">Reseignez l&apos;addresse</h3>
 			<div className="w_max">
 				<Input
-					value={adressSplited.number}
+					value={addressSplited.number}
 					sendToStore={(e) =>
 						setAddressSplited((prev) =>
 							Number(e) || e === "" ? { ...prev, number: e } : { ...prev }
 						)
 					}
-					subject={"avenue ou rue : "}
+					subject={"N° : "}
 					customClass={"w_max m_y-5"}
-					placeholder={"Renseigner..."}
+					placeholder={"Renseigner le numéro"}
 				/>
 				<Input
-					value={adressSplited.avenue}
+					value={addressSplited.avenue}
 					sendToStore={(e) =>
 						setAddressSplited((prev) => ({ ...prev, avenue: e }))
 					}
 					subject={"avenue ou rue : "}
 					customClass={"w_max m_y-5"}
-					placeholder={"Rensigner..."}
+					placeholder={"Rensigner l'avenue"}
 				/>
 				<Input
-					value={adressSplited.quoter}
+					value={addressSplited.quoter}
 					sendToStore={(e) =>
 						setAddressSplited((prev) => ({ ...prev, quoter: e }))
 					}
 					subject={"quartier : "}
 					customClass={"w_max m_y-5"}
-					placeholder={"Rensigner..."}
+					placeholder={"Rensigner le quartier"}
 				/>
 				<Input
-					value={adressSplited.township}
+					value={addressSplited.township}
 					sendToStore={(e) =>
 						setAddressSplited((prev) => ({ ...prev, township: e }))
 					}
 					subject={"commune : "}
 					customClass={"w_max m_y-5"}
-					placeholder={"Rensigner..."}
+					placeholder={"Rensigner la commune"}
 				/>
 				<Input
-					value={adressSplited.city}
+					value={addressSplited.city}
 					sendToStore={(e) =>
 						setAddressSplited((prev) => ({ ...prev, city: e }))
 					}
 					subject={"ville : "}
 					customClass={"w_max m_y-5"}
-					placeholder={"Rensigner..."}
+					placeholder={"Rensigner la ville"}
 				/>
 			</div>
 			<TwoButton
@@ -192,27 +191,36 @@ export function GetAddress() {
 	);
 }
 
+function RadioButton({ propretyType, value }: InputRadioType) {
+	return propretyType === value ? (
+		<ImRadioChecked2 color="#123853" />
+	) : (
+		<ImRadioChecked color="#123853" />
+	);
+}
+
+const InputRadio = ({
+	value,
+	setPropretyType,
+	propretyType,
+}: InputRadioType) => {
+	return (
+		<div onClick={() => setPropretyType(value)} className="m_y-5 m_x-10_0">
+			{" "}
+			<RadioButton
+				propretyType={propretyType}
+				value={value}
+				setPropretyType={() => {}}
+			/>{" "}
+			{value}{" "}
+		</div>
+	);
+};
 export function GetPropretyType() {
 	const [setPropretyType, propretyType] = publicationStore(
 		(state) => [state.setPropretyType, state.propretyType],
 		shallow
 	);
-
-	const InputRadio = ({ value }: InputRadioType) => {
-		const RadioButton = () => {
-			return propretyType === value ? (
-				<ImRadioChecked2 color="#123853" />
-			) : (
-				<ImRadioChecked color="#123853" />
-			);
-		};
-		return (
-			<div onClick={() => setPropretyType(value)} className="m_y-5 m_x-10_0">
-				{" "}
-				<RadioButton /> {value}{" "}
-			</div>
-		);
-	};
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
@@ -220,11 +228,31 @@ export function GetPropretyType() {
 			<div className="w_max input_take_price flex_y-center">
 				<details className="m_x-10 proprety_type_details" open>
 					<summary>Type de bien</summary>
-					<InputRadio value="maison meublé" />
-					<InputRadio value="maison vide" />
-					<InputRadio value="appartement" />
-					<InputRadio value="commerce" />
-					<InputRadio value="bureau" />
+					<InputRadio
+						setPropretyType={setPropretyType}
+						propretyType={propretyType}
+						value="maison meublé"
+					/>
+					<InputRadio
+						setPropretyType={setPropretyType}
+						propretyType={propretyType}
+						value="maison vide"
+					/>
+					<InputRadio
+						setPropretyType={setPropretyType}
+						propretyType={propretyType}
+						value="appartement"
+					/>
+					<InputRadio
+						setPropretyType={setPropretyType}
+						propretyType={propretyType}
+						value="commerce"
+					/>
+					<InputRadio
+						setPropretyType={setPropretyType}
+						propretyType={propretyType}
+						value="bureau"
+					/>
 				</details>
 			</div>
 			<TwoButton conditionToPass={propretyType} seter={setPropretyType} />
@@ -269,30 +297,38 @@ export function GetLosor() {
 	);
 }
 
+interface SetCurrencyComponentTRype {
+	rentalPrice: RentalPrice;
+	setRentalPrice: (rentalPrice: RentalPrice) => void;
+}
+
+function SetCurrency({
+	rentalPrice,
+	setRentalPrice,
+}: SetCurrencyComponentTRype) {
+	const getClassName = (ref: string) =>
+		rentalPrice.monetaryCurrency === ref
+			? "currency_button_selected_span"
+			: "currency_button";
+	const setStore = (value: string) =>
+		setRentalPrice({ ...rentalPrice, monetaryCurrency: value });
+	return (
+		<div className="flex">
+			<span onClick={() => setStore("USD")} className={getClassName("USD")}>
+				USD - $
+			</span>
+			<span onClick={() => setStore("CDF")} className={getClassName("CDF")}>
+				CDF - fc
+			</span>
+		</div>
+	);
+}
+
 export function GetPrice() {
 	const [setRentalPrice, rentalPrice] = publicationStore(
 		(state) => [state.setRentalPrice, state.rentalPrice],
 		shallow
 	);
-
-	function SetCurrency() {
-		const getClassName = (ref: string) =>
-			rentalPrice.monetaryCurrency === ref
-				? "currency_button_selected_span"
-				: "currency_button";
-		const setStore = (value: string) =>
-			setRentalPrice({ ...rentalPrice, monetaryCurrency: value });
-		return (
-			<div className="flex">
-				<span onClick={() => setStore("USD")} className={getClassName("USD")}>
-					USD - $
-				</span>
-				<span onClick={() => setStore("CDF")} className={getClassName("CDF")}>
-					CDF - fc
-				</span>
-			</div>
-		);
-	}
 
 	return (
 		<div className="add_proprety_card border-b pd-20 br">
@@ -315,7 +351,7 @@ export function GetPrice() {
 							})
 						}
 					/>
-					<SetCurrency />
+					{/* <SetCurrency setRentalPrice={} /> */}
 				</div>
 				<div className="m_y-10 input_w_label">
 					<label>Guarantie</label>
@@ -355,57 +391,10 @@ export function GetPrice() {
 
 export function ViewInformationPuted() {
 	const publish = publicationStore();
-
-	return (
-		<div className="add_proprety_card border-b pd-20 br">
-			<h1>Voici les information que vous avez reseigner</h1>
-			<ul className="w_max">
-				<li>
-					<b>address :</b> {publish.address}{" "}
-				</li>
-				<li>
-					<b>Type de la propriété :</b>
-					{publish.propretyType}{" "}
-				</li>
-				<li>
-					<b>Bailleur :</b>
-					{publish.lessor.fullName}, <b>ses contacts :</b>{" "}
-					{publish.lessor.contacts}{" "}
-				</li>
-				<li>
-					<b>Prix de la propriété :</b>, {publish.rentalPrice.price}{" "}
-					{publish.rentalPrice.monetaryCurrency === "USD" ? "$" : "fc"}{" "}
-				</li>
-				<li>
-					<b>Garantie : </b> {publish.rentalPrice.guaranteeValue} mois
-				</li>
-			</ul>
-			<div className="flex w_max m_y-10">
-				<button
-					className="btn_s btn br color_blue txt_normal w_max m_x-20"
-					onClick={() => publish.resetCount()}>
-					Modifier
-				</button>
-				<button
-					className="btn_p btn br color_w txt_normal w_max m_x-20"
-					onClick={() => {
-						publish.setCount();
-					}}>
-					Valider
-				</button>
-			</div>
-		</div>
-	);
-}
-
-export function CreatePropretyStatus() {
-	const publish = publicationStore();
-
 	function lengthVerificator(arr: string[]): boolean {
 		if (arr.filter((str) => str.length > 1).length === arr.length) return true;
 		else return false;
 	}
-
 	const postDataToServer = () => {
 		publish.setDatabaseResponseStatus("");
 		if (
@@ -445,9 +434,51 @@ export function CreatePropretyStatus() {
 		}
 	};
 
-	useEffect(() => {
-		if (publish.count === 5) postDataToServer();
-	}, [publish.count]);
+	return (
+		<div className="add_proprety_card border-b pd-20 br">
+			<h1>Voici les information que vous avez reseigner</h1>
+			<ul className="w_max">
+				<li>
+					<b>address :</b> {publish.address}{" "}
+				</li>
+				<li>
+					<b>Type de la propriété :</b>
+					{publish.propretyType}{" "}
+				</li>
+				<li>
+					<b>Bailleur :</b>
+					{publish.lessor.fullName}, <b>ses contacts :</b>{" "}
+					{publish.lessor.contacts}{" "}
+				</li>
+				<li>
+					<b>Prix de la propriété :</b>, {publish.rentalPrice.price}{" "}
+					{publish.rentalPrice.monetaryCurrency === "USD" ? "$" : "fc"}{" "}
+				</li>
+				<li>
+					<b>Garantie : </b> {publish.rentalPrice.guaranteeValue} mois
+				</li>
+			</ul>
+			<div className="flex w_max m_y-10">
+				<button
+					className="btn_s btn br color_blue txt_normal w_max m_x-20"
+					onClick={() => publish.resetCount()}>
+					Modifier
+				</button>
+				<button
+					className="btn_p btn br color_w txt_normal w_max m_x-20"
+					onClick={() => {
+						publish.setCount();
+						postDataToServer();
+					}}>
+					Valider
+				</button>
+			</div>
+		</div>
+	);
+}
+
+export function CreatePropretyStatus() {
+	const publish = publicationStore();
 
 	return (
 		<div className="add_proprety_card border-b br">
@@ -478,7 +509,7 @@ export function CreatePropretyStatus() {
 				<div className="flex_x-center">
 					<span className="steped_loader"></span>
 					<span>
-						Création de la propriété, patientez-s`&apos;`il vous plait
+						Création de la propriété. Veuiller patientez, s`&apos;`il vous plait
 					</span>
 				</div>
 			)}
