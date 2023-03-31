@@ -500,18 +500,26 @@ export function CreatePropretyStatus() {
 						<BsHouseFill size="20" /> Voir la propriété
 					</button>
 				</>
-			) : publish.databaseResponseStatus === "not created" ? (
+			) : (
+				""
+			)}
+			{publish.databaseResponseStatus === "not created" ? (
 				<>
 					<div>Désolé, il y a un problème</div>
 					<button onClick={() => publish.resetCount()}> Retry</button>
 				</>
 			) : (
+				""
+			)}
+			{publish.databaseResponseStatus === ("not created" || "created") ? (
 				<div className="flex_x-center">
 					<span className="steped_loader"></span>
 					<span>
 						Création de la propriété. Veuiller patientez, s`&apos;`il vous plait
 					</span>
 				</div>
+			) : (
+				""
 			)}
 		</div>
 	);
