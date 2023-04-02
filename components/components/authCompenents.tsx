@@ -5,7 +5,7 @@ import {
 	InputProps,
 	sendToServer,
 } from "./updatePropretyComponents";
-import { UserStore, userStore } from "../../store/user";
+import { userStore } from "../../store/user";
 import { BiShow, BiHide } from "react-icons/bi";
 
 interface InputedPassword {
@@ -55,9 +55,9 @@ export function InputPassword({
 				}}
 			/>
 			{showPassword ? (
-				<BiShow onClick={() => changeLocalState()} />
+				<BiShow onClick={() => changeLocalState()} size={20} />
 			) : (
-				<BiHide onClick={() => changeLocalState()} />
+				<BiHide onClick={() => changeLocalState()} size={20} />
 			)}
 		</div>
 	);
@@ -142,6 +142,12 @@ export function Signup() {
 							data: newUserData,
 							getStatus: user.status.getSignup,
 							getData: user.status.getSignupData,
+							doAfterSuccess: (e: any) => {
+								window.localStorage.setItem("token", e.token);
+								window.localStorage.setItem("userId", e.user._id);
+								window.localStorage.setItem("user", e.user);
+								window.location.href = "/";
+							},
 						};
 						sendToServer(sendToServerData);
 					}
@@ -158,7 +164,7 @@ export function Login() {
 		password: "",
 	});
 	return (
-		<div>
+		<div className="space_between-y m_x-20 m_y-10 row_gap-10">
 			<Input
 				value={loginData.mail}
 				sendToStore={(e) => getLoginData((prev) => ({ ...prev, mail: e }))}

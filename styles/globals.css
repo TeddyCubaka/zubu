@@ -172,16 +172,24 @@ main {
 }
 
 .label-file {
-    cursor: pointer;
-    color: #00b1ca;
-    font-weight: bold;
+	cursor: pointer;
+	color: #00b1ca;
+	font-weight: bold;
 }
 .label-file:hover {
-    color: #25a5c4;
+	color: #25a5c4;
 }
 .input-file {
-    display: none;
+	display: none;
 }
-.auth_component{
+.auth_component {
 	width: 500px;
+}
+.auth_component_header{
+	height: 39px;
+}
+.current_auth_form {
+	height: 10px;
+	background-color: #123853;
+	color: white;
 }
