@@ -154,13 +154,7 @@ export function InputNumber(props: InputNumberProps) {
 			<label className="txt_meddium one_line_txt"> {props.subject} </label>
 			<input
 				type="number"
-				placeholder={
-					props.placeholder
-						? props.placeholder
-						: props.subject
-						? props.subject
-						: "Ajouter"
-				}
+				placeholder={props.placeholder ? props.placeholder : "Ècrivez..."}
 				className={"br w_max txt_normal "}
 				value={props.value}
 				onChange={(e) => {
