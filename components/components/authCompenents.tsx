@@ -5,7 +5,7 @@ import {
 	InputProps,
 	sendToServer,
 } from "./updatePropretyComponents";
-import { userStore } from "../../store/user";
+import { UserStore, userStore } from "../../store/user";
 import { BiShow, BiHide } from "react-icons/bi";
 
 interface InputedPassword {
@@ -157,5 +157,41 @@ export function Login() {
 		mail: "",
 		password: "",
 	});
-	return <div>login</div>;
+	return (
+		<div>
+			<Input
+				value={loginData.mail}
+				sendToStore={(e) => getLoginData((prev) => ({ ...prev, mail: e }))}
+				subject={"Numéro de téléphone :"}
+				placeholder={"votre numéro de téléphone"}
+			/>
+			<InputPassword
+				value={loginData.password}
+				sendToStore={(e) => getLoginData((prev) => ({ ...prev, password: e }))}
+				subject={"Mot de passe :"}
+				customClass={""}
+				placeholder={"votre mot de passe"}
+			/>
+			<button
+				className="btn_p color_w br txt_normal btn w_max flex_center-xy one_line_txt"
+				onClick={() => {
+					if (loginData.mail.length > 10 && loginData.password.length > 3) {
+						const sendToServerData = {
+							path: "/user/auth",
+							data: loginData,
+							getStatus: () => {},
+							doAfterSuccess: (e: any) => {
+								window.localStorage.setItem("token", e.token);
+								window.localStorage.setItem("userId", e.user._id);
+								window.localStorage.setItem("user", e.user);
+								window.location.href = "/";
+							},
+						};
+						sendToServer(sendToServerData);
+					}
+				}}>
+				Se connecter
+			</button>
+		</div>
+	);
 }

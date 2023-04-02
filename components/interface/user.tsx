@@ -38,6 +38,8 @@ export interface UserUpdateDatas {
 export interface UserStatus {
 	signup: string;
 	signupData: object;
+	login: string;
+	getLogin: (status: string) => void;
 	getSignup: (status: string) => void;
 	getSignupData: (data: object) => void;
 }

@@ -55,6 +55,7 @@ interface SendToServer {
 	data: Object;
 	getStatus: (status: string) => void;
 	getData?: (data: Object) => void;
+	doAfterSuccess?: (data: object) => void;
 }
 export const uploadImage = async (props: UploadImage) => {
 	props.getStatus("Envoie d'images");
@@ -94,6 +95,7 @@ export function sendToServer(props: SendToServer) {
 			if (props.getData) props.getData(res.data);
 			console.log(res.data);
 			props.getStatus("À jour");
+			if (props.doAfterSuccess) props.doAfterSuccess(res.data);
 		})
 		.catch((err) => {
 			if (props.getData) props.getData(err);

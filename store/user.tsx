@@ -5,7 +5,7 @@ import {
 	UserStatus,
 } from "../components/interface/user";
 
-interface UserStore {
+export interface UserStore {
 	user: User;
 	seter: UserUpdateDatas;
 	status: UserStatus;
@@ -76,8 +76,11 @@ export const userStore = create<UserStore>((set) => ({
 			})),
 	},
 	status: {
-		signup: "S'inscrire",
+		signup: "",
 		signupData: {},
+		login: "",
+		getLogin: (status) =>
+			set((store) => ({ status: { ...store.status, login: status } })),
 		getSignup: (status) =>
 			set((store) => ({ status: { ...store.status, signup: status } })),
 		getSignupData: (data) =>
