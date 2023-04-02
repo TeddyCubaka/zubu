@@ -152,7 +152,7 @@ export function Signup() {
 						sendToServer(sendToServerData);
 					}
 				}}>
-				S'inscrire
+				S&apos;inscrire
 			</button>
 		</div>
 	);
