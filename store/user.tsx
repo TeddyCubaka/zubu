@@ -1,9 +1,14 @@
 import { create } from "zustand";
-import { User, UserUpdateDatas } from "../components/interface/user";
+import {
+	User,
+	UserUpdateDatas,
+	UserStatus,
+} from "../components/interface/user";
 
 interface UserStore {
 	user: User;
 	seter: UserUpdateDatas;
+	status: UserStatus;
 }
 
 export const userStore = create<UserStore>((set) => ({
@@ -12,7 +17,7 @@ export const userStore = create<UserStore>((set) => ({
 		phone_number: "",
 		password: "",
 		username: "",
-		gender: "",
+		gender: "Autre",
 		profile_picture_url: "",
 		created_at: "",
 		proprety: [],
@@ -33,7 +38,7 @@ export const userStore = create<UserStore>((set) => ({
 		_setMail: (mail) =>
 			set((store) => ({ user: { ...store.user, mail: mail } })),
 		_setPhoneNumber: (phone) =>
-			set((store) => ({ user: { ...store.user, phone: phone } })),
+			set((store) => ({ user: { ...store.user, phone_number: phone } })),
 		_setPassword: (password) =>
 			set((store) => ({ user: { ...store.user, password: password } })),
 		_setUsername: (username) =>
@@ -69,5 +74,13 @@ export const userStore = create<UserStore>((set) => ({
 					proprety_saved: [...store.user.proprety_saved, propretyId],
 				},
 			})),
+	},
+	status: {
+		signup: "S'inscrire",
+		signupData: {},
+		getSignup: (status) =>
+			set((store) => ({ status: { ...store.status, signup: status } })),
+		getSignupData: (data) =>
+			set((store) => ({ status: { ...store.status, signupData: data } })),
 	},
 }));

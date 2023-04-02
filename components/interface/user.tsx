@@ -34,3 +34,10 @@ export interface UserUpdateDatas {
 	_setsendingVisit: (array: string) => void;
 	_setpropretySaved: (array: string) => void;
 }
+
+export interface UserStatus {
+	signup: string;
+	signupData: object;
+	getSignup: (status: string) => void;
+	getSignupData: (data: object) => void;
+}

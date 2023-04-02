@@ -32,7 +32,7 @@ export default function Header() {
 				<Link href="#" className="color_w text_dec_none m_x-20">
 					Visites
 				</Link>
-				<Link href="#" className="color_w text_dec_none m_x-20">
+				<Link href="user/auth" className="color_w text_dec_none m_x-20">
 					<FaUserCircle size="50" />
 				</Link>
 			</div>

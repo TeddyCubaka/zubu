@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
 import { propretyStore, loaderStatus } from "../../store/proprety";
 import {
@@ -9,14 +9,14 @@ import {
 import Image from "next/image";
 import axios from "axios";
 import { FiEdit } from "react-icons/fi";
-import { IoReloadSharp } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
 import { toTriadeNumber } from "../usefulFuction/numbers";
 import { AdaptedImages } from "./imageList";
-import { BsFillCircleFill, BsFillHouseFill } from "react-icons/bs";
+import { BsFillHouseFill } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import PropretyAvailability from "../atoms/propretyAvailability";
+import { BiShow, BiHide } from "react-icons/bi";
 
 export interface InputHasDetailsProps {
 	detailsData: string[];
@@ -54,6 +54,7 @@ interface SendToServer {
 	path: string;
 	data: Object;
 	getStatus: (status: string) => void;
+	getData?: (data: Object) => void;
 }
 export const uploadImage = async (props: UploadImage) => {
 	props.getStatus("Envoie d'images");
@@ -79,7 +80,7 @@ export const uploadImage = async (props: UploadImage) => {
 			props.clearFileFunction();
 		})
 		.catch((err) => {
-			console.log(err), props.getStatus("error");
+			props.getStatus("error");
 		});
 };
 
@@ -90,10 +91,14 @@ export function sendToServer(props: SendToServer) {
 		data: props.data,
 	})
 		.then((res) => {
+			if (props.getData) props.getData(res.data);
 			console.log(res.data);
 			props.getStatus("À jour");
 		})
-		.catch(() => props.getStatus("Echec de mise à jour"));
+		.catch((err) => {
+			if (props.getData) props.getData(err);
+			props.getStatus("Echec de mise à jour");
+		});
 }
 
 const propretyType = [
@@ -115,6 +120,7 @@ export function Input({
 	placeholder,
 }: InputProps) {
 	const [fullInputWidth, setFullInputWidth] = useState<boolean>(false);
+
 	return (
 		<div
 			className={"input_w_label " + customClass}
@@ -229,7 +235,7 @@ export function InputHasDetails({
 								if (showDetails) setShowDetails(false);
 								else setShowDetails(true);
 							}}
-							key={index}>
+							key={detail}>
 							{" "}
 							{detail}{" "}
 						</span>
@@ -248,9 +254,7 @@ export function CoverPicture() {
 
 	return (
 		<div className="h_max w_max space_between-y">
-			<label
-				htmlFor="uploadCoverPicture"
-				className="space_between w_max">
+			<label htmlFor="uploadCoverPicture" className="space_between w_max">
 				Choisir une image
 				<FiEdit size="18px" />
 			</label>
@@ -437,7 +441,7 @@ export function UpdateRentalInformation() {
 	);
 }
 
-interface SectionHead {
+interface SectionHeadProps {
 	title: string;
 	setUpdatingStatus: (status: string) => void;
 	sendToServerProps: SendToServer;
@@ -445,7 +449,7 @@ interface SectionHead {
 	uploadImages?: () => void;
 }
 
-export function SectionHead(props: SectionHead) {
+export function SectionHead(props: SectionHeadProps) {
 	return (
 		<div className="flex space_between">
 			<h3>{props.title}</h3>
@@ -464,14 +468,14 @@ export function SectionHead(props: SectionHead) {
 	);
 }
 
-interface SectionDetailCard {
+interface SectionDetailCardProps {
 	index: number;
 	room: RoomDetails;
 	removeRoom: (index: number) => void;
 	updateStatus: () => void;
 }
 
-function SectionDetailCard(props: SectionDetailCard) {
+function SectionDetailCard(props: SectionDetailCardProps) {
 	return (
 		<div className="flex">
 			<div className="flex pd-5 br border-gray w_max m_right-10">
@@ -494,14 +498,14 @@ function SectionDetailCard(props: SectionDetailCard) {
 	);
 }
 
-interface SectionAddDetailButton {
+interface SectionAddDetailButtonProps {
 	conditionToPass: boolean;
 	reseter: () => void;
 	sendToStore: (data: any) => void;
 	data: any;
 }
 
-function SectionAddDetailButton(props: SectionAddDetailButton) {
+function SectionAddDetailButton(props: SectionAddDetailButtonProps) {
 	return (
 		<div
 			className={"flex_center-xy w_50"}
@@ -519,7 +523,7 @@ function SectionAddDetailButton(props: SectionAddDetailButton) {
 	);
 }
 
-interface HouseInformationUpdating {
+interface HouseInformationUpdatingProps {
 	getRooms: { rooms: RoomDetails[] };
 	addRooms: (string: RoomDetails) => void;
 	removeRooms: (index: number) => void;
@@ -533,7 +537,7 @@ function HouseInformationUpdating({
 	title,
 	addRooms,
 	removeRooms,
-}: HouseInformationUpdating) {
+}: HouseInformationUpdatingProps) {
 	const propretyDescription = propretyStore().proprety.description;
 	const [partialRoom, setPartialRoom] = useState<RoomDetails>({
 		name: "",
@@ -578,7 +582,7 @@ function HouseInformationUpdating({
 							index={index}
 							room={room}
 							removeRoom={removeRooms}
-							key={index}
+							key={room.name + room.size + room.unit}
 							updateStatus={() => setUpdatingStatus("Mettre à jour")}
 						/>
 					))

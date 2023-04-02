@@ -1,1 +1,3 @@
-export default "SHiiiiish";
+export default function User() {
+	return <div></div>;
+}

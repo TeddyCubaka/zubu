@@ -89,11 +89,14 @@
 .pd_x-10 {
 	padding: 0 10px;
 }
+.pd_x-20 {
+	padding: 0 20px;
+}
+.pd_y-10 {
+	padding: 10px 0;
+}
 .pd-20 {
 	padding: 20px;
-}
-.pd-10 {
-	padding: 10px;
 }
 .br {
 	border-radius: 5px;
@@ -119,9 +122,6 @@
 }
 .flex {
 	display: flex;
-}
-.row_gap-10 {
-	display: grid;
 }
 .column {
 	display: flex;
@@ -209,6 +209,10 @@
 .br_red {
 	border: 1px solid red;
 	outline: 1px solid red;
+}
+.br_green {
+	border: 1px solid green;
+	outline: 1px solid green;
 }
 .br_green:focus {
 	border: 1px solid green;
