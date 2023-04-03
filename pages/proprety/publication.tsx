@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "../../components/general/header";
 import AddPropretiyForm from "../../components/components/addPropretyForm";
 import Footer from "../../components/general/footer";
 
 export default function Publication() {
+	const [userId, setUserId] = useState<string | null>("");
+	useEffect(() => {
+		if (window !== undefined) {
+			setUserId(localStorage.getItem("userId"));
+		}
+	}, []);
 	return (
 		<>
 			<Head>
@@ -19,7 +25,13 @@ export default function Publication() {
 			<main>
 				<Header />
 				<div className="publication_section m_y-20">
-					<AddPropretiyForm />
+					{userId !== null ? (
+						<AddPropretiyForm />
+					) : (
+						<div>
+							Connectez-vous pour publier, <a href="/user/auth">Se connecter</a>
+						</div>
+					)}
 				</div>
 				<Footer />
 			</main>

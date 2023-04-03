@@ -412,6 +412,10 @@ export function ViewInformationPuted() {
 			axios({
 				method: "post",
 				url: process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
 				data: {
 					rentalInformation: {
 						address: publish.address,
@@ -428,7 +432,7 @@ export function ViewInformationPuted() {
 					publish.set_id(res.data.data._id);
 					publish.setCount();
 				})
-				.catch(() => {
+				.catch((err) => {
 					publish.setDatabaseResponseStatus("not created");
 					publish.setCount();
 				});
@@ -468,7 +472,17 @@ export function ViewInformationPuted() {
 				<button
 					className="btn_p btn br color_w txt_normal w_max m_x-20"
 					onClick={() => {
-						publish.setCount();
+						console.log({
+							rentalInformation: {
+								address: publish.address,
+								RentalType: publish.propretyType,
+								lessor: publish.lessor,
+								price: publish.rentalPrice.price,
+								guaranteeValue: publish.rentalPrice.guaranteeValue,
+								monetaryCurrency: publish.rentalPrice.monetaryCurrency,
+							},
+						});
+
 						postDataToServer();
 					}}>
 					Valider
@@ -484,6 +498,7 @@ export function CreatePropretyStatus() {
 	return (
 		<div className="add_proprety_card border-b br">
 			<h1>Les informations sur la propriété</h1>
+			<button onClick={() => publish.resetCount()}>retour</button>
 			{publish.databaseResponseStatus === "created" ? (
 				<>
 					<div className="color_green flex_x-center">
