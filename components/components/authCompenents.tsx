@@ -181,7 +181,7 @@ export function Login() {
 			<button
 				className="btn_p color_w br txt_normal btn w_max flex_center-xy one_line_txt"
 				onClick={() => {
-					if (loginData.mail.length > 10 && loginData.password.length > 3) {
+					if (loginData.mail.length > 9 && loginData.password.length > 3) {
 						const sendToServerData = {
 							path: "/user/auth",
 							data: loginData,

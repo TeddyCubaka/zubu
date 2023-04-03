@@ -29,7 +29,7 @@ export default function Auth() {
 									(status ? "current_auth_form" : "")
 								}
 								onClick={() => changeCurrentForm()}>
-								Connection
+								Inscription
 							</div>
 							<div
 								className={
@@ -37,7 +37,7 @@ export default function Auth() {
 									(status ? "" : "current_auth_form")
 								}
 								onClick={() => changeCurrentForm()}>
-								Inscription
+								Connection
 							</div>
 						</div>
 						<div className="auth_component">
