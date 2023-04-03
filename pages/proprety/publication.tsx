@@ -3,6 +3,7 @@ import Head from "next/head";
 import Header from "../../components/general/header";
 import AddPropretiyForm from "../../components/components/addPropretyForm";
 import Footer from "../../components/general/footer";
+import Link from "next/link";
 
 export default function Publication() {
 	const [userId, setUserId] = useState<string | null>("");
@@ -29,7 +30,8 @@ export default function Publication() {
 						<AddPropretiyForm />
 					) : (
 						<div>
-							Connectez-vous pour publier, <a href="/user/auth">Se connecter</a>
+							Connectez-vous pour publier,{" "}
+							<Link href="/user/auth">Se connecter</Link>
 						</div>
 					)}
 				</div>
