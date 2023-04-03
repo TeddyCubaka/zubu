@@ -146,6 +146,7 @@ export function Signup() {
 								window.localStorage.setItem("token", e.token);
 								window.localStorage.setItem("userId", e.user._id);
 								window.localStorage.setItem("user", e.user);
+								window.localStorage.setItem("username", e.user.username);
 								window.location.href = "/";
 							},
 						};
@@ -190,6 +191,7 @@ export function Login() {
 								window.localStorage.setItem("token", e.token);
 								window.localStorage.setItem("userId", e.user._id);
 								window.localStorage.setItem("user", e.user);
+								window.localStorage.setItem("username", e.user.username);
 								window.location.href = "/";
 							},
 						};
