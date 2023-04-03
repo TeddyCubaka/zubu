@@ -43,9 +43,10 @@ h5 {
 	align-items: center;
 }
 .main {
-	height: 400px;
+	height: 400%;
 	width: 100%;
-	background-image: url("../components/images/cover_picture.png");
+	/* background-image: url("../components/images/cover_picture.png"); */
+	/* background-color: #B9B9B9; */
 }
 .main_desc {
 	height: 400px;
@@ -134,7 +135,6 @@ h5 {
 	height: 300px;
 	font-size: 40px;
 	font-weight: 500;
-	margin-top: 20px;
 }
 main {
 	min-height: 100vh;

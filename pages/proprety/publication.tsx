@@ -18,7 +18,7 @@ export default function Publication() {
 			</Head>
 			<main>
 				<Header />
-				<div className="publication_section">
+				<div className="publication_section m_y-20">
 					<AddPropretiyForm />
 				</div>
 				<Footer />

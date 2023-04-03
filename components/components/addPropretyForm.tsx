@@ -14,7 +14,6 @@ export default function AddPropretiyForm() {
 	const [count] = publicationStore((state) => [state.count], shallow);
 	return (
 		<div>
-			<div style={{ margin: "40px 0" }}>{"<=="} retour</div>
 			{count === 0 ? (
 				<GetAddress />
 			) : count === 1 ? (
