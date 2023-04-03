@@ -17,7 +17,7 @@ interface PropretyCard {
 export default function AllPropreties() {
 	const [propreties, setPropreties] = useState<PropretyCard[]>([]);
 	useEffect(() => {
-		axios(process.env.NEXT_PUBLIC_DB_URL + "/proprety")
+		axios(process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety")
 			.then((res) => {
 				const response: PropretyCard[] = [];
 				res.data.map((proprety: Proprety, index: number) => {

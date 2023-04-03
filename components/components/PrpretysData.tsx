@@ -411,7 +411,7 @@ export function ViewInformationPuted() {
 		) {
 			axios({
 				method: "post",
-				url: process.env.NEXT_PUBLIC_DB_URL + "/proprety",
+				url: process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety",
 				data: {
 					rentalInformation: {
 						address: publish.address,

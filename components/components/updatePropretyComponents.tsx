@@ -88,7 +88,7 @@ export const uploadImage = async (props: UploadImage) => {
 export function sendToServer(props: SendToServer) {
 	axios({
 		method: "POST",
-		url: process.env.NEXT_PUBLIC_DB_URL + props.path,
+		url: process.env.NEXT_PUBLIC_DB_SERVER_URL + props.path,
 		data: props.data,
 	})
 		.then((res) => {

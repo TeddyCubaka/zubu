@@ -27,7 +27,8 @@ export default function Publication() {
 	}, [router.query.id]);
 
 	useEffect(() => {
-		axios.get(process.env.NEXT_PUBLIC_DB_URL + "/proprety/" + propretyId)
+		axios
+			.get(process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety/" + propretyId)
 			.then((res) => {
 				if (!res.data[0]) setProprety(res.data);
 			})
