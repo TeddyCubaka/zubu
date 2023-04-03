@@ -352,7 +352,10 @@ export function GetPrice() {
 							})
 						}
 					/>
-					{/* <SetCurrency setRentalPrice={} /> */}
+					<SetCurrency
+						setRentalPrice={setRentalPrice}
+						rentalPrice={rentalPrice}
+					/>
 				</div>
 				<div className="m_y-10 input_w_label">
 					<label>Guarantie</label>
@@ -393,19 +396,17 @@ export function GetPrice() {
 export function ViewInformationPuted() {
 	const publish = publicationStore();
 	function lengthVerificator(arr: string[]): boolean {
-		if (arr.filter((str) => str.length > 1).length === arr.length) return true;
-		else return false;
+		// if (arr.filter((str) => str.toString().length > 1).length === arr.length)
+		// 	return true;
+		// else return false;
+		return true;
 	}
 	const postDataToServer = () => {
 		publish.setDatabaseResponseStatus("");
 		if (
 			lengthVerificator([
 				publish.address,
-				publish.propretyType,
-				publish.lessor.contacts,
-				publish.lessor.fullName,
 				publish.rentalPrice.guaranteeValue,
-				publish.rentalPrice.monetaryCurrency,
 				publish.rentalPrice.price,
 			])
 		) {
@@ -472,18 +473,8 @@ export function ViewInformationPuted() {
 				<button
 					className="btn_p btn br color_w txt_normal w_max m_x-20"
 					onClick={() => {
-						console.log({
-							rentalInformation: {
-								address: publish.address,
-								RentalType: publish.propretyType,
-								lessor: publish.lessor,
-								price: publish.rentalPrice.price,
-								guaranteeValue: publish.rentalPrice.guaranteeValue,
-								monetaryCurrency: publish.rentalPrice.monetaryCurrency,
-							},
-						});
-
 						postDataToServer();
+						publish.setCount();
 					}}>
 					Valider
 				</button>
