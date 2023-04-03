@@ -16,7 +16,6 @@ import { AdaptedImages } from "./imageList";
 import { BsFillHouseFill } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import PropretyAvailability from "../atoms/propretyAvailability";
-import { BiShow, BiHide } from "react-icons/bi";
 
 export interface InputHasDetailsProps {
 	detailsData: string[];
@@ -87,6 +86,10 @@ export const uploadImage = async (props: UploadImage) => {
 
 export function sendToServer(props: SendToServer) {
 	axios({
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + localStorage.getItem("token"),
+		},
 		method: "POST",
 		url: process.env.NEXT_PUBLIC_DB_SERVER_URL + props.path,
 		data: props.data,
@@ -98,6 +101,7 @@ export function sendToServer(props: SendToServer) {
 			if (props.doAfterSuccess) props.doAfterSuccess(res.data);
 		})
 		.catch((err) => {
+			console.log(err);
 			if (props.getData) props.getData(err);
 			props.getStatus("Echec de mise à jour");
 		});
