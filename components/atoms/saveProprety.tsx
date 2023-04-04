@@ -1,10 +1,34 @@
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import {
+	sendToServer,
+	SendToServer,
+} from "../components/updatePropretyComponents";
 
-export function SaveProprety() {
+interface SendToSherver {
+	path: string;
+	data: Object;
+	getStatus: (status: string) => void;
+	getData?: (data: Object) => void;
+	doAfterSuccess?: (data: object) => void;
+}
+type LocalPropretyType = {
+	propretyId: string;
+};
+
+export function SaveProprety({ propretyId }: LocalPropretyType) {
 	const [saveState, setSaveState] = useState<boolean>(false);
 	const getSaveState = () => {
 		saveState ? setSaveState(false) : setSaveState(true);
+	};
+
+	const dataToSave: SendToServer = {
+		path: "/user/save/" + propretyId,
+		data: {},
+		getStatus: () => {},
+		doAfterSuccess: (e) => {
+			console.log(e);
+		},
 	};
 
 	return (
@@ -16,7 +40,10 @@ export function SaveProprety() {
 						color="black"
 						size="20px"
 						className="m_x-5"
-						onClick={() => getSaveState()}
+						onClick={() => {
+							getSaveState();
+							sendToServer(dataToSave);
+						}}
 					/>{" "}
 					Sauvegarder
 				</>
@@ -26,7 +53,10 @@ export function SaveProprety() {
 						color="black"
 						size="20px"
 						className="m_x-5"
-						onClick={() => getSaveState()}
+						onClick={() => {
+							getSaveState();
+							sendToServer(dataToSave);
+						}}
 					/>{" "}
 					Sauvegardé
 				</>

@@ -13,6 +13,7 @@ import Image from "next/image";
 import { IoMdImage } from "react-icons/io";
 
 export function PropretyViewBanner() {
+	const proprety = propretyStore();
 	return (
 		<div className="space_between pd-20 border-b">
 			<div className="strong">
@@ -22,7 +23,7 @@ export function PropretyViewBanner() {
 			</div>
 			<div className="flex">
 				<PropretyAvailability />
-				<SaveProprety />
+				<SaveProprety propretyId={proprety.proprety._id} />
 				<div className="flex_center-x m_x-10">
 					{" "}
 					<MdShare size="18" className="m_x-5" /> Partager

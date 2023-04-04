@@ -16,28 +16,37 @@ interface PropretyCard {
 
 export default function AllPropreties() {
 	const [propreties, setPropreties] = useState<PropretyCard[]>([]);
+	const [fetchingPropreties, _setFetchingPropreties] = useState<boolean>(false);
 	useEffect(() => {
+		_setFetchingPropreties(true);
 		axios(process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety")
 			.then((res) => {
 				const response: PropretyCard[] = [];
-				res.data.map((proprety: Proprety, index: number) => {
+				res.data.map((proprety: Proprety) => {
 					response.push({
 						_id: proprety._id,
 						rentalInformation: { ...proprety.rentalInformation },
 					});
 				});
 				setPropreties(response);
+				_setFetchingPropreties(false);
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				_setFetchingPropreties(false);
+			});
 	}, []);
 	return (
 		<div>
 			<div className="pd-20 flex_x_center-wrap ">
-				{propreties.length === 0 ? (
+				{fetchingPropreties ? (
+					<div className="uploading_blue"></div>
+				) : propreties.length === 0 ? (
 					<div className="flex_center-xy">Empty</div>
 				) : (
 					propreties.map((proprety) => (
 						<PropretyCard
+							path={"/proprety/view/" + proprety._id}
 							_id={proprety._id}
 							rentalInformation={proprety.rentalInformation}
 							key={proprety._id}

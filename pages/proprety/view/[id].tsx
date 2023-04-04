@@ -48,8 +48,8 @@ export default function PropretyView() {
 			</Head>
 			<main>
 				<Header />
-				<div className="two_part m_y-10">
-					<div className="border-gray br m_y-2 m_x-10 pd-10 h_max">
+				<div className="two_part m_y-20">
+					<div className="border-gray br m_y-2 m_x-10 pd-10">
 						<PropretyGalleryView />
 					</div>
 					<div className="grid m_right-10">

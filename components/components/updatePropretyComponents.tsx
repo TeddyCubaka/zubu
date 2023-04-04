@@ -49,7 +49,7 @@ interface UploadImage {
 	doAfterResponse?: (e: PropretyGalleryImage) => void;
 }
 
-interface SendToServer {
+export interface SendToServer {
 	path: string;
 	data: Object;
 	getStatus: (status: string) => void;
