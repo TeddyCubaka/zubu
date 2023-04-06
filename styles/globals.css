@@ -42,10 +42,13 @@ h5 {
 	display: flex;
 	align-items: center;
 }
+.mobile_header {
+	display: none;
+}
 .main {
 	height: 400%;
 	width: 100%;
-	background-color: #B9B9B9;
+	background-color: #b9b9b9;
 }
 .main_desc {
 	height: 400px;
@@ -184,7 +187,7 @@ main {
 .auth_component {
 	width: 500px;
 }
-.auth_component_header{
+.auth_component_header {
 	height: 39px;
 }
 .current_auth_form {

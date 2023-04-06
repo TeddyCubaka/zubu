@@ -95,6 +95,9 @@
 .pd_y-10 {
 	padding: 10px 0;
 }
+.pd_y-20{
+	padding: 20px 0;
+}
 .pd-20 {
 	padding: 20px;
 }
@@ -413,3 +416,4 @@
 .color_red {
 	color: red;
 }
+ 

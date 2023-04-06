@@ -1,0 +1,36 @@
+@media (max-width: 900px){
+    body {
+        font-size: 14px;
+    }
+    .txt_normal {
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .txt_big {
+        font-size: 16px;
+        font-weight: 300;
+    }
+    .txt_meddium {
+        font-size: 14px;
+        font-weight: 400;
+    }
+    .txt_small{
+        font-size: 12px;
+        font-weight: 300;
+    }
+    h1 {
+        font-size: 21px;
+    }
+    h2 {
+        font-size: 19px;
+    }
+    h3 {
+        font-size: 17px;
+    }
+    h4 {
+        font-size: 15;
+    }
+    h5 {
+        font-size: 13;
+    } 
+}
