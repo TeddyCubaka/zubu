@@ -76,4 +76,16 @@
         background-color: #123853;
         color: white;
     }
+    .all_propreties {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .one_proprety_card{
+        width: 180px !important;
+        margin: 0 0 10px 0;
+    }
+    .one_proprety_card .pd-10{
+        padding: 3px;
+    }
 }

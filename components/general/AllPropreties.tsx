@@ -38,7 +38,7 @@ export default function AllPropreties() {
 	}, []);
 	return (
 		<div>
-			<div className="pd-20 flex_x_center-wrap ">
+			<div className="pd-20 flex_x_center-wrap all_propreties">
 				{fetchingPropreties ? (
 					<div className="uploading_blue"></div>
 				) : propreties.length === 0 ? (

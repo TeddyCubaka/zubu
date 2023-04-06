@@ -195,3 +195,12 @@ main {
 	background-color: #123853;
 	color: white;
 }
+.all_propreties {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+.one_proprety_card{
+	width: 300px !important;
+}

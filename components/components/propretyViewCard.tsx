@@ -16,8 +16,7 @@ interface PropretyCard {
 export default function PropretyCard(proprety: PropretyCard) {
 	return (
 		<div
-			className="border-gray br w_auto"
-			style={{ width: "300px" }}
+			className="border-gray br w_auto one_proprety_card"
 			onClick={() => (window.location.href = proprety.path)}>
 			<div className="tag_on_proprety_card space_between txt_normal color_w">
 				{" "}
