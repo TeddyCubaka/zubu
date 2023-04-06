@@ -62,9 +62,9 @@ export function InputPassword({
 				}}
 			/>
 			{showPassword ? (
-				<BiShow onClick={() => changeLocalState()} size={20} />
+				<BiShow onClick={() => changeLocalState()} size={"18px"} />
 			) : (
-				<BiHide onClick={() => changeLocalState()} size={20} />
+				<BiHide onClick={() => changeLocalState()} size={"18px"} />
 			)}
 		</div>
 	);

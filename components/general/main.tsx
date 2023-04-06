@@ -17,17 +17,17 @@ export default function Main() {
 					vous
 				</div>
 				<div className="filter_card">
-					<div className="br border-w m_y-20 pd-10">
+					{/* <div className="br border-w m_y-20 pd-10">
 						<span className="m_x-20">Type</span>
 						<span className="m_x-20">Prix</span>
 						<span className="m_x-20">Localisation</span>
 						<span className="m_x-20">Ville</span>
 						<span className="m_x-20">Pièces</span>
-					</div>
+					</div> */}
 					<button
 						className="btn_p btn color_w br txt_normal m_x-10"
 						onClick={() => (window.location.href = "/proprety")}>
-						Rechercher
+						Trouver une maison
 					</button>
 				</div>
 			</div>

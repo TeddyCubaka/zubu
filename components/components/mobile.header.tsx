@@ -10,12 +10,12 @@ function UserAvatar() {
 	useEffect(() => {
 		if (window !== undefined) {
 			const user = window.localStorage.getItem("username");
-			user !== null ? _setUsername(user[0].toUpperCase()) : "";
+			user !== null ? _setUsername(user[0].toUpperCase()) : null;
 		}
 	}, []);
 	return (
-		<Link href="/user/auth" className="color_w text_dec_none m_x-20">
-			{username !== null ? (
+		<Link href="/user/auth" className="text_dec_none m_x-20">
+			{username ? (
 				<div
 					className="flex_center-xy"
 					style={{
@@ -30,7 +30,7 @@ function UserAvatar() {
 					{username}
 				</div>
 			) : (
-				<FaUserCircle size="50" />
+				<FaUserCircle size={35} color="white" />
 			)}
 		</Link>
 	);

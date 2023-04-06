@@ -3,7 +3,7 @@
 		display: none;
 	}
 	.mobile_header {
-		padding: 5px 10px;
+		padding: 10px 10px;
 		background-color: #123853;
 		color: white;
 		position: sticky;
@@ -45,5 +45,35 @@
     }
     .mobile_header_menu a:hover{
         text-decoration: underline;
+    }
+    .main {
+        background-position: top;
+        background-size: cover;
+    }
+    .main_desc {
+        width: fit-content;
+        margin: 0 10px;
+        height: 500px;
+        text-align: center;
+    }
+    .filter_card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .filter_card div{
+        display: none;
+    }
+    .auth_component {
+        width: 95%;
+    }
+    .auth_component_header {
+        height: 39px;
+    }
+    .current_auth_form {
+        height: 39px;
+        background-color: #123853;
+        color: white;
     }
 }
