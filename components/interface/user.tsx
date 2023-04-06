@@ -35,11 +35,20 @@ export interface UserUpdateDatas {
 	_setpropretySaved: (array: string) => void;
 }
 
+export interface AuthErrorDataType {
+	message: string;
+	error: string;
+}
+
 export interface UserStatus {
 	signup: string;
 	signupData: object;
 	login: string;
+	sendingData: boolean;
+	errorData: AuthErrorDataType;
+	_setSendingData: (state: boolean) => void;
 	getLogin: (status: string) => void;
 	getSignup: (status: string) => void;
 	getSignupData: (data: object) => void;
+	_setErrorData: (data: AuthErrorDataType) => void;
 }

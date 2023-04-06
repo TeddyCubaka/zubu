@@ -157,6 +157,10 @@
 	font-size: 16px;
 	font-weight: 400;
 }
+.txt_small{
+	font-size: 14px;
+	font-weight: 300;
+}
 .btn_p {
 	border: none;
 	padding: 5px 10px;
@@ -278,7 +282,7 @@
 .h_auto {
 	height: auto;
 }
-.h_75{
+.h_75 {
 	height: 75%;
 }
 .w_hug {
@@ -302,7 +306,7 @@
 .m_bottom-20 {
 	margin-bottom: 20px;
 }
-.m_auto{
+.m_auto {
 	margin: auto;
 }
 .space_between {
@@ -391,7 +395,7 @@
 .bg-red {
 	background-color: red;
 }
-.bg-white{
+.bg-white {
 	background-color: white;
 }
 .hide {
@@ -400,9 +404,12 @@
 .gap-10 {
 	gap: 10px;
 }
-.fixed{
+.fixed {
 	position: fixed;
 }
-.inline{
+.inline {
 	display: inline;
+}
+.color_red {
+	color: red;
 }

@@ -1,12 +1,23 @@
 import Head from "next/head";
 import { useState } from "react";
-import { Signup, Login } from "../../components/components/authCompenents";
+import { shallow } from "zustand/shallow";
+import {
+	Signup,
+	Login,
+	ErrorShower,
+} from "../../components/components/authCompenents";
 import Footer from "../../components/general/footer";
 import Header from "../../components/general/header";
+import { userStore } from "../../store/user";
 
 export default function Auth() {
-	const [status, setSatus] = useState<boolean>(false);
-	const changeCurrentForm = () => (status ? setSatus(false) : setSatus(true));
+	const [sendingData, error] = userStore(
+		(store) => [store.status.sendingData, store.status.errorData],
+		shallow
+	);
+	const [isSignup, _setIsSignup] = useState<boolean>(false);
+	const changeCurrentForm = () =>
+		isSignup ? _setIsSignup(false) : _setIsSignup(true);
 	return (
 		<>
 			<Head>
@@ -21,12 +32,17 @@ export default function Auth() {
 			<main>
 				<Header />
 				<div className="flex_y_center-xy m_y-20">
-					<div className="border-b flex_y_center-xy auth_component br">
+					<div
+						className={
+							"flex_y_center-xy auth_component br " +
+							(error.message.length > 1 ? "br_red" : "border-blue")
+						}>
+						{sendingData ? <span className="loader_like_google"></span> : ""}
 						<div className="flex w_max two_part txt_center auth_component_header">
 							<div
 								className={
 									"h_max flex_y_center-xy " +
-									(status ? "current_auth_form" : "")
+									(isSignup ? "current_auth_form" : "")
 								}
 								onClick={() => changeCurrentForm()}>
 								Inscription
@@ -34,14 +50,15 @@ export default function Auth() {
 							<div
 								className={
 									"h_max flex_y_center-xy " +
-									(status ? "" : "current_auth_form")
+									(isSignup ? "" : "current_auth_form")
 								}
 								onClick={() => changeCurrentForm()}>
 								Connection
 							</div>
 						</div>
 						<div className="auth_component">
-							{status ? <Login /> : <Signup />}
+							<ErrorShower />
+							{isSignup ? <Signup /> : <Login />}
 						</div>
 					</div>
 				</div>

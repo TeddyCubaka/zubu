@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	Input,
 	InputHasDetails,
 	InputProps,
+	SendToServer,
 	sendToServer,
 } from "./updatePropretyComponents";
 import { userStore } from "../../store/user";
 import { BiShow, BiHide } from "react-icons/bi";
+import { PrimaryButton } from "../atoms/button";
+import { shallow } from "zustand/shallow";
 
 interface InputedPassword {
 	firstPassword: string;
 	lastPassword: string;
+	requid?: boolean;
 }
 
 interface LoginData {
@@ -25,6 +29,7 @@ export function InputPassword({
 	subject,
 	customClass,
 	placeholder,
+	required,
 }: InputProps) {
 	const [fullInputWidth, setFullInputWidth] = useState<boolean>(false);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -40,7 +45,9 @@ export function InputPassword({
 			onMouseLeave={() => setFullInputWidth(false)}>
 			<label className={fullInputWidth ? "hide" : "txt_meddium one_line_txt"}>
 				{" "}
-				{subject}{" "}
+				{subject}
+				{required ? <span className="color_red">*</span> : ""}
+				{" :"}
 			</label>
 			<input
 				type={showPassword ? "text" : "password"}
@@ -64,12 +71,30 @@ export function InputPassword({
 }
 
 export function Signup() {
-	const user = userStore();
+	const [getUserSignupStatus, sendingData, user, userSeter, _setErrorData] =
+		userStore((store) => [
+			store.status.getSignup,
+			store.status._setSendingData,
+			store.user,
+			store.seter,
+			store.status._setErrorData,
+		]);
 	const [inputedPasswords, getInputedPassword] = useState<InputedPassword>({
 		firstPassword: "",
 		lastPassword: "",
 	});
-	const passwordVerificator = () => {
+	const [SendingDataState, _setSendingDataState] = useState<boolean>(false);
+	const passwordVerificator = (): boolean => {
+		if (
+			inputedPasswords.firstPassword == "" &&
+			inputedPasswords.lastPassword == ""
+		)
+			return false;
+		else if (inputedPasswords.firstPassword === inputedPasswords.lastPassword)
+			return true;
+		else return false;
+	};
+	const passwordsChecker = () => {
 		if (
 			inputedPasswords.firstPassword == "" &&
 			inputedPasswords.lastPassword == ""
@@ -80,97 +105,125 @@ export function Signup() {
 		else return "br_red";
 	};
 	return (
-		<div className="space_between-y  m_x-20 m_y-10 row_gap-10 ">
+		<div className={"space_between-y m_x-20 m_y-10 row_gap-10 "}>
 			<Input
-				value={user.user.username}
-				sendToStore={user.seter._setUsername}
+				value={user.username}
+				sendToStore={userSeter._setUsername}
 				subject={"Nom d'utilisateur :"}
-				placeholder={"votre nom"}
+				placeholder={"votre nom d'utilisateur"}
+				required
 			/>
 			<Input
-				value={user.user.mail}
-				sendToStore={user.seter._setMail}
+				value={user.mail}
+				sendToStore={userSeter._setMail}
 				subject={"mail :"}
 				placeholder={"votre mail"}
+				required
 			/>
 			<Input
-				value={user.user.phone_number}
-				sendToStore={user.seter._setPhoneNumber}
+				value={user.phone_number}
+				sendToStore={userSeter._setPhoneNumber}
 				subject={"Numéro de téléphone :"}
 				placeholder={"votre numéro de téléphone"}
 			/>
 			<InputHasDetails
 				detailsData={["Homme", "Femme", "Autre"]}
-				store={user.user.gender}
+				store={user.gender}
 				object={"Genre :"}
-				sendToStore={user.seter._setGender}
+				sendToStore={userSeter._setGender}
 			/>
 			<InputPassword
 				value={inputedPasswords.firstPassword}
 				sendToStore={(e) =>
 					getInputedPassword((prev) => ({ ...prev, firstPassword: e }))
 				}
-				subject={"Mot de passe :"}
-				customClass={passwordVerificator()}
+				subject={"Mot de passe"}
+				customClass={passwordsChecker()}
 				placeholder={"votre mot de passe"}
+				required
 			/>
 			<InputPassword
 				value={inputedPasswords.lastPassword}
 				sendToStore={(e) =>
 					getInputedPassword((prev) => ({ ...prev, lastPassword: e }))
 				}
-				subject={"Répeter le mot de pass :"}
-				customClass={passwordVerificator()}
+				subject={"Répeter le mot de pass"}
+				customClass={passwordsChecker()}
 				placeholder={"votre mot de passe"}
+				required
 			/>
-			<button
-				className="btn_p color_w br txt_normal btn w_max flex_center-xy one_line_txt"
-				onClick={() => {
-					if (
-						inputedPasswords.firstPassword === inputedPasswords.lastPassword
-					) {
-						const newUserData = {
-							mail: user.user.mail,
-							phone_number: user.user.phone_number,
-							password: inputedPasswords.firstPassword,
-							username: user.user.username,
-							gender: user.user.gender,
-						};
-
-						const sendToServerData = {
-							path: "/user",
-							data: newUserData,
-							getStatus: user.status.getSignup,
-							getData: user.status.getSignupData,
-							doAfterSuccess: (e: any) => {
-								window.localStorage.setItem("token", e.token);
-								window.localStorage.setItem("userId", e.user._id);
-								window.localStorage.setItem("user", e.user);
-								window.localStorage.setItem("username", e.user.username);
-								window.location.href = "/";
-							},
-						};
-						sendToServer(sendToServerData);
-					}
-				}}>
-				S&apos;inscrire
-			</button>
+			<PrimaryButton
+				subject={SendingDataState ? `Conexion...` : "S'inscrire"}
+				conditionToPass={
+					passwordVerificator() &&
+					user.phone_number.length > 8 &&
+					user.mail.length > 10
+				}
+				doOnClick={() => {
+					sendingData(true);
+					_setSendingDataState(true);
+					_setErrorData({
+						message: "",
+						error: "",
+					});
+					const newUserData = {
+						mail: user.mail,
+						phone_number: user.phone_number,
+						password: inputedPasswords.firstPassword,
+						username: user.username,
+						gender: user.gender,
+					};
+					const sendToServerData: SendToServer = {
+						path: "/user",
+						data: newUserData,
+						getStatus: getUserSignupStatus,
+						doIfError: (err) => {
+							sendingData(false);
+							_setErrorData({
+								message:
+									err.response.status == 401
+										? "Revoyez les données entrée"
+										: "Un problème est survenue. Réessayez plus tard",
+								error: err.response.data.error,
+							});
+						},
+						doAfterSuccess: (e: any) => {
+							window.localStorage.setItem("token", e.token);
+							window.localStorage.setItem("userId", e.user._id);
+							window.localStorage.setItem("user", e.user);
+							window.localStorage.setItem("username", e.user.username);
+							window.location.href = "/";
+							sendingData(false);
+						},
+					};
+					sendToServer(sendToServerData);
+				}}
+			/>
 		</div>
 	);
 }
 
 export function Login() {
+	const [getUserLoginStatus, sendingData, _setErrorData] = userStore(
+		(store) => [
+			store.status.getLogin,
+			store.status._setSendingData,
+			store.status._setErrorData,
+		]
+	);
 	const [loginData, getLoginData] = useState<LoginData>({
 		mail: "",
 		password: "",
 	});
+	const [SendingDataState, _setSendingDataState] = useState<boolean>(false);
+
 	return (
-		<div className="space_between-y m_x-20 m_y-10 row_gap-10">
+		<div className={"space_between-y m_x-20 m_y-10 row_gap-10 "}>
 			<Input
 				value={loginData.mail}
 				sendToStore={(e) => getLoginData((prev) => ({ ...prev, mail: e }))}
-				subject={"Numéro de téléphone :"}
-				placeholder={"votre numéro de téléphone"}
+				subject={"mail :"}
+				placeholder={"votre adresse mail"}
 			/>
 			<InputPassword
 				value={loginData.password}
@@ -179,27 +232,52 @@ export function Login() {
 				customClass={""}
 				placeholder={"votre mot de passe"}
 			/>
-			<button
-				className="btn_p color_w br txt_normal btn w_max flex_center-xy one_line_txt"
-				onClick={() => {
-					if (loginData.mail.length > 9 && loginData.password.length > 3) {
-						const sendToServerData = {
-							path: "/user/auth",
-							data: loginData,
-							getStatus: () => {},
-							doAfterSuccess: (e: any) => {
-								window.localStorage.setItem("token", e.token);
-								window.localStorage.setItem("userId", e.user._id);
-								window.localStorage.setItem("user", e.user);
-								window.localStorage.setItem("username", e.user.username);
-								window.location.href = "/";
-							},
-						};
-						sendToServer(sendToServerData);
-					}
-				}}>
-				Se connecter
-			</button>
+			<PrimaryButton
+				subject={SendingDataState ? `Conexion...` : "Se connecter"}
+				conditionToPass={
+					loginData.mail.length > 9 && loginData.password.length > 3
+				}
+				doOnClick={() => {
+					sendingData(true);
+					_setSendingDataState(true);
+					_setErrorData({
+						message: "",
+						error: "",
+					});
+					const sendToServerData: SendToServer = {
+						path: "/user/auth",
+						data: loginData,
+						getStatus: getUserLoginStatus,
+						doIfError: (err) => {
+							sendingData(false);
+							_setErrorData({
+								message:
+									err.response.status == 401
+										? "Mot de pass ou mail incorect"
+										: "Un problème est survenue. Réessayez plus tard",
+								error: err.response.data.error,
+							});
+						},
+						doAfterSuccess: (e: any) => {
+							window.localStorage.setItem("token", e.token);
+							window.localStorage.setItem("userId", e.user._id);
+							window.localStorage.setItem("user", JSON.stringify(e.user));
+							window.localStorage.setItem("username", e.user.username);
+							_setSendingDataState(false);
+							window.location.href = "/";
+							sendingData(false);
+						},
+					};
+					sendToServer(sendToServerData);
+				}}
+			/>
 		</div>
+	);
+}
+
+export function ErrorShower() {
+	const [error] = userStore((store) => [store.status.errorData], shallow);
+	return (
+		<div className="color_red w_max m_x-20 txt_small"> {error.message} </div>
 	);
 }

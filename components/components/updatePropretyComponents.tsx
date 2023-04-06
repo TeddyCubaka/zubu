@@ -32,6 +32,7 @@ export interface InputProps {
 	subject: string;
 	customClass?: string;
 	placeholder?: string;
+	required?: boolean;
 }
 export interface InputNumberProps {
 	value: number;
@@ -55,6 +56,7 @@ export interface SendToServer {
 	getStatus: (status: string) => void;
 	getData?: (data: Object) => void;
 	doAfterSuccess?: (data: object) => void;
+	doIfError?: (data: any) => void;
 }
 export const uploadImage = async (props: UploadImage) => {
 	props.getStatus("Envoie d'images");
@@ -103,7 +105,8 @@ export function sendToServer(props: SendToServer) {
 		.catch((err) => {
 			console.log(err);
 			if (props.getData) props.getData(err);
-			props.getStatus("Echec de mise à jour");
+			if (props.doIfError) props.doIfError(err);
+			props.getStatus("Echec");
 		});
 }
 
@@ -124,6 +127,7 @@ export function Input({
 	subject,
 	customClass,
 	placeholder,
+	required,
 }: InputProps) {
 	const [fullInputWidth, setFullInputWidth] = useState<boolean>(false);
 
@@ -134,7 +138,9 @@ export function Input({
 			onMouseLeave={() => setFullInputWidth(false)}>
 			<label className={fullInputWidth ? "hide" : "txt_meddium one_line_txt"}>
 				{" "}
-				{subject}{" "}
+				{subject.split(" :")[0]}{" "}
+				{required ? <span className="color_red">*</span> : ""}
+				{" :"}
 			</label>
 			<input
 				type={type ? type : "text"}

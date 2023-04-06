@@ -79,11 +79,20 @@ export const userStore = create<UserStore>((set) => ({
 		signup: "",
 		signupData: {},
 		login: "",
+		sendingData: false,
+		errorData: {
+			message: "",
+			error: "",
+		},
+		_setSendingData: (status) =>
+			set((store) => ({ status: { ...store.status, sendingData: status } })),
 		getLogin: (status) =>
 			set((store) => ({ status: { ...store.status, login: status } })),
 		getSignup: (status) =>
 			set((store) => ({ status: { ...store.status, signup: status } })),
 		getSignupData: (data) =>
 			set((store) => ({ status: { ...store.status, signupData: data } })),
+		_setErrorData: (error) =>
+			set((store) => ({ status: { ...store.status, errorData: error } })),
 	},
 }));
