@@ -64,6 +64,7 @@ function TwoButton({
 		(state) => [state.setCount, state.unSetCount],
 		shallow
 	);
+	conditionToPass = "pass";
 	return (
 		<div className="flex w_max m_y-10">
 			{hideBackButton ? (
@@ -132,7 +133,7 @@ export function GetAddress() {
 	]);
 
 	return (
-		<div className="add_proprety_card border-b pd-20 br">
+		<div className="pd-10">
 			<h3 className="m_y-10">Reseignez l&apos;addresse</h3>
 			<div className="w_max">
 				<Input
@@ -143,7 +144,7 @@ export function GetAddress() {
 						)
 					}
 					subject={"N° : "}
-					customClass={"w_max m_y-5"}
+					customClass={"m_y-5"}
 					placeholder={"Renseigner le numéro"}
 				/>
 				<Input
@@ -152,7 +153,7 @@ export function GetAddress() {
 						setAddressSplited((prev) => ({ ...prev, avenue: e }))
 					}
 					subject={"avenue ou rue : "}
-					customClass={"w_max m_y-5"}
+					customClass={"m_y-5"}
 					placeholder={"Rensigner l'avenue"}
 				/>
 				<Input
@@ -161,7 +162,7 @@ export function GetAddress() {
 						setAddressSplited((prev) => ({ ...prev, quoter: e }))
 					}
 					subject={"quartier : "}
-					customClass={"w_max m_y-5"}
+					customClass={"m_y-5"}
 					placeholder={"Rensigner le quartier"}
 				/>
 				<Input
@@ -170,7 +171,7 @@ export function GetAddress() {
 						setAddressSplited((prev) => ({ ...prev, township: e }))
 					}
 					subject={"commune : "}
-					customClass={"w_max m_y-5"}
+					customClass={"m_y-5"}
 					placeholder={"Rensigner la commune"}
 				/>
 				<Input
@@ -179,7 +180,7 @@ export function GetAddress() {
 						setAddressSplited((prev) => ({ ...prev, city: e }))
 					}
 					subject={"ville : "}
-					customClass={"w_max m_y-5"}
+					customClass={"m_y-5"}
 					placeholder={"Rensigner la ville"}
 				/>
 			</div>
@@ -224,9 +225,9 @@ export function GetPropretyType() {
 	);
 
 	return (
-		<div className="add_proprety_card border-b pd-20 br">
-			<h1>Quel est le prix pour louer votre bien</h1>
-			<div className="w_max input_take_price flex_y-center">
+		<div className="pd-10">
+			<h3>Quel est le prix pour louer votre bien</h3>
+			<div className="w_max flex_y-center m_y-20">
 				<details className="m_x-10 proprety_type_details" open>
 					<summary>Type de bien</summary>
 					<InputRadio
@@ -268,21 +269,21 @@ export function GetLosor() {
 	);
 
 	return (
-		<div className="add_proprety_card border-b pd-20 br">
+		<div className="pd-10">
 			<h3>Information sur le bailleur ?</h3>
 			<div className="w_max">
 				<Input
 					value={lessor.fullName}
 					sendToStore={(e) => setLessor({ ...lessor, fullName: e })}
 					subject={"Nom complet : "}
-					customClass={"w_max m_y-10"}
+					customClass={"m_y-10"}
 					placeholder={"nom du bailleur ici"}
 				/>
 				<Input
 					value={lessor.contacts}
 					sendToStore={(e) => setLessor({ ...lessor, contacts: e })}
 					subject={"numéro de téléphone ou mail : "}
-					customClass={"w_max m_y-10"}
+					customClass={"m_y-10"}
 					placeholder="Ex : +243 990 000 000 ou user@gmail.com"
 				/>
 			</div>
@@ -332,11 +333,11 @@ export function GetPrice() {
 	);
 
 	return (
-		<div className="add_proprety_card border-b pd-20 br">
-			<h3>Reseignez l`&apos;`addresse</h3>
+		<div className="pd-10">
+			<h3>Reseignez l&apos;addresse</h3>
 			<div className="w_max">
-				<div className="m_y-10 input_w_label">
-					<label>Prix</label>
+				<div className="m_y-10 input_w_label one_line_txt">
+					<label>Prix :</label>
 					<input
 						type="text"
 						placeholder="Ex : 300"
@@ -357,12 +358,12 @@ export function GetPrice() {
 						rentalPrice={rentalPrice}
 					/>
 				</div>
-				<div className="m_y-10 input_w_label">
-					<label>Guarantie</label>
+				<div className="m_y-10 input_w_label one_line_txt">
+					<label>Guarantie :</label>
 					<input
 						type="text"
 						placeholder="Ex : 4"
-						className={`br w_max`}
+						className={`br w_max m_x-5`}
 						value={rentalPrice.guaranteeValue}
 						onChange={(e) =>
 							setRentalPrice({
@@ -410,6 +411,7 @@ export function ViewInformationPuted() {
 				publish.rentalPrice.price,
 			])
 		) {
+			publish._setSendingData(true);
 			axios({
 				method: "post",
 				url: process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety",
@@ -432,35 +434,37 @@ export function ViewInformationPuted() {
 					publish.setDatabaseResponseStatus("created");
 					publish.set_id(res.data.data._id);
 					publish.setCount();
+					publish._setSendingData(false);
 				})
 				.catch((err) => {
 					publish.setDatabaseResponseStatus("not created");
 					publish.setCount();
+					publish._setSendingData(false);
 				});
 		}
 	};
 
 	return (
-		<div className="add_proprety_card border-b pd-20 br">
-			<h1>Voici les information que vous avez reseigner</h1>
-			<ul className="w_max">
-				<li>
+		<div className="pd-10">
+			<h3>Voici les information que vous avez reseigner</h3>
+			<ul className="w_max gap-5">
+				<li className="m_y-5">
 					<b>address :</b> {publish.address}{" "}
 				</li>
-				<li>
+				<li className="m_y-5">
 					<b>Type de la propriété :</b>
 					{publish.propretyType}{" "}
 				</li>
-				<li>
+				<li className="m_y-5">
 					<b>Bailleur :</b>
 					{publish.lessor.fullName}, <b>ses contacts :</b>{" "}
 					{publish.lessor.contacts}{" "}
 				</li>
-				<li>
+				<li className="m_y-5">
 					<b>Prix de la propriété :</b>, {publish.rentalPrice.price}{" "}
 					{publish.rentalPrice.monetaryCurrency === "USD" ? "$" : "fc"}{" "}
 				</li>
-				<li>
+				<li className="m_y-5">
 					<b>Garantie : </b> {publish.rentalPrice.guaranteeValue} mois
 				</li>
 			</ul>
@@ -487,18 +491,21 @@ export function CreatePropretyStatus() {
 	const publish = publicationStore();
 
 	return (
-		<div className="add_proprety_card border-b br">
-			<h1>Les informations sur la propriété</h1>
-			<button onClick={() => publish.resetCount()}>retour</button>
+		<div className="pd-10">
+			<h3>Les informations sur la propriété</h3>
 			{publish.databaseResponseStatus === "created" ? (
 				<>
-					<div className="color_green flex_x-center">
+					<div
+						style={{ margin: "30px 0" }}
+						className="color_green flex_y_center-xy w_max gap-5">
 						{" "}
-						<FaCheck size="20" /> {"  "}{" "}
-						<span className="m_x-10">Propriété créée avec succès !</span>
+						<span className="flex_c-center">
+							<FaCheck size="20" />
+							<span className="m_x-10">Propriété créée avec succès !</span>
+						</span>
 					</div>
 					<button
-						className="btn_p btn br color_w txt_normal w_half m_x-20"
+						className="btn_p btn br color_w txt_normal w_max"
 						onClick={() => {
 							if (window)
 								window.location.href = "/proprety/update/" + publish._id;
@@ -512,19 +519,18 @@ export function CreatePropretyStatus() {
 			)}
 			{publish.databaseResponseStatus === "not created" ? (
 				<>
-					<div>Désolé, il y a un problème</div>
-					<button onClick={() => publish.resetCount()}> Retry</button>
+					<div
+						style={{ margin: "30px 0" }}
+						className="color_red flex_y_center-xy w_max gap-5">
+						Désolé, il y a un problème
+					</div>
+					<button
+						className="btn_p btn br color_w txt_normal w_max"
+						onClick={() => publish.resetCount()}>
+						{" "}
+						Réessayer
+					</button>
 				</>
-			) : (
-				""
-			)}
-			{publish.databaseResponseStatus === ("not created" || "created") ? (
-				<div className="flex_x-center">
-					<span className="steped_loader"></span>
-					<span>
-						Création de la propriété. Veuiller patientez, s`&apos;`il vous plait
-					</span>
-				</div>
 			) : (
 				""
 			)}

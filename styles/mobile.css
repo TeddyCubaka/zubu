@@ -32,7 +32,7 @@
         to {
             top: 50px;
         }
-    }
+    } 
     .mobile_header_menu div{
         position: absolute;
         height: 100px;
@@ -87,5 +87,18 @@
     }
     .one_proprety_card .pd-10{
         padding: 3px;
+    }
+    .publication_section {
+        width: 90%;
+        margin: 20px auto;
+    }
+    .proprety_type_details > summary {
+        font-weight: 400;
+    }
+    .form_card {
+        width: 95%;
+    }
+    .currency_button {
+        width: 80px;
     }
 }

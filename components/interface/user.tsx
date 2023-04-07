@@ -38,6 +38,7 @@ export interface UserUpdateDatas {
 export interface AuthErrorDataType {
 	message: string;
 	error: string;
+	hasError: boolean;
 }
 
 export interface UserStatus {

@@ -136,7 +136,7 @@ export function Input({
 			className={"input_w_label " + customClass}
 			onClick={() => setFullInputWidth(true)}
 			onMouseLeave={() => setFullInputWidth(false)}>
-			<label className={fullInputWidth ? "hide" : "txt_meddium one_line_txt"}>
+			<label className={"one_line_txt"}>
 				{" "}
 				{subject.split(" :")[0]}{" "}
 				{required ? <span className="color_red">*</span> : ""}

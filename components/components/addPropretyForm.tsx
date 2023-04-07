@@ -11,9 +11,13 @@ import { publicationStore } from "../../store/publicationStore";
 import { shallow } from "zustand/shallow";
 
 export default function AddPropretiyForm() {
-	const [count] = publicationStore((state) => [state.count], shallow);
+	const [count, sendingData, databaseResponseStatus] = publicationStore(
+		(store) => [store.count, store.sendingData, store.databaseResponseStatus],
+		shallow
+	);
 	return (
-		<div>
+		<div className="form_card">
+			{sendingData ? <span className="loader_like_google"></span> : ""}
 			{count === 0 ? (
 				<GetAddress />
 			) : count === 1 ? (
@@ -26,6 +30,13 @@ export default function AddPropretiyForm() {
 				<ViewInformationPuted />
 			) : (
 				<CreatePropretyStatus />
+			)}
+			{sendingData ? (
+				<div className="flex_x-center">
+					Création de la propriété. Veuiller patientez, s`&apos;`il vous plait
+				</div>
+			) : (
+				""
 			)}
 		</div>
 	);

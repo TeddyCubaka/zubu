@@ -83,6 +83,7 @@ export const userStore = create<UserStore>((set) => ({
 		errorData: {
 			message: "",
 			error: "",
+			hasError: false,
 		},
 		_setSendingData: (status) =>
 			set((store) => ({ status: { ...store.status, sendingData: status } })),

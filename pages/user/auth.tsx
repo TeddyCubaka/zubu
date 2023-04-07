@@ -35,7 +35,7 @@ export default function Auth() {
 					<div
 						className={
 							"flex_y_center-xy auth_component br " +
-							(error.message.length > 1 ? "br_red" : "border-blue")
+							(error.hasError ? "br_red" : "border-blue")
 						}>
 						{sendingData ? <span className="loader_like_google"></span> : ""}
 						<div className="flex w_max two_part txt_center auth_component_header">

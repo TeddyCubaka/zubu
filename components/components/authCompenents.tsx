@@ -165,6 +165,7 @@ export function Signup() {
 					_setErrorData({
 						message: "",
 						error: "",
+						hasError: false,
 					});
 					const newUserData = {
 						mail: user.mail,
@@ -185,6 +186,7 @@ export function Signup() {
 										? "Revoyez les données entrée"
 										: "Un problème est survenue. Réessayez plus tard",
 								error: err.response.data.error,
+								hasError: true,
 							});
 						},
 						doAfterSuccess: (e: any) => {
@@ -243,6 +245,7 @@ export function Login() {
 					_setErrorData({
 						message: "",
 						error: "",
+						hasError: false,
 					});
 					const sendToServerData: SendToServer = {
 						path: "/user/auth",
@@ -256,6 +259,7 @@ export function Login() {
 										? "Mot de pass ou mail incorect"
 										: "Un problème est survenue. Réessayez plus tard",
 								error: err.response.data.error,
+								hasError: true,
 							});
 						},
 						doAfterSuccess: (e: any) => {

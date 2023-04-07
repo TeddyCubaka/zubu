@@ -95,7 +95,7 @@
 .pd_y-10 {
 	padding: 10px 0;
 }
-.pd_y-20{
+.pd_y-20 {
 	padding: 20px 0;
 }
 .pd-20 {
@@ -118,7 +118,7 @@
 	justify-content: center;
 	align-items: center;
 }
-.flex_center-x {
+.flex_c-center {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -160,7 +160,7 @@
 	font-size: 16px;
 	font-weight: 400;
 }
-.txt_small{
+.txt_small {
 	font-size: 14px;
 	font-weight: 300;
 }
@@ -407,6 +407,9 @@
 .gap-10 {
 	gap: 10px;
 }
+.gap-5 {
+	gap: 5px;
+}
 .fixed {
 	position: fixed;
 }
@@ -415,4 +418,20 @@
 }
 .color_red {
 	color: red;
+}
+.form_width {
+	width: 500px;
+}
+.form_card {
+	border: 2px solid black;
+	width: 500px;
+	min-height: 250px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.form_card div h3 {
+	text-align: center;
 }
