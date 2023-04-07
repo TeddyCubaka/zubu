@@ -10,6 +10,7 @@ import {
 	isTwoWord,
 	isValidContactValue,
 } from "../usefulFuction/propretyValidator";
+import { useRouter } from "next/router";
 
 interface ButtonCOndition {
 	conditionToPass: string;
@@ -518,6 +519,7 @@ export function ViewInformationPuted() {
 
 export function CreatePropretyStatus() {
 	const publish = publicationStore();
+	const router = useRouter();
 
 	return (
 		<div className="pd-10">
@@ -536,8 +538,7 @@ export function CreatePropretyStatus() {
 					<button
 						className="btn_p btn br color_w txt_normal w_max"
 						onClick={() => {
-							if (window)
-								window.location.href = "/proprety/update/" + publish._id;
+							if (window) router.push("/proprety/update/" + publish._id);
 						}}>
 						{" "}
 						<BsHouseFill size="20" /> Voir la propriété

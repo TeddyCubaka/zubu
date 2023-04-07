@@ -6,6 +6,7 @@ import { RentalInformation } from "../interface/proprety";
 import { BsFillHouseFill } from "react-icons/bs";
 import Image from "next/image";
 import { getPublicAdress } from "../usefulFuction/getPublicAdress";
+import { useRouter } from "next/router";
 
 interface PropretyCard {
 	path: string;
@@ -14,10 +15,11 @@ interface PropretyCard {
 }
 
 export default function PropretyCard(proprety: PropretyCard) {
+	const router = useRouter();
 	return (
 		<div
 			className="border-gray br w_auto one_proprety_card"
-			onClick={() => (window.location.href = proprety.path)}>
+			onClick={() => router.push(proprety.path)}>
 			<div className="tag_on_proprety_card space_between txt_normal color_w">
 				{" "}
 				<div></div>{" "}

@@ -10,6 +10,7 @@ import { userStore } from "../../store/user";
 import { BiShow, BiHide } from "react-icons/bi";
 import { PrimaryButton } from "../atoms/button";
 import { shallow } from "zustand/shallow";
+import { useRouter } from "next/router";
 
 interface InputedPassword {
 	firstPassword: string;
@@ -71,6 +72,7 @@ export function InputPassword({
 }
 
 export function Signup() {
+	const router = useRouter();
 	const [getUserSignupStatus, sendingData, user, userSeter, _setErrorData] =
 		userStore((store) => [
 			store.status.getSignup,
@@ -84,6 +86,7 @@ export function Signup() {
 		lastPassword: "",
 	});
 	const [SendingDataState, _setSendingDataState] = useState<boolean>(false);
+
 	const passwordVerificator = (): boolean => {
 		if (
 			inputedPasswords.firstPassword == "" &&
@@ -194,7 +197,7 @@ export function Signup() {
 							window.localStorage.setItem("userId", e.user._id);
 							window.localStorage.setItem("user", e.user);
 							window.localStorage.setItem("username", e.user.username);
-							window.location.href = "/";
+							router.back();
 							sendingData(false);
 						},
 					};
@@ -206,6 +209,7 @@ export function Signup() {
 }
 
 export function Login() {
+	const router = useRouter();
 	const [getUserLoginStatus, sendingData, _setErrorData] = userStore(
 		(store) => [
 			store.status.getLogin,
@@ -268,7 +272,7 @@ export function Login() {
 							window.localStorage.setItem("user", JSON.stringify(e.user));
 							window.localStorage.setItem("username", e.user.username);
 							_setSendingDataState(false);
-							window.location.href = "/";
+							router.back();
 							sendingData(false);
 						},
 					};

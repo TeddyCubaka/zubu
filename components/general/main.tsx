@@ -1,7 +1,10 @@
+import { useRouter } from "next/router";
 import React from "react";
 import background from "../images/backgournd.png";
 
 export default function Main() {
+	const router = useRouter();
+
 	return (
 		<div
 			className="main"
@@ -26,7 +29,7 @@ export default function Main() {
 					</div> */}
 					<button
 						className="btn_p btn color_w br txt_normal m_x-10"
-						onClick={() => (window.location.href = "/proprety")}>
+						onClick={() => router.push("/proprety")}>
 						Trouver une maison
 					</button>
 				</div>
