@@ -6,6 +6,10 @@ import { FaCheck } from "react-icons/fa";
 import { BsHouseFill } from "react-icons/bs";
 import axios from "axios";
 import { Input } from "./updatePropretyComponents";
+import {
+	isTwoWord,
+	isValidContactValue,
+} from "../usefulFuction/propretyValidator";
 
 interface ButtonCOndition {
 	conditionToPass: string;
@@ -64,7 +68,7 @@ function TwoButton({
 		(state) => [state.setCount, state.unSetCount],
 		shallow
 	);
-	conditionToPass = "pass";
+	// conditionToPass = "pass";
 	return (
 		<div className="flex w_max m_y-10">
 			{hideBackButton ? (
@@ -135,7 +139,7 @@ export function GetAddress() {
 	return (
 		<div className="pd-10">
 			<h3 className="m_y-10">Reseignez l&apos;addresse</h3>
-			<div className="w_max">
+			<div className="w_max gap-10">
 				<Input
 					value={addressSplited.number}
 					sendToStore={(e) =>
@@ -268,20 +272,43 @@ export function GetLosor() {
 		shallow
 	);
 
+	const mailValidityChecker = (value: string) => {
+		let expressionReguliere =
+			/^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+		if (expressionReguliere.test(value)) return true;
+		else false;
+		return false;
+	};
+	const numValidator = (num: string) => {
+		if (Number(num)) return true;
+		if (num[0] == "+") {
+			const newNumber = num.split("");
+			delete newNumber[0];
+			if (Number(newNumber.join(""))) return true;
+			else return false;
+		} else return false;
+	};
+
 	return (
 		<div className="pd-10">
-			<h3>Information sur le bailleur ?</h3>
+			<h3>Information sur le bailleur</h3>
 			<div className="w_max">
 				<Input
 					value={lessor.fullName}
-					sendToStore={(e) => setLessor({ ...lessor, fullName: e })}
+					sendToStore={(e) => {
+						console.log(isTwoWord(e));
+						setLessor({ ...lessor, fullName: e });
+					}}
 					subject={"Nom complet : "}
 					customClass={"m_y-10"}
 					placeholder={"nom du bailleur ici"}
 				/>
 				<Input
 					value={lessor.contacts}
-					sendToStore={(e) => setLessor({ ...lessor, contacts: e })}
+					sendToStore={(e) => {
+						console.log(isValidContactValue(e));
+						setLessor({ ...lessor, contacts: e });
+					}}
 					subject={"numéro de téléphone ou mail : "}
 					customClass={"m_y-10"}
 					placeholder="Ex : +243 990 000 000 ou user@gmail.com"
@@ -289,7 +316,9 @@ export function GetLosor() {
 			</div>
 			<TwoButton
 				conditionToPass={
-					lessor.fullName.length > 3 && lessor.contacts.length > 9 ? "pass" : ""
+					isValidContactValue(lessor.contacts) && isTwoWord(lessor.fullName)
+						? "pass"
+						: ""
 				}
 				seter={() => {}}
 				conditionHasObject={lessor}

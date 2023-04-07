@@ -425,12 +425,15 @@
 .form_card {
 	border: 2px solid black;
 	width: 500px;
-	min-height: 250px;
+	min-height: 100px;
 	border-radius: 5px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	/* justify-content: space-between; */
 	align-items: center;
+}
+.form_card div{
+	/* margin-top: 20px; */
 }
 .form_card div h3 {
 	text-align: center;
