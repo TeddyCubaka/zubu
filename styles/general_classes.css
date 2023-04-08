@@ -118,9 +118,8 @@
 	justify-content: center;
 	align-items: center;
 }
-.flex_c-center {
+.flex_x-center {
 	display: flex;
-	justify-content: center;
 	align-items: center;
 }
 .flex {
@@ -163,6 +162,9 @@
 .txt_small {
 	font-size: 14px;
 	font-weight: 300;
+}
+.txt_meddium_on_hovering:hover{
+	font-weight: 400;
 }
 .btn_p {
 	border: none;
@@ -268,6 +270,9 @@
 }
 .bg_color_r {
 	background-color: red;
+}
+.bg_color_blue {
+	background-color: #123853;
 }
 .double_column {
 	display: grid;
@@ -434,4 +439,7 @@
 }
 .form_card div h3 {
 	text-align: center;
+}
+.shadow_w{
+	box-shadow: -2px 2px 2px 1px #12385379;
 }
