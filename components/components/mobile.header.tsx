@@ -55,9 +55,11 @@ function UserAvatar() {
 					<FaUserCircle size={35} color="white" />
 				)}
 			</Link>
-			<div style={{ justifyContent: "flex-end" }} className="w_max flex m_x-20">
+			<div
+				style={{ justifyContent: "flex-end" }}
+				className="color_w w_max flex m_x-20">
 				{username ? (
-					username
+					<h4>{username}</h4>
 				) : (
 					<Link
 						className="color_w txt_big text_dec_none flex_x-center"

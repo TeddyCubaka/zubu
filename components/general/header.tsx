@@ -32,7 +32,7 @@ export const UserMenuLink = ({
 	return (
 		<Link
 			className={
-				(color ? color : "color_w") +
+				(href === "#" ? "color_gray" : color ? color : "color_w") +
 				"  text_dec_none flex_x-center txt_meddium txt_meddium_on_hovering"
 			}
 			href={href}
