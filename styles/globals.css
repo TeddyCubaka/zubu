@@ -134,9 +134,7 @@ h5 {
 }
 .footer {
 	background-color: #123853;
-	height: 300px;
-	font-size: 40px;
-	font-weight: 500;
+	min-height: 132px;
 }
 main {
 	min-height: 100vh;
