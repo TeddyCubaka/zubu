@@ -8,25 +8,29 @@ import Image from "next/image";
 import { getPublicAdress } from "../usefulFuction/getPublicAdress";
 import { useRouter } from "next/router";
 
-interface PropretyCard {
-	path: string;
+export interface PropretyCardType {
+	path?: string;
 	_id: string;
 	rentalInformation: RentalInformation;
 }
 
-export default function PropretyCard(proprety: PropretyCard) {
+export default function PropretyCard(proprety: PropretyCardType) {
 	const router = useRouter();
 	return (
 		<div
 			className="border-gray br w_auto one_proprety_card"
-			onClick={() => router.push(proprety.path)}>
+			onClick={() => (proprety.path ? router.push(proprety.path) : "")}>
 			<div className="tag_on_proprety_card space_between txt_normal color_w">
 				{" "}
 				<div></div>{" "}
 				{proprety.rentalInformation.isAvailable ? (
-					<div className="br pd-3 color-green bg-green">libre</div>
+					<div style={{ zIndex: "0" }} className="br pd-3 color-green bg-green">
+						libre
+					</div>
 				) : (
-					<div className="br pd-3 color-green bg-red">Occupé</div>
+					<div style={{ zIndex: "0" }} className="br pd-3 color-green bg-red">
+						Occupé
+					</div>
 				)}
 			</div>
 			<div

@@ -48,7 +48,12 @@ export const UserMenuLink = ({
 function UserMenu() {
 	return (
 		<div
-			style={{ top: "90px", right: "10px", borderRadius: "0 0 5px 5px" }}
+			style={{
+				top: "90px",
+				right: "10px",
+				borderRadius: "0 0 5px 5px",
+				zIndex: "5",
+			}}
 			className="absolute space_between-y gap-10 pd-20 bg_color_blue color_w shadow_w">
 			<UserMenuLink
 				href="#"

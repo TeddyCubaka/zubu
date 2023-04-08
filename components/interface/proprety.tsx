@@ -110,39 +110,3 @@ export interface Proprety {
 		];
 	};
 }
-
-// interior: {
-// 	bedRooms: string;
-// 	livingRoom: string;
-// 	lounge: string;
-// 	diningRoom: string;
-// 	kitchen: string;
-// 	attick: string;
-// 	floor: string;
-// 	toilet: string;
-// 	bathroom: string;
-// 	homeDetails: string;
-// 	rooms: [
-// 		{
-// 			name: string;
-// 			details: string;
-// 		}
-// 	];
-// };
-
-// external: {
-// 	toilets: string;
-// 	bathrooms: string;
-// 	garage: string;
-// 	garden: string;
-// 	terrace: string;
-// 	balcony: string;
-// 	swimming_pool: string;
-// 	homeDetails: string;
-// 	other: [
-// 		{
-// 			object: string;
-// 			details: string;
-// 		}
-// 	];
-// };

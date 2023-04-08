@@ -15,7 +15,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { headerStore } from "../../store/header";
 import { shallow } from "zustand/shallow";
 import { UserMenuLinkType, UserMenuLink } from "../general/header";
-import { User } from "../interface/user";
 
 function UserAvatar() {
 	const [username, _setUsername] = useState<string | null>("");
@@ -116,7 +115,7 @@ const SliderBarSection = () => {
 			<div className="column gap-20 color_b">
 				{links.map((link) => (
 					<UserMenuLink
-						key={link.href + link.content}
+						key={link.href + link.content + link.Icon}
 						href={link.href}
 						doOnClick={link.doOnClick}
 						content={link.content}

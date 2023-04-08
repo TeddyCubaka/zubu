@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { Proprety } from "../components/interface/proprety";
 import {
 	User,
 	UserUpdateDatas,
@@ -8,6 +9,8 @@ import {
 export interface UserStore {
 	user: User;
 	currentUser: User;
+	currentUserPropreties: Proprety[];
+	getCurrentUserPropreties: (propreties: Proprety[]) => void;
 	_setCurrentUser: (user: User) => void;
 	seter: UserUpdateDatas;
 	status: UserStatus;
@@ -121,4 +124,7 @@ export const userStore = create<UserStore>((set) => ({
 		_setErrorData: (error) =>
 			set((store) => ({ status: { ...store.status, errorData: error } })),
 	},
+	currentUserPropreties: [],
+	getCurrentUserPropreties: (propreties) =>
+		set(() => ({ currentUserPropreties: propreties })),
 }));

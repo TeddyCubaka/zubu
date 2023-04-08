@@ -197,6 +197,10 @@ export function Signup() {
 							window.localStorage.setItem("userId", e.user._id);
 							window.localStorage.setItem("user", e.user);
 							window.localStorage.setItem("username", e.user.username);
+							window.localStorage.setItem(
+								"userPropreties",
+								e.user.proprety.join("plös")
+							);
 							router.back();
 							sendingData(false);
 						},

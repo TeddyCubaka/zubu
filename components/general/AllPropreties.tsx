@@ -1,27 +1,16 @@
 import axios from "axios";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaMapMarkerAlt, FaPercent } from "react-icons/fa";
-import { IoMdPricetag } from "react-icons/io";
-import { MdOutlineBedroomChild } from "react-icons/md";
-import { RentalInformation, Proprety } from "../interface/proprety";
-import { BsFillHouseFill } from "react-icons/bs";
-import Image from "next/image";
-import PropretyCard from "../components/propretyViewCard";
-
-interface PropretyCard {
-	_id: string;
-	rentalInformation: RentalInformation;
-}
+import { Proprety } from "../interface/proprety";
+import PropretyCard, { PropretyCardType } from "../components/propretyViewCard";
 
 export default function AllPropreties() {
-	const [propreties, setPropreties] = useState<PropretyCard[]>([]);
+	const [propreties, setPropreties] = useState<PropretyCardType[]>([]);
 	const [fetchingPropreties, _setFetchingPropreties] = useState<boolean>(false);
 	useEffect(() => {
 		_setFetchingPropreties(true);
 		axios(process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety")
 			.then((res) => {
-				const response: PropretyCard[] = [];
+				const response: PropretyCardType[] = [];
 				res.data.map((proprety: Proprety) => {
 					response.push({
 						_id: proprety._id,
