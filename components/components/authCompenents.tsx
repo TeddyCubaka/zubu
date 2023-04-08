@@ -210,13 +210,13 @@ export function Signup() {
 
 export function Login() {
 	const router = useRouter();
-	const [getUserLoginStatus, sendingData, _setErrorData] = userStore(
-		(store) => [
+	const [getUserLoginStatus, sendingData, _setErrorData, _setCurrentUser] =
+		userStore((store) => [
 			store.status.getLogin,
 			store.status._setSendingData,
 			store.status._setErrorData,
-		]
-	);
+			store._setCurrentUser,
+		]);
 	const [loginData, getLoginData] = useState<LoginData>({
 		mail: "",
 		password: "",
@@ -272,6 +272,7 @@ export function Login() {
 							window.localStorage.setItem("userId", e.user._id);
 							window.localStorage.setItem("user", JSON.stringify(e.user));
 							window.localStorage.setItem("username", e.user.username);
+							_setCurrentUser(e.user);
 							_setSendingDataState(false);
 							router.back();
 							sendingData(false);

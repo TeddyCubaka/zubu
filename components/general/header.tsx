@@ -55,7 +55,11 @@ function UserMenu() {
 				content="Propriétés enreigistrées"
 				Icon={IoHeart}
 			/>
-			<UserMenuLink href="#" content="Vos propriétés" Icon={IoHome} />
+			<UserMenuLink
+				href="/user/propreties"
+				content="Vos propriétés"
+				Icon={IoHome}
+			/>
 			<UserMenuLink
 				href="/proprety/publication"
 				content="Publier une propriété"

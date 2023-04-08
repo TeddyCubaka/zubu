@@ -7,6 +7,8 @@ import {
 
 export interface UserStore {
 	user: User;
+	currentUser: User;
+	_setCurrentUser: (user: User) => void;
 	seter: UserUpdateDatas;
 	status: UserStatus;
 }
@@ -34,6 +36,29 @@ export const userStore = create<UserStore>((set) => ({
 			},
 		],
 	},
+	currentUser: {
+		mail: "",
+		phone_number: "",
+		password: "",
+		username: "",
+		gender: "Autre",
+		profile_picture_url: "",
+		created_at: "",
+		proprety: [],
+		pending_visit: [],
+		sending_visit: [],
+		proprety_saved: [],
+		notifications: [
+			{
+				type: "",
+				url: "",
+				writting_date: "",
+				object: "",
+				content: "",
+			},
+		],
+	},
+	_setCurrentUser: (user) => set(() => ({ currentUser: user })),
 	seter: {
 		_setMail: (mail) =>
 			set((store) => ({ user: { ...store.user, mail: mail } })),
