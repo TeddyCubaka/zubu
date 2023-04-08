@@ -204,3 +204,9 @@ main {
 .one_proprety_card{
 	width: 300px !important;
 }
+.slideBarMobile{
+	display: none;
+}
+.hideSlidBar{
+	display: none;
+}

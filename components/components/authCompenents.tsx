@@ -258,11 +258,12 @@ export function Login() {
 						doIfError: (err) => {
 							sendingData(false);
 							_setErrorData({
-								message:
-									err.response.status == 401
+								message: err.response
+									? err.response.status == 401
 										? "Mot de pass ou mail incorect"
-										: "Un problème est survenue. Réessayez plus tard",
-								error: err.response.data.error,
+										: "Un problème est survenue. Réessayez plus tard"
+									: err.code,
+								error: err.stack,
 								hasError: true,
 							});
 						},

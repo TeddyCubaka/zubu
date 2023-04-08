@@ -10,21 +10,31 @@ import { IconType } from "react-icons";
 import { headerStore } from "../../store/header";
 import { shallow } from "zustand/shallow";
 
-interface UserMenuLinkType {
+export interface UserMenuLinkType {
 	href: string;
 	content: string;
 	Icon: IconType;
 	doOnClick?: () => void;
+	color?: string;
 }
 
-const UserMenuLink = ({ href, content, Icon, doOnClick }: UserMenuLinkType) => {
+export const UserMenuLink = ({
+	href,
+	content,
+	Icon,
+	doOnClick,
+	color,
+}: UserMenuLinkType) => {
 	const [changeUserMenuShowing] = headerStore(
 		(store) => [store.changeUserMenuShowing],
 		shallow
 	);
 	return (
 		<Link
-			className="color_w text_dec_none flex_x-center txt_meddium_on_hovering"
+			className={
+				(color ? color : "color_w") +
+				"  text_dec_none flex_x-center txt_meddium txt_meddium_on_hovering"
+			}
 			href={href}
 			onClick={() => {
 				changeUserMenuShowing(false);
@@ -120,7 +130,7 @@ export default function Header() {
 								? changeUserMenuShowing(false)
 								: changeUserMenuShowing(true)
 						}>
-						{username !== null ? (
+						{username ? (
 							<>
 								<div
 									className="flex_center-xy"
@@ -142,7 +152,7 @@ export default function Header() {
 								)}
 							</>
 						) : (
-							<FaUserCircle size="50" />
+							<FaUserCircle size={35} color="white" />
 						)}
 					</div>
 				</div>
