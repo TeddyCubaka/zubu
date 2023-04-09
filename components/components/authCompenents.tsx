@@ -267,7 +267,7 @@ export function Login() {
 										? "Mot de pass ou mail incorect"
 										: "Un problème est survenue. Réessayez plus tard"
 									: err.code,
-								error: err.stack,
+								error: JSON.stringify(err),
 								hasError: true,
 							});
 						},
@@ -294,4 +294,9 @@ export function ErrorShower() {
 	return (
 		<div className="color_red w_max m_x-20 txt_small"> {error.message} </div>
 	);
+}
+
+export function Error() {
+	const [error] = userStore((store) => [store.status.errorData], shallow);
+	return <div className="color_red w_max m_x-20"> {error.error} </div>;
 }
