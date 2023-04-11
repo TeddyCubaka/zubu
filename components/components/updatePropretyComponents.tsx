@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { propretyStore, loaderStatus } from "../../store/proprety";
-import { RoomDetails, TenantChargeType } from "../interface/proprety";
+import { RoomDetailsType, TenantChargeType } from "../interface/proprety";
 import Image from "next/image";
 import { FiEdit } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
@@ -253,7 +253,7 @@ export function SectionHead(props: SectionHeadProps) {
 
 interface SectionDetailCardProps {
 	index: number;
-	room: RoomDetails;
+	room: RoomDetailsType;
 	removeRoom: (index: number) => void;
 	updateStatus: () => void;
 }
@@ -307,8 +307,8 @@ function SectionAddDetailButton(props: SectionAddDetailButtonProps) {
 }
 
 interface HouseInformationUpdatingProps {
-	getRooms: { rooms: RoomDetails[] };
-	addRooms: (string: RoomDetails) => void;
+	getRooms: { rooms: RoomDetailsType[] };
+	addRooms: (string: RoomDetailsType) => void;
 	removeRooms: (index: number) => void;
 	_id: string;
 	title: string;
@@ -322,7 +322,7 @@ function HouseInformationUpdating({
 	removeRooms,
 }: HouseInformationUpdatingProps) {
 	const propretyDescription = propretyStore().proprety.description;
-	const [partialRoom, setPartialRoom] = useState<RoomDetails>({
+	const [partialRoom, setPartialRoom] = useState<RoomDetailsType>({
 		name: "",
 		size: 0,
 		unit: "m²",

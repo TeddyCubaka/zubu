@@ -111,7 +111,6 @@
 	}
 	.proprety_update_card_section{
 		width: 95vw;
-		/* margin: 0 10px; */
 		display: flex;
 		flex-direction: column-reverse;
 	}
@@ -125,10 +124,12 @@
 	.proprety_gallery_images{
 		width: 100%;
 		display: flex;
-		/* overflow-x: scroll; */
 	}
 	.proprety_gallery_images div{
 		height: 200px;
 		width: 200px;
+	}
+	.image_topbar_in_proprety_gallery {
+		margin-bottom: -31px;
 	}
 }

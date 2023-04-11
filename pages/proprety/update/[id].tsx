@@ -5,14 +5,12 @@ import React, { useEffect, useState } from "react";
 import Header from "../../../components/general/header";
 import { propretyStore } from "../../../store/proprety";
 import Footer from "../../../components/general/footer";
-import PropretyNavbar from "../../../components/components/PropretyNavbar";
 import {
 	PropretyGalleryUpdate,
 	ExternalDescription,
 	InternalDescription,
 	TenantCharge,
 	UpdateRentalInformation,
-	PropretyBanner,
 } from "../../../components/components/updatePropretyComponents";
 import SomethingWentWrong from "../../../components/atoms/somethingWentWrong";
 
@@ -73,9 +71,6 @@ export default function Publication() {
 							<div className="two_part m-20 gap-20 proprety_update_card_section">
 								<div className="">
 									<UpdateRentalInformation />
-									<div className="m_top-10">
-										<PropretyNavbar />
-									</div>
 									<InternalDescription />
 									<ExternalDescription />
 									<TenantCharge />

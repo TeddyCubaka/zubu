@@ -1,100 +1,10 @@
-import Image from "next/image";
 import { HiPlusSm } from "react-icons/hi";
-import { PropretyStore, propretyStore } from "../../store/proprety";
-import { MdDelete, MdDownload } from "react-icons/md";
-import React, { useRef, useState } from "react";
+import { propretyStore } from "../../store/proprety";
+import React, { useState } from "react";
 import { SectionHead } from "./updatePropretyComponents";
-import { sendToServer, uploadImage } from "../usefulFuction/requests";
-
-interface ImageProps {
-	source: string;
-	description: string;
-	deleter: any;
-}
-
-interface UploadImagesToCloudProps {
-	setGalleryUrls: (urls: string[]) => void;
-	setUploadingImagesToCloud: (state: boolean) => void;
-	proprety: PropretyStore;
-}
-
-interface UploadToCloudButton {
-	proprety: PropretyStore;
-	_setDispalyUploadImages: (state: boolean) => void;
-}
-
-function PropretyImage(props: ImageProps) {
-	const [topBarDisplayed, setTopBarDisplayed] = React.useState<boolean>(false);
-	const imageRef = useRef<null | HTMLImageElement>(null);
-
-	return (
-		<div
-			className="w_auto h_auto hidde border-gray"
-			onMouseOver={() => setTopBarDisplayed(true)}
-			onMouseLeave={() => setTopBarDisplayed(false)}>
-			{topBarDisplayed ? (
-				<div className="image_topbar_in_proprety_gallery space_between txt_normal color_w">
-					<a href={imageRef.current?.currentSrc} download={"shesh"}>
-						<MdDownload size="18px" color="white" />{" "}
-					</a>
-					<MdDelete size="18px" onClick={props.deleter} />
-				</div>
-			) : (
-				""
-			)}
-			<Image
-				ref={imageRef}
-				className="h_auto w_max"
-				src={props.source}
-				width={300}
-				height={300}
-				alt={props.description}
-			/>
-		</div>
-	);
-}
-
-function UploadToCloudButton({
-	proprety,
-	_setDispalyUploadImages,
-}: UploadToCloudButton) {
-	const [upload, _setUpload] = useState<boolean>(false);
-
-	return (
-		<div
-			className="m_x-10_0 btn_p btn br color_w"
-			onClick={async () => {
-				_setUpload(true);
-				for (let i = 0; i < proprety.updateDescription.files.length; i++) {
-					await uploadImage({
-						file: proprety.updateDescription.files[i],
-						getUrl: () => {},
-						getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
-						clearFileFunction: () => proprety.updateDescription.deleteFile(0),
-						getImage: proprety.updateDescription.addImagesToGallery,
-					});
-					if (i === proprety.updateDescription.files.length - 1) {
-						const sendToServerData = {
-							path: "/proprety/" + proprety.proprety._id,
-							data: {
-								description: proprety.proprety.description,
-							},
-							getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
-						};
-						sendToServer(sendToServerData);
-						_setUpload(false);
-						_setDispalyUploadImages(false);
-					}
-				}
-			}}>
-			{upload ? (
-				<span className="uploading"></span>
-			) : (
-				proprety.updateDescription.updatingGalleryStatus
-			)}
-		</div>
-	);
-}
+import { sendToServer } from "../usefulFuction/requests";
+import PropretyImage from "../atoms/images";
+import { UploadToCloudButton } from "../atoms/button";
 
 export function AdaptedImages() {
 	const proprety = propretyStore();
@@ -178,7 +88,12 @@ export function AdaptedImages() {
 										key={file.lastModified + file.name}
 										source={URL.createObjectURL(file)}
 										description={`Image ${index} de Teddy actiuo`}
-										deleter={() => proprety.updateDescription.deleteFile(index)}
+										deleter={() => {
+											proprety.updateDescription.deleteFile(index);
+											proprety.updateDescription.setUpdatingGalleryStatus(
+												"Sauvegarder"
+											);
+										}}
 									/>
 								))}
 							</div>

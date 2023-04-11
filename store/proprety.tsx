@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import {
-	Proprety,
-	Lessor,
-	TenantCharge,
-	RoomDetails,
-	PropretyGalleryImage,
+	PropretyType,
+	LessorType,
+	TenantChargeType,
+	RoomDetailsType,
+	PropretyGalleryImageType,
 } from "../components/interface/proprety";
 
-export interface UpdateRentalInformation {
+export interface UpdateRentalInformationType {
 	files: File | undefined;
 	changeAvailability: (state: boolean) => void;
 	setAvailabilyDate: (date: string) => void;
@@ -18,7 +18,7 @@ export interface UpdateRentalInformation {
 	setCoverPicture: (url: string) => void;
 	setAddress: (address: string) => void;
 	setbedRooms: (bedRooms: string) => void;
-	setLessor: (lessor: Lessor) => void;
+	setLessorType: (LessorType: LessorType) => void;
 	setFiles: (file: File) => void;
 	clearFiles: () => void;
 	setLessorName: (name: string) => void;
@@ -34,10 +34,10 @@ export interface UpdateDescription {
 	files: File[];
 	updatingGalleryStatus: string;
 	setFiles: (files: File[]) => void;
-	addInteriorRoom: (rooms: RoomDetails) => void;
-	addExternalRoom: (piece: RoomDetails) => void;
-	addTenantCharge: (charge: TenantCharge) => void;
-	addImagesToGallery: (image: PropretyGalleryImage) => void;
+	addInteriorRoom: (rooms: RoomDetailsType) => void;
+	addExternalRoom: (piece: RoomDetailsType) => void;
+	addTenantCharge: (charge: TenantChargeType) => void;
+	addImagesToGallery: (image: PropretyGalleryImageType) => void;
 	removeInteriorRoom: (index: number) => void;
 	removeExternalRoom: (index: number) => void;
 	removeTenantCharge: (index: number) => void;
@@ -50,9 +50,9 @@ export interface UpdateDescription {
 export interface PropretyStore {
 	propretyChanged: boolean;
 	_setPropretyChanged: (state: boolean) => void;
-	proprety: Proprety;
-	setProprety: (proprety: Proprety) => void;
-	updateRenatlInformation: UpdateRentalInformation;
+	proprety: PropretyType;
+	setProprety: (proprety: PropretyType) => void;
+	updateRenatlInformation: UpdateRentalInformationType;
 	updateDescription: UpdateDescription;
 }
 
@@ -245,13 +245,13 @@ export const propretyStore = create<PropretyStore>((set) => ({
 					files: undefined,
 				},
 			})),
-		setLessor: (lessor) =>
+		setLessorType: (LessorType) =>
 			set((store) => ({
 				proprety: {
 					...store.proprety,
 					rentalInformation: {
 						...store.proprety.rentalInformation,
-						lessor: lessor,
+						LessorType: LessorType,
 					},
 				},
 			})),
@@ -261,7 +261,7 @@ export const propretyStore = create<PropretyStore>((set) => ({
 					...store.proprety,
 					rentalInformation: {
 						...store.proprety.rentalInformation,
-						lessor: {
+						LessorType: {
 							...store.proprety.rentalInformation.lessor,
 							name: name,
 						},
@@ -274,7 +274,7 @@ export const propretyStore = create<PropretyStore>((set) => ({
 					...store.proprety,
 					rentalInformation: {
 						...store.proprety.rentalInformation,
-						lessor: {
+						LessorType: {
 							...store.proprety.rentalInformation.lessor,
 							contacts: contacts,
 						},

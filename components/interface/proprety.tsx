@@ -1,4 +1,4 @@
-export interface Lessor {
+export interface LessorType {
 	fullName: string;
 	contacts: string;
 }
@@ -8,7 +8,7 @@ export interface BasicalDetailsType {
 	content: string;
 }
 
-export interface RentalInformation {
+export interface RentalInformationType {
 	isAvailable: boolean;
 	availabilityDate: string;
 	RentalType: string;
@@ -19,10 +19,10 @@ export interface RentalInformation {
 	coverPicture: string;
 	address: string;
 	bedRooms: string;
-	lessor: Lessor;
+	lessor: LessorType;
 }
 
-export interface PropretyGalleryImage {
+export interface PropretyGalleryImageType {
 	_id: string;
 	url: string;
 	width: number;
@@ -38,28 +38,28 @@ export interface TenantChargeType {
 	currency: string;
 }
 
-export interface RoomDetails {
+export interface RoomDetailsType {
 	name: string;
 	size: number;
 	unit: string;
 }
 
-export interface Proprety {
+export interface PropretyType {
 	_id: string;
 	owner: string;
 	uploadDate: string;
 	updateDate: string[];
 	questions: string[];
 	visits: string[];
-	rentalInformation: RentalInformation;
+	rentalInformation: RentalInformationType;
 	description: {
-		gallery: PropretyGalleryImage[];
+		gallery: PropretyGalleryImageType[];
 		tenantCharges: TenantChargeType[];
 		interior: {
-			rooms: RoomDetails[];
+			rooms: RoomDetailsType[];
 		};
 		external: {
-			rooms: RoomDetails[];
+			rooms: RoomDetailsType[];
 		};
 		furniture: string[];
 		geographicLocation: {
