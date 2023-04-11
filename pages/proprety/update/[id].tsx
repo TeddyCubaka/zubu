@@ -1,7 +1,7 @@
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../components/general/header";
 import { propretyStore } from "../../../store/proprety";
 import Footer from "../../../components/general/footer";
@@ -14,25 +14,43 @@ import {
 	UpdateRentalInformation,
 	PropretyBanner,
 } from "../../../components/components/updatePropretyComponents";
+import SomethingWentWrong from "../../../components/atoms/somethingWentWrong";
 
 export default function Publication() {
 	const proprety = propretyStore();
-	const setProprety = proprety.setProprety
+	const setProprety = proprety.setProprety;
 	const router = useRouter();
+	const [loading, _setLoading] = useState<boolean>(false);
 	const [propretyId, setPropretyId] = React.useState<string>("");
+	const [hasError, _setHasError] = React.useState<boolean>(false);
 
 	useEffect(() => {
+		_setLoading(true);
+		proprety._setPropretyChanged(false);
+		_setHasError(false);
 		if (router.query.id && typeof router.query.id === "string")
 			setPropretyId(router.query.id);
 	}, [router.query.id]);
 
 	useEffect(() => {
-		axios
-			.get(process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety/" + propretyId)
-			.then((res) => {
-				if (!res.data[0]) setProprety(res.data);
-			})
-			.catch((err) => console.log(err));
+		_setLoading(true);
+		_setHasError(false);
+		proprety._setPropretyChanged(false);
+		if (propretyId.length > 2) {
+			axios
+				.get(process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety/" + propretyId)
+				.then((res) => {
+					proprety._setPropretyChanged(true);
+					setProprety(res.data);
+					_setLoading(false);
+					_setHasError(false);
+				})
+				.catch((err) => {
+					_setHasError(true);
+					_setLoading(false);
+					console.log(err);
+				});
+		}
 	}, [propretyId, setProprety]);
 
 	return (
@@ -48,21 +66,30 @@ export default function Publication() {
 			</Head>
 			<main>
 				<Header />
-				<div className="flex m_wax h_max"> updating a random proprety </div>
-				<div className="two_part m_x-20">
-					<div className="">
-						<PropretyBanner />
-						<UpdateRentalInformation />
-						<div className="m_top-10">
-							<PropretyNavbar />
-						</div>
-						<InternalDescription />
-						<ExternalDescription />
-						<TenantCharge />
-					</div>
-					<div>
-						<PropretyGalleryUpdate />
-					</div>
+				<div className="flex_y_center-xy">
+					{loading ? <span className="uploading_blue"></span> : ""}
+					{proprety.propretyChanged ? (
+						<>
+							<div className="two_part m-20 gap-20 proprety_update_card_section">
+								<div className="">
+									<PropretyBanner />
+									<UpdateRentalInformation />
+									<div className="m_top-10">
+										<PropretyNavbar />
+									</div>
+									<InternalDescription />
+									<ExternalDescription />
+									<TenantCharge />
+								</div>
+								<div className="m_right-2">
+									<PropretyGalleryUpdate />
+								</div>
+							</div>
+						</>
+					) : (
+						""
+					)}
+					{hasError ? <SomethingWentWrong /> : ""}
 				</div>
 				<Footer />
 			</main>

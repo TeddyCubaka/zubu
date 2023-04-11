@@ -48,6 +48,8 @@ export interface UpdateDescription {
 }
 
 export interface PropretyStore {
+	propretyChanged: boolean;
+	_setPropretyChanged: (state: boolean) => void;
 	proprety: Proprety;
 	setProprety: (proprety: Proprety) => void;
 	updateRenatlInformation: UpdateRentalInformation;
@@ -55,6 +57,8 @@ export interface PropretyStore {
 }
 
 export const propretyStore = create<PropretyStore>((set) => ({
+	propretyChanged: false,
+	_setPropretyChanged: (state) => set(() => ({ propretyChanged: state })),
 	proprety: {
 		_id: "",
 		owner: "",
