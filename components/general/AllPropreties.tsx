@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Proprety } from "../interface/proprety";
+import { PropretyType } from "../interface/proprety";
 import PropretyCard, { PropretyCardType } from "../components/propretyViewCard";
 
 export default function AllPropreties() {
@@ -11,7 +11,7 @@ export default function AllPropreties() {
 		axios(process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety")
 			.then((res) => {
 				const response: PropretyCardType[] = [];
-				res.data.map((proprety: Proprety) => {
+				res.data.map((proprety: PropretyType) => {
 					response.push({
 						_id: proprety._id,
 						rentalInformation: { ...proprety.rentalInformation },

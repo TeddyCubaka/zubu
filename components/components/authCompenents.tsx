@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
-import {
-	Input,
-	InputHasDetails,
-	InputProps,
-	SendToServer,
-	sendToServer,
-} from "./updatePropretyComponents";
+import { Input, InputHasDetails } from "../atoms/form";
 import { userStore } from "../../store/user";
 import { BiShow, BiHide } from "react-icons/bi";
 import { PrimaryButton } from "../atoms/button";
 import { shallow } from "zustand/shallow";
 import { useRouter } from "next/router";
+import { InputProps } from "../interface/atoms";
+import { SendToServerType } from "../interface/requests";
+import { sendToServer } from "../usefulFuction/requests";
 
 interface InputedPassword {
 	firstPassword: string;
@@ -177,7 +174,7 @@ export function Signup() {
 						username: user.username,
 						gender: user.gender,
 					};
-					const sendToServerData: SendToServer = {
+					const sendToServerData: SendToServerType = {
 						path: "/user",
 						data: newUserData,
 						getStatus: getUserSignupStatus,
@@ -255,7 +252,7 @@ export function Login() {
 						error: "",
 						hasError: false,
 					});
-					const sendToServerData: SendToServer = {
+					const sendToServerData: SendToServerType = {
 						path: "/user/auth",
 						data: loginData,
 						getStatus: getUserLoginStatus,

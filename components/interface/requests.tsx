@@ -1,4 +1,4 @@
-import { PropretyGalleryImage } from "../interface/proprety";
+import { PropretyGalleryImageType } from "../interface/proprety";
 
 export interface SendToServerType {
 	path: string;
@@ -23,6 +23,6 @@ export interface UploadImageProps {
 	getUrl?: (string: string) => void;
 	getStatus: (string: string) => void;
 	clearFileFunction: () => void;
-	getImage: (images: PropretyGalleryImage) => void;
-	doAfterResponse?: (e: PropretyGalleryImage) => void;
+	getImage: (images: PropretyGalleryImageType) => void;
+	doAfterResponse?: (e: PropretyGalleryImageType) => void;
 }

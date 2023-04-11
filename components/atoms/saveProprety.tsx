@@ -1,17 +1,8 @@
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import {
-	sendToServer,
-	SendToServer,
-} from "../components/updatePropretyComponents";
+import { SendToServerType } from "../interface/requests";
+import { sendToServer } from "../usefulFuction/requests";
 
-interface SendToSherver {
-	path: string;
-	data: Object;
-	getStatus: (status: string) => void;
-	getData?: (data: Object) => void;
-	doAfterSuccess?: (data: object) => void;
-}
 type LocalPropretyType = {
 	propretyId: string;
 };
@@ -22,7 +13,7 @@ export function SaveProprety({ propretyId }: LocalPropretyType) {
 		saveState ? setSaveState(false) : setSaveState(true);
 	};
 
-	const dataToSave: SendToServer = {
+	const dataToSave: SendToServerType = {
 		path: "/user/save/" + propretyId,
 		data: {},
 		getStatus: () => {},

@@ -5,12 +5,12 @@ import { ImRadioChecked, ImRadioChecked2 } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
 import { BsHouseFill } from "react-icons/bs";
 import axios from "axios";
-import { Input } from "./updatePropretyComponents";
 import {
 	isTwoWord,
 	isValidContactValue,
 } from "../usefulFuction/propretyValidator";
 import { useRouter } from "next/router";
+import { Input } from "../atoms/form";
 
 interface ButtonCOndition {
 	conditionToPass: string;

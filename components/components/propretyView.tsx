@@ -3,7 +3,10 @@ import { MdShare } from "react-icons/md";
 import { propretyStore } from "../../store/proprety";
 import PropretyAvailability from "../atoms/propretyAvailability";
 import { SaveProprety } from "../atoms/saveProprety";
-import { PropretyGalleryImage, RoomDetails } from "../interface/proprety";
+import {
+	PropretyGalleryImageType,
+	RoomDetailsType,
+} from "../interface/proprety";
 import {
 	getAdressForTenant,
 	getCurrencySymbol,
@@ -85,7 +88,7 @@ export function AskForVisit() {
 	);
 }
 
-function Room(props: RoomDetails) {
+function Room(props: RoomDetailsType) {
 	return (
 		<div className="one_line_txt">
 			<span className="strong">
@@ -164,7 +167,7 @@ export function TenantCharges() {
 }
 
 export function PropretyGalleryView() {
-	const gallery: PropretyGalleryImage[] =
+	const gallery: PropretyGalleryImageType[] =
 		propretyStore().proprety.description.gallery;
 	return (
 		<>

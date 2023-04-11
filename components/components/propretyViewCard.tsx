@@ -2,7 +2,7 @@ import React from "react";
 import { FaMapMarkerAlt, FaPercent } from "react-icons/fa";
 import { IoMdPricetag } from "react-icons/io";
 import { MdOutlineBedroomChild } from "react-icons/md";
-import { RentalInformation } from "../interface/proprety";
+import { RentalInformationType } from "../interface/proprety";
 import { BsFillHouseFill } from "react-icons/bs";
 import Image from "next/image";
 import { getPublicAdress } from "../usefulFuction/getPublicAdress";
@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 export interface PropretyCardType {
 	path?: string;
 	_id: string;
-	rentalInformation: RentalInformation;
+	rentalInformation: RentalInformationType;
 }
 
 export default function PropretyCard(proprety: PropretyCardType) {

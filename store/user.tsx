@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Proprety } from "../components/interface/proprety";
+import { PropretyType } from "../components/interface/proprety";
 import {
 	User,
 	UserUpdateDatas,
@@ -9,8 +9,8 @@ import {
 export interface UserStore {
 	user: User;
 	currentUser: User;
-	currentUserPropreties: Proprety[];
-	getCurrentUserPropreties: (propreties: Proprety[]) => void;
+	currentUserPropreties: PropretyType[];
+	getCurrentUserPropreties: (propreties: PropretyType[]) => void;
 	_setCurrentUser: (user: User) => void;
 	seter: UserUpdateDatas;
 	status: UserStatus;

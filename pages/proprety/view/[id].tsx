@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import Header from "../../../components/general/header";
 import { propretyStore } from "../../../store/proprety";
 import Footer from "../../../components/general/footer";
-import PropretyNavbar from "../../../components/components/PropretyNavbar";
 import {
 	AskForVisit,
 	ExternalRooms,
