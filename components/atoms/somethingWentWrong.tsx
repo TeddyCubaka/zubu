@@ -1,7 +1,7 @@
 export default function SomethingWentWrong() {
 	return (
 		<div>
-			<span>Une erreur s'est produite, veuillez réessayer plus tard.</span>
+			<span>Une erreur s&apos;est produite, veuillez réessayer plus tard.</span>
 		</div>
 	);
 }

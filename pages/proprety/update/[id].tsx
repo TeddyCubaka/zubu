@@ -17,6 +17,7 @@ import SomethingWentWrong from "../../../components/atoms/somethingWentWrong";
 export default function Publication() {
 	const proprety = propretyStore();
 	const setProprety = proprety.setProprety;
+	const _setPropretyChanged = proprety._setPropretyChanged;
 	const router = useRouter();
 	const [loading, _setLoading] = useState<boolean>(false);
 	const [propretyId, setPropretyId] = React.useState<string>("");
@@ -24,21 +25,21 @@ export default function Publication() {
 
 	useEffect(() => {
 		_setLoading(true);
-		proprety._setPropretyChanged(false);
+		_setPropretyChanged(false);
 		_setHasError(false);
 		if (router.query.id && typeof router.query.id === "string")
 			setPropretyId(router.query.id);
-	}, [router.query.id]);
+	}, [router.query.id, _setPropretyChanged]);
 
 	useEffect(() => {
 		_setLoading(true);
 		_setHasError(false);
-		proprety._setPropretyChanged(false);
+		_setPropretyChanged(false);
 		if (propretyId.length > 2) {
 			axios
 				.get(process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety/" + propretyId)
 				.then((res) => {
-					proprety._setPropretyChanged(true);
+					_setPropretyChanged(true);
 					setProprety(res.data);
 					_setLoading(false);
 					_setHasError(false);
@@ -46,10 +47,9 @@ export default function Publication() {
 				.catch((err) => {
 					_setHasError(true);
 					_setLoading(false);
-					console.log(err);
 				});
 		}
-	}, [propretyId, setProprety]);
+	}, [propretyId, setProprety, _setPropretyChanged]);
 
 	return (
 		<>

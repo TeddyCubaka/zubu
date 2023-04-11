@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { userStore } from "../../store/user";
-import { Proprety } from "../interface/proprety";
+import { PropretyType } from "../interface/proprety";
 import { AskToServerDataType } from "../interface/requests";
 import { askToServerData } from "../usefulFuction/requests";
 import PropretyCard from "./propretyViewCard";
@@ -43,7 +43,7 @@ export function UserInformation() {
 				JSON.parse(currentUserHasString !== null ? currentUserHasString : "")
 			);
 		}
-	}, []);
+	}, [_setCurrentUser]);
 	return (
 		<div
 			style={{ height: "200px", width: "100%" }}
@@ -89,7 +89,7 @@ export function UserInformation() {
 export function GetUserPropreties() {
 	const user = userStore();
 	const [userExitInStorage, _setUserExitInStorage] = useState<boolean>(false);
-	const [propreties, _setPropreties] = useState<Proprety[]>([]);
+	const [propreties, _setPropreties] = useState<PropretyType[]>([]);
 	useEffect(() => {
 		if (window !== undefined) {
 			let path: string = "";
@@ -108,7 +108,7 @@ export function GetUserPropreties() {
 			console.log("user :", user.currentUserPropreties);
 			askToServerData(params);
 		}
-	}, []);
+	}, [user.currentUserPropreties]);
 	return (
 		<div>
 			{userExitInStorage ? (
@@ -131,7 +131,7 @@ export function GetUserPropreties() {
 				</div>
 			) : (
 				<div>
-					Vous n'êtes pas connecter,{" "}
+					Vous n&apos;êtes pas connecter,{" "}
 					<Link href="/user/auth">connectez-vous</Link>{" "}
 				</div>
 			)}
