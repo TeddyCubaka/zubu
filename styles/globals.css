@@ -127,6 +127,10 @@ h5 {
 	grid-column-start: 1;
 	grid-column-end: 3;
 }
+.rental_information_card .rental_information_header{
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
 .cover_picture_card {
 	width: 100%;
 	height: auto;
@@ -207,4 +211,9 @@ main {
 }
 .hideSlidBar{
 	display: none;
+}
+.proprety_gallery_images{
+	display: grid;
+	grid-template-columns: 48% 48%;
+	gap: 20px;
 }

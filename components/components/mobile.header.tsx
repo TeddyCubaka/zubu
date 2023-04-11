@@ -89,7 +89,7 @@ const SliderBarSection = () => {
 			Icon: IoHeart,
 		},
 		{
-			href: "#",
+			href: "/user/propreties",
 			content: "Vos propriétés",
 			Icon: FaHouseUser,
 		},

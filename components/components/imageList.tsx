@@ -3,11 +3,8 @@ import { HiPlusSm } from "react-icons/hi";
 import { PropretyStore, propretyStore } from "../../store/proprety";
 import { MdDelete, MdDownload } from "react-icons/md";
 import React, { useRef, useState } from "react";
-import {
-	SectionHead,
-	sendToServer,
-	uploadImage,
-} from "./updatePropretyComponents";
+import { SectionHead } from "./updatePropretyComponents";
+import { sendToServer, uploadImage } from "../usefulFuction/requests";
 
 interface ImageProps {
 	source: string;
@@ -32,7 +29,7 @@ function PropretyImage(props: ImageProps) {
 
 	return (
 		<div
-			className="w_max h_auto hidden border-gray m_y-10"
+			className="w_auto h_auto hidde border-gray"
 			onMouseOver={() => setTopBarDisplayed(true)}
 			onMouseLeave={() => setTopBarDisplayed(false)}>
 			{topBarDisplayed ? (
@@ -61,7 +58,7 @@ function UploadToCloudButton({
 	proprety,
 	_setDispalyUploadImages,
 }: UploadToCloudButton) {
-	const [upload, _setUpload] = useState<Boolean>(false);
+	const [upload, _setUpload] = useState<boolean>(false);
 
 	return (
 		<div
@@ -128,21 +125,18 @@ export function AdaptedImages() {
 				setUpdatingStatus={proprety.updateDescription.setUpdatingGalleryStatus}
 			/>
 			{proprety.proprety.description.gallery.length > 0 ? (
-				<div
-					style={{
-						columnCount:
-							proprety.proprety.description.gallery.length > 2 ? 2 : 1,
-					}}
-					className="m_y-10">
+				<div className="m_y-10 proprety_gallery_images">
 					{proprety.proprety.description.gallery.map((img) => (
-						<PropretyImage
-							source={img.url}
-							description={img.publicId + img.uploadDate}
-							deleter={() =>
-								proprety.updateDescription.deleteImageFromGallery(img.url)
-							}
-							key={img.publicId}
-						/>
+						<>
+							<PropretyImage
+								source={img.url}
+								description={img.publicId + img.uploadDate}
+								deleter={() =>
+									proprety.updateDescription.deleteImageFromGallery(img.url)
+								}
+								key={img.publicId}
+							/>
+						</>
 					))}
 				</div>
 			) : (

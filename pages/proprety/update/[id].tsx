@@ -66,13 +66,12 @@ export default function Publication() {
 			</Head>
 			<main>
 				<Header />
-				<div className="flex_y_center-xy">
+				<div className="flex_y_center-xy gap-20">
 					{loading ? <span className="uploading_blue"></span> : ""}
 					{proprety.propretyChanged ? (
 						<>
 							<div className="two_part m-20 gap-20 proprety_update_card_section">
 								<div className="">
-									<PropretyBanner />
 									<UpdateRentalInformation />
 									<div className="m_top-10">
 										<PropretyNavbar />

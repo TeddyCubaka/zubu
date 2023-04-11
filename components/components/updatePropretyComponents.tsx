@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { GoChevronDown, GoChevronUp } from "react-icons/go";
 import { propretyStore, loaderStatus } from "../../store/proprety";
-import {
-	PropretyGalleryImage,
-	RoomDetails,
-	TenantCharge,
-} from "../interface/proprety";
+import { RoomDetails, TenantChargeType } from "../interface/proprety";
 import Image from "next/image";
-import axios from "axios";
 import { FiEdit } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
 import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
@@ -16,99 +10,9 @@ import { AdaptedImages } from "./imageList";
 import { BsFillHouseFill } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import PropretyAvailability from "../atoms/propretyAvailability";
-
-export interface InputHasDetailsProps {
-	detailsData: string[];
-	store: string;
-	object: string;
-	customClass?: string;
-	hasInput?: boolean;
-	sendToStore: (string: string) => void;
-}
-export interface InputProps {
-	value: string;
-	sendToStore: (string: string) => void;
-	type?: string;
-	subject: string;
-	customClass?: string;
-	placeholder?: string;
-	required?: boolean;
-}
-export interface InputNumberProps {
-	value: number;
-	sendToStore: (value: number) => void;
-	subject: string;
-	customClass?: string;
-	placeholder?: string;
-}
-interface UploadImage {
-	file: File | string;
-	getUrl?: (string: string) => void;
-	getStatus: (string: string) => void;
-	clearFileFunction: () => void;
-	getImage: (images: PropretyGalleryImage) => void;
-	doAfterResponse?: (e: PropretyGalleryImage) => void;
-}
-
-export interface SendToServer {
-	path: string;
-	data: Object;
-	getStatus: (status: string) => void;
-	getData?: (data: Object) => void;
-	doAfterSuccess?: (data: object) => void;
-	doIfError?: (data: any) => void;
-}
-export const uploadImage = async (props: UploadImage) => {
-	props.getStatus("Envoie d'images");
-	const formData = new FormData();
-	formData.append("file", props.file);
-	formData.append("upload_preset", "zubustein");
-	await axios
-		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
-		.then(async (res) => {
-			const image = {
-				_id: res.data._id,
-				url: res.data.secure_url,
-				width: res.data.width,
-				height: res.data.height,
-				size: res.data.bytes,
-				uploadDate: res.data.created_at,
-				publicId: res.data.public_id,
-			};
-			if (props.getUrl) props.getUrl(res.data.secure_url);
-			if (props.doAfterResponse) props.doAfterResponse(image);
-			props.getImage(image);
-			props.getStatus("finish");
-			props.clearFileFunction();
-		})
-		.catch((err) => {
-			props.getStatus("error");
-		});
-};
-
-export function sendToServer(props: SendToServer) {
-	axios({
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: "Bearer " + localStorage.getItem("token"),
-		},
-		method: "POST",
-		url: process.env.NEXT_PUBLIC_DB_SERVER_URL + props.path,
-		data: props.data,
-	})
-		.then((res) => {
-			if (props.getData) props.getData(res.data);
-			console.log(res.data);
-			props.getStatus("À jour");
-			if (props.doAfterSuccess) props.doAfterSuccess(res.data);
-		})
-		.catch((err) => {
-			console.log(err);
-			if (props.getData) props.getData(err);
-			if (props.doIfError) props.doIfError(err);
-			props.getStatus("Echec");
-		});
-}
+import { sendToServer, uploadImage } from "../usefulFuction/requests";
+import { SendToServerType } from "../interface/requests";
+import { Input, InputHasDetails, InputNumber } from "../atoms/form";
 
 const propretyType = [
 	"Maison meublé",
@@ -120,150 +24,46 @@ const propretyType = [
 	"Terrasse",
 ];
 
-export function Input({
-	value,
-	sendToStore,
-	type,
-	subject,
-	customClass,
-	placeholder,
-	required,
-}: InputProps) {
-	const [fullInputWidth, setFullInputWidth] = useState<boolean>(false);
-
-	return (
-		<div
-			className={"input_w_label " + customClass}
-			onClick={() => setFullInputWidth(true)}
-			onMouseLeave={() => setFullInputWidth(false)}>
-			<label className={"one_line_txt"}>
-				{" "}
-				{subject.split(" :")[0]}{" "}
-				{required ? <span className="color_red">*</span> : ""}
-				{" :"}
-			</label>
-			<input
-				type={type ? type : "text"}
-				placeholder={placeholder}
-				className={
-					"br w_max txt_normal " + (type === "date" ? "txt_center" : "")
-				}
-				value={value ? value : ""}
-				onChange={(e) => {
-					e.preventDefault();
-					sendToStore(e.target.value);
-				}}
-			/>
-		</div>
-	);
-}
-
-export function InputNumber(props: InputNumberProps) {
-	return (
-		<div className={"input_w_label " + props.customClass}>
-			<label className="txt_meddium one_line_txt"> {props.subject} </label>
-			<input
-				type="number"
-				placeholder={props.placeholder ? props.placeholder : "Ècrivez..."}
-				className={"br w_max txt_normal "}
-				value={props.value}
-				onChange={(e) => {
-					e.preventDefault();
-					if (e.target.value === "") props.sendToStore(0);
-					if (Number(e.target.value)) props.sendToStore(Number(e.target.value));
-				}}
-			/>
-		</div>
-	);
-}
-
-export function InputHasDetails({
-	detailsData,
-	sendToStore,
-	store,
-	object,
-	customClass,
-	hasInput,
-}: InputHasDetailsProps) {
-	const [showDetails, setShowDetails] = useState<boolean>(false);
-
-	return (
-		<div className={"space_between-y input_has_detais " + customClass}>
-			<div className="input_w_label pd-10 w_auto">
-				{object ? (
-					<div className="txt_meddium one_line_txt"> {object} </div>
-				) : (
-					""
-				)}
-				{hasInput ? (
-					<input
-						type="text"
-						value={store.length > 0 ? store : ""}
-						className="m_x-5 w_max txt_normal"
-						placeholder="Écrivez..."
-						onChange={(e) => {
-							e.preventDefault();
-							if (e.target.value === "") sendToStore(detailsData[0]);
-							sendToStore(e.target.value);
-						}}
-					/>
-				) : (
-					<div
-						className="m_x-5 w_max color_gray"
-						onClick={() => {
-							if (showDetails) setShowDetails(false);
-							else setShowDetails(true);
-						}}>
-						{" "}
-						{store ? store : ""}{" "}
-					</div>
-				)}
-				<button
-					className="no_border bg_color_w"
-					onClick={() => {
-						if (showDetails) setShowDetails(false);
-						else setShowDetails(true);
-					}}>
-					{showDetails ? (
-						<GoChevronUp size="18" />
-					) : (
-						<GoChevronDown size="18" />
-					)}
-				</button>
-			</div>
-			{showDetails ? (
-				<div className="div_details flex_y_center-xy w_auto">
-					{detailsData.map((detail, index) => (
-						<span
-							className="pd_y-5 w_max txt_center br choice_span"
-							onClick={() => {
-								sendToStore(detail);
-								if (showDetails) setShowDetails(false);
-								else setShowDetails(true);
-							}}
-							key={detail}>
-							{" "}
-							{detail}{" "}
-						</span>
-					))}
-				</div>
-			) : (
-				""
-			)}
-		</div>
-	);
-}
-
 export function CoverPicture() {
 	const loader = loaderStatus();
 	const proprety = propretyStore();
 
+	const pictureSource =
+		(proprety.updateRenatlInformation.files
+			? URL.createObjectURL(proprety.updateRenatlInformation.files)
+			: "") ||
+		(proprety.proprety.rentalInformation.coverPicture.length > 0
+			? proprety.proprety.rentalInformation.coverPicture
+			: "");
+
+	const uploadCoverImage = async () => {
+		await uploadImage({
+			file: proprety.updateRenatlInformation.files
+				? proprety.updateRenatlInformation.files
+				: "",
+			getStatus: loader.setUploadingCoverPicture,
+			getUrl: proprety.updateRenatlInformation.setCoverPicture,
+			clearFileFunction: proprety.updateRenatlInformation.clearFiles,
+			getImage: () => {},
+			doAfterResponse: () =>
+				sendToServer({
+					data: {
+						rentalInformation: proprety.proprety.rentalInformation,
+					},
+					path: "/proprety/" + proprety.proprety._id,
+					getStatus: loader.setUploadingCoverPicture,
+				}),
+		});
+	};
+
 	return (
-		<div className="h_max w_max space_between-y">
-			<label htmlFor="uploadCoverPicture" className="space_between w_max">
-				Choisir une image
-				<FiEdit size="18px" />
-			</label>
+		<div className="w_max column gap-10">
+			<div className="space_between w_max">
+				Photo de couverture
+				<label htmlFor="uploadCoverPicture">
+					<FiEdit size="20px" />
+				</label>
+			</div>
 			<input
 				type="file"
 				id="uploadCoverPicture"
@@ -277,7 +77,8 @@ export function CoverPicture() {
 			/>
 			<div
 				style={{
-					height: "100px",
+					minHeight: "120px",
+					maxHeight: "300px",
 					overflow: "hidden",
 					backgroundColor: "#D9D9D9",
 					border: "1px solid #B9B9B9",
@@ -290,14 +91,8 @@ export function CoverPicture() {
 						width={340}
 						height={191.25}
 						className="cover_picture_card"
-						src={
-							proprety.updateRenatlInformation.files
-								? URL.createObjectURL(proprety.updateRenatlInformation.files)
-								: proprety.proprety.rentalInformation.coverPicture.length > 0
-								? proprety.proprety.rentalInformation.coverPicture
-								: ""
-						}
-						alt="Random image"
+						src={pictureSource}
+						alt="Photo de couverture d'un appartement."
 					/>
 				) : (
 					<BsFillHouseFill size="50px" color="#B9B9B9" />
@@ -305,25 +100,7 @@ export function CoverPicture() {
 			</div>
 			<button
 				className="btn_s color_blue br txt_normal btn w_max"
-				onClick={async () => {
-					await uploadImage({
-						file: proprety.updateRenatlInformation.files
-							? proprety.updateRenatlInformation.files
-							: "",
-						getStatus: loader.setUploadingCoverPicture,
-						getUrl: proprety.updateRenatlInformation.setCoverPicture,
-						clearFileFunction: proprety.updateRenatlInformation.clearFiles,
-						getImage: () => {},
-						doAfterResponse: () =>
-							sendToServer({
-								data: {
-									rentalInformation: proprety.proprety.rentalInformation,
-								},
-								path: "/proprety/" + proprety.proprety._id,
-								getStatus: loader.setUploadingCoverPicture,
-							}),
-					});
-				}}>
+				onClick={() => uploadCoverImage()}>
 				{loader.uploadingCoverPicture}
 			</button>
 		</div>
@@ -337,7 +114,7 @@ export function UpdateRentalInformation() {
 		const data = {
 			rentalInformation: proprety.proprety.rentalInformation,
 		};
-		const thisProps: SendToServer = {
+		const thisProps: SendToServerType = {
 			path: "/proprety/" + proprety.proprety._id,
 			data: data,
 			getStatus: status.setUpdatingStatus,
@@ -347,25 +124,25 @@ export function UpdateRentalInformation() {
 
 	return (
 		<div className="rental_information_card">
+			<div className="rental_information_header column gap-10">
+				<h3 className="w_max">Information sur la location</h3>
+				<PropretyBanner />
+			</div>
 			<div className="rental_information_input m_right-10">
-				<div className="space_between">
-					<Input
-						value={proprety.proprety.rentalInformation.lessor.fullName}
-						sendToStore={proprety.updateRenatlInformation.setLessorName}
-						type={"text"}
-						subject={"Bailleur"}
-						customClass={"w_max m_right-10"}
-						placeholder={"Nom"}
-					/>
-					<Input
-						value={proprety.proprety.rentalInformation.lessor.contacts}
-						sendToStore={proprety.updateRenatlInformation.setLessorContact}
-						type={"text"}
-						subject={"Contacts"}
-						customClass={"w_max m_right-10"}
-						placeholder={"Numéro"}
-					/>
-				</div>
+				<Input
+					value={proprety.proprety.rentalInformation.lessor.fullName}
+					sendToStore={proprety.updateRenatlInformation.setLessorName}
+					type={"text"}
+					subject={"Bailleur"}
+					placeholder={"Nom"}
+				/>
+				<Input
+					value={proprety.proprety.rentalInformation.lessor.contacts}
+					sendToStore={proprety.updateRenatlInformation.setLessorContact}
+					type={"text"}
+					subject={"Contacts"}
+					placeholder={"Numéro"}
+				/>
 				<div className="space_between">
 					<Input
 						value={proprety.proprety.rentalInformation.price}
@@ -450,14 +227,14 @@ export function UpdateRentalInformation() {
 interface SectionHeadProps {
 	title: string;
 	setUpdatingStatus: (status: string) => void;
-	sendToServerProps: SendToServer;
+	sendToServerProps: SendToServerType;
 	updatingStatus: string;
 	uploadImages?: () => void;
 }
 
 export function SectionHead(props: SectionHeadProps) {
 	return (
-		<div className="flex space_between">
+		<div className="flex space_between m_y-10">
 			<h3>{props.title}</h3>
 			<button
 				className="btn_s btn color_blue br txt_normal"
@@ -483,7 +260,7 @@ interface SectionDetailCardProps {
 
 function SectionDetailCard(props: SectionDetailCardProps) {
 	return (
-		<div className="flex">
+		<div className="flex m_y-10">
 			<div className="flex pd-5 br border-gray w_max m_right-10">
 				<div className="one_line_txt m_right-20 txt_meddium">
 					{props.room.name} {" :"}
@@ -593,10 +370,10 @@ function HouseInformationUpdating({
 						/>
 					))
 				) : (
-					<div>Ajoutez une information</div>
+					<div className="m_y-10">Ajoutez une information</div>
 				)}
 				<div className="flex">
-					<div className="w_max flex m_right-10">
+					<div className="w_max flex">
 						<InputHasDetails
 							detailsData={["Salon", "Salle à manger", "Toillettes", "Douches"]}
 							store={getRoomObject}
@@ -608,6 +385,7 @@ function HouseInformationUpdating({
 						<InputNumber
 							subject="Surface"
 							value={getRoombedRooms}
+							customClass={"m_right-10"}
 							sendToStore={setRoombedRooms}
 						/>
 						<InputHasDetails
@@ -615,7 +393,6 @@ function HouseInformationUpdating({
 							store={getRoomUnit}
 							object={"Unités"}
 							sendToStore={setRoomUnit}
-							customClass={"m_right-10 "}
 							hasInput={true}
 						/>
 					</div>
@@ -664,7 +441,7 @@ export function ExternalDescription() {
 export function TenantCharge() {
 	const proprety = propretyStore();
 
-	const [charge, setCharge] = useState<TenantCharge>({
+	const [charge, setCharge] = useState<TenantChargeType>({
 		charge: "",
 		price: 0,
 		currency: "m²",
@@ -688,7 +465,7 @@ export function TenantCharge() {
 	}, [getCurrency]);
 
 	return (
-		<div className="grid row_gap-10 m_top-10">
+		<div className="grid row_gap-10 m_y-10">
 			<SectionHead
 				title={"Charge du locateur"}
 				sendToServerProps={{
@@ -701,10 +478,12 @@ export function TenantCharge() {
 				updatingStatus={updatingStatus}
 				setUpdatingStatus={setUpdatingStatus}
 			/>
-			<div className="grid row_gap-10">
+			<div className="grid row_gap-10 m_y-10">
 				{proprety.proprety.description.tenantCharges.length > 0 ? (
 					proprety.proprety.description.tenantCharges.map((charge, index) => (
-						<div className="flex" key={index}>
+						<div
+							className="flex"
+							key={charge.charge + charge.currency + charge.price}>
 							<div className="flex pd-5 br border-gray w_max m_right-10">
 								<div className="one_line_txt m_right-20 txt_meddium">
 									{charge.charge} {" :"}
@@ -728,7 +507,7 @@ export function TenantCharge() {
 				)}
 			</div>
 			<div className="flex">
-				<div className="w_max flex m_right-10">
+				<div className="w_max flex">
 					<InputHasDetails
 						detailsData={["Eau", "Electricité", "Poubelle"]}
 						store={getChargeName}
@@ -737,13 +516,17 @@ export function TenantCharge() {
 						customClass={"m_right-10"}
 						hasInput={true}
 					/>
-					<InputNumber subject="Prix" value={getPrice} sendToStore={setPrice} />
+					<InputNumber
+						subject="Prix"
+						value={getPrice}
+						customClass={"m_right-10"}
+						sendToStore={setPrice}
+					/>
 					<InputHasDetails
 						detailsData={["USD", "CDF"]}
 						store={getCurrency}
 						object={""}
 						sendToStore={setCurrency}
-						customClass={""}
 					/>
 				</div>
 				<SectionAddDetailButton
@@ -763,7 +546,7 @@ export function TenantCharge() {
 
 export function PropretyGalleryUpdate() {
 	return (
-		<div className="pd-20 border-gray br m_x-20 h_auto">
+		<div className="pd-20 m_right-20 border-gray br h_auto proprety_gallery">
 			<AdaptedImages />
 		</div>
 	);
@@ -772,7 +555,7 @@ export function PropretyGalleryUpdate() {
 export function PropretyBanner() {
 	const proprety = propretyStore();
 	return (
-		<div className="space_between pd-10 border-b m_bottom-20">
+		<div className="space_between pd-10 border-b">
 			<div className="flex_center-x">
 				{" "}
 				<FaMapMarkerAlt size={18} className="m_x-5" />{" "}

@@ -32,7 +32,7 @@ export interface PropretyGalleryImage {
 	publicId: string;
 }
 
-export interface TenantCharge {
+export interface TenantChargeType {
 	charge: string;
 	price: number;
 	currency: string;
@@ -54,7 +54,7 @@ export interface Proprety {
 	rentalInformation: RentalInformation;
 	description: {
 		gallery: PropretyGalleryImage[];
-		tenantCharges: TenantCharge[];
+		tenantCharges: TenantChargeType[];
 		interior: {
 			rooms: RoomDetails[];
 		};

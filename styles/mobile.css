@@ -73,7 +73,7 @@
 		height: 100vh;
 		width: 80vw;
 		background-color: white;
-        color: #000;
+		color: #000;
 		top: 0;
 		left: 0;
 		animation: mobile_header_menu 400ms linear;
@@ -85,15 +85,14 @@
 			left: -80vw;
 		}
 		to {
-			letft: 0px;
+			left: 0px;
 		}
 	}
 	.slideBarMobile span {
 		position: absolute;
 		background-color: rgba(0, 0, 0, 0.3);
-		height: 100px;
 		display: block;
-		width: 100vw;
+		width: 200vw;
 		height: 100vh;
 		top: 0px;
 		left: 0;
@@ -102,5 +101,34 @@
 	}
 	.mobile_header_menu a:hover {
 		text-decoration: underline;
+	}
+	.rental_information_card {
+		display: flex;
+		flex-direction: column;
+	}
+	.rental_information_input {
+		margin-right: 0;
+	}
+	.proprety_update_card_section{
+		width: 95vw;
+		/* margin: 0 10px; */
+		display: flex;
+		flex-direction: column-reverse;
+	}
+	.proprety_gallery{
+		margin: 0;
+		column-count: 1;
+	}
+	.displayer_uploaded_images {
+		column-count: 2;
+	}
+	.proprety_gallery_images{
+		width: 100%;
+		display: flex;
+		/* overflow-x: scroll; */
+	}
+	.proprety_gallery_images div{
+		height: 200px;
+		width: 200px;
 	}
 }

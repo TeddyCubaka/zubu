@@ -1,5 +1,9 @@
 import axios from "axios";
-import { AskToServerDataType, SendToServerType } from "../interface/requests";
+import {
+	AskToServerDataType,
+	SendToServerType,
+	UploadImageProps,
+} from "../interface/requests";
 
 export function sendToServer(props: SendToServerType) {
 	axios({
@@ -37,7 +41,6 @@ export function askToServerData(props: AskToServerDataType) {
 	})
 		.then((res) => {
 			props.getData(res.data);
-			// console.log(res);
 			props.getStatus("À jour");
 			if (props.doAfterSuccess) props.doAfterSuccess(res.data);
 		})
@@ -49,3 +52,31 @@ export function askToServerData(props: AskToServerDataType) {
 			props.getStatus("Echec");
 		});
 }
+
+export const uploadImage = async (props: UploadImageProps) => {
+	props.getStatus("Envoie d'images");
+	const formData = new FormData();
+	formData.append("file", props.file);
+	formData.append("upload_preset", "zubustein");
+	await axios
+		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
+		.then(async (res) => {
+			const image = {
+				_id: res.data._id,
+				url: res.data.secure_url,
+				width: res.data.width,
+				height: res.data.height,
+				size: res.data.bytes,
+				uploadDate: res.data.created_at,
+				publicId: res.data.public_id,
+			};
+			if (props.getUrl) props.getUrl(res.data.secure_url);
+			if (props.doAfterResponse) props.doAfterResponse(image);
+			props.getImage(image);
+			props.getStatus("finish");
+			props.clearFileFunction();
+		})
+		.catch((err) => {
+			props.getStatus("error");
+		});
+};
