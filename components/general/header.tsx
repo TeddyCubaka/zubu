@@ -103,11 +103,18 @@ export function CurrentPageInformation(props: CurrentPageInformationProps) {
 		});
 	}, []);
 	return (
-		<div className="border-b_thin flex w_auto pd-10 gap-20 bg_color_w color_b">
-			<div className="flex_x-center color-b" onClick={() => router.back()}>
+		<div
+			className={
+				router.pathname == "/"
+					? "hide"
+					: "border-b_thin flex w_auto pd-10 gap-20 bg_color_w color_b"
+			}>
+			<button
+				className="border-none bg-none txt_normal flex_x-center color-b"
+				onClick={() => router.back()}>
 				<FaChevronLeft size={23} />
 				{width > 850 ? "Retour" : ""}
-			</div>
+			</button>
 			<h3>{props.title}</h3>
 		</div>
 	);

@@ -91,7 +91,7 @@ export function UserInformation() {
 
 function DisplayPropreties({ propreties }: DisplayPropretiesComponentProps) {
 	return (
-		<div className="pd-20 flex_x_center-wrap all_propreties">
+		<div className="">
 			{propreties.length == 0 ? (
 				<>
 					<div>
@@ -146,7 +146,7 @@ export function GetUserPropreties() {
 		}
 	}, [user.currentUserPropreties]);
 	return (
-		<div>
+		<div className="pd-20 flex_x_center-wrap all_propreties">
 			{userExitInStorage ? (
 				<>
 					{fetchingPropreties ? (

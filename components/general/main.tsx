@@ -16,8 +16,7 @@ export default function Main() {
 					Bienvenue sur Zubu, un site qui met en avant votre bien immobilier
 				</h1>
 				<div className="m_y-20">
-					Recherchez un bien, troucover_picturevez-le et fait de ça votre chez
-					vous
+					Recherchez un bien, trouvez-le et fait de ça votre chez vous
 				</div>
 				<div className="filter_card">
 					{/* <div className="br border-w m_y-20 pd-10">

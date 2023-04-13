@@ -29,10 +29,11 @@ export function CoverPicture() {
 	const proprety = propretyStore();
 
 	const pictureSource =
-		(proprety.updateRenatlInformation.files
+		(proprety.updateRenatlInformation.files &&
+		proprety.updateRenatlInformation.files?.length > 0
 			? URL.createObjectURL(proprety.updateRenatlInformation.files)
 			: "") ||
-		(proprety.proprety.rentalInformation.coverPicture.length > 0
+		(proprety.proprety.rentalInformation.coverPicture?.length > 0
 			? proprety.proprety.rentalInformation.coverPicture
 			: "");
 
