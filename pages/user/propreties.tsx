@@ -16,7 +16,7 @@ export default function UserPropreties() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<Header />
+				<Header title="Vos propriétés" />
 				<GetUserPropreties />
 				<Footer />
 			</main>

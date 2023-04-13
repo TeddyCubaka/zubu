@@ -28,17 +28,17 @@ h5 {
 	margin: 0px;
 }
 .header {
-	padding: 0 30px;
 	background-color: #123853;
 	color: white;
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	flex-direction: column;
+	/* justify-content: space-between; */
+	/* align-items: center; */
 	position: sticky;
 	top: 0;
 	z-index: 1;
 }
-.header > div {
+.header div div {
 	display: flex;
 	align-items: center;
 }

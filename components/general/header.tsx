@@ -3,20 +3,22 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "../images/logo.png";
 import MobileHeader from "../components/mobile.header";
-import { FaUserCircle, FaCaretDown, FaCaretUp, FaUser } from "react-icons/fa";
+import {
+	FaUserCircle,
+	FaCaretDown,
+	FaCaretUp,
+	FaUser,
+	FaChevronLeft,
+} from "react-icons/fa";
 import { IoLogOut, IoHeart, IoHome, IoAddCircle } from "react-icons/io5";
 import { MdChangeCircle } from "react-icons/md";
-import { IconType } from "react-icons";
 import { headerStore } from "../../store/header";
 import { shallow } from "zustand/shallow";
-
-export interface UserMenuLinkType {
-	href: string;
-	content: string;
-	Icon: IconType;
-	doOnClick?: () => void;
-	color?: string;
-}
+import {
+	CurrentPageInformationProps,
+	UserMenuLinkType,
+} from "../interface/header";
+import { useRouter } from "next/router";
 
 export const UserMenuLink = ({
 	href,
@@ -91,7 +93,27 @@ function UserMenu() {
 	);
 }
 
-export default function Header() {
+export function CurrentPageInformation(props: CurrentPageInformationProps) {
+	const router = useRouter();
+	const [width, _setWidth] = useState<number>(0);
+	useEffect(() => {
+		_setWidth(window?.innerWidth);
+		window?.addEventListener("resize", () => {
+			console.log(_setWidth(window.innerWidth));
+		});
+	}, []);
+	return (
+		<div className="border-b_thin flex w_auto pd-10 gap-20 bg_color_w color_b">
+			<div className="flex_x-center color-b" onClick={() => router.back()}>
+				<FaChevronLeft size={23} />
+				{width > 850 ? "Retour" : ""}
+			</div>
+			<h3>{props.title}</h3>
+		</div>
+	);
+}
+
+export default function Header(props?: CurrentPageInformationProps) {
 	const [username, _setUsername] = useState<string | null>("");
 	const [isUserMenuShowing, changeUserMenuShowing] = headerStore(
 		(store) => [store.isUserMenuShowing, store.changeUserMenuShowing],
@@ -105,66 +127,69 @@ export default function Header() {
 	}, []);
 	return (
 		<>
-			<MobileHeader />
+			<MobileHeader title={props?.title || ""} />
 			<div className="header">
-				<div>
-					<Link href="/">
-						<Image src={logo} width="80" height="80" alt="logo du site" />
-					</Link>
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignItems: "center",
+					}}
+					className="w_auto pd_x-20">
 					<div>
-						<Link href="/proprety" className="color_w text_dec_none m_x-20">
-							Louer un bien
+						<Link href="/">
+							<Image src={logo} width="80" height="80" alt="logo du site" />
 						</Link>
-						<Link
-							href="/proprety/publication"
-							className="color_w text_dec_none m_x-20 ">
-							Publier un bien
-						</Link>
-						<Link href="#" className="color_w text_dec_none m_x-20">
-							Votre Sauvegarde
-						</Link>
+						<div>
+							<Link href="/proprety" className="color_w text_dec_none m_x-20">
+								Louer un bien
+							</Link>
+							<Link
+								href="/proprety/publication"
+								className="color_w text_dec_none m_x-20 ">
+								Publier un bien
+							</Link>
+							<Link href="#" className="color_w text_dec_none m_x-20">
+								Votre Sauvegarde
+							</Link>
+						</div>
+					</div>
+					<div>
+						<div
+							className="color_w text_dec_none m_x-20 flex_y_center-xy"
+							onClick={() =>
+								isUserMenuShowing
+									? changeUserMenuShowing(false)
+									: changeUserMenuShowing(true)
+							}>
+							{username ? (
+								<>
+									<div
+										className="flex_center-xy"
+										style={{
+											borderRadius: "40px",
+											backgroundColor: "white",
+											color: "#123853",
+											fontSize: "35px",
+											fontWeight: 600,
+											width: 50,
+											height: 50,
+										}}>
+										{username}
+									</div>
+									{isUserMenuShowing ? (
+										<FaCaretUp size={18} />
+									) : (
+										<FaCaretDown size={18} />
+									)}
+								</>
+							) : (
+								<FaUserCircle size={35} color="white" />
+							)}
+						</div>
 					</div>
 				</div>
-				<div>
-					{/* <Link href="#" className="color_w text_dec_none m_x-20">
-					Notification
-				</Link>
-				<Link href="#" className="color_w text_dec_none m_x-20">
-					Visites
-				</Link> */}
-					<div
-						className="color_w text_dec_none m_x-20 flex_y_center-xy"
-						onClick={() =>
-							isUserMenuShowing
-								? changeUserMenuShowing(false)
-								: changeUserMenuShowing(true)
-						}>
-						{username ? (
-							<>
-								<div
-									className="flex_center-xy"
-									style={{
-										borderRadius: "40px",
-										backgroundColor: "white",
-										color: "#123853",
-										fontSize: "35px",
-										fontWeight: 600,
-										width: 50,
-										height: 50,
-									}}>
-									{username}
-								</div>
-								{isUserMenuShowing ? (
-									<FaCaretUp size={18} />
-								) : (
-									<FaCaretDown size={18} />
-								)}
-							</>
-						) : (
-							<FaUserCircle size={35} color="white" />
-						)}
-					</div>
-				</div>
+				<CurrentPageInformation title={props?.title || ""} />
 			</div>
 			{isUserMenuShowing ? <UserMenu /> : ""}
 		</>

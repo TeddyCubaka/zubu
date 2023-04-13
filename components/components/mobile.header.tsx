@@ -14,7 +14,11 @@ import { MdChangeCircle, MdPublish } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { headerStore } from "../../store/header";
 import { shallow } from "zustand/shallow";
-import { UserMenuLinkType, UserMenuLink } from "../general/header";
+import { UserMenuLink, CurrentPageInformation } from "../general/header";
+import {
+	CurrentPageInformationProps,
+	UserMenuLinkType,
+} from "../interface/header";
 
 function UserAvatar() {
 	const [username, _setUsername] = useState<string | null>("");
@@ -128,25 +132,28 @@ const SliderBarSection = () => {
 	);
 };
 
-export default function MobileHeader() {
+export default function MobileHeader(props?: CurrentPageInformationProps) {
 	const [isMenuShawn, showMenu] = useState<boolean>(false);
 	return (
 		<div className="mobile_header">
-			<Link href="/">
-				<Image src={logo} width="40" height="40" alt="logo du site" />
-			</Link>
-			<h4>Zubu</h4>
-			<div onClick={() => (isMenuShawn ? showMenu(false) : showMenu(true))}>
-				<RxHamburgerMenu size={25} />
+			<div className="space_between flex_x-center w_auto pd-10">
+				<Link href="/">
+					<Image src={logo} width="40" height="40" alt="logo du site" />
+				</Link>
+				<h4>Zubu</h4>
+				<div onClick={() => (isMenuShawn ? showMenu(false) : showMenu(true))}>
+					<RxHamburgerMenu size={25} />
+				</div>
+				<div className={isMenuShawn ? "slideBarMobile row_gap-7" : "hide"}>
+					<UserAvatar />
+					<SliderBarSection />
+					<span
+						onClick={() =>
+							isMenuShawn ? showMenu(false) : showMenu(true)
+						}></span>
+				</div>
 			</div>
-			<div className={isMenuShawn ? "slideBarMobile row_gap-7" : "hide"}>
-				<UserAvatar />
-				<SliderBarSection />
-				<span
-					onClick={() =>
-						isMenuShawn ? showMenu(false) : showMenu(true)
-					}></span>
-			</div>
+			<CurrentPageInformation title={props?.title || ""} />
 		</div>
 	);
 }

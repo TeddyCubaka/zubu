@@ -44,7 +44,7 @@ export function AdaptedImages() {
 								deleter={() =>
 									proprety.updateDescription.deleteImageFromGallery(img.url)
 								}
-								key={img.publicId}
+								key={img.publicId + img._id}
 							/>
 						</>
 					))}
