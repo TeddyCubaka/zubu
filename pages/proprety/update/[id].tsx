@@ -63,7 +63,7 @@ export default function Publication() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<Header />
+				<Header title="Gestion de la propriété" />
 				<div className="flex_y_center-xy gap-20">
 					{loading ? <span className="uploading_blue"></span> : ""}
 					{proprety.propretyChanged ? (

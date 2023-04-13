@@ -24,7 +24,7 @@ export default function Publication() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<Header />
+				<Header title="Publier votre propriété" />
 				<div className="publication_section m_y-20">
 					{userId !== null ? (
 						<AddPropretiyForm />

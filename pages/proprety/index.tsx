@@ -17,7 +17,7 @@ export default function Publication() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<Header />
+				<Header title="Liste des propriétés" />
 				<AllPropreties />
 				<Footer />
 			</main>

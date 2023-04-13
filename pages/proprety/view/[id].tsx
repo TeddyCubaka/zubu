@@ -46,7 +46,7 @@ export default function PropretyView() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<Header />
+				<Header title="Vu de la propriété" />
 				<div className="two_part m_y-20">
 					<div className="border-gray br m_y-2 m_x-10 pd-10">
 						<PropretyGalleryView />

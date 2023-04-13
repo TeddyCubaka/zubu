@@ -19,7 +19,7 @@ export default function User() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<Header />
+				<Header title="Vous" />
 				<div className="m_x-20">
 					<UserInformation />
 					<h1>Vos propriétés</h1>

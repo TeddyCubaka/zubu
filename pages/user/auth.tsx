@@ -30,7 +30,7 @@ export default function Auth() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<Header />
+				<Header title="Connectez-vous 😃" />
 				<div className="flex_y_center-xy m_y-20">
 					<div
 						className={
