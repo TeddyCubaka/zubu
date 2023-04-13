@@ -110,3 +110,7 @@ export interface PropretyType {
 		];
 	};
 }
+
+export interface DisplayPropretiesComponentProps {
+	propreties: PropretyType[];
+}

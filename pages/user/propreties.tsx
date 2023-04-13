@@ -17,13 +17,7 @@ export default function UserPropreties() {
 			</Head>
 			<main>
 				<Header />
-				<div className="m_x-20">
-					<h1>Vos propriétés</h1>
-					<div className="m_y-20">
-						Appuiez sur une propriété pour gérer ses informations
-					</div>
-					<GetUserPropreties />
-				</div>
+				<GetUserPropreties />
 				<Footer />
 			</main>
 		</>
