@@ -109,33 +109,41 @@ export function InternalRooms() {
 		<div className="grid row_gap-10 m_y-10">
 			<h3>Intérieur</h3>
 			<div className="grid row_gap-10">
-				{internalRooms.map((room, index) => (
-					<Room
-						name={room.name}
-						size={room.size}
-						unit={room.unit}
-						key={"" + room.name + room.size + index}
-					/>
-				))}
+				{internalRooms.length === 0 ? (
+					<div>Vide pour l&908;instant</div>
+				) : (
+					internalRooms.map((room, index) => (
+						<Room
+							name={room.name}
+							size={room.size}
+							unit={room.unit}
+							key={"" + room.name + room.size + index}
+						/>
+					))
+				)}
 			</div>
 		</div>
 	);
 }
 
 export function ExternalRooms() {
-	const internalRooms = propretyStore().proprety.description.external.rooms;
+	const externalRooms = propretyStore().proprety.description.external.rooms;
 	return (
 		<div className="grid row_gap-10 m_y-10">
 			<h3>Extérieur</h3>
 			<div className="grid row_gap-10">
-				{internalRooms.map((room, index) => (
-					<Room
-						name={room.name}
-						size={room.size}
-						unit={room.unit}
-						key={"" + room.name + room.size + index}
-					/>
-				))}
+				{externalRooms.length === 0 ? (
+					<div>Vide pour l&apos;instant</div>
+				) : (
+					externalRooms.map((room, index) => (
+						<Room
+							name={room.name}
+							size={room.size}
+							unit={room.unit}
+							key={"" + room.name + room.size + index}
+						/>
+					))
+				)}
 			</div>
 		</div>
 	);
@@ -144,23 +152,27 @@ export function ExternalRooms() {
 export function TenantCharges() {
 	const tenantCharges = propretyStore().proprety.description.tenantCharges;
 	return (
-		<div className="grid row_gap-10 m_y-10">
+		<div className="grid gap-20 m_y-20">
 			<h3>Charges supporté par le locataire</h3>
 			<div className="grid row_gap-10">
-				{tenantCharges.map((charge, index) => (
-					<div key={"" + charge.charge + charge.price + index}>
-						<span className="strong">
-							{" "}
-							{charge.charge}
-							{" : "}{" "}
-						</span>
-						<span>
-							{" "}
-							{toTriadeNumber(Number(charge.price))}{" "}
-							{getCurrencySymbol(charge.currency)}{" "}
-						</span>
-					</div>
-				))}
+				{tenantCharges.length === 0 ? (
+					<div>Vide pour l&apos;instant</div>
+				) : (
+					tenantCharges.map((charge, index) => (
+						<div key={"" + charge.charge + charge.price + index}>
+							<span className="strong">
+								{" "}
+								{charge.charge}
+								{" : "}{" "}
+							</span>
+							<span>
+								{" "}
+								{toTriadeNumber(Number(charge.price))}{" "}
+								{getCurrencySymbol(charge.currency)}{" "}
+							</span>
+						</div>
+					))
+				)}
 			</div>
 		</div>
 	);

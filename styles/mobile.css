@@ -112,6 +112,11 @@
 		display: flex;
 		flex-direction: column-reverse;
 	}
+	.proprety_view_card_section{
+		width: auto;
+		display: flex;
+		flex-direction: column-reverse;
+	}
 	.proprety_gallery{
 		margin: 0;
 		column-count: 1;

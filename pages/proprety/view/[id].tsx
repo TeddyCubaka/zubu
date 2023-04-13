@@ -47,11 +47,11 @@ export default function PropretyView() {
 			</Head>
 			<main>
 				<Header title="Vu de la propriété" />
-				<div className="two_part m_y-20">
+				<div className="two_part m_y-20 proprety_view_card_section">
 					<div className="border-gray br m_y-2 m_x-10 pd-10">
 						<PropretyGalleryView />
 					</div>
-					<div className="grid m_right-10">
+					<div className="grid m_x-10 gap-20">
 						<PropretyViewBanner />
 						<RentalInformation />
 						<AskForVisit />
