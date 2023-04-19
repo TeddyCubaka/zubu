@@ -4,20 +4,24 @@ Woubou is a new congoleese app for real estate ad. And this repository is the cl
 
 ## installation
 
-First clone this repo. Open your terminale and type : 
+First clone this repo. Open your terminale and type :
 
 ```bash
-$ git clone https://github.com/TeddyCubaka/Zubu-frontend.git
-# or 
-$ git clone git@github.com:TeddyCubaka/Zubu-frontend.git
+$ git clone https://github.com/TeddyCubaka/zubu.git
+
+# or
+
+$ git clone git@github.com:TeddyCubaka/zubu.git
 ```
 
 Once done, go to the project folder by typing :
+
 ```bash
-cd Zubu-frontend 
+cd zubu
 ```
 
 Once on the root of the project, type this command to install dependacies :
+
 ```bash
 $ yarn install
 ```
@@ -34,7 +38,7 @@ Once the configurations are completed, go back to your terminale and type this c
 $ yarn start
 ```
 
-The app will be learned on the port `3000`.
+The app will be learned on the port [`http://localhost:3000`](http://localhost:3000).
 
 ## Technologies
 
