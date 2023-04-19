@@ -9,6 +9,7 @@ import { headerStore, userMenuLinks } from "../../store/header";
 import { shallow } from "zustand/shallow";
 import { UserMenuLink, CurrentPageInformation } from "../general/header";
 import { CurrentPageInformationProps } from "../interface/header";
+import { useRouter } from "next/router";
 
 function UserAvatar() {
 	const [username, _setUsername] = useState<string | null>("");
@@ -83,13 +84,14 @@ const SliderBarSection = () => {
 
 export default function MobileHeader(props?: CurrentPageInformationProps) {
 	const [isMenuShawn, showMenu] = useState<boolean>(false);
+	const router = useRouter();
 	return (
 		<div className="mobile_header">
 			<div className="space_between flex_x-center w_auto pd-10">
 				<Link href="/">
 					<Image src={logo} width="40" height="40" alt="logo du site" />
 				</Link>
-				<h4>Zubu</h4>
+				<h4 onClick={() => router.reload()}>Zubu</h4>
 				<div onClick={() => (isMenuShawn ? showMenu(false) : showMenu(true))}>
 					<RxHamburgerMenu size={25} />
 				</div>
