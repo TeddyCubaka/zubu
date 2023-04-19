@@ -2,23 +2,13 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../images/logo.png";
-import { FaUserCircle, FaHouseUser } from "react-icons/fa";
-import {
-	IoLogOut,
-	IoHeart,
-	IoLogIn,
-	IoAddCircle,
-	IoKey,
-} from "react-icons/io5";
-import { MdChangeCircle, MdPublish } from "react-icons/md";
+import { FaUserCircle } from "react-icons/fa";
+import { IoLogIn } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { headerStore } from "../../store/header";
+import { headerStore, userMenuLinks } from "../../store/header";
 import { shallow } from "zustand/shallow";
 import { UserMenuLink, CurrentPageInformation } from "../general/header";
-import {
-	CurrentPageInformationProps,
-	UserMenuLinkType,
-} from "../interface/header";
+import { CurrentPageInformationProps } from "../interface/header";
 
 function UserAvatar() {
 	const [username, _setUsername] = useState<string | null>("");
@@ -47,12 +37,7 @@ function UserAvatar() {
 							width: 35,
 							height: 35,
 						}}
-						onClick={() =>
-							// isUserMenuShowing
-							// 	? changeUserMenuShowing(false)
-							// 	: changeUserMenuShowing(true)
-							{}
-						}>
+						onClick={() => {}}>
 						{username[0].toUpperCase()}
 					</div>
 				) : (
@@ -77,48 +62,11 @@ function UserAvatar() {
 }
 
 const SliderBarSection = () => {
-	const links: UserMenuLinkType[] = [
-		{
-			href: "/proprety",
-			content: "Louer un bien",
-			Icon: IoKey,
-		},
-		{
-			href: "/proprety/publication",
-			content: "Publier un bien",
-			Icon: MdPublish,
-		},
-		{
-			href: "#",
-			content: "Propriétés enreigistrées",
-			Icon: IoHeart,
-		},
-		{
-			href: "/user/propreties",
-			content: "Vos propriétés",
-			Icon: FaHouseUser,
-		},
-		{
-			href: "/proprety/publication",
-			content: "Publier un bien",
-			Icon: IoAddCircle,
-		},
-		{
-			href: "/user/auth",
-			content: "Changer de compte",
-			Icon: MdChangeCircle,
-		},
-		{
-			href: "/",
-			content: "Se deconnecter",
-			Icon: IoLogOut,
-		},
-	];
 	return (
 		<div className="column m_x-10">
 			<h3 className="m_y-20">Menu</h3>
 			<div className="column gap-20 color_b">
-				{links.map((link) => (
+				{userMenuLinks.map((link) => (
 					<UserMenuLink
 						key={link.href + link.content + link.Icon}
 						href={link.href}

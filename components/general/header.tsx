@@ -7,12 +7,9 @@ import {
 	FaUserCircle,
 	FaCaretDown,
 	FaCaretUp,
-	FaUser,
 	FaChevronLeft,
 } from "react-icons/fa";
-import { IoLogOut, IoHeart, IoHome, IoAddCircle } from "react-icons/io5";
-import { MdChangeCircle } from "react-icons/md";
-import { headerStore } from "../../store/header";
+import { headerStore, userMenuLinks } from "../../store/header";
 import { shallow } from "zustand/shallow";
 import {
 	CurrentPageInformationProps,
@@ -57,38 +54,15 @@ function UserMenu() {
 				zIndex: "5",
 			}}
 			className="absolute space_between-y gap-10 pd-20 bg_color_blue color_w">
-			<UserMenuLink
-				href="#"
-				content="Propriétés enreigistrées"
-				Icon={IoHeart}
-			/>
-			<UserMenuLink
-				href="/user/propreties"
-				content="Vos propriétés"
-				Icon={IoHome}
-			/>
-			<UserMenuLink
-				href="/proprety/publication"
-				content="Publier une propriété"
-				Icon={IoAddCircle}
-			/>
-			<UserMenuLink href="#" content="Votre profil" Icon={FaUser} />
-			<UserMenuLink
-				href="/user/auth"
-				content="Changer de compte"
-				Icon={MdChangeCircle}
-			/>
-			<UserMenuLink
-				href="/"
-				doOnClick={() => {
-					window.localStorage.removeItem("token");
-					window.localStorage.removeItem("userId");
-					window.localStorage.removeItem("user");
-					window.localStorage.removeItem("username");
-				}}
-				content="Se deconnecter"
-				Icon={IoLogOut}
-			/>
+			{userMenuLinks.map((link) => (
+				<UserMenuLink
+					key={link.href + link.content + link.Icon}
+					href={link.href}
+					doOnClick={link.doOnClick}
+					content={link.content}
+					Icon={link.Icon}
+				/>
+			))}
 		</div>
 	);
 }
@@ -97,9 +71,8 @@ export function CurrentPageInformation(props: CurrentPageInformationProps) {
 	const router = useRouter();
 	const [width, _setWidth] = useState<number>(0);
 	useEffect(() => {
-		_setWidth(window?.innerWidth);
 		window?.addEventListener("resize", () => {
-			console.log(_setWidth(window.innerWidth));
+			_setWidth(window?.innerWidth);
 		});
 	}, []);
 	return (
@@ -113,7 +86,7 @@ export function CurrentPageInformation(props: CurrentPageInformationProps) {
 				className="border-none bg-none txt_normal flex_x-center color-b"
 				onClick={() => router.back()}>
 				<FaChevronLeft size={20} />
-				{width > 850 ? "Retour" : ""}
+				{width > 650 ? "Retour" : ""}
 			</button>
 			<h4>{props.title}</h4>
 		</div>
@@ -122,10 +95,10 @@ export function CurrentPageInformation(props: CurrentPageInformationProps) {
 
 export default function Header(props?: CurrentPageInformationProps) {
 	const [username, _setUsername] = useState<string | null>("");
-	const [isUserMenuShowing, changeUserMenuShowing] = headerStore(
-		(store) => [store.isUserMenuShowing, store.changeUserMenuShowing],
-		shallow
-	);
+	const [isUserMenuShowing, changeUserMenuShowing] = headerStore((store) => [
+		store.isUserMenuShowing,
+		store.changeUserMenuShowing,
+	]);
 	useEffect(() => {
 		if (window !== undefined) {
 			const user = window.localStorage.getItem("username");
