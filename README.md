@@ -1,4 +1,15 @@
-# Welcome to Woubou client app
+![GitHub branch checks state](https://img.shields.io/github/checks-status/TeddyCubaka/zubu/main?style=for-the-badge&color=blue)
+![GitHub deployments](https://img.shields.io/github/deployments/TeddyCubaka/zubu/production?style=for-the-badge&color=blue)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/TeddyCubaka/zubu?style=for-the-badge&color=blue)
+![GitHub watchers](https://img.shields.io/github/watchers/TeddyCubaka/zubu?style=for-the-badge&color=blue)
+![GitHub repo file count](https://img.shields.io/github/directory-file-count/TeddyCubaka/zubu?style=for-the-badge&color=blue)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/TeddyCubaka/zubu?style=for-the-badge&color=blue)
+![Lines of code](https://img.shields.io/tokei/lines/github/TeddyCubaka/zubu?style=for-the-badge&color=blue)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/TeddyCubaka/zubu/main?style=for-the-badge&color=blue)
+![GitHub language count](https://img.shields.io/github/languages/count/TeddyCubaka/zubu?color=blue&style=for-the-badge)
+![GitHub top language](https://img.shields.io/github/languages/top/TeddyCubaka/zubu?color=blue&style=for-the-badge)
+
+# **zubu client app**
 
 Woubou is a new congoleese app for real estate ad. And this repository is the client app.
 
@@ -42,6 +53,13 @@ The app will be learned on the port [`http://localhost:3000`](http://localhost:3
 
 ## Technologies
 
-- Next js
-- Typescript
-- Zustand
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/next)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/react)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/typescript)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/axios)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/dotenv)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/eslint)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/eslint-config-next)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/react-dom)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/react-icons)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/zustand)
