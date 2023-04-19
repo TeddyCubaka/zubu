@@ -48,9 +48,10 @@ function UserAvatar() {
 							height: 35,
 						}}
 						onClick={() =>
-							isUserMenuShowing
-								? changeUserMenuShowing(false)
-								: changeUserMenuShowing(true)
+							// isUserMenuShowing
+							// 	? changeUserMenuShowing(false)
+							// 	: changeUserMenuShowing(true)
+							{}
 						}>
 						{username[0].toUpperCase()}
 					</div>

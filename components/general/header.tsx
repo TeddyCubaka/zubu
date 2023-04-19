@@ -56,7 +56,7 @@ function UserMenu() {
 				borderRadius: "0 0 5px 5px",
 				zIndex: "5",
 			}}
-			className="absolute space_between-y gap-10 pd-20 bg_color_blue color_w shadow_w">
+			className="absolute space_between-y gap-10 pd-20 bg_color_blue color_w">
 			<UserMenuLink
 				href="#"
 				content="Propriétés enreigistrées"
@@ -107,15 +107,15 @@ export function CurrentPageInformation(props: CurrentPageInformationProps) {
 			className={
 				router.pathname == "/"
 					? "hide"
-					: "border-b_thin flex w_auto pd-10 gap-20 bg_color_w color_b"
+					: "shadow_b flex w_auto pd-10 gap-20 bg_color_w color_b"
 			}>
 			<button
 				className="border-none bg-none txt_normal flex_x-center color-b"
 				onClick={() => router.back()}>
-				<FaChevronLeft size={23} />
+				<FaChevronLeft size={20} />
 				{width > 850 ? "Retour" : ""}
 			</button>
-			<h3>{props.title}</h3>
+			<h4>{props.title}</h4>
 		</div>
 	);
 }
@@ -177,21 +177,21 @@ export default function Header(props?: CurrentPageInformationProps) {
 											borderRadius: "40px",
 											backgroundColor: "white",
 											color: "#123853",
-											fontSize: "35px",
+											fontSize: "25px",
 											fontWeight: 600,
-											width: 50,
-											height: 50,
+											width: 40,
+											height: 40,
 										}}>
 										{username}
 									</div>
-									{isUserMenuShowing ? (
-										<FaCaretUp size={18} />
-									) : (
-										<FaCaretDown size={18} />
-									)}
 								</>
 							) : (
 								<FaUserCircle size={35} color="white" />
+							)}
+							{isUserMenuShowing ? (
+								<FaCaretUp size={18} />
+							) : (
+								<FaCaretDown size={18} />
 							)}
 						</div>
 					</div>

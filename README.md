@@ -35,7 +35,7 @@ If you do not have a backend, you can clone [this one](https://github.com/TeddyC
 Once the configurations are completed, go back to your terminale and type this command to start the project :
 
 ```bash
-$ yarn start
+$ yarn dev
 ```
 
 The app will be learned on the port [`http://localhost:3000`](http://localhost:3000).

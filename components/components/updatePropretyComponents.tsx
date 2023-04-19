@@ -378,7 +378,7 @@ function HouseInformationUpdating({
 						<InputHasDetails
 							detailsData={["Salon", "Salle à manger", "Toillettes", "Douches"]}
 							store={getRoomObject}
-							object={"Pièces"}
+							object={""}
 							sendToStore={setRoomObject}
 							customClass={"m_right-10"}
 							hasInput={true}
@@ -392,9 +392,9 @@ function HouseInformationUpdating({
 						<InputHasDetails
 							detailsData={["m²", "ft"]}
 							store={getRoomUnit}
-							object={"Unités"}
+							object={""}
+							customClass={"m_right-10"}
 							sendToStore={setRoomUnit}
-							hasInput={true}
 						/>
 					</div>
 					<SectionAddDetailButton
