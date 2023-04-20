@@ -11,13 +11,16 @@ import Header from "../../components/general/header";
 import { userStore } from "../../store/user";
 
 export default function Auth() {
-	const [sendingData, error] = userStore(
-		(store) => [store.status.sendingData, store.status.errorData],
+	const [sendingData, error, _setErrorData] = userStore(
+		(store) => [
+			store.status.sendingData,
+			store.status.errorData,
+			store.status._setErrorData,
+		],
 		shallow
 	);
-	const [isSignup, _setIsSignup] = useState<boolean>(false);
-	const changeCurrentForm = () =>
-		isSignup ? _setIsSignup(false) : _setIsSignup(true);
+	const [isSignup, _setIsSignup] = useState<boolean>(true);
+	const [isLogin, _setIsLogin] = useState<boolean>(false);
 	return (
 		<>
 			<Head>
@@ -33,6 +36,7 @@ export default function Auth() {
 				<Header title="Connectez-vous 😃" />
 				<div className="flex_y_center-xy m_y-20">
 					<div
+						style={{ borderWidth: "4px" }}
 						className={
 							"flex_y_center-xy auth_component br " +
 							(error.hasError ? "br_red" : "border-blue")
@@ -40,25 +44,44 @@ export default function Auth() {
 						{sendingData ? <span className="loader_like_google"></span> : ""}
 						<div className="flex w_max two_part txt_center auth_component_header">
 							<div
+								style={{ borderRadius: "0 0 5px 0" }}
 								className={
 									"h_max flex_y_center-xy " +
-									(isSignup ? "current_auth_form" : "")
+									(!isSignup ? "current_auth_form" : "")
 								}
-								onClick={() => changeCurrentForm()}>
+								onClick={() => {
+									_setIsSignup(true);
+									_setIsLogin(false);
+									_setErrorData({
+										message: "",
+										error: "",
+										hasError: false,
+									});
+								}}>
 								Inscription
 							</div>
 							<div
+								style={{ borderRadius: "0 0 0 5px" }}
 								className={
 									"h_max flex_y_center-xy " +
-									(isSignup ? "" : "current_auth_form")
+									(!isLogin ? "current_auth_form" : "")
 								}
-								onClick={() => changeCurrentForm()}>
+								onClick={() => {
+									_setIsSignup(false);
+									_setIsLogin(true);
+									_setErrorData({
+										message: "",
+										error: "",
+										hasError: false,
+									});
+								}}>
 								Connection
 							</div>
 						</div>
 						<div className="auth_component">
 							<ErrorShower />
-							{isSignup ? <Signup /> : <Login />}
+							{isSignup ? <Signup /> : ""}
+							{isLogin ? <Login /> : ""}
 						</div>
 					</div>
 				</div>

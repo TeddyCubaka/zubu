@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import { InputProps } from "../interface/atoms";
 import { SendToServerType } from "../interface/requests";
 import { sendToServer } from "../usefulFuction/requests";
+import { isMail } from "../usefulFuction/formDatasValidator";
+import { setSyntheticLeadingComments } from "typescript";
 
 interface InputedPassword {
 	firstPassword: string;
@@ -155,10 +157,24 @@ export function Signup() {
 			<PrimaryButton
 				subject={SendingDataState ? `Conexion...` : "S'inscrire"}
 				conditionToPass={
-					passwordVerificator() &&
-					user.phone_number.length > 8 &&
-					user.mail.length > 10
+					passwordVerificator() && user.username.length > 3 && isMail(user.mail)
 				}
+				doIfConditionDoesNotPass={() => {
+					_setErrorData({
+						message: "Verifier que tout les champs sont remplis",
+						error: "",
+						hasError: false,
+					});
+					setTimeout(
+						() =>
+							_setErrorData({
+								message: "",
+								error: "",
+								hasError: false,
+							}),
+						2000
+					);
+				}}
 				doOnClick={() => {
 					sendingData(true);
 					_setSendingDataState(true);
@@ -241,8 +257,24 @@ export function Login() {
 			/>
 			<PrimaryButton
 				subject={SendingDataState ? `Conexion...` : "Se connecter"}
+				doIfConditionDoesNotPass={() => {
+					_setErrorData({
+						message: "Verifier que tout les champs sont remplis",
+						error: "",
+						hasError: false,
+					});
+					setTimeout(
+						() =>
+							_setErrorData({
+								message: "",
+								error: "",
+								hasError: false,
+							}),
+						2000
+					);
+				}}
 				conditionToPass={
-					loginData.mail.length > 9 && loginData.password.length > 3
+					isMail(loginData.mail) && loginData.password.length > 3
 				}
 				doOnClick={() => {
 					sendingData(true);
@@ -276,6 +308,7 @@ export function Login() {
 							_setCurrentUser(e.user);
 							_setSendingDataState(false);
 							router.back();
+							router.push("/");
 							sendingData(false);
 						},
 					};

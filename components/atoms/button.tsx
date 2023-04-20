@@ -13,6 +13,11 @@ export function PrimaryButton(props: ButtonProps) {
 					: "btn_p_not_active color_w br txt_normal btn w_max flex_center-xy one_line_txt"
 			}
 			onClick={() => {
+				if (!props.conditionToPass) {
+					props.doIfConditionDoesNotPass
+						? props.doIfConditionDoesNotPass()
+						: "";
+				}
 				if (props.conditionToPass) {
 					props.doOnClick();
 				}

@@ -166,7 +166,7 @@
 	font-size: 14px;
 	font-weight: 300;
 }
-.txt_meddium_on_hovering:hover{
+.txt_meddium_on_hovering:hover {
 	font-weight: 400;
 }
 .btn_p {
@@ -264,6 +264,7 @@
 }
 .no_border {
 	border: none;
+	outline: none;
 }
 .no_bg_color {
 	background-color: none;
@@ -446,12 +447,12 @@
 .form_card div h3 {
 	text-align: center;
 }
-.shadow_w{
+.shadow_w {
 	box-shadow: -2px 2px 2px 1px #ffffff;
 }
-.shadow_b{
+.shadow_b {
 	box-shadow: -1px 1px 2px 1px #00000080;
 }
-.shadow_blue{
+.shadow_blue {
 	box-shadow: -2px 2px 2px 1px #12385379;
 }

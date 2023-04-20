@@ -8,4 +8,5 @@ export interface ButtonProps {
 	subject: string;
 	conditionToPass: boolean;
 	doOnClick: () => any;
+	doIfConditionDoesNotPass?: () => void;
 }

@@ -59,6 +59,7 @@ h5 {
 	align-items: center;
 }
 .filter_card {
+	width: 500px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
