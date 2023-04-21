@@ -25,7 +25,7 @@ function UserAvatar() {
 	}, []);
 	return (
 		<div className="flex_x-center bg_color_blue" style={{ height: "150px" }}>
-			<Link href="#userProfil" className="text_dec_none m_x-10">
+			<Link href="#" className="text_dec_none m_x-10">
 				{username ? (
 					<div
 						className="flex_center-xy"
@@ -74,7 +74,7 @@ const SliderBarSection = () => {
 						doOnClick={link.doOnClick}
 						content={link.content}
 						Icon={link.Icon}
-						color="color_b "
+						color="color_b"
 					/>
 				))}
 			</div>

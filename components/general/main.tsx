@@ -1,23 +1,50 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import { shallow } from "zustand/shallow";
+import { searchPropretiesStore } from "../../store/proprety";
+import { PrimaryButton } from "../atoms/button";
+import { GeneralInput } from "../atoms/form";
 import background from "../images/backgournd.png";
 
 function FilterPropretiesSearch() {
+	const [searchValue, _setSearchValue] = useState<string>("");
+	const [searchPropretiesWith] = searchPropretiesStore(
+		(store) => [store._setWishedAddress],
+		shallow
+	);
+	const [isValueEmpty, _setIsValueEmpty] = useState<boolean>(false);
 	const router = useRouter();
 	return (
-		<div className="filter_card">
-			<div className="br border-w m_y-20 pd-10">
-				<span className="m_x-20">Type</span>
-				<span className="m_x-20">Prix</span>
-				<span className="m_x-20">Localisation</span>
-				<span className="m_x-20">Ville</span>
-				<span className="m_x-20">Pièces</span>
-			</div>
-			<button
-				className="btn_p btn color_w br txt_normal m_x-10"
-				onClick={() => router.push("/proprety")}>
-				Trouver une maison
-			</button>
+		<div className="filter_card border-w_25 pd-5 br">
+			<input
+				type="text"
+				name="address"
+				className={
+					"br m_right-10 no_border txt_normal pd_x-10 " +
+					(isValueEmpty ? "wrong_value_of_input" : "")
+				}
+				style={{ height: "30px", width: "95%" }}
+				placeholder="chercher une ville, un quartier, ..."
+				onInput={(e) => _setSearchValue(e.currentTarget.value)}
+				value={searchValue}
+			/>
+			<PrimaryButton
+				conditionToPass={searchValue.length > 0}
+				doOnClick={() => {
+					searchPropretiesWith(searchValue);
+					router.push("/proprety");
+				}}
+				notWidthMax
+				subject="cherher"
+				doIfConditionDoesNotPass={() => {
+					if (isValueEmpty) {
+						_setIsValueEmpty(false);
+					} else {
+						_setIsValueEmpty(true);
+					}
+					setTimeout(() => _setIsValueEmpty(false), 1100);
+				}}
+			/>
 		</div>
 	);
 }

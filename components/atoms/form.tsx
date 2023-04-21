@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import {
 	InputHasDetailsProps,
 	InputNumberProps,
@@ -131,6 +131,49 @@ export function InputHasDetails({
 			) : (
 				""
 			)}
+		</div>
+	);
+}
+
+export interface InputPropsType {
+	value: string;
+	sendToStore: (string: string) => void;
+	type?: string;
+	subject: string;
+	customClass?: string;
+	placeholder: string;
+	required?: boolean;
+}
+
+export function GeneralInput({
+	value,
+	sendToStore,
+	type,
+	subject,
+	customClass,
+	placeholder,
+	required,
+}: InputPropsType) {
+	return (
+		<div className={"inputs " + customClass}>
+			<label className={"one_line_txt"}>
+				{" "}
+				{subject.split(" :")[0]}{" "}
+				{required ? <span className="color_red">*</span> : ""}
+				{" :"}
+			</label>
+			<input
+				type={type ? type : "text"}
+				placeholder={placeholder}
+				className={
+					"br w_max txt_normal " + (type === "date" ? "txt_center" : "")
+				}
+				value={value ? value : ""}
+				onChange={(e) => {
+					e.preventDefault();
+					sendToStore(e.target.value);
+				}}
+			/>
 		</div>
 	);
 }

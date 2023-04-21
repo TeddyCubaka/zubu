@@ -5,6 +5,7 @@ import {
 	TenantChargeType,
 	RoomDetailsType,
 	PropretyGalleryImageType,
+	SearchPropretiesType,
 } from "../components/interface/proprety";
 
 export interface UpdateRentalInformationType {
@@ -55,6 +56,11 @@ export interface PropretyStore {
 	updateRenatlInformation: UpdateRentalInformationType;
 	updateDescription: UpdateDescription;
 }
+
+export const searchPropretiesStore = create<SearchPropretiesType>((set) => ({
+	wishedAddress: "",
+	_setWishedAddress: (address) => set(() => ({ wishedAddress: address })),
+}));
 
 export const propretyStore = create<PropretyStore>((set) => ({
 	propretyChanged: false,

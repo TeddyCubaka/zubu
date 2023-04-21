@@ -8,9 +8,10 @@ export function PrimaryButton(props: ButtonProps) {
 		<button
 			type="button"
 			className={
-				props.conditionToPass
-					? "btn_p color_w br txt_normal btn w_max flex_center-xy one_line_txt"
-					: "btn_p_not_active color_w br txt_normal btn w_max flex_center-xy one_line_txt"
+				(props.notWidthMax ? "" : "w_max ") +
+				(props.conditionToPass
+					? "btn_p color_w br txt_normal btn  flex_center-xy one_line_txt"
+					: "btn_p_not_active color_w br txt_normal btn flex_center-xy one_line_txt")
 			}
 			onClick={() => {
 				if (!props.conditionToPass) {

@@ -98,3 +98,42 @@
 		transform: translateX(0%);
 	}
 }
+
+.wrong_value_of_input {
+	outline-style: inset;
+	animation: wrong_value 1s infinite;
+}
+@keyframes wrong_value {
+	0% {
+		outline-width: 4px;
+		outline-color: red;
+	}
+	12.5% {
+		outline-width: 4px;
+		outline-color: red;
+	}
+	25% {
+		outline-width: 0px;
+	}
+	37.5% {
+		outline-width: 0px;
+	}
+	50% {
+		outline-width: 4px;
+		outline-color: red;
+	}
+	62.5% {
+		outline-width: 4px;
+		outline-color: red;
+	}
+	75% {
+		outline-width: 0px;
+	}
+	87.5% {
+		outline-width: 0px;
+	}
+	100% {
+		outline-width: 4px;
+		outline-color: red;
+	}
+}

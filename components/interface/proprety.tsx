@@ -114,3 +114,8 @@ export interface PropretyType {
 export interface DisplayPropretiesComponentProps {
 	propreties: PropretyType[];
 }
+
+export interface SearchPropretiesType {
+	wishedAddress: string;
+	_setWishedAddress: (address: string) => void;
+}

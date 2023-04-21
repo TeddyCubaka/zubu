@@ -9,4 +9,5 @@ export interface ButtonProps {
 	conditionToPass: boolean;
 	doOnClick: () => any;
 	doIfConditionDoesNotPass?: () => void;
+	notWidthMax?: boolean;
 }
