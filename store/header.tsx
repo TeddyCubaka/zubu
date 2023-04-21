@@ -44,5 +44,13 @@ export const userMenuLinks: UserMenuLinkType[] = [
 		href: "/",
 		content: "Se deconnecter",
 		Icon: IoLogOut,
+		doOnClick: () => {
+			localStorage.removeItem("token");
+			localStorage.removeItem("user");
+			localStorage.removeItem("username");
+			localStorage.removeItem("userPropreties");
+			localStorage.removeItem("userId");
+		},
 	},
 ];
+ 
