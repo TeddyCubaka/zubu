@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 body {
 	margin: 0;
@@ -26,6 +29,28 @@ h4 {
 h5 {
 	font-size: 17px;
 	margin: 0px;
+}
+.btn_p {
+	padding: 5px 10px;
+	background-color: #123853;
+	border: 2px solid #123853;
+}
+.btn_p_not_active {
+	background-color: #123853b4;
+	border: 2px solid #1238538a;
+}
+.btn_s {
+	border: 2px solid #123853;
+	background-color: white;
+}
+.btn {
+	padding: 5px 10px;
+	transform: scale(1);
+	transition: transform 0.05s;
+}
+.btn:hover {
+	transform: scale(1.03);
+	transition: transform 0.05s;
 }
 .header {
 	background-color: #123853;
@@ -128,7 +153,7 @@ h5 {
 	grid-column-start: 1;
 	grid-column-end: 3;
 }
-.rental_information_card .rental_information_header{
+.rental_information_card .rental_information_header {
 	grid-column-start: 1;
 	grid-column-end: 3;
 }
@@ -204,16 +229,16 @@ main {
 	flex-wrap: wrap;
 	gap: 20px;
 }
-.one_proprety_card{
+.one_proprety_card {
 	width: 300px !important;
 }
-.slideBarMobile{
+.slideBarMobile {
 	display: none;
 }
-.hideSlidBar{
+.hideSlidBar {
 	display: none;
 }
-.proprety_gallery_images{
+.proprety_gallery_images {
 	display: grid;
 	grid-template-columns: 48% 48%;
 	gap: 20px;

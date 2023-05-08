@@ -169,31 +169,7 @@
 .txt_meddium_on_hovering:hover {
 	font-weight: 400;
 }
-.btn_p {
-	border: none;
-	padding: 5px 10px;
-	background-color: #123853;
-	border: 2px solid #123853;
-}
-.btn_p_not_active {
-	border: none;
-	padding: 5px 10px;
-	background-color: #123853b4;
-	border: 2px solid #1238538a;
-}
-.btn_s {
-	border: 2px solid #123853;
-	padding: 5px 10px;
-	background-color: white;
-}
-.btn {
-	transform: scale(1);
-	transition: transform 0.05s;
-}
-.btn:hover {
-	transform: scale(1.03);
-	transition: transform 0.05s;
-}
+
 .input_w_label {
 	border: 1px solid #b9b9b9;
 	height: 25px;

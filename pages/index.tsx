@@ -2,6 +2,7 @@ import Head from "next/head";
 import Header from "../components/general/header";
 import Main from "../components/general/main";
 import Footer from "../components/general/footer";
+import WhatDoesZubu from "../components/components/whatDoesZubu";
 
 export default function Home() {
 	return (
@@ -18,6 +19,7 @@ export default function Home() {
 			<main>
 				<Header title="home" />
 				<Main />
+				<WhatDoesZubu />
 				<Footer />
 			</main>
 		</>

@@ -37,35 +37,39 @@ export function InputPassword({
 		if (showPassword) setShowPassword(false);
 		else setShowPassword(true);
 	};
+	const inputStyle =
+		" border border-black rounded-[5px] p-2.5 txt-normal flex items-center ";
+	const inputWithLabelParentStyle = " rounded-[5px] flex flex-col ";
 
 	return (
 		<div
-			className={"input_w_label " + customClass}
+			className={inputWithLabelParentStyle + customClass}
 			onClick={() => setFullInputWidth(true)}
 			onMouseLeave={() => setFullInputWidth(false)}>
 			<label className={fullInputWidth ? "hide" : "txt_meddium one_line_txt"}>
 				{" "}
 				{subject}
 				{required ? <span className="color_red">*</span> : ""}
-				{" :"}
 			</label>
-			<input
-				type={showPassword ? "text" : "password"}
-				placeholder={placeholder}
-				className={
-					"br w_max txt_normal " + (type === "date" ? "txt_center" : "")
-				}
-				value={value ? value : ""}
-				onChange={(e) => {
-					e.preventDefault();
-					sendToStore(e.target.value);
-				}}
-			/>
-			{showPassword ? (
-				<BiShow onClick={() => changeLocalState()} size={"18px"} />
-			) : (
-				<BiHide onClick={() => changeLocalState()} size={"18px"} />
-			)}
+			<div className={inputStyle}>
+				<input
+					type={showPassword ? "text" : "password"}
+					placeholder={placeholder}
+					className={
+						"outline-none flex-1 " + type === "date" ? "text-center" : ""
+					}
+					value={value ? value : ""}
+					onChange={(e) => {
+						e.preventDefault();
+						sendToStore(e.target.value);
+					}}
+				/>
+				{showPassword ? (
+					<BiShow onClick={() => changeLocalState()} size={"18px"} />
+				) : (
+					<BiHide onClick={() => changeLocalState()} size={"18px"} />
+				)}
+			</div>
 		</div>
 	);
 }
@@ -107,24 +111,31 @@ export function Signup() {
 		else return "br_red";
 	};
 	return (
-		<div className={"space_between-y m_x-20 m_y-10 row_gap-10 "}>
+		<div className={"space_between-y m_x-20 m_y-10 row_gap-10 h-fit"}>
 			<Input
 				value={user.username}
-				sendToStore={userSeter._setUsername}
+				sendToStore={(e) =>
+					typeof e === "string" ? userSeter._setUsername(e) : {}
+				}
 				subject={"Nom d'utilisateur :"}
 				placeholder={"votre nom d'utilisateur"}
 				required
 			/>
 			<Input
+				type="email"
 				value={user.mail}
-				sendToStore={userSeter._setMail}
+				sendToStore={(e) =>
+					typeof e === "string" ? userSeter._setMail(e) : {}
+				}
 				subject={"mail :"}
 				placeholder={"votre mail"}
 				required
 			/>
 			<Input
 				value={user.phone_number}
-				sendToStore={userSeter._setPhoneNumber}
+				sendToStore={(e) =>
+					typeof e === "string" ? userSeter._setPhoneNumber(e) : {}
+				}
 				subject={"Numéro de téléphone :"}
 				placeholder={"votre numéro de téléphone"}
 			/>
@@ -134,20 +145,26 @@ export function Signup() {
 				object={"Genre :"}
 				sendToStore={userSeter._setGender}
 			/>
-			<InputPassword
+			<Input
+				type="password"
 				value={inputedPasswords.firstPassword}
 				sendToStore={(e) =>
-					getInputedPassword((prev) => ({ ...prev, firstPassword: e }))
+					!(typeof e === "string")
+						? ""
+						: getInputedPassword((prev) => ({ ...prev, firstPassword: e }))
 				}
 				subject={"Mot de passe"}
 				customClass={passwordsChecker()}
 				placeholder={"votre mot de passe"}
 				required
 			/>
-			<InputPassword
+			<Input
+				type="password"
 				value={inputedPasswords.lastPassword}
 				sendToStore={(e) =>
-					getInputedPassword((prev) => ({ ...prev, lastPassword: e }))
+					!(typeof e === "string")
+						? ""
+						: getInputedPassword((prev) => ({ ...prev, lastPassword: e }))
 				}
 				subject={"Répeter le mot de pass"}
 				customClass={passwordsChecker()}
@@ -244,13 +261,22 @@ export function Login() {
 		<div className={"space_between-y m_x-20 m_y-10 row_gap-10 "}>
 			<Input
 				value={loginData.mail}
-				sendToStore={(e) => getLoginData((prev) => ({ ...prev, mail: e }))}
+				sendToStore={(e) =>
+					!(typeof e === "string")
+						? ""
+						: getLoginData((prev) => ({ ...prev, mail: e }))
+				}
 				subject={"mail :"}
 				placeholder={"votre adresse mail"}
 			/>
-			<InputPassword
+			<Input
+				type="password"
 				value={loginData.password}
-				sendToStore={(e) => getLoginData((prev) => ({ ...prev, password: e }))}
+				sendToStore={(e) =>
+					!(typeof e === "string")
+						? ""
+						: getLoginData((prev) => ({ ...prev, password: e }))
+				}
 				subject={"Mot de passe :"}
 				customClass={""}
 				placeholder={"votre mot de passe"}

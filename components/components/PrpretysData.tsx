@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { publicationStore } from "../../store/publicationStore";
 import { shallow } from "zustand/shallow";
 import { ImRadioChecked, ImRadioChecked2 } from "react-icons/im";
+import { IoMdRadioButtonOff, IoMdRadioButtonOn } from "react-icons/io";
+import { MdRadioButtonUnchecked } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import { BsHouseFill } from "react-icons/bs";
 import axios from "axios";
@@ -10,7 +12,8 @@ import {
 	isValidContactValue,
 } from "../usefulFuction/propretyValidator";
 import { useRouter } from "next/router";
-import { Input } from "../atoms/form";
+import { Form, Input } from "../atoms/form";
+import { FormDatasTypes } from "../interface/atoms";
 
 interface ButtonCOndition {
 	conditionToPass: string;
@@ -115,6 +118,71 @@ export function GetAddress() {
 		township: address.split("/")[3] || "",
 		city: address.split("/")[4] || "",
 	});
+	const dataForForm: FormDatasTypes = {
+		title: "Reseignez l'adresse",
+		inputs: [
+			{
+				value: addressSplited.number,
+				sendToStore: (e) => {
+					typeof e == "number"
+						? ""
+						: setAddressSplited((prev) =>
+								Number(e) || e === "" ? { ...prev, number: e } : { ...prev }
+						  );
+				},
+				subject: "N° : ",
+				customClass: "m_y-5",
+				placeholder: "Renseigner le numéro",
+			},
+			{
+				value: addressSplited.avenue,
+				sendToStore: (e) =>
+					typeof e == "number"
+						? ""
+						: setAddressSplited((prev) => ({ ...prev, avenue: e })),
+				subject: "avenue ou rue : ",
+				customClass: "m_y-5",
+				placeholder: "renseigner l'avenue",
+			},
+			{
+				value: addressSplited.quoter,
+				sendToStore: (e) =>
+					typeof e == "number"
+						? ""
+						: setAddressSplited((prev) => ({ ...prev, quoter: e })),
+				subject: "quartier : ",
+				customClass: "m_y-5",
+				placeholder: "renseigner le quartier",
+			},
+			{
+				value: addressSplited.township,
+				sendToStore: (e) =>
+					typeof e == "number"
+						? ""
+						: setAddressSplited((prev) => ({ ...prev, township: e })),
+				subject: "commune : ",
+				customClass: "m_y-5",
+				placeholder: "renseigner la commune",
+			},
+			{
+				value: addressSplited.city,
+				sendToStore: (e) =>
+					typeof e == "number"
+						? ""
+						: setAddressSplited((prev) => ({ ...prev, city: e })),
+				subject: "ville : ",
+				customClass: "m_y-5",
+				placeholder: "renseigner la ville",
+			},
+		],
+		buttons: (
+			<TwoButton
+				conditionToPass={address.split("/").length === 5 ? address : ""}
+				seter={setAddres}
+				hideBackButton={true}
+			/>
+		),
+	};
 
 	const validator = (string: string) => (string.length > 0 ? string + "/" : "");
 
@@ -138,71 +206,22 @@ export function GetAddress() {
 	]);
 
 	return (
-		<div className="pd-10">
-			<h3 className="m_y-10">Reseignez l&apos;addresse</h3>
-			<div className="w_max gap-10">
-				<Input
-					value={addressSplited.number}
-					sendToStore={(e) =>
-						setAddressSplited((prev) =>
-							Number(e) || e === "" ? { ...prev, number: e } : { ...prev }
-						)
-					}
-					subject={"N° : "}
-					customClass={"m_y-5"}
-					placeholder={"Renseigner le numéro"}
-				/>
-				<Input
-					value={addressSplited.avenue}
-					sendToStore={(e) =>
-						setAddressSplited((prev) => ({ ...prev, avenue: e }))
-					}
-					subject={"avenue ou rue : "}
-					customClass={"m_y-5"}
-					placeholder={"Rensigner l'avenue"}
-				/>
-				<Input
-					value={addressSplited.quoter}
-					sendToStore={(e) =>
-						setAddressSplited((prev) => ({ ...prev, quoter: e }))
-					}
-					subject={"quartier : "}
-					customClass={"m_y-5"}
-					placeholder={"Rensigner le quartier"}
-				/>
-				<Input
-					value={addressSplited.township}
-					sendToStore={(e) =>
-						setAddressSplited((prev) => ({ ...prev, township: e }))
-					}
-					subject={"commune : "}
-					customClass={"m_y-5"}
-					placeholder={"Rensigner la commune"}
-				/>
-				<Input
-					value={addressSplited.city}
-					sendToStore={(e) =>
-						setAddressSplited((prev) => ({ ...prev, city: e }))
-					}
-					subject={"ville : "}
-					customClass={"m_y-5"}
-					placeholder={"Rensigner la ville"}
-				/>
-			</div>
-			<TwoButton
-				conditionToPass={address.split("/").length === 5 ? address : ""}
-				seter={setAddres}
-				hideBackButton={true}
-			/>
-		</div>
+		<Form
+			buttons={dataForForm.buttons}
+			inputs={dataForForm.inputs}
+			title={dataForForm.title}
+		/>
 	);
 }
+interface ButtonRadioProps {
+	condition: boolean;
+}
 
-function RadioButton({ propretyType, value }: InputRadioType) {
-	return propretyType === value ? (
-		<ImRadioChecked2 color="#123853" />
+function RadioButton({ condition }: ButtonRadioProps) {
+	return condition ? (
+		<IoMdRadioButtonOn size={18} color="#123853" />
 	) : (
-		<ImRadioChecked color="#123853" />
+		<IoMdRadioButtonOff size={18} color="#123853" />
 	);
 }
 
@@ -212,14 +231,11 @@ const InputRadio = ({
 	propretyType,
 }: InputRadioType) => {
 	return (
-		<div onClick={() => setPropretyType(value)} className="m_y-5 m_x-10_0">
+		<div
+			onClick={() => setPropretyType(value)}
+			className="flex items-center gap-2">
 			{" "}
-			<RadioButton
-				propretyType={propretyType}
-				value={value}
-				setPropretyType={() => {}}
-			/>{" "}
-			{value}{" "}
+			<RadioButton condition={propretyType === value} /> {value}{" "}
 		</div>
 	);
 };
@@ -273,23 +289,6 @@ export function GetLosor() {
 		shallow
 	);
 
-	const mailValidityChecker = (value: string) => {
-		let expressionReguliere =
-			/^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
-		if (expressionReguliere.test(value)) return true;
-		else false;
-		return false;
-	};
-	const numValidator = (num: string) => {
-		if (Number(num)) return true;
-		if (num[0] == "+") {
-			const newNumber = num.split("");
-			delete newNumber[0];
-			if (Number(newNumber.join(""))) return true;
-			else return false;
-		} else return false;
-	};
-
 	return (
 		<div className="pd-10">
 			<h3>Information sur le bailleur</h3>
@@ -297,8 +296,7 @@ export function GetLosor() {
 				<Input
 					value={lessor.fullName}
 					sendToStore={(e) => {
-						console.log(isTwoWord(e));
-						setLessor({ ...lessor, fullName: e });
+						typeof e == "number" ? "" : setLessor({ ...lessor, fullName: e });
 					}}
 					subject={"Nom complet : "}
 					customClass={"m_y-10"}
@@ -307,8 +305,7 @@ export function GetLosor() {
 				<Input
 					value={lessor.contacts}
 					sendToStore={(e) => {
-						console.log(isValidContactValue(e));
-						setLessor({ ...lessor, contacts: e });
+						typeof e == "number" ? "" : setLessor({ ...lessor, contacts: e });
 					}}
 					subject={"numéro de téléphone ou mail : "}
 					customClass={"m_y-10"}

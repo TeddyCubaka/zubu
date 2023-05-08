@@ -130,7 +130,7 @@ export default function Header(props?: CurrentPageInformationProps) {
 								Publier un bien
 							</Link>
 							<Link href="#" className="color_w text_dec_none m_x-20">
-								Votre Sauvegarde
+								Vos favoris
 							</Link>
 						</div>
 					</div>

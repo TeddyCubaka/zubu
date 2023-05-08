@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export interface InputHasDetailsProps {
 	detailsData: string[];
 	store: string;
@@ -9,7 +11,7 @@ export interface InputHasDetailsProps {
 
 export interface InputProps {
 	value: string;
-	sendToStore: (string: string) => void;
+	sendToStore: (string: string | number) => void;
 	type?: string;
 	subject: string;
 	customClass?: string;
@@ -24,3 +26,25 @@ export interface InputNumberProps {
 	customClass?: string;
 	placeholder?: string;
 }
+
+export enum InputTypes {
+	TEXT = "text",
+	NUMBER = "number",
+	PASSWORD = "password",
+	DATE = "date",
+}
+
+export interface FormDatasTypes {
+	action?: string;
+	method?: string;
+	title: string;
+	inputs: InputProps[];
+	buttons: ReactElement;
+}
+// export interface FormDatasTypes {
+// 	action?: string;
+// 	method?: string;
+// 	inputs: InputProps[];
+// 	inputDetails: InputHasDetailsProps[];
+// 	buttons: ReactElement;
+// }

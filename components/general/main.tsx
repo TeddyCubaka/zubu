@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { shallow } from "zustand/shallow";
 import { searchPropretiesStore } from "../../store/proprety";
 import { PrimaryButton } from "../atoms/button";
-import { GeneralInput } from "../atoms/form";
+import { GeneralInput, Input } from "../atoms/form";
 import background from "../images/backgournd.png";
 
 function FilterPropretiesSearch() {
@@ -15,15 +15,20 @@ function FilterPropretiesSearch() {
 	const [isValueEmpty, _setIsValueEmpty] = useState<boolean>(false);
 	const router = useRouter();
 	return (
-		<div className="filter_card border-w_25 pd-5 br">
+		<div className="w-[500px] p-1 border-2 rounded flex justify-center items-center">
 			<input
-				type="text"
+				type="search"
 				name="address"
 				className={
-					"br m_right-10 no_border txt_normal pd_x-10 " +
+					"rounded mr-3 border-none w-full h-full outline-none font-normal text-black text-lg px-5" +
 					(isValueEmpty ? "wrong_value_of_input" : "")
 				}
-				style={{ height: "30px", width: "95%" }}
+				onKeyDown={(e) => {
+					if (e.keyCode === 13 && searchValue.length > 0) {
+						searchPropretiesWith(searchValue);
+						router.push("/proprety");
+					}
+				}}
 				placeholder="chercher une ville, un quartier, ..."
 				onInput={(e) => _setSearchValue(e.currentTarget.value)}
 				value={searchValue}
@@ -33,9 +38,10 @@ function FilterPropretiesSearch() {
 				doOnClick={() => {
 					searchPropretiesWith(searchValue);
 					router.push("/proprety");
+					setTimeout(() => searchPropretiesWith(""), 1100);
 				}}
 				notWidthMax
-				subject="cherher"
+				subject="chercher"
 				doIfConditionDoesNotPass={() => {
 					if (isValueEmpty) {
 						_setIsValueEmpty(false);

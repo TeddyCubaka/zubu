@@ -5,6 +5,7 @@ export interface UploadToCloudButtonProps {
 	_setDispalyUploadImages: (state: boolean) => void;
 }
 export interface ButtonProps {
+	type?: string;
 	subject: string;
 	conditionToPass: boolean;
 	doOnClick: () => any;

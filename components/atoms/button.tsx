@@ -8,10 +8,12 @@ export function PrimaryButton(props: ButtonProps) {
 		<button
 			type="button"
 			className={
-				(props.notWidthMax ? "" : "w_max ") +
-				(props.conditionToPass
-					? "btn_p color_w br txt_normal btn  flex_center-xy one_line_txt"
-					: "btn_p_not_active color_w br txt_normal btn flex_center-xy one_line_txt")
+				(props.notWidthMax ? "" : "w-full ") +
+				`text-white font-light text-normal rounded border-2 flex justify-center items-center whitespace-nowrap btn ${
+					props.conditionToPass
+						? " bg-[#123853]  border-blue"
+						: " bg-[#123853b4] border-[#123853b4] "
+				}`
 			}
 			onClick={() => {
 				if (!props.conditionToPass) {
@@ -71,5 +73,28 @@ export function UploadToCloudButton({
 				proprety.updateDescription.updatingGalleryStatus
 			)}
 		</div>
+	);
+}
+
+export function SecondaryButton(props: ButtonProps) {
+	return (
+		<button
+			type="button"
+			className={
+				(props.notWidthMax ? "" : "w-full ") +
+				`text-blue font-light text-normal rounded border-2 flex justify-center items-center whitespace-nowrap btn border-blue`
+			}
+			onClick={() => {
+				if (!props.conditionToPass) {
+					props.doIfConditionDoesNotPass
+						? props.doIfConditionDoesNotPass()
+						: "";
+				}
+				if (props.conditionToPass) {
+					props.doOnClick();
+				}
+			}}>
+			{props.subject}
+		</button>
 	);
 }
