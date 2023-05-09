@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { shallow } from "zustand/shallow";
 import { searchPropretiesStore } from "../../store/proprety";
 import { PrimaryButton } from "../atoms/button";
-import { GeneralInput, Input } from "../atoms/form";
 import background from "../images/backgournd.png";
 
 function FilterPropretiesSearch() {
@@ -58,11 +57,11 @@ function FilterPropretiesSearch() {
 export default function Main() {
 	return (
 		<div
-			className="main"
+			className="h-full w-full bg-[#b9b9b9] "
 			style={{
 				backgroundImage: `url(${background.src})`,
 			}}>
-			<div className="main_desc color_w">
+			<div className="h-[400px] w-full flex flex-col items-center justify-center text-white">
 				<h1 className="m_y-20">
 					Bienvenue sur Zubu, un site qui met en avant votre bien immobilier
 				</h1>
