@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 export interface InputHasDetailsProps {
 	detailsData: string[];
 	store: string;
-	object: string;
+	object?: string;
 	customClass?: string;
 	hasInput?: boolean;
 	sendToStore: (string: string) => void;
@@ -17,6 +17,8 @@ export interface InputProps {
 	customClass?: string;
 	placeholder?: string;
 	required?: boolean;
+	children?: ReactElement;
+	maxLength?: number;
 }
 
 export interface InputNumberProps {

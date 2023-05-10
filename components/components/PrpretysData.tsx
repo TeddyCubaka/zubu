@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { publicationStore } from "../../store/publicationStore";
 import { shallow } from "zustand/shallow";
-import { ImRadioChecked, ImRadioChecked2 } from "react-icons/im";
-import { IoMdRadioButtonOff, IoMdRadioButtonOn } from "react-icons/io";
-import { MdRadioButtonUnchecked } from "react-icons/md";
-import { FaCheck } from "react-icons/fa";
-import { BsHouseFill } from "react-icons/bs";
 import axios from "axios";
-import {
-	isTwoWord,
-	isValidContactValue,
-} from "../usefulFuction/propretyValidator";
-import { useRouter } from "next/router";
-import { Form, Input } from "../atoms/form";
-import { FormDatasTypes } from "../interface/atoms";
+import { InputHasDetails, InputLabelLess } from "../atoms/form";
+import { PrimaryButton } from "../atoms/button";
 
 interface ButtonCOndition {
 	conditionToPass: string;
@@ -23,12 +13,6 @@ interface ButtonCOndition {
 	priceObject?: RentalPrice;
 	seterLessor?: (object: Lessor) => void;
 	seterRentalPrice?: (object: RentalPrice) => void;
-}
-
-interface InputRadioType {
-	value: string;
-	setPropretyType: (string: string) => void;
-	propretyType: string;
 }
 
 interface Lessor {
@@ -42,68 +26,12 @@ interface RentalPrice {
 	monetaryCurrency: string;
 }
 
-interface PostedDate {
-	address: string;
-	type_of_rental: string;
-	lessor: Lessor;
-	price: string;
-	guaranteeValue: string;
-	monetaryCurrency: string;
-}
-
 interface Address {
 	number: string;
 	avenue: string;
 	quoter: string;
 	township: string;
 	city: string;
-}
-
-function TwoButton({
-	conditionToPass,
-	seter,
-	hideBackButton,
-	conditionHasObject,
-	seterLessor,
-	seterRentalPrice,
-	priceObject,
-}: ButtonCOndition) {
-	const [setCount, unSetCount] = publicationStore(
-		(state) => [state.setCount, state.unSetCount],
-		shallow
-	);
-	// conditionToPass = "pass";
-	return (
-		<div className="flex w_max m_y-10">
-			{hideBackButton ? (
-				""
-			) : (
-				<button
-					className="btn_s btn br color_blue ctxt_normal w_max m_x-20"
-					onClick={() => unSetCount()}>
-					Précédant
-				</button>
-			)}
-			<button
-				type="button"
-				className={
-					conditionToPass.length > 0
-						? "btn_p btn br color_w txt_normal w_max m_x-20"
-						: "btn_p_not_active btn br color_w txt_normal w_max m_x-20"
-				}
-				onClick={() => {
-					if (conditionToPass.length > 0) {
-						setCount();
-						seter(conditionToPass);
-						if (seterLessor && conditionHasObject)
-							seterLessor(conditionHasObject);
-						if (seterRentalPrice && priceObject) seterRentalPrice(priceObject);
-					}
-				}}>
-				Suivant
-			</button>
-		</div>
-	);
 }
 
 export function GetAddress() {
@@ -118,71 +46,6 @@ export function GetAddress() {
 		township: address.split("/")[3] || "",
 		city: address.split("/")[4] || "",
 	});
-	const dataForForm: FormDatasTypes = {
-		title: "Reseignez l'adresse",
-		inputs: [
-			{
-				value: addressSplited.number,
-				sendToStore: (e) => {
-					typeof e == "number"
-						? ""
-						: setAddressSplited((prev) =>
-								Number(e) || e === "" ? { ...prev, number: e } : { ...prev }
-						  );
-				},
-				subject: "N° : ",
-				customClass: "m_y-5",
-				placeholder: "Renseigner le numéro",
-			},
-			{
-				value: addressSplited.avenue,
-				sendToStore: (e) =>
-					typeof e == "number"
-						? ""
-						: setAddressSplited((prev) => ({ ...prev, avenue: e })),
-				subject: "avenue ou rue : ",
-				customClass: "m_y-5",
-				placeholder: "renseigner l'avenue",
-			},
-			{
-				value: addressSplited.quoter,
-				sendToStore: (e) =>
-					typeof e == "number"
-						? ""
-						: setAddressSplited((prev) => ({ ...prev, quoter: e })),
-				subject: "quartier : ",
-				customClass: "m_y-5",
-				placeholder: "renseigner le quartier",
-			},
-			{
-				value: addressSplited.township,
-				sendToStore: (e) =>
-					typeof e == "number"
-						? ""
-						: setAddressSplited((prev) => ({ ...prev, township: e })),
-				subject: "commune : ",
-				customClass: "m_y-5",
-				placeholder: "renseigner la commune",
-			},
-			{
-				value: addressSplited.city,
-				sendToStore: (e) =>
-					typeof e == "number"
-						? ""
-						: setAddressSplited((prev) => ({ ...prev, city: e })),
-				subject: "ville : ",
-				customClass: "m_y-5",
-				placeholder: "renseigner la ville",
-			},
-		],
-		buttons: (
-			<TwoButton
-				conditionToPass={address.split("/").length === 5 ? address : ""}
-				seter={setAddres}
-				hideBackButton={true}
-			/>
-		),
-	};
 
 	const validator = (string: string) => (string.length > 0 ? string + "/" : "");
 
@@ -206,79 +69,97 @@ export function GetAddress() {
 	]);
 
 	return (
-		<Form
-			buttons={dataForForm.buttons}
-			inputs={dataForForm.inputs}
-			title={dataForForm.title}
-		/>
-	);
-}
-interface ButtonRadioProps {
-	condition: boolean;
-}
-
-function RadioButton({ condition }: ButtonRadioProps) {
-	return condition ? (
-		<IoMdRadioButtonOn size={18} color="#123853" />
-	) : (
-		<IoMdRadioButtonOff size={18} color="#123853" />
-	);
-}
-
-const InputRadio = ({
-	value,
-	setPropretyType,
-	propretyType,
-}: InputRadioType) => {
-	return (
-		<div
-			onClick={() => setPropretyType(value)}
-			className="flex items-center gap-2">
-			{" "}
-			<RadioButton condition={propretyType === value} /> {value}{" "}
+		<div className="flex flex-col gap-2">
+			<label>
+				Address <span className="text-red-600">*</span>
+			</label>
+			<div className="flex flex-wrap gap-2.5 items-center">
+				<InputLabelLess
+					value={addressSplited.number}
+					sendToStore={(e) => {
+						typeof e == "number"
+							? ""
+							: setAddressSplited((prev) =>
+									Number(e) || e === "" ? { ...prev, number: e } : { ...prev }
+							  );
+					}}
+					subject={"N° : "}
+					maxLength={4}
+					customClass={" w-[60px] flex-none"}
+					placeholder={"n°.."}
+				/>
+				<InputLabelLess
+					value={addressSplited.avenue}
+					sendToStore={(e) =>
+						typeof e == "number"
+							? ""
+							: setAddressSplited((prev) => ({ ...prev, avenue: e }))
+					}
+					subject="avenue ou rue : "
+					customClass={" flex-1 "}
+					placeholder="renseigner l'avenue"
+				/>
+				<InputLabelLess
+					value={addressSplited.quoter}
+					sendToStore={(e) =>
+						typeof e == "number"
+							? ""
+							: setAddressSplited((prev) => ({ ...prev, quoter: e }))
+					}
+					subject={"quartier : "}
+					customClass={" flex-1 "}
+					placeholder="renseigner le quartier"
+				/>
+				<InputLabelLess
+					value={addressSplited.township}
+					sendToStore={(e) =>
+						typeof e == "number"
+							? ""
+							: setAddressSplited((prev) => ({ ...prev, township: e }))
+					}
+					subject=""
+					customClass={" flex-1 "}
+					placeholder="renseigner la commune"
+				/>
+				<InputLabelLess
+					value={addressSplited.city}
+					sendToStore={(e) =>
+						typeof e == "number"
+							? ""
+							: setAddressSplited((prev) => ({ ...prev, city: e }))
+					}
+					subject=""
+					customClass={" flex-1 "}
+					placeholder="renseigner la ville"
+				/>
+			</div>
 		</div>
 	);
-};
+}
+
 export function GetPropretyType() {
 	const [setPropretyType, propretyType] = publicationStore(
 		(state) => [state.setPropretyType, state.propretyType],
 		shallow
 	);
+	const propretyTypeChoices = [
+		"maison meublé",
+		"maison vide",
+		"appartement",
+		"commerce",
+		"bureau",
+	];
 
 	return (
-		<div className="pd-10">
-			<h3>Quel est le prix pour louer votre bien</h3>
-			<div className="w_max flex_y-center m_y-20">
-				<details className="m_x-10 proprety_type_details" open>
-					<summary>Type de bien</summary>
-					<InputRadio
-						setPropretyType={setPropretyType}
-						propretyType={propretyType}
-						value="maison meublé"
-					/>
-					<InputRadio
-						setPropretyType={setPropretyType}
-						propretyType={propretyType}
-						value="maison vide"
-					/>
-					<InputRadio
-						setPropretyType={setPropretyType}
-						propretyType={propretyType}
-						value="appartement"
-					/>
-					<InputRadio
-						setPropretyType={setPropretyType}
-						propretyType={propretyType}
-						value="commerce"
-					/>
-					<InputRadio
-						setPropretyType={setPropretyType}
-						propretyType={propretyType}
-						value="bureau"
-					/>
-				</details>
-			</div>
-			<TwoButton conditionToPass={propretyType} seter={setPropretyType} />
+		<div className="flex flex-col gap-2">
+			<label>
+				Type du bien <span className="text-red-600">*</span>
+			</label>
+			<InputHasDetails
+				detailsData={propretyTypeChoices}
+				store={propretyType}
+				sendToStore={setPropretyType}
+			/>
 		</div>
 	);
 }
@@ -290,39 +171,37 @@ export function GetLosor() {
 	);
 
 	return (
-		<div className="pd-10">
-			<h3>Information sur le bailleur</h3>
-			<div className="w_max">
-				<Input
+		<>
+			<div className="flex flex-col gap-2">
+				<label>
+					Identité du bailleur ( nom et postnom ){" "}
+					<span className="text-red-600">*</span>
+				</label>
+				<InputLabelLess
 					value={lessor.fullName}
 					sendToStore={(e) => {
 						typeof e == "number" ? "" : setLessor({ ...lessor, fullName: e });
 					}}
 					subject={"Nom complet : "}
-					customClass={"m_y-10"}
+					customClass={"w-full"}
 					placeholder={"nom du bailleur ici"}
 				/>
-				<Input
+			</div>
+			<div className="flex flex-col gap-2">
+				<label>
+					Contact du bailleur <span className="text-red-600">*</span>
+				</label>
+				<InputLabelLess
 					value={lessor.contacts}
 					sendToStore={(e) => {
 						typeof e == "number" ? "" : setLessor({ ...lessor, contacts: e });
 					}}
 					subject={"numéro de téléphone ou mail : "}
-					customClass={"m_y-10"}
+					customClass={"w-full"}
 					placeholder="Ex : +243 990 000 000 ou user@gmail.com"
 				/>
 			</div>
-			<TwoButton
-				conditionToPass={
-					isValidContactValue(lessor.contacts) && isTwoWord(lessor.fullName)
-						? "pass"
-						: ""
-				}
-				seter={() => {}}
-				conditionHasObject={lessor}
-				seterLessor={setLessor}
-			/>
-		</div>
+		</>
 	);
 }
 
@@ -336,9 +215,10 @@ function SetCurrency({
 	setRentalPrice,
 }: SetCurrencyComponentTRype) {
 	const getClassName = (ref: string) =>
-		rentalPrice.monetaryCurrency === ref
-			? "currency_button_selected_span"
-			: "currency_button";
+		"block text-[12px] font-medium border-2 whitespace-nowrap border-[#123853] px-3 py-1 mx-1 rounded-3xl cursor-default " +
+		(rentalPrice.monetaryCurrency === ref
+			? "bg-[#123853] text-white"
+			: "text-[#123853] bg-white");
 	const setStore = (value: string) =>
 		setRentalPrice({ ...rentalPrice, monetaryCurrency: value });
 	return (
@@ -360,74 +240,61 @@ export function GetPrice() {
 	);
 
 	return (
-		<div className="pd-10">
-			<h3>Reseignez l&apos;addresse</h3>
-			<div className="w_max">
-				<div className="m_y-10 input_w_label one_line_txt">
-					<label>Prix :</label>
-					<input
-						type="text"
-						placeholder="Ex : 300"
-						className={`br w_max`}
-						value={rentalPrice.price}
-						onChange={(e) =>
-							setRentalPrice({
-								...rentalPrice,
-								price:
-									Number(e.target.value) || e.target.value === ""
-										? e.target.value
-										: rentalPrice.price,
-							})
-						}
-					/>
-					<SetCurrency
-						setRentalPrice={setRentalPrice}
-						rentalPrice={rentalPrice}
-					/>
-				</div>
-				<div className="m_y-10 input_w_label one_line_txt">
-					<label>Guarantie :</label>
-					<input
-						type="text"
-						placeholder="Ex : 4"
-						className={`br w_max m_x-5`}
-						value={rentalPrice.guaranteeValue}
-						onChange={(e) =>
-							setRentalPrice({
-								...rentalPrice,
-								guaranteeValue:
-									Number(e.target.value) || e.target.value === ""
-										? e.target.value
-										: rentalPrice.guaranteeValue,
-							})
-						}
-					/>
-					<div>mois</div>
-				</div>
+		<>
+			<div className="flex flex-col gap-2">
+				<label>
+					Prix du loyer <span className="text-red-600">*</span>
+				</label>
+				<InputLabelLess
+					value={rentalPrice.price}
+					sendToStore={(e) => {
+						typeof e == "number"
+							? ""
+							: setRentalPrice({
+									...rentalPrice,
+									price: Number(e) || e === "" ? e : rentalPrice.price,
+							  });
+					}}
+					subject={"Nom complet : "}
+					customClass={"w-full"}
+					placeholder="Ex : 300 ou 600 000"
+					children={
+						<SetCurrency
+							setRentalPrice={setRentalPrice}
+							rentalPrice={rentalPrice}
+						/>
+					}
+				/>
 			</div>
-			<TwoButton
-				conditionToPass={
-					rentalPrice.guaranteeValue.length > 0 &&
-					rentalPrice.monetaryCurrency.length > 0 &&
-					rentalPrice.price.length > 0
-						? "pass"
-						: ""
-				}
-				seter={() => {}}
-				priceObject={rentalPrice}
-				seterRentalPrice={setRentalPrice}
-			/>
-		</div>
+			<div className="flex flex-col gap-2 ">
+				<label>
+					Nombre de mois de la garantie <span className="text-red-600">*</span>
+				</label>
+				<InputLabelLess
+					value={rentalPrice.guaranteeValue}
+					maxLength={2}
+					sendToStore={(e) =>
+						setRentalPrice({
+							...rentalPrice,
+							guaranteeValue:
+								Number(e) || e === "" ? e + "" : rentalPrice.guaranteeValue,
+						})
+					}
+					subject={"Nom complet : "}
+					customClass={"w-full"}
+					placeholder="Ex : 4"
+				/>
+			</div>
+		</>
 	);
 }
 
 export function ViewInformationPuted() {
 	const publish = publicationStore();
 	function lengthVerificator(arr: string[]): boolean {
-		// if (arr.filter((str) => str.toString().length > 1).length === arr.length)
-		// 	return true;
-		// else return false;
-		return true;
+		if (arr.filter((str) => str.toString().length > 0).length === arr.length)
+			return true;
+		else return false;
 	}
 	const postDataToServer = () => {
 		publish.setDatabaseResponseStatus("");
@@ -444,9 +311,10 @@ export function ViewInformationPuted() {
 				url: process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: "Bearer " + localStorage.getItem("token"),
+					Authorization: "Bearer " + localStorage.getItem("zubu_token"),
 				},
 				data: {
+					owner: localStorage.getItem("zubu_user_id"),
 					rentalInformation: {
 						address: publish.address,
 						RentalType: publish.propretyType,
@@ -460,107 +328,30 @@ export function ViewInformationPuted() {
 				.then((res) => {
 					publish.setDatabaseResponseStatus("created");
 					publish.set_id(res.data.data._id);
-					publish.setCount();
 					publish._setSendingData(false);
 				})
-				.catch((err) => {
+				.catch(() => {
 					publish.setDatabaseResponseStatus("not created");
-					publish.setCount();
 					publish._setSendingData(false);
 				});
 		}
 	};
 
 	return (
-		<div className="pd-10">
-			<h3>Voici les information que vous avez reseigner</h3>
-			<ul className="w_max gap-5">
-				<li className="m_y-5">
-					<b>address :</b> {publish.address}{" "}
-				</li>
-				<li className="m_y-5">
-					<b>Type de la propriété :</b>
-					{publish.propretyType}{" "}
-				</li>
-				<li className="m_y-5">
-					<b>Bailleur :</b>
-					{publish.lessor.fullName}, <b>ses contacts :</b>{" "}
-					{publish.lessor.contacts}{" "}
-				</li>
-				<li className="m_y-5">
-					<b>Prix de la propriété :</b>, {publish.rentalPrice.price}{" "}
-					{publish.rentalPrice.monetaryCurrency === "USD" ? "$" : "fc"}{" "}
-				</li>
-				<li className="m_y-5">
-					<b>Garantie : </b> {publish.rentalPrice.guaranteeValue} mois
-				</li>
-			</ul>
-			<div className="flex w_max m_y-10">
-				<button
-					className="btn_s btn br color_blue txt_normal w_max m_x-20"
-					onClick={() => publish.resetCount()}>
-					Modifier
-				</button>
-				<button
-					className="btn_p btn br color_w txt_normal w_max m_x-20"
-					onClick={() => {
-						postDataToServer();
-						publish.setCount();
-					}}>
-					Valider
-				</button>
-			</div>
-		</div>
-	);
-}
-
-export function CreatePropretyStatus() {
-	const publish = publicationStore();
-	const router = useRouter();
-
-	return (
-		<div className="pd-10">
-			<h3>Les informations sur la propriété</h3>
-			{publish.databaseResponseStatus === "created" ? (
-				<>
-					<div
-						style={{ margin: "30px 0" }}
-						className="color_green flex_y_center-xy w_max gap-5">
-						{" "}
-						<span className="flex_c-center">
-							<FaCheck size="20" />
-							<span className="m_x-10">Propriété créée avec succès !</span>
-						</span>
-					</div>
-					<button
-						className="btn_p btn br color_w txt_normal w_max"
-						onClick={() => {
-							if (window) router.push("/proprety/update/" + publish._id);
-						}}>
-						{" "}
-						<BsHouseFill size="20" /> Voir la propriété
-					</button>
-				</>
-			) : (
-				""
-			)}
-			{publish.databaseResponseStatus === "not created" ? (
-				<>
-					<div
-						style={{ margin: "30px 0" }}
-						className="color_red flex_y_center-xy w_max gap-5">
-						Désolé, il y a un problème
-					</div>
-					<button
-						className="btn_p btn br color_w txt_normal w_max"
-						onClick={() => publish.resetCount()}>
-						{" "}
-						Réessayer
-					</button>
-				</>
-			) : (
-				""
-			)}
-		</div>
+		<>
+			<PrimaryButton
+				conditionToPass={lengthVerificator([
+					publish.address,
+					publish.rentalPrice.guaranteeValue,
+					publish.rentalPrice.price,
+				])}
+				doOnClick={() => {
+					postDataToServer();
+					publish.setCount();
+				}}
+				subject="Publier le bien"
+				doIfConditionDoesNotPass={() => {}}
+			/>
+		</>
 	);
 }

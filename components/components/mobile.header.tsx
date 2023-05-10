@@ -19,7 +19,7 @@ function UserAvatar() {
 	);
 	useEffect(() => {
 		if (window !== undefined) {
-			const name = window.localStorage.getItem("username");
+			const name = window.localStorage.getItem("zubu_username");
 			name !== null ? _setUsername(name) : null;
 		}
 	}, []);

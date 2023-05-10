@@ -8,6 +8,7 @@ export interface ButtonProps {
 	type?: string;
 	subject: string;
 	conditionToPass: boolean;
+	fullRounded?: boolean;
 	doOnClick: () => any;
 	doIfConditionDoesNotPass?: () => void;
 	notWidthMax?: boolean;

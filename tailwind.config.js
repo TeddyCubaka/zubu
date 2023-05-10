@@ -11,14 +11,12 @@ export default exports = {
 			"lite-skyblue": "#00b1ca",
 			skyblue: "#25a5c4",
 			"transparent-blue": "#123853b4",
+			"app-blue": "#123853",
+			"app-lite-skyblue": "#00b1ca",
+			"app-skyblue": "#25a5c4",
+			"app-transparent-blue": "#123853b4",
 		},
 		extend: {
-			color: {
-				"app-blue": "#123853",
-				"app-lite-skyblue": "#00b1ca",
-				"app-skyblue": "#25a5c4",
-				"app-transparent-blue": "#123853b4",
-			},
 			borderRadius: {
 				sm: "3px",
 				DEFAULT: "5px",

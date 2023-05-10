@@ -9,10 +9,10 @@ export function PrimaryButton(props: ButtonProps) {
 			type="button"
 			className={
 				(props.notWidthMax ? "" : "w-full ") +
-				`text-white font-light text-normal rounded border-2 flex justify-center items-center whitespace-nowrap btn ${
+				`text-white font-light text-normal rounded border-2 p-2 flex justify-center items-center whitespace-nowrap btn ${
 					props.conditionToPass
 						? " bg-[#123853]  border-blue"
-						: " bg-[#123853b4] border-[#123853b4] "
+						: " bg-[#123853b4] border-transparent "
 				}`
 			}
 			onClick={() => {
@@ -82,7 +82,8 @@ export function SecondaryButton(props: ButtonProps) {
 			type="button"
 			className={
 				(props.notWidthMax ? "" : "w-full ") +
-				`text-blue font-light text-normal rounded border-2 flex justify-center items-center whitespace-nowrap btn border-blue`
+				`text-blue font-light text-normal border-2 p-2 flex justify-center items-center whitespace-nowrap hover:bg-[#123853] hover:text-white hover:transition-all hover:duration-200 border-blue ` +
+				(props.fullRounded ? "rounded-3xl" : "rounded")
 			}
 			onClick={() => {
 				if (!props.conditionToPass) {

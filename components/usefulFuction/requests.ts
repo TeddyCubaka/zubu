@@ -9,7 +9,7 @@ export function sendToServer(props: SendToServerType) {
 	axios({
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: "Bearer " + localStorage.getItem("token"),
+			Authorization: "Bearer " + localStorage.getItem("zubu_token"),
 		},
 		method: "POST",
 		url: process.env.NEXT_PUBLIC_DB_SERVER_URL + props.path,
@@ -33,7 +33,7 @@ export function askToServerData(props: AskToServerDataType) {
 	axios({
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: "Bearer " + localStorage.getItem("token"),
+			Authorization: "Bearer " + localStorage.getItem("zubu_token"),
 		},
 		method: "GET",
 		url: process.env.NEXT_PUBLIC_DB_SERVER_URL + props.path,

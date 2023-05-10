@@ -13,6 +13,7 @@ body {
 h1 {
 	font-size: 25px;
 	margin: 0px;
+	cursor: default;
 }
 h2 {
 	font-size: 23px;
@@ -69,25 +70,6 @@ h5 {
 }
 .mobile_header {
 	display: none;
-}
-.main {
-	height: 100%;
-	width: 100%;
-	background-color: #b9b9b9;
-}
-.main_desc {
-	height: 400px;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-.filter_card {
-	width: 500px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }
 .publication_section {
 	width: 100%;

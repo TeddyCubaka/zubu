@@ -41,7 +41,8 @@ export function UserInformation() {
 	);
 	useEffect(() => {
 		if (window !== undefined) {
-			const currentUserHasString: string | null = localStorage.getItem("user");
+			const currentUserHasString: string | null =
+				localStorage.getItem("zubu_user");
 			_setCurrentUser(
 				JSON.parse(currentUserHasString !== null ? currentUserHasString : "")
 			);
@@ -125,7 +126,8 @@ export function GetUserPropreties() {
 		_setFetchingPropreties(true);
 		if (window !== undefined) {
 			let path: string = "";
-			const currentUserHasString: string | null = localStorage.getItem("user");
+			const currentUserHasString: string | null =
+				localStorage.getItem("zubu_user");
 			if (currentUserHasString) {
 				_setUserExitInStorage(true);
 				let currentUser = JSON.parse(currentUserHasString);

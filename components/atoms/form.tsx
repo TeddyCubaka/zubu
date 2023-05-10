@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 import {
 	FormDatasTypes,
 	InputHasDetailsProps,
@@ -8,7 +8,7 @@ import {
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
 
 const inputStyle =
-	" border border-black rounded-[5px] p-2.5 flex-1 txt-normal ";
+	" border border-[#123853b4] rounded-[5px] p-2 flex-1 txt-normal ";
 const inputWithLabelParentStyle = " rounded-[5px] flex flex-col ";
 
 export function Input({
@@ -38,6 +38,40 @@ export function Input({
 					sendToStore(e.target.value);
 				}}
 			/>
+		</div>
+	);
+}
+
+export function InputLabelLess({
+	value,
+	sendToStore,
+	type,
+	customClass,
+	placeholder,
+	maxLength,
+	children,
+}: InputProps) {
+	return (
+		<div
+			className={
+				" border border-[#123853b4] rounded-[5px] flex-1 txt-normal flex items-center " +
+				customClass
+			}>
+			<input
+				type={type ? type : "text"}
+				placeholder={placeholder}
+				className={
+					(type === "date" ? "txt_center" : "") +
+					" w-full h-full p-2 outline-none rounded "
+				}
+				maxLength={maxLength}
+				value={value ? value : ""}
+				onChange={(e) => {
+					e.preventDefault();
+					sendToStore(e.target.value);
+				}}
+			/>
+			{children}
 		</div>
 	);
 }
@@ -73,12 +107,13 @@ export function InputHasDetails({
 
 	return (
 		<div className={"  " + customClass}>
-			<div className={inputWithLabelParentStyle}>
-				{object ? (
-					<div className="txt_meddium one_line_txt"> {object} </div>
-				) : (
-					""
-				)}
+			<div
+				className={inputWithLabelParentStyle}
+				onClick={() => {
+					if (showDetails) setShowDetails(false);
+					else setShowDetails(true);
+				}}>
+				{object ? <div className="one_line_txt"> {object} </div> : ""}
 				<div className={inputStyle + "flex items-center"}>
 					{hasInput ? (
 						<input
@@ -94,17 +129,17 @@ export function InputHasDetails({
 						/>
 					) : (
 						<div
-							className={"m_x-5 w_max color_gray"}
+							className={"m_x-5 w_max"}
 							onClick={() => {
 								if (showDetails) setShowDetails(false);
 								else setShowDetails(true);
 							}}>
 							{" "}
-							{store ? store : ""}{" "}
+							{store ? store : detailsData[0]}{" "}
 						</div>
 					)}
 					<button
-						className="no_border bg_color_w"
+						className="border-0 bg-white"
 						onClick={() => {
 							if (showDetails) setShowDetails(false);
 							else setShowDetails(true);
@@ -117,25 +152,27 @@ export function InputHasDetails({
 					</button>
 				</div>
 			</div>
-			{showDetails ? (
-				<div className="div_details flex_y_center-xy w_auto z-30">
-					{detailsData.map((detail, index) => (
-						<span
-							className="pd_y-5 w_max txt_center br choice_span"
-							onClick={() => {
-								sendToStore(detail);
-								if (showDetails) setShowDetails(false);
-								else setShowDetails(true);
-							}}
-							key={detail}>
-							{" "}
-							{detail}{" "}
-						</span>
-					))}
-				</div>
-			) : (
-				""
-			)}
+			<div className="relative h-0">
+				{showDetails ? (
+					<div className="border border-blue rounded relative bg-white z-[4] flex_y_center-xy w_auto z-30">
+						{detailsData.map((detail, index) => (
+							<span
+								className="pd_y-5 w_max txt_center br choice_span"
+								onClick={() => {
+									sendToStore(detail);
+									if (showDetails) setShowDetails(false);
+									else setShowDetails(true);
+								}}
+								key={detail}>
+								{" "}
+								{detail}{" "}
+							</span>
+						))}
+					</div>
+				) : (
+					""
+				)}
+			</div>
 		</div>
 	);
 }

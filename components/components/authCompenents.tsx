@@ -77,13 +77,16 @@ export function InputPassword({
 export function Signup() {
 	const router = useRouter();
 	const [getUserSignupStatus, sendingData, user, userSeter, _setErrorData] =
-		userStore((store) => [
-			store.status.getSignup,
-			store.status._setSendingData,
-			store.user,
-			store.seter,
-			store.status._setErrorData,
-		]);
+		userStore(
+			(store) => [
+				store.status.getSignup,
+				store.status._setSendingData,
+				store.user,
+				store.seter,
+				store.status._setErrorData,
+			],
+			shallow
+		);
 	const [inputedPasswords, getInputedPassword] = useState<InputedPassword>({
 		firstPassword: "",
 		lastPassword: "",
@@ -223,10 +226,10 @@ export function Signup() {
 							});
 						},
 						doAfterSuccess: (e: any) => {
-							window.localStorage.setItem("token", e.token);
-							window.localStorage.setItem("userId", e.user._id);
-							window.localStorage.setItem("user", e.user);
-							window.localStorage.setItem("username", e.user.username);
+							window.localStorage.setItem("zubu_token", e.token);
+							window.localStorage.setItem("zubu_userId", e.user._id);
+							window.localStorage.setItem("zubu_user", e.user);
+							window.localStorage.setItem("zubu_username", e.user.username);
 							window.localStorage.setItem(
 								"userPropreties",
 								e.user.proprety.join("plös")
@@ -327,10 +330,10 @@ export function Login() {
 							});
 						},
 						doAfterSuccess: (e: any) => {
-							window.localStorage.setItem("token", e.token);
-							window.localStorage.setItem("userId", e.user._id);
-							window.localStorage.setItem("user", JSON.stringify(e.user));
-							window.localStorage.setItem("username", e.user.username);
+							window.localStorage.setItem("zubu_token", e.token);
+							window.localStorage.setItem("zubu_user_id", e.user._id);
+							window.localStorage.setItem("zubu_user", JSON.stringify(e.user));
+							window.localStorage.setItem("zubu_username", e.user.username);
 							_setCurrentUser(e.user);
 							_setSendingDataState(false);
 							router.back();

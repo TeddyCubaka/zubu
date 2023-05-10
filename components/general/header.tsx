@@ -101,7 +101,7 @@ export default function Header(props?: CurrentPageInformationProps) {
 	]);
 	useEffect(() => {
 		if (window !== undefined) {
-			const user = window.localStorage.getItem("username");
+			const user = window.localStorage.getItem("zubu_username");
 			user !== null ? _setUsername(user[0].toUpperCase()) : "";
 		}
 	}, []);
