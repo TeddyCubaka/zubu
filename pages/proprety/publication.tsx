@@ -29,9 +29,9 @@ export default function Publication() {
 				<Header title="Publier votre propriété" />
 				<div className="w-full flex items-center justify-center">
 					{userId !== null ? (
-						<div className=" my-5 grid grid-cols-2">
+						<div className="my-5 grid grid-cols-2 max-md:flex max-md:flex-col-reverse">
 							<AddPropretiyForm />
-							<div className="p-5 flex flex-col justify-center gap-3">
+							<div className="mx-[30px] mb-[30px] flex flex-col justify-center gap-3">
 								<div>
 									<Image
 										src={logo}
@@ -41,14 +41,17 @@ export default function Publication() {
 									/>
 								</div>
 								<h4 className="mb-3 font-normal">
-									Avec Zubu la location devient facile😉
+									Avec Zubu la location devient facile 😉
 								</h4>
 								<p>
 									Mettez votre propriété en location en ligne en un rien de
 									temps. Tout les types immobilier louables, peut importe le
 									nombre. Mettez le en avant sur zubu.
 								</p>
-								<p>Trouvez des clients, même assie dans votre salon.</p>
+								<p>
+									Trouvez des clients, même assie dans votre salon. A vous de
+									jouer
+								</p>
 							</div>
 						</div>
 					) : (

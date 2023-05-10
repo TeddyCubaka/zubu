@@ -69,7 +69,7 @@ export function GetAddress() {
 	]);
 
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex flex-col flex-wrap gap-2">
 			<label>
 				Address <span className="text-red-600">*</span>
 			</label>
@@ -96,7 +96,7 @@ export function GetAddress() {
 							: setAddressSplited((prev) => ({ ...prev, avenue: e }))
 					}
 					subject="avenue ou rue : "
-					customClass={" flex-1 "}
+					customClass={" flex-1 md:min-w-[200px] max-md:min-w-[120px] "}
 					placeholder="renseigner l'avenue"
 				/>
 				<InputLabelLess
@@ -107,7 +107,7 @@ export function GetAddress() {
 							: setAddressSplited((prev) => ({ ...prev, quoter: e }))
 					}
 					subject={"quartier : "}
-					customClass={" flex-1 "}
+					customClass={" flex-1 md:min-w-[200px] max-md:min-w-[120px] "}
 					placeholder="renseigner le quartier"
 				/>
 				<InputLabelLess
@@ -118,7 +118,7 @@ export function GetAddress() {
 							: setAddressSplited((prev) => ({ ...prev, township: e }))
 					}
 					subject=""
-					customClass={" flex-1 "}
+					customClass={" flex-1 md:min-w-[200px] max-md:min-w-[120px] "}
 					placeholder="renseigner la commune"
 				/>
 				<InputLabelLess
@@ -129,7 +129,7 @@ export function GetAddress() {
 							: setAddressSplited((prev) => ({ ...prev, city: e }))
 					}
 					subject=""
-					customClass={" flex-1 "}
+					customClass={" flex-1 md:min-w-[200px] max-md:min-w-[120px] "}
 					placeholder="renseigner la ville"
 				/>
 			</div>

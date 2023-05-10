@@ -23,9 +23,7 @@ export default function AddPropretiyForm() {
 			{sendingData ? <span className="loader_like_google"></span> : ""}
 			{databaseResponseStatus == "created" ? (
 				<div className="flex flex-col p-5 gap-6">
-					<h4 className="text-center font-medium">
-						🎉Super, la création a réussie
-					</h4>
+					<h4 className="font-medium">🎉 Super, la création a réussie</h4>
 					<span>
 						La propriété a été créée avec succès. Pour l'instant il n'est que
 						visible par vous même.
@@ -52,10 +50,11 @@ export default function AddPropretiyForm() {
 			) : (
 				""
 			)}
-			{databaseResponseStatus == "not created" ? (
+			{!(databaseResponseStatus == "not created") ? (
 				<div className="flex flex-col p-5 gap-5">
+					<h4 className="font-medium">😢 Quelque chose s'est male passée</h4>
 					<span>
-						Nous somme désolé. La création de la propriété n'a pas réussie😢.
+						Nous somme désolé. La création de la propriété n'a pas réussie .
 					</span>
 					<span>
 						Si vous souhaitez réessayer appuyez{" "}
@@ -70,7 +69,7 @@ export default function AddPropretiyForm() {
 			) : (
 				""
 			)}
-			{databaseResponseStatus !== ("created" || "not created") ? (
+			{!(databaseResponseStatus !== ("created" || "not created")) ? (
 				<div className="p-5 flex flex-col gap-6">
 					<div>
 						Renseigner les informations de base sur votre propriété. Cela nous
