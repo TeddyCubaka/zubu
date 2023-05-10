@@ -3,13 +3,7 @@
 		display: none;
 	}
 	.mobile_header {
-		background-color: #123853;
-		color: white;
-		position: sticky;
-		top: 0;
-		z-index: 2;
-		display: flex;
-		flex-direction: column;
+		display: flex !important;
 	}
 	.main {
 		background-position: top;
@@ -107,28 +101,28 @@
 	.rental_information_input {
 		margin-right: 0;
 	}
-	.proprety_update_card_section{
+	.proprety_update_card_section {
 		width: 95vw;
 		display: flex;
 		flex-direction: column-reverse;
 	}
-	.proprety_view_card_section{
+	.proprety_view_card_section {
 		width: auto;
 		display: flex;
 		flex-direction: column-reverse;
 	}
-	.proprety_gallery{
+	.proprety_gallery {
 		margin: 0;
 		column-count: 1;
 	}
 	.displayer_uploaded_images {
 		column-count: 2;
 	}
-	.proprety_gallery_images{
+	.proprety_gallery_images {
 		width: 100%;
 		display: flex;
 	}
-	.proprety_gallery_images div{
+	.proprety_gallery_images div {
 		height: 200px;
 		width: 200px;
 	}

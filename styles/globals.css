@@ -54,22 +54,10 @@ h5 {
 	transition: transform 0.05s;
 }
 .header {
-	background-color: #123853;
-	color: white;
 	display: flex;
-	flex-direction: column;
-	/* justify-content: space-between; */
-	/* align-items: center; */
-	position: sticky;
-	top: 0;
-	z-index: 1;
-}
-.header div div {
-	display: flex;
-	align-items: center;
 }
 .mobile_header {
-	display: none;
+	display: none !important;
 }
 .publication_section {
 	width: 100%;

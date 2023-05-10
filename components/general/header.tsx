@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../images/logo.png";
+import logo from "../images/big_logo.svg";
 import MobileHeader from "../components/mobile.header";
 import {
 	FaUserCircle,
@@ -24,14 +24,13 @@ export const UserMenuLink = ({
 	doOnClick,
 	color,
 }: UserMenuLinkType) => {
-	const [changeUserMenuShowing] = headerStore(
-		(store) => [store.changeUserMenuShowing],
-		shallow
-	);
+	const [changeUserMenuShowing] = headerStore((store) => [
+		store.changeUserMenuShowing,
+	]);
 	return (
 		<Link
 			className={
-				(href === "#" ? "color_gray" : color ? color : "color_w") +
+				(href === "#" ? "text-gray-400" : color ? color : "color_w") +
 				"  text_dec_none flex_x-center txt_meddium txt_meddium_on_hovering"
 			}
 			href={href}
@@ -46,14 +45,7 @@ export const UserMenuLink = ({
 
 function UserMenu() {
 	return (
-		<div
-			style={{
-				top: "90px",
-				right: "10px",
-				borderRadius: "0 0 5px 5px",
-				zIndex: "5",
-			}}
-			className="absolute space_between-y gap-10 pd-20 bg_color_blue color_w">
+		<div className="fixed flex flex-col top-[90px] right-2.5 rounded-[0_0_5px_5px] gap-2.5 p-5 bg_color_blue text-white z-30 ">
 			{userMenuLinks.map((link) => (
 				<UserMenuLink
 					key={link.href + link.content + link.Icon}
@@ -79,16 +71,16 @@ export function CurrentPageInformation(props: CurrentPageInformationProps) {
 		<div
 			className={
 				router.pathname == "/"
-					? "hide"
-					: "shadow_b flex w_auto pd-10 gap-20 bg_color_w color_b"
+					? "hidden"
+					: "shadow-[-1px_1px_2px_1px_#00000080;] flex w-auto p-2.5 gap-5 border-white bg-white text-black"
 			}>
 			<button
-				className="border-none bg-none txt_normal flex_x-center color-b"
+				className="border-none bg-none flex items-center justify-center text-black"
 				onClick={() => router.back()}>
-				<FaChevronLeft size={20} />
+				<FaChevronLeft size={16} />
 				{width > 650 ? "Retour" : ""}
 			</button>
-			<h4>{props.title}</h4>
+			<h5 className="font-normal">{props.title}</h5>
 		</div>
 	);
 }
@@ -108,17 +100,11 @@ export default function Header(props?: CurrentPageInformationProps) {
 	return (
 		<>
 			<MobileHeader title={props?.title || ""} />
-			<div className="header">
-				<div
-					style={{
-						display: "flex",
-						justifyContent: "space-between",
-						alignItems: "center",
-					}}
-					className="w_auto pd_x-20">
-					<div>
+			<div className="text-white bg-[#123853] flex flex-col sticky top-0 z-30 max-md:hidden">
+				<div className="w-auto px-5 py-2 flex justify-between items-center">
+					<div className="flex items-center gap-5 font-normal">
 						<Link href="/">
-							<Image src={logo} width="80" height="80" alt="logo du site" />
+							<Image src={logo} width="100" height="100" alt="logo du site" />
 						</Link>
 						<div>
 							<Link href="/proprety" className="color_w text_dec_none m_x-20">
@@ -134,7 +120,7 @@ export default function Header(props?: CurrentPageInformationProps) {
 							</Link>
 						</div>
 					</div>
-					<div>
+					<div className="flex items-center">
 						<div
 							className="color_w text_dec_none m_x-20 flex_y_center-xy"
 							onClick={() =>

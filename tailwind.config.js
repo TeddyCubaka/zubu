@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default exports = {
+	important: true,
 	content: [
 		"./app/**/*.{js,ts,jsx,tsx,mdx}", // Note the addition of the `app` directory.
 		"./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -16,13 +17,7 @@ export default exports = {
 			"app-skyblue": "#25a5c4",
 			"app-transparent-blue": "#123853b4",
 		},
-		extend: {
-			borderRadius: {
-				sm: "3px",
-				DEFAULT: "5px",
-				lg: "9px",
-			},
-		},
+		extend: {},
 	},
 	plugins: [],
 };

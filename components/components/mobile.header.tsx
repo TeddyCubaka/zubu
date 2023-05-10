@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../images/logo.png";
+import logo from "../images/big_logo.svg";
 import { FaUserCircle } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { headerStore, userMenuLinks } from "../../store/header";
-import { shallow } from "zustand/shallow";
+import { userMenuLinks } from "../../store/header";
 import { UserMenuLink, CurrentPageInformation } from "../general/header";
 import { CurrentPageInformationProps } from "../interface/header";
 import { useRouter } from "next/router";
 
 function UserAvatar() {
 	const [username, _setUsername] = useState<string | null>("");
-	const [isUserMenuShowing, changeUserMenuShowing] = headerStore(
-		(store) => [store.isUserMenuShowing, store.changeUserMenuShowing],
-		shallow
-	);
 	useEffect(() => {
 		if (window !== undefined) {
 			const name = window.localStorage.getItem("zubu_username");
@@ -64,9 +59,9 @@ function UserAvatar() {
 
 const SliderBarSection = () => {
 	return (
-		<div className="column m_x-10">
-			<h3 className="m_y-20">Menu</h3>
-			<div className="column gap-20 color_b">
+		<div className="flex flex-col mx-2.5">
+			<h3 className="my-5 font-bold">Menu</h3>
+			<div className="flex column gap-5 text-black">
 				{userMenuLinks.map((link) => (
 					<UserMenuLink
 						key={link.href + link.content + link.Icon}
@@ -74,7 +69,7 @@ const SliderBarSection = () => {
 						doOnClick={link.doOnClick}
 						content={link.content}
 						Icon={link.Icon}
-						color="color_b"
+						color="text-black"
 					/>
 				))}
 			</div>
@@ -86,16 +81,16 @@ export default function MobileHeader(props?: CurrentPageInformationProps) {
 	const [isMenuShawn, showMenu] = useState<boolean>(false);
 	const router = useRouter();
 	return (
-		<div className="mobile_header">
-			<div className="space_between flex_x-center w_auto pd-10">
+		<div className="md:hidden bg-[#123853] text-white sticky top-0 z-20 flex flex-col ">
+			<div className="flex justify-between items-center w-auto p-2.5">
 				<Link href="/">
-					<Image src={logo} width="40" height="40" alt="logo du site" />
+					<Image src={logo} width="80" height="80" alt="logo du site" />
 				</Link>
 				<h4 onClick={() => router.reload()}>Zubu</h4>
 				<div onClick={() => (isMenuShawn ? showMenu(false) : showMenu(true))}>
 					<RxHamburgerMenu size={25} />
 				</div>
-				<div className={isMenuShawn ? "slideBarMobile row_gap-7" : "hide"}>
+				<div className={isMenuShawn ? "slideBarMobile row_gap-7" : "hidden"}>
 					<UserAvatar />
 					<SliderBarSection />
 					<span
