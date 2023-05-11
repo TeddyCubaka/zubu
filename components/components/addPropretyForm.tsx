@@ -34,7 +34,7 @@ export default function AddPropretiyForm() {
 						jour les informations sur votre propriété pour en reseignez plus aux
 						prétendants locataire. Clickez{" "}
 						<Link
-							className="font-medium text-[#25a5c4] underline "
+							className="font-medium text-[#25a5c4] underline"
 							href={"/proprety/update/" + _id}>
 							ici
 						</Link>{" "}
@@ -50,7 +50,7 @@ export default function AddPropretiyForm() {
 			) : (
 				""
 			)}
-			{!(databaseResponseStatus == "not created") ? (
+			{databaseResponseStatus == "not created" ? (
 				<div className="flex flex-col p-5 gap-5">
 					<h4 className="font-medium">😢 Quelque chose s'est male passée</h4>
 					<span>
@@ -69,7 +69,7 @@ export default function AddPropretiyForm() {
 			) : (
 				""
 			)}
-			{!(databaseResponseStatus !== ("created" || "not created")) ? (
+			{databaseResponseStatus !== ("created" || "not created") ? (
 				<div className="p-5 flex flex-col gap-6">
 					<div>
 						Renseigner les informations de base sur votre propriété. Cela nous

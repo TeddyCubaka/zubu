@@ -132,14 +132,22 @@ export function UpdateRentalInformation() {
 			<div className="rental_information_input m_right-10">
 				<Input
 					value={proprety.proprety.rentalInformation.lessor.fullName}
-					sendToStore={proprety.updateRenatlInformation.setLessorName}
+					sendToStore={(e) =>
+						typeof e !== "string"
+							? ""
+							: proprety.updateRenatlInformation.setLessorName
+					}
 					type={"text"}
 					subject={"Bailleur"}
 					placeholder={"Nom"}
 				/>
 				<Input
 					value={proprety.proprety.rentalInformation.lessor.contacts}
-					sendToStore={proprety.updateRenatlInformation.setLessorContact}
+					sendToStore={(e) =>
+						typeof e == "string"
+							? proprety.updateRenatlInformation.setLessorContact(e)
+							: ""
+					}
 					type={"text"}
 					subject={"Contacts"}
 					placeholder={"Numéro"}
@@ -147,7 +155,11 @@ export function UpdateRentalInformation() {
 				<div className="space_between">
 					<Input
 						value={proprety.proprety.rentalInformation.price}
-						sendToStore={proprety.updateRenatlInformation.setPrice}
+						sendToStore={(e) =>
+							typeof e !== "string"
+								? ""
+								: proprety.updateRenatlInformation.setPrice
+						}
 						type={"number"}
 						subject={"Prix"}
 						customClass={"w_max m_right-10"}
@@ -171,7 +183,11 @@ export function UpdateRentalInformation() {
 					/>
 					<Input
 						value={proprety.proprety.rentalInformation.availabilityDate}
-						sendToStore={proprety.updateRenatlInformation.setAvailabilyDate}
+						sendToStore={(e) =>
+							typeof e !== "string"
+								? ""
+								: proprety.updateRenatlInformation.setAvailabilyDate
+						}
 						type={"date"}
 						subject={"Libre au"}
 					/>
@@ -179,7 +195,11 @@ export function UpdateRentalInformation() {
 				<div className="double_column">
 					<Input
 						value={proprety.proprety.rentalInformation.guaranteeValue}
-						sendToStore={proprety.updateRenatlInformation.setGuaratee}
+						sendToStore={(e) =>
+							typeof e !== "string"
+								? ""
+								: proprety.updateRenatlInformation.setGuaratee
+						}
 						type={"text"}
 						subject={"Garantie"}
 						placeholder={"Ajoutez une garantie"}
@@ -187,7 +207,11 @@ export function UpdateRentalInformation() {
 					/>
 					<Input
 						value={proprety.proprety.rentalInformation.bedRooms}
-						sendToStore={proprety.updateRenatlInformation.setbedRooms}
+						sendToStore={(e) =>
+							typeof e !== "string"
+								? ""
+								: proprety.updateRenatlInformation.setbedRooms
+						}
 						type={"text"}
 						subject={"Chambres"}
 						placeholder={"Nombre des chambres"}

@@ -42,10 +42,12 @@ export function UserInformation() {
 	useEffect(() => {
 		if (window !== undefined) {
 			const currentUserHasString: string | null =
-				localStorage.getItem("zubu_user");
-			_setCurrentUser(
-				JSON.parse(currentUserHasString !== null ? currentUserHasString : "")
-			);
+				localStorage.getItem("zubu_user_id");
+			console.log(currentUserHasString);
+
+			// _setCurrentUser(
+			// 	JSON.parse(currentUserHasString !== null ? currentUserHasString : "")
+			// );
 		}
 	}, [_setCurrentUser]);
 	return (
@@ -93,12 +95,16 @@ export function UserInformation() {
 function DisplayPropreties({ propreties }: DisplayPropretiesComponentProps) {
 	return (
 		<div className="">
-			{propreties.length == 0 ? (
+			{!propreties[0] ? (
 				<>
 					<div>
 						Vous n&apos;avez aucune propriété pour le moment. Voulez Vous en
 						créer une ?{" "}
-						<Link href="/proprety/publication">Remplissez ce formulaire</Link>{" "}
+						<Link
+							href="/proprety/publication"
+							className="font-medium text-[#25a5c4] underline">
+							Remplissez ce formulaire
+						</Link>{" "}
 					</div>
 				</>
 			) : (
@@ -148,7 +154,7 @@ export function GetUserPropreties() {
 		}
 	}, [user.currentUserPropreties]);
 	return (
-		<div className="pd-20 flex_x_center-wrap all_propreties">
+		<div className="pd-20 flex_x_center-wrap flex justify-center flex-wrap gap-5 ">
 			{userExitInStorage ? (
 				<>
 					{fetchingPropreties ? (
@@ -160,7 +166,11 @@ export function GetUserPropreties() {
 			) : (
 				<div>
 					Vous n&apos;êtes pas connecter,{" "}
-					<Link href="/user/auth">connectez-vous</Link>{" "}
+					<Link
+						href="/user/auth"
+						className="font-medium text-[#25a5c4] underline">
+						connectez-vous
+					</Link>{" "}
 				</div>
 			)}
 		</div>
