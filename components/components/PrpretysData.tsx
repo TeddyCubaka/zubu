@@ -4,21 +4,7 @@ import { shallow } from "zustand/shallow";
 import axios from "axios";
 import { InputHasDetails, InputLabelLess } from "../atoms/form";
 import { PrimaryButton } from "../atoms/button";
-
-interface ButtonCOndition {
-	conditionToPass: string;
-	seter: (string: string) => void;
-	hideBackButton?: boolean;
-	conditionHasObject?: Lessor;
-	priceObject?: RentalPrice;
-	seterLessor?: (object: Lessor) => void;
-	seterRentalPrice?: (object: RentalPrice) => void;
-}
-
-interface Lessor {
-	fullName: string;
-	contacts: string;
-}
+import SetCurrency from "../atoms/currencyButtons";
 
 interface RentalPrice {
 	price: string;
@@ -202,34 +188,6 @@ export function GetLosor() {
 				/>
 			</div>
 		</>
-	);
-}
-
-interface SetCurrencyComponentTRype {
-	rentalPrice: RentalPrice;
-	setRentalPrice: (rentalPrice: RentalPrice) => void;
-}
-
-function SetCurrency({
-	rentalPrice,
-	setRentalPrice,
-}: SetCurrencyComponentTRype) {
-	const getClassName = (ref: string) =>
-		"block text-[12px] font-medium border-2 whitespace-nowrap border-[#123853] px-3 py-1 mx-1 rounded-3xl cursor-default " +
-		(rentalPrice.monetaryCurrency === ref
-			? "bg-[#123853] text-white"
-			: "text-[#123853] bg-white");
-	const setStore = (value: string) =>
-		setRentalPrice({ ...rentalPrice, monetaryCurrency: value });
-	return (
-		<div className="flex">
-			<span onClick={() => setStore("USD")} className={getClassName("USD")}>
-				USD - $
-			</span>
-			<span onClick={() => setStore("CDF")} className={getClassName("CDF")}>
-				CDF - fc
-			</span>
-		</div>
 	);
 }
 
