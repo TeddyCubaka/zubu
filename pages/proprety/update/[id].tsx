@@ -64,18 +64,18 @@ export default function Publication() {
 			</Head>
 			<main>
 				<Header title="Gestion de la propriété" />
-				<div className="flex_y_center-xy gap-20">
+				<div className="flex flex-col justify-center items-center gap-5 ">
 					{loading ? <span className="uploading_blue"></span> : ""}
 					{proprety.propretyChanged ? (
 						<>
-							<div className="two_part m-20 gap-20 proprety_update_card_section">
+							<div className="grid grid-cols-2 m-5 max-md:mx-3 gap-5 max-md:flex max-md:flex-col ">
 								<div className="">
 									<UpdateRentalInformation />
 									<InternalDescription />
 									<ExternalDescription />
 									<TenantCharge />
 								</div>
-								<div className="m_right-2">
+								<div>
 									<PropretyGalleryUpdate />
 								</div>
 							</div>

@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { PropretyStore } from "../../store/proprety";
 
 export interface UploadToCloudButtonProps {
@@ -6,7 +7,7 @@ export interface UploadToCloudButtonProps {
 }
 export interface ButtonProps {
 	type?: string;
-	subject: string;
+	subject: string | ReactElement;
 	conditionToPass: boolean;
 	fullRounded?: boolean;
 	doOnClick: () => any;

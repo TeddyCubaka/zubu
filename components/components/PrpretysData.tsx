@@ -218,11 +218,17 @@ export function GetPrice() {
 					placeholder="Ex : 300 ou 600 000"
 					children={
 						<SetCurrency
-							setRentalPrice={setRentalPrice}
-							rentalPrice={rentalPrice}
+							monetaryCurrency={rentalPrice.monetaryCurrency}
+							setRentalCurrency={(text) =>
+								setRentalPrice({
+									...rentalPrice,
+									monetaryCurrency: text,
+								})
+							}
 						/>
 					}
 				/>
+				{/* />(e) => setRentalPrice() */}
 			</div>
 			<div className="flex flex-col gap-2 ">
 				<label>

@@ -35,7 +35,7 @@ export function AdaptedImages() {
 				setUpdatingStatus={proprety.updateDescription.setUpdatingGalleryStatus}
 			/>
 			{proprety.proprety.description.gallery.length > 0 ? (
-				<div className="m_y-10 proprety_gallery_images">
+				<div className="my-[10px] grid grid-cols-2 gap-[10px] max-md:w-full max-md:flex">
 					{proprety.proprety.description.gallery.map((img) => (
 						<>
 							<PropretyImage
@@ -53,9 +53,9 @@ export function AdaptedImages() {
 				""
 			)}
 			{displayUploadImages ? (
-				<div className="fixed displayer_uploaded_images_card">
-					<div className="bg-white m_x-20 br h_75">
-						<div className="m-10 flex space_between">
+				<div className="fixed w-screen h-screen bg-[rgba(0,0,0,0.445)] top-0 left-0 z-30 flex justify-center items-center ">
+					<div className="bg-white mx-5 br h-[75%] ">
+						<div className="m-[10px] flex space_between">
 							<div>
 								<b>Gallery : </b>
 								{proprety.updateDescription.files.length} Images selectionés
@@ -75,14 +75,8 @@ export function AdaptedImages() {
 								/>
 							</div>
 						</div>
-						<div
-							style={{
-								height: "80%",
-								overflow: "hidden",
-								overflowY: "scroll",
-							}}
-							className="m_x-10 br border-gray">
-							<div className="displayer_uploaded_images">
+						<div className="mx-[10px] border rounded border-[#808080] h-[80%] overflow-hidden overflow-y-scroll ">
+							<div className="p-[10px] my-auto mx-0 columns-5 max-md:columns-2 ">
 								{proprety.updateDescription.files.map((file, index) => (
 									<PropretyImage
 										key={file.lastModified + file.name}

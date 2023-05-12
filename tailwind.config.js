@@ -9,8 +9,9 @@ export default exports = {
 	theme: {
 		color: {
 			blue: "#123853",
-			"lite-skyblue": "#00b1ca",
 			skyblue: "#25a5c4",
+			"lite-skyblue": "#00b1ca",
+			"app-gray": "#d9d9d9",
 			"transparent-blue": "#123853b4",
 			"app-blue": "#123853",
 			"app-lite-skyblue": "#00b1ca",

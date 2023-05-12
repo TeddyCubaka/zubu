@@ -19,6 +19,8 @@ export function Input({
 	customClass,
 	placeholder,
 	required,
+	children,
+	maxLength,
 }: InputProps) {
 	return (
 		<div className={inputWithLabelParentStyle + customClass}>
@@ -28,16 +30,80 @@ export function Input({
 				{required ? <span className="color_red">*</span> : ""}
 				{" :"}
 			</label>
-			<input
-				type={type ? type : "text"}
-				placeholder={placeholder}
-				className={inputStyle + (type === "date" ? "txt_center" : "")}
-				value={value ? value : ""}
-				onChange={(e) => {
-					e.preventDefault();
-					sendToStore(e.target.value);
-				}}
-			/>
+			<div
+				className={
+					" border border-[#123853b4] rounded-[5px] flex-1 txt-normal flex items-center " +
+					customClass
+				}>
+				<input
+					type={type ? type : "text"}
+					placeholder={placeholder}
+					className=" w-full h-full p-2 outline-none rounded "
+					maxLength={maxLength}
+					value={value ? value : ""}
+					onChange={(e) => {
+						e.preventDefault();
+						sendToStore(e.target.value);
+					}}
+				/>
+				{children}
+			</div>
+		</div>
+	);
+}
+
+export function InputDate({
+	value,
+	sendToStore,
+	type,
+	subject,
+	customClass,
+	placeholder,
+	required,
+	children,
+	maxLength,
+}: InputProps) {
+	return (
+		<div className={inputWithLabelParentStyle + customClass}>
+			<label className={"font-normal"}>
+				{" "}
+				{subject.split(" :")[0]}{" "}
+				{required ? <span className="color_red">*</span> : ""}
+				{" :"}
+			</label>
+			<div
+				className={
+					" border border-[#123853b4] rounded-[5px] flex-1 txt-normal flex items-center " +
+					customClass
+				}>
+				<input
+					type={type ? type : "text"}
+					placeholder={placeholder}
+					className={
+						(type === "date" ? "txt_center" : "") +
+						" w-full h-full p-2 outline-none rounded "
+					}
+					maxLength={maxLength}
+					// value={value ? value : ""}
+					onChange={(e) => {
+						sendToStore(e.target.value);
+					}}
+				/>
+				<input
+					type={type ? type : "text"}
+					placeholder={placeholder}
+					className={
+						(type === "date" ? "txt_center" : "") +
+						" w-full h-full p-2 outline-none rounded "
+					}
+					maxLength={maxLength}
+					// value={value ? value : ""}
+					onChange={(e) => {
+						sendToStore(e.target.value);
+					}}
+				/>
+				{children}
+			</div>
 		</div>
 	);
 }
@@ -78,16 +144,15 @@ export function InputLabelLess({
 
 export function InputNumber(props: InputNumberProps) {
 	return (
-		<div className={"input_w_label " + props.customClass}>
-			<label className="txt_meddium one_line_txt"> {props.subject} </label>
+		<div className={inputWithLabelParentStyle + props.customClass}>
+			<label className="font-normal one_line_txt"> {props.subject} </label>
 			<input
 				type="number"
 				placeholder={props.placeholder ? props.placeholder : "Ècrivez..."}
-				className={"br w_max txt_normal "}
+				className={inputStyle}
 				value={props.value}
 				onChange={(e) => {
-					e.preventDefault();
-					if (e.target.value === "") props.sendToStore(0);
+					if (e.currentTarget.value === "") props.sendToStore(0);
 					if (Number(e.target.value)) props.sendToStore(Number(e.target.value));
 				}}
 			/>
@@ -113,13 +178,13 @@ export function InputHasDetails({
 					if (showDetails) setShowDetails(false);
 					else setShowDetails(true);
 				}}>
-				{object ? <div className="one_line_txt"> {object} </div> : ""}
+				{object ? <div className="font-normal"> {object} </div> : ""}
 				<div className={inputStyle + "flex items-center"}>
 					{hasInput ? (
 						<input
 							type="text"
 							value={store.length > 0 ? store : ""}
-							className={"m_x-5 w_max txt_normal"}
+							className={"mx-.25 outline-none w-full  text-normal"}
 							placeholder="Écrivez..."
 							onChange={(e) => {
 								e.preventDefault();

@@ -6,25 +6,26 @@ import { GalleryImageProps } from "../interface/images";
 export default function PropretyImage(props: GalleryImageProps) {
 	const [topBarDisplayed, setTopBarDisplayed] = React.useState<boolean>(false);
 	const imageRef = React.useRef<null | HTMLImageElement>(null);
-
 	return (
 		<div
-			className="w_auto h_auto hidde border-gray"
+			className="w-auto h-auto border-[#808080] max-md:h-[200px] max-md:w-[200px] "
 			onMouseOver={() => setTopBarDisplayed(true)}
 			onMouseLeave={() => setTopBarDisplayed(false)}>
 			{topBarDisplayed ? (
-				<span className="image_topbar_in_proprety_gallery space_between txt_normal color_w">
-					<a href={imageRef.current?.currentSrc} download={"shesh"}>
-						<MdDownload size="18px" color="white" />{" "}
-					</a>
-					<MdDelete size="18px" onClick={props.deleter} />
-				</span>
+				<div className="relative h-0">
+					<span className="z-10 py-[5px] px-2.5 bg-[#00000080]  flex justify-between font-normal text-white">
+						<a href={imageRef.current?.currentSrc} download={"shesh"}>
+							<MdDownload size="18px" color="white" />{" "}
+						</a>
+						<MdDelete size="18px" onClick={props.deleter} />
+					</span>
+				</div>
 			) : (
 				""
 			)}
 			<Image
 				ref={imageRef}
-				className="h_auto w_max"
+				className="h-auto w-full"
 				src={props.source}
 				width={300}
 				height={300}

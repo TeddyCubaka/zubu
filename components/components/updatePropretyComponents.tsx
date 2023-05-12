@@ -4,7 +4,7 @@ import { RoomDetailsType, TenantChargeType } from "../interface/proprety";
 import Image from "next/image";
 import { FiEdit } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
-import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
+import { AiFillPlusCircle, AiOutlinePlus } from "react-icons/ai";
 import { toTriadeNumber } from "../usefulFuction/numbers";
 import { AdaptedImages } from "./imageList";
 import { BsFillHouseFill } from "react-icons/bs";
@@ -12,7 +12,9 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import PropretyAvailability from "../atoms/propretyAvailability";
 import { sendToServer, uploadImage } from "../usefulFuction/requests";
 import { SendToServerType } from "../interface/requests";
-import { Input, InputHasDetails, InputNumber } from "../atoms/form";
+import { Input, InputDate, InputHasDetails, InputNumber } from "../atoms/form";
+import { PrimaryButton, SecondaryButton } from "../atoms/button";
+import SetCurrency from "../atoms/currencyButtons";
 
 const propretyType = [
 	"Maison meublé",
@@ -58,13 +60,23 @@ export function CoverPicture() {
 	};
 
 	return (
-		<div className="w_max column gap-10">
-			<div className="space_between w_max">
-				Photo de couverture
-				<label htmlFor="uploadCoverPicture">
-					<FiEdit size="20px" />
-				</label>
-			</div>
+		<div className="w-auto flex flex-col gap-2.5">
+			<label
+				htmlFor="uploadCoverPicture"
+				className="flex justify-center items-center h-[200px] overflow-hidden w-full my-1.25 bg-[#d9d9d9] border border-app-gray">
+				{proprety.updateRenatlInformation.files ||
+				proprety.proprety.rentalInformation.coverPicture ? (
+					<Image
+						width={340}
+						height={191.25}
+						className="w-full h-auto bg-[#00000] object-cover"
+						src={pictureSource}
+						alt="Photo de couverture d'un appartement."
+					/>
+				) : (
+					<BsFillHouseFill size="50px" color="#B9B9B9" />
+				)}
+			</label>
 			<input
 				type="file"
 				id="uploadCoverPicture"
@@ -73,37 +85,10 @@ export function CoverPicture() {
 				onChange={(e) => {
 					if (e.target.files !== null) {
 						proprety.updateRenatlInformation.setFiles(e.target.files[0]);
+						uploadCoverImage();
 					}
 				}}
 			/>
-			<div
-				style={{
-					minHeight: "120px",
-					maxHeight: "300px",
-					overflow: "hidden",
-					backgroundColor: "#D9D9D9",
-					border: "1px solid #B9B9B9",
-				}}
-				onClick={() => console.log(proprety.proprety.rentalInformation)}
-				className="flex_center-xy br w_max h_auto m_y-5">
-				{proprety.updateRenatlInformation.files ||
-				proprety.proprety.rentalInformation.coverPicture ? (
-					<Image
-						width={340}
-						height={191.25}
-						className="cover_picture_card"
-						src={pictureSource}
-						alt="Photo de couverture d'un appartement."
-					/>
-				) : (
-					<BsFillHouseFill size="50px" color="#B9B9B9" />
-				)}
-			</div>
-			<button
-				className="btn_s color_blue br txt_normal btn w_max"
-				onClick={() => uploadCoverImage()}>
-				{loader.uploadingCoverPicture}
-			</button>
 		</div>
 	);
 }
@@ -124,12 +109,64 @@ export function UpdateRentalInformation() {
 	};
 
 	return (
-		<div className="rental_information_card">
-			<div className="rental_information_header column gap-10">
-				<h3 className="w_max">Information sur la location</h3>
-				<PropretyBanner />
-			</div>
-			<div className="rental_information_input m_right-10">
+		<div className="flex flex-col gap-5">
+			<PropretyBanner />
+			<CoverPicture />
+			<div className="grid grid-cols-2 gap-x-4 gap-y-4 max-md:flex max-md:flex-col">
+				<Input
+					value={proprety.proprety.rentalInformation.price}
+					sendToStore={(e) =>
+						typeof e !== "string"
+							? ""
+							: proprety.updateRenatlInformation.setPrice
+					}
+					type={"number"}
+					subject={"Prix"}
+					customClass={"w_max"}
+					placeholder={"Prix"}
+					children={
+						<SetCurrency
+							monetaryCurrency={
+								proprety.proprety.rentalInformation.monetaryCurrency
+							}
+							setRentalCurrency={proprety.updateRenatlInformation.setCurrency}
+						/>
+					}
+				/>
+				<Input
+					value={proprety.proprety.rentalInformation.guaranteeValue}
+					sendToStore={(e) =>
+						typeof e !== "string"
+							? ""
+							: proprety.updateRenatlInformation.setGuaratee
+					}
+					type={"text"}
+					subject={"Garantie"}
+					placeholder={"Ajoutez une garantie"}
+					children={
+						<span className="block text-[12px] font-medium border-2 whitespace-nowrap border-[#123853] px-3 py-1 mx-1 rounded-3xl cursor-default bg-[#123853] text-white">
+							Mois
+						</span>
+					}
+				/>
+				<InputHasDetails
+					detailsData={propretyType}
+					store={proprety.proprety.rentalInformation.RentalType}
+					object={"Type"}
+					sendToStore={proprety.updateRenatlInformation.setType}
+					customClass={""}
+				/>
+				<Input
+					value={proprety.proprety.rentalInformation.bedRooms}
+					sendToStore={(e) =>
+						typeof e !== "string"
+							? ""
+							: proprety.updateRenatlInformation.setbedRooms
+					}
+					type={"text"}
+					subject={"Chambres"}
+					placeholder={"Nombre des chambres"}
+				/>
 				<Input
 					value={proprety.proprety.rentalInformation.lessor.fullName}
 					sendToStore={(e) =>
@@ -152,75 +189,20 @@ export function UpdateRentalInformation() {
 					subject={"Contacts"}
 					placeholder={"Numéro"}
 				/>
-				<div className="space_between">
-					<Input
-						value={proprety.proprety.rentalInformation.price}
-						sendToStore={(e) =>
-							typeof e !== "string"
-								? ""
-								: proprety.updateRenatlInformation.setPrice
-						}
-						type={"number"}
-						subject={"Prix"}
-						customClass={"w_max m_right-10"}
-						placeholder={"Prix"}
-					/>
-					<InputHasDetails
-						detailsData={["USD", "CDF"]}
-						store={proprety.proprety.rentalInformation.monetaryCurrency}
-						object={""}
-						sendToStore={proprety.updateRenatlInformation.setCurrency}
-						customClass={""}
-					/>
-				</div>
-				<div className="double_column">
-					<InputHasDetails
-						detailsData={propretyType}
-						store={proprety.proprety.rentalInformation.RentalType}
-						object={"Type"}
-						sendToStore={proprety.updateRenatlInformation.setType}
-						customClass={"m_right-10"}
-					/>
-					<Input
-						value={proprety.proprety.rentalInformation.availabilityDate}
-						sendToStore={(e) =>
-							typeof e !== "string"
-								? ""
-								: proprety.updateRenatlInformation.setAvailabilyDate
-						}
-						type={"date"}
-						subject={"Libre au"}
-					/>
-				</div>
-				<div className="double_column">
-					<Input
-						value={proprety.proprety.rentalInformation.guaranteeValue}
-						sendToStore={(e) =>
-							typeof e !== "string"
-								? ""
-								: proprety.updateRenatlInformation.setGuaratee
-						}
-						type={"text"}
-						subject={"Garantie"}
-						placeholder={"Ajoutez une garantie"}
-						customClass={"m_right-10"}
-					/>
-					<Input
-						value={proprety.proprety.rentalInformation.bedRooms}
-						sendToStore={(e) =>
-							typeof e !== "string"
-								? ""
-								: proprety.updateRenatlInformation.setbedRooms
-						}
-						type={"text"}
-						subject={"Chambres"}
-						placeholder={"Nombre des chambres"}
-					/>
-				</div>
+				<InputDate
+					value={proprety.proprety.rentalInformation.availabilityDate}
+					sendToStore={(e) =>
+						typeof e !== "string"
+							? ""
+							: proprety.updateRenatlInformation.setAvailabilyDate
+					}
+					customClass="col-span-2"
+					type={"date"}
+					subject={"Periode de l'annonce"}
+				/>
 			</div>
-			<CoverPicture />
-			<div className="rental_information_card_sub_button flex w_max">
-				<button
+			{/* <div className="rental_information_card_sub_button flex w_max"> */}
+			{/* <button
 					className="btn_s color_blue br txt_normal btn w_max m_right-10"
 					onClick={() => {
 						if (proprety.proprety.rentalInformation.isAvailable)
@@ -230,21 +212,17 @@ export function UpdateRentalInformation() {
 					{proprety.proprety.rentalInformation.isAvailable
 						? "Marquer occupé"
 						: "Maquer libre"}
-				</button>
-				<button
-					className="btn_p color_w br txt_normal btn w_max flex_center-xy one_line_txt"
-					onClick={() => {
-						status.setUpdatingStatus("Envoie...");
-						postUpdating();
-					}}>
-					{status.updatingStatus === "Mis à jour" ? (
-						<AiOutlineCheck size={18} />
-					) : (
-						""
-					)}
-					{status.updatingStatus}
-				</button>
-			</div>
+				</button> */}
+			<SecondaryButton
+				conditionToPass={true}
+				doOnClick={() => {
+					status.setUpdatingStatus("Envoie...");
+					postUpdating();
+				}}
+				subject={status.updatingStatus}
+				fullRounded={true}
+			/>
+			{/* </div> */}
 		</div>
 	);
 }
@@ -259,10 +237,10 @@ interface SectionHeadProps {
 
 export function SectionHead(props: SectionHeadProps) {
 	return (
-		<div className="flex space_between m_y-10">
-			<h3>{props.title}</h3>
+		<div className="border-b-2 pb-2.5 flex justify-between items-center">
+			<h3 className="font-normal">{props.title}</h3>
 			<button
-				className="btn_s btn color_blue br txt_normal"
+				className="btn_s btn text-blue rounded-3xl min-w-[100px] txt_normal"
 				onClick={async () => {
 					if (props.uploadImages) props.uploadImages();
 					else {
@@ -285,23 +263,24 @@ interface SectionDetailCardProps {
 
 function SectionDetailCard(props: SectionDetailCardProps) {
 	return (
-		<div className="flex m_y-10">
-			<div className="flex pd-5 br border-gray w_max m_right-10">
-				<div className="one_line_txt m_right-20 txt_meddium">
+		<div className="flex my-[10px]">
+			<div className="flex-1 p-1.25 flex items-center border">
+				<span className="whitespace-nowrap mr-5 font-normal flex-1">
 					{props.room.name} {" :"}
-				</div>
-				<div className="w_max">
+				</span>
+				<span className="flex-1">
 					{toTriadeNumber(props.room.size)} {props.room.unit}{" "}
-				</div>
+				</span>
 			</div>
-			<button
-				className="btn_p btn br color_w w_50"
-				onClick={() => {
+			<PrimaryButton
+				conditionToPass
+				doOnClick={() => {
 					props.removeRoom(props.index);
 					props.updateStatus();
-				}}>
-				<RxCross1 size="20px" />
-			</button>
+				}}
+				notWidthMax
+				subject={<RxCross1 size="20px" />}
+			/>
 		</div>
 	);
 }
@@ -316,15 +295,24 @@ interface SectionAddDetailButtonProps {
 function SectionAddDetailButton(props: SectionAddDetailButtonProps) {
 	return (
 		<div
-			className={"flex_center-xy w_50"}
+			className={
+				"max-md:w-full max-md:rounded-full flex justify-center items-end pb-2 w-[50px] " +
+				(props.conditionToPass
+					? "max-md:bg-[#123853] "
+					: "max-md:bg-[#12385362] ")
+			}
 			onClick={() => {
 				if (props.conditionToPass) {
 					props.sendToStore(props.data);
 					props.reseter();
 				}
 			}}>
+			<span className="md:hidden py-1.5 text-white font-normal text-md flex items-center ">
+				Ajouter <AiOutlinePlus size={18} className="ml-2" color="white" />{" "}
+			</span>
 			<AiFillPlusCircle
 				size={30}
+				className="max-md:hidden"
 				color={props.conditionToPass ? "#123853" : "gray"}
 			/>
 		</div>
@@ -383,7 +371,7 @@ function HouseInformationUpdating({
 				updatingStatus={updatingStatus}
 				setUpdatingStatus={setUpdatingStatus}
 			/>
-			<div className="grid row_gap-10">
+			<div className="grid">
 				{getRooms.rooms.length > 0 ? (
 					getRooms.rooms.map((room, index) => (
 						<SectionDetailCard
@@ -397,27 +385,27 @@ function HouseInformationUpdating({
 				) : (
 					<div className="m_y-10">Ajoutez une information</div>
 				)}
-				<div className="flex">
-					<div className="w_max flex">
+				<div className="flex max-md:flex-col gap-[10px] ">
+					<div className="w-full flex gap-[10px] max-md:flex-col ">
 						<InputHasDetails
 							detailsData={["Salon", "Salle à manger", "Toillettes", "Douches"]}
 							store={getRoomObject}
-							object={""}
+							object={"Pièce"}
 							sendToStore={setRoomObject}
-							customClass={"m_right-10"}
+							customClass={" flex-1"}
 							hasInput={true}
 						/>
 						<InputNumber
 							subject="Surface"
 							value={getRoombedRooms}
-							customClass={"m_right-10"}
+							customClass={"outline-none flex-1"}
 							sendToStore={setRoombedRooms}
 						/>
 						<InputHasDetails
 							detailsData={["m²", "ft"]}
 							store={getRoomUnit}
-							object={""}
-							customClass={"m_right-10"}
+							object={"Unité"}
+							customClass={"min-w-[75px] "}
 							sendToStore={setRoomUnit}
 						/>
 					</div>
@@ -509,7 +497,7 @@ export function TenantCharge() {
 						<div
 							className="flex"
 							key={charge.charge + charge.currency + charge.price}>
-							<div className="flex pd-5 br border-gray w_max m_right-10">
+							<div className="flex pd-5 br border-gray w_max m_right-10 ">
 								<div className="one_line_txt m_right-20 txt_meddium">
 									{charge.charge} {" :"}
 								</div>
@@ -531,26 +519,26 @@ export function TenantCharge() {
 					<div>Ajoutez une information</div>
 				)}
 			</div>
-			<div className="flex">
-				<div className="w_max flex">
+			<div className="flex  max-md:flex-col gap-[10px] ">
+				<div className="w-full flex gap-[10px]  max-md:flex-col ">
 					<InputHasDetails
 						detailsData={["Eau", "Electricité", "Poubelle"]}
 						store={getChargeName}
 						object={"Charge"}
 						sendToStore={setChargeName}
-						customClass={"m_right-10"}
+						customClass={"flex-1"}
 						hasInput={true}
 					/>
 					<InputNumber
-						subject="Prix"
+						subject="Montant"
 						value={getPrice}
-						customClass={"m_right-10"}
+						customClass={"flex-1"}
 						sendToStore={setPrice}
 					/>
 					<InputHasDetails
 						detailsData={["USD", "CDF"]}
 						store={getCurrency}
-						object={""}
+						object={"Unité"}
 						sendToStore={setCurrency}
 					/>
 				</div>
@@ -580,8 +568,8 @@ export function PropretyGalleryUpdate() {
 export function PropretyBanner() {
 	const proprety = propretyStore();
 	return (
-		<div className="space_between pd-10 border-b">
-			<div className="flex_center-x">
+		<div className="flex justify-between p-2.5 border border-black">
+			<div className="flex items-center">
 				{" "}
 				<FaMapMarkerAlt size={18} className="m_x-5" />{" "}
 				{proprety.proprety.rentalInformation.address}
