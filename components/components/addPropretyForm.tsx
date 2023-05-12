@@ -25,14 +25,14 @@ export default function AddPropretiyForm() {
 				<div className="flex flex-col p-5 gap-6">
 					<h4 className="font-medium">🎉 Super, la création a réussie</h4>
 					<span>
-						La propriété a été créée avec succès. Pour l'instant il n'est que
-						visible par vous même.
+						La propriété a été créée avec succès. Pour l&apos;instant il
+						n&apos;est que visible par vous même.
 					</span>
 					<span>
-						Votre propriété est en évaluation et sera mise qu'une fois validée.
-						Cela peut prendre jusqu'à 24h. Entre temps profitez-en pour mettre à
-						jour les informations sur votre propriété pour en reseignez plus aux
-						prétendants locataire. Clickez{" "}
+						Votre propriété est en évaluation et sera mise qu&apos;une fois
+						validée. Cela peut prendre jusqu&apos;à 24h. Entre temps profitez-en
+						pour mettre à jour les informations sur votre propriété pour en
+						reseignez plus aux prétendants locataire. Clickez{" "}
 						<Link
 							className="font-medium text-[#25a5c4] underline"
 							href={"/proprety/update/" + _id}>
@@ -52,16 +52,19 @@ export default function AddPropretiyForm() {
 			)}
 			{databaseResponseStatus == "not created" ? (
 				<div className="flex flex-col p-5 gap-5">
-					<h4 className="font-medium">😢 Quelque chose s'est male passée</h4>
+					<h4 className="font-medium">
+						😢 Quelque chose s&apos;est male passée
+					</h4>
 					<span>
-						Nous somme désolé. La création de la propriété n'a pas réussie .
+						Nous somme désolé. La création de la propriété n&apos;a pas réussie
+						.
 					</span>
 					<span>
 						Si vous souhaitez réessayer appuyez{" "}
 						<span className="font-normal text-[#25a5c4] underline">ici</span> ou
 						sinon{" "}
 						<span className="font-normal text-[#25a5c4] underline">
-							rentrer à la page d'accueil
+							rentrer à la page d&apos;accueil
 						</span>{" "}
 						et réssayer ultérieurement
 					</span>

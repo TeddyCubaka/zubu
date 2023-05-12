@@ -31,7 +31,7 @@ h5 {
 	font-size: 17px;
 	margin: 0px;
 }
-.btn_p {
+/* .btn_p {
 	padding: 5px 10px;
 	background-color: #123853;
 	border: 2px solid #123853;
@@ -212,4 +212,4 @@ main {
 	display: grid;
 	grid-template-columns: 48% 48%;
 	gap: 20px;
-}
+} */

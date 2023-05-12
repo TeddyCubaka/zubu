@@ -123,16 +123,14 @@ export function UpdateRentalInformation() {
 					type={"number"}
 					subject={"Prix"}
 					customClass={"w_max"}
-					placeholder={"Prix"}
-					children={
-						<SetCurrency
-							monetaryCurrency={
-								proprety.proprety.rentalInformation.monetaryCurrency
-							}
-							setRentalCurrency={proprety.updateRenatlInformation.setCurrency}
-						/>
-					}
-				/>
+					placeholder={"Prix"}>
+					<SetCurrency
+						monetaryCurrency={
+							proprety.proprety.rentalInformation.monetaryCurrency
+						}
+						setRentalCurrency={proprety.updateRenatlInformation.setCurrency}
+					/>
+				</Input>
 				<Input
 					value={proprety.proprety.rentalInformation.guaranteeValue}
 					sendToStore={(e) =>
@@ -142,13 +140,11 @@ export function UpdateRentalInformation() {
 					}
 					type={"text"}
 					subject={"Garantie"}
-					placeholder={"Ajoutez une garantie"}
-					children={
-						<span className="block text-[12px] font-medium border-2 whitespace-nowrap border-[#123853] px-3 py-1 mx-1 rounded-3xl cursor-default bg-[#123853] text-white">
-							Mois
-						</span>
-					}
-				/>
+					placeholder={"Ajoutez une garantie"}>
+					<span className="block text-[12px] font-medium border-2 whitespace-nowrap border-[#123853] px-3 py-1 mx-1 rounded-3xl cursor-default bg-[#123853] text-white">
+						Mois
+					</span>
+				</Input>
 				<InputHasDetails
 					detailsData={propretyType}
 					store={proprety.proprety.rentalInformation.RentalType}

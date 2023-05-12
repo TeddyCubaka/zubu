@@ -23,14 +23,14 @@ export function SaveProprety({ propretyId }: LocalPropretyType) {
 	};
 
 	return (
-		<div className="flex_center-x m_x-10">
+		<div className="flex items-center mx-[10px]">
 			{" "}
 			{saveState ? (
 				<>
 					<AiOutlineHeart
 						color="black"
 						size="20px"
-						className="m_x-5"
+						className="mr-[5px]"
 						onClick={() => {
 							getSaveState();
 							sendToServer(dataToSave);
@@ -43,7 +43,7 @@ export function SaveProprety({ propretyId }: LocalPropretyType) {
 					<AiFillHeart
 						color="black"
 						size="20px"
-						className="m_x-5"
+						className="mr-[5px]"
 						onClick={() => {
 							getSaveState();
 							sendToServer(dataToSave);

@@ -8,7 +8,7 @@ export default function PropretyImage(props: GalleryImageProps) {
 	const imageRef = React.useRef<null | HTMLImageElement>(null);
 	return (
 		<div
-			className="w-auto h-auto border-[#808080] max-md:h-[200px] max-md:w-[200px] "
+			className="max-md:w-[200px] max-md:h-[200px]  border-[#808080]"
 			onMouseOver={() => setTopBarDisplayed(true)}
 			onMouseLeave={() => setTopBarDisplayed(false)}>
 			{topBarDisplayed ? (
@@ -17,15 +17,20 @@ export default function PropretyImage(props: GalleryImageProps) {
 						<a href={imageRef.current?.currentSrc} download={"shesh"}>
 							<MdDownload size="18px" color="white" />{" "}
 						</a>
-						<MdDelete size="18px" onClick={props.deleter} />
+						{props.hiderDeleter ? (
+							""
+						) : (
+							<MdDelete size="18px" onClick={props.deleter} />
+						)}
 					</span>
 				</div>
 			) : (
 				""
 			)}
 			<Image
+				style={{ minWidth: "200px" }}
 				ref={imageRef}
-				className="h-auto w-full"
+				className="h-auto w-full max-md:w-[200px]"
 				src={props.source}
 				width={300}
 				height={300}

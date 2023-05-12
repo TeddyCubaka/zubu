@@ -14,60 +14,55 @@ import {
 import { toTriadeNumber } from "../usefulFuction/numbers";
 import Image from "next/image";
 import { IoMdImage } from "react-icons/io";
+import { PrimaryButton } from "../atoms/button";
+import PropretyImage from "../atoms/images";
 
 export function PropretyViewBanner() {
 	const proprety = propretyStore();
 	return (
-		<div className="space_between pd-20 border-b">
-			<div className="strong">
+		<div className="flex justify-between items-center p-3 h-fit border-b">
+			<span className="font-normal flex-1 flex items-center gap-3">
 				{" "}
 				<BsHouseFill size="18" />{" "}
 				{propretyStore().proprety.rentalInformation.RentalType}{" "}
-			</div>
-			<div className="flex">
-				<PropretyAvailability />
-				<SaveProprety propretyId={proprety.proprety._id} />
-				<div className="flex_center-x m_x-10">
-					{" "}
-					<MdShare size="18" className="m_x-5" /> Partager
-				</div>
-			</div>
+			</span>
+			<PropretyAvailability />
+			<SaveProprety propretyId={proprety.proprety._id} />
+			<span className="flex items-center mx-2.5 cursor-pointer hover:underline ">
+				{" "}
+				<MdShare size="18" className="mx-[5px]" /> Partager
+			</span>
 		</div>
 	);
 }
 
 export function RentalInformation() {
 	const RentalInformation = propretyStore().proprety.rentalInformation;
-	const chakeAvaibality = () => {
-		return RentalInformation.isAvailable ? "Libre" : "Occupée";
-	};
+
 	return (
-		<div className="flex m_x-20 m_y-10">
-			<h1 className="m_x-20 flex_center-xy">
+		<div className="flex mx-5 my-[10px] ">
+			<h1 className="mx-5 flex justify-center items-center">
 				{" "}
 				{RentalInformation.price}{" "}
 				{getCurrencySymbol(RentalInformation.monetaryCurrency)} /mois{" "}
 			</h1>
 			<div>
-				<div className="m_y-5">
-					{" "}
-					<span className="strong">Adresse :</span>{" "}
+				<div className="my-[5px]">
+					<span className="font-normal">Adresse :</span>{" "}
 					{getAdressForTenant(RentalInformation.address)}
 				</div>
-				<div className="m_y-5">
-					{" "}
-					<span className="strong">Garantie :</span>{" "}
-					{RentalInformation.guaranteeValue}{" "}
+				<div className="my-[5px]">
+					<span className="font-normal">Garantie :</span>{" "}
+					{RentalInformation.guaranteeValue} mois
 				</div>
-				<div className="m_y-5">
-					{" "}
-					<span className="strong">Libre au :</span>{" "}
+				{/* <div className="my-[5px]">
+					<span className="strong">Mise en ligne le :</span>{" "}
 					{RentalInformation.availabilityDate
 						? RentalInformation.availabilityDate
 						: chakeAvaibality()}{" "}
-				</div>
+				</div> */}
 				<div>
-					<span className="strong">Chambres :</span>{" "}
+					<span className="font-normal">Description :</span>{" "}
 					{RentalInformation.bedRooms}{" "}
 				</div>
 			</div>
@@ -77,21 +72,18 @@ export function RentalInformation() {
 
 export function AskForVisit() {
 	return (
-		<div style={{ columnCount: 2 }} className="m_y-10">
-			<button className="btn_p btn br color_w txt_normal w_max">
-				Demander à visiter
-			</button>
-			<button className="btn_s btn br color_b txt_normal w_max">
-				Donner une offre
-			</button>
-		</div>
+		<PrimaryButton
+			conditionToPass
+			doOnClick={() => {}}
+			subject="Demander à visiter"
+		/>
 	);
 }
 
 function Room(props: RoomDetailsType) {
 	return (
-		<div className="one_line_txt">
-			<span className="strong">
+		<div className="whitespace-nowrap">
+			<span className="font-normal">
 				{" "}
 				{props.name} {" : "}{" "}
 			</span>
@@ -106,11 +98,13 @@ function Room(props: RoomDetailsType) {
 export function InternalRooms() {
 	const internalRooms = propretyStore().proprety.description.interior.rooms;
 	return (
-		<div className="grid row_gap-10 m_y-10">
+		<div className="grid gap-[10px] my-[10px]">
 			<h3>Intérieur</h3>
 			<div className="grid row_gap-10">
 				{internalRooms.length === 0 ? (
-					<div>Vide pour l&908;instant</div>
+					<div>
+						Le propriétaire n&apos;a rien renseigner pour l&apos;instant. 🙃
+					</div>
 				) : (
 					internalRooms.map((room, index) => (
 						<Room
@@ -129,11 +123,13 @@ export function InternalRooms() {
 export function ExternalRooms() {
 	const externalRooms = propretyStore().proprety.description.external.rooms;
 	return (
-		<div className="grid row_gap-10 m_y-10">
+		<div className="grid gap-[10px] my-[10px]">
 			<h3>Extérieur</h3>
 			<div className="grid row_gap-10">
 				{externalRooms.length === 0 ? (
-					<div>Vide pour l&apos;instant</div>
+					<div>
+						Le propriétaire n&apos;a rien renseigner jusqu&apos;à présent. 🙃
+					</div>
 				) : (
 					externalRooms.map((room, index) => (
 						<Room
@@ -152,11 +148,13 @@ export function ExternalRooms() {
 export function TenantCharges() {
 	const tenantCharges = propretyStore().proprety.description.tenantCharges;
 	return (
-		<div className="grid gap-20 m_y-20">
+		<div className="grid gap-[10px] my-[10px]">
 			<h3>Charges supporté par le locataire</h3>
 			<div className="grid row_gap-10">
 				{tenantCharges.length === 0 ? (
-					<div>Vide pour l&apos;instant</div>
+					<div>
+						Le propriétaire n&apos;a rien renseigner jusqu&apos;à présent. 🙃
+					</div>
 				) : (
 					tenantCharges.map((charge, index) => (
 						<div key={"" + charge.charge + charge.price + index}>
@@ -181,30 +179,27 @@ export function TenantCharges() {
 export function PropretyGalleryView() {
 	const gallery: PropretyGalleryImageType[] =
 		propretyStore().proprety.description.gallery;
+
 	return (
 		<>
-			<div>
-				<span className="strong txt_big">Gallery</span>
-			</div>
+			<div className="text-xl mb-5 font-medium">Gallery</div>
 			<div
-				className="h_max"
-				style={{
-					columnCount: gallery.length > 2 ? 2 : 1,
-				}}>
+				className={
+					"md:grid md:gap-4 h-full flex items-center overflow-hidden overflow-x-auto gap-5 " +
+					(gallery.length > 2 ? "grid-cols-2" : "")
+				}>
 				{gallery.length > 0 ? (
 					gallery.map((image) => (
-						<div className="w_max h_auto hidden m_y-10" key={image._id}>
-							<Image
-								className="h_auto w_max border-gray br"
-								src={image.url}
-								width={300}
-								height={300}
-								alt={image.uploadDate}
-							/>
-						</div>
+						<PropretyImage
+							hiderDeleter
+							source={image.url}
+							description={image.publicId + image.uploadDate}
+							deleter={() => {}}
+							key={image.publicId + image._id}
+						/>
 					))
 				) : (
-					<div className="flex_y_center-xy h_max color_gray">
+					<div className="w-full max-md:mb-5 h-full text-[#808080] flex flex-col justify-center items-center">
 						<IoMdImage size={75} /> vide pour le moment
 					</div>
 				)}

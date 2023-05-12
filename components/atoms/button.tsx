@@ -28,7 +28,7 @@ export function PrimaryButton(props: ButtonProps) {
 			className={
 				(props.notWidthMax ? "w-fit" : "w-full ") +
 				(props.fullRounded ? " rounded-3xl " : " rounded ") +
-				`text-white font-light text-normal border-2 p-2 flex justify-center items-center whitespace-nowrap btn ${
+				`text-white font-light text-normal border-2 p-2 flex justify-center items-center whitespace-nowrap h-fit hover:font-medium ${
 					props.conditionToPass
 						? " bg-[#123853]  border-blue"
 						: " bg-[#123853b4] border-transparent "

@@ -213,21 +213,19 @@ export function GetPrice() {
 									price: Number(e) || e === "" ? e : rentalPrice.price,
 							  });
 					}}
-					subject={"Nom complet : "}
+					subject=""
 					customClass={"w-full"}
-					placeholder="Ex : 300 ou 600 000"
-					children={
-						<SetCurrency
-							monetaryCurrency={rentalPrice.monetaryCurrency}
-							setRentalCurrency={(text) =>
-								setRentalPrice({
-									...rentalPrice,
-									monetaryCurrency: text,
-								})
-							}
-						/>
-					}
-				/>
+					placeholder="Ex : 300 ou 600 000">
+					<SetCurrency
+						monetaryCurrency={rentalPrice.monetaryCurrency}
+						setRentalCurrency={(text) =>
+							setRentalPrice({
+								...rentalPrice,
+								monetaryCurrency: text,
+							})
+						}
+					/>
+				</InputLabelLess>
 				{/* />(e) => setRentalPrice() */}
 			</div>
 			<div className="flex flex-col gap-2 ">

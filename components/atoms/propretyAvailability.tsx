@@ -6,15 +6,15 @@ export default function PropretyAvailability() {
 	return (
 		<div className="flex items-center mx-2.5">
 			{" "}
-			{proprety.proprety.rentalInformation.isAvailable ? (
+			{proprety.proprety.rentalInformation?.isAvailable ? (
 				<>
-					<BsFillCircleFill color="green" size="10px" className="m_x-5" /> En
-					annonce actuellement
+					<BsFillCircleFill color="green" size="10px" className="mr-[5px]" /> En
+					annonce <span className="max-md:hidden ml-1 "> actuellement</span>
 				</>
 			) : (
 				<>
-					<BsFillCircleFill color="red" size="10px" className="m_x-5" /> N'est
-					pas en annonce
+					<BsFillCircleFill color="red" size="10px" className="mr-[5px]" />{" "}
+					N&apos;est pas en annonce
 				</>
 			)}{" "}
 		</div>
