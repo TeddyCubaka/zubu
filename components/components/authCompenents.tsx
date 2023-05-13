@@ -46,7 +46,7 @@ export function InputPassword({
 			className={inputWithLabelParentStyle + customClass}
 			onClick={() => setFullInputWidth(true)}
 			onMouseLeave={() => setFullInputWidth(false)}>
-			<label className={fullInputWidth ? "hide" : "txt_meddium one_line_txt"}>
+			<label className={fullInputWidth ? "hide" : "font-medium one_line_txt"}>
 				{" "}
 				{subject}
 				{required ? <span className="color_red">*</span> : ""}
@@ -114,7 +114,7 @@ export function Signup() {
 		else return "br_red";
 	};
 	return (
-		<div className={"space_between-y m_x-20 m_y-10 row_gap-10 h-fit"}>
+		<div className={"space_between-y mx-5 m_y-10 row_gap-10 h-fit"}>
 			<Input
 				value={user.username}
 				sendToStore={(e) =>
@@ -261,7 +261,7 @@ export function Login() {
 	const [SendingDataState, _setSendingDataState] = useState<boolean>(false);
 
 	return (
-		<div className={"space_between-y m_x-20 m_y-10 row_gap-10 "}>
+		<div className={"space_between-y mx-5 m_y-10 row_gap-10 "}>
 			<Input
 				value={loginData.mail}
 				sendToStore={(e) =>
@@ -351,11 +351,11 @@ export function Login() {
 export function ErrorShower() {
 	const [error] = userStore((store) => [store.status.errorData], shallow);
 	return (
-		<div className="color_red w_max m_x-20 txt_small"> {error.message} </div>
+		<div className="color_red w_max mx-5 txt_small"> {error.message} </div>
 	);
 }
 
 export function Error() {
 	const [error] = userStore((store) => [store.status.errorData], shallow);
-	return <div className="color_red w_max m_x-20"> {error.error} </div>;
+	return <div className="color_red w_max mx-5"> {error.error} </div>;
 }

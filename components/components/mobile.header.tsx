@@ -19,11 +19,11 @@ function UserAvatar() {
 		}
 	}, []);
 	return (
-		<div className="flex_x-center bg_color_blue" style={{ height: "150px" }}>
-			<Link href="#" className="text_dec_none m_x-10">
+		<div className="flex items-center bg-[#123853]" style={{ height: "150px" }}>
+			<Link href="#" className="no-underline m_x-10">
 				{username ? (
 					<div
-						className="flex_center-xy"
+						className="flex justify-center items-center"
 						style={{
 							borderRadius: "40px",
 							backgroundColor: "white",
@@ -42,12 +42,12 @@ function UserAvatar() {
 			</Link>
 			<div
 				style={{ justifyContent: "flex-end" }}
-				className="color_w w_max flex m_x-20">
+				className="text-white w_max flex mx-5">
 				{username ? (
 					<h4>{username}</h4>
 				) : (
 					<Link
-						className="color_w txt_big text_dec_none flex_x-center"
+						className="text-white txt_big no-underline flex items-center"
 						href="/user/auth">
 						Connecter vous <IoLogIn size={18} color="white" />
 					</Link>

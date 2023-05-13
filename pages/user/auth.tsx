@@ -34,19 +34,19 @@ export default function Auth() {
 			</Head>
 			<main>
 				<Header title="Connectez-vous 😃" />
-				<div className="flex_y_center-xy m_y-20">
+				<div className="flex flex-col justify-center items-center m_y-20">
 					<div
 						style={{ borderWidth: "4px" }}
 						className={
-							"flex_y_center-xy auth_component br " +
-							(error.hasError ? "br_red" : "border-blue")
+							"flex flex-col justify-center items-center auth_component br " +
+							(error.hasError ? "br_red" : "border-[#123853]")
 						}>
 						{sendingData ? <span className="loader_like_google"></span> : ""}
 						<div className="flex w_max two_part txt_center auth_component_header">
 							<div
 								style={{ borderRadius: "0 0 5px 0" }}
 								className={
-									"h_max flex_y_center-xy " +
+									"h_max flex flex-col justify-center items-center " +
 									(!isSignup ? "current_auth_form" : "")
 								}
 								onClick={() => {
@@ -63,7 +63,7 @@ export default function Auth() {
 							<div
 								style={{ borderRadius: "0 0 0 5px" }}
 								className={
-									"h_max flex_y_center-xy " +
+									"h_max flex flex-col justify-center items-center " +
 									(!isLogin ? "current_auth_form" : "")
 								}
 								onClick={() => {

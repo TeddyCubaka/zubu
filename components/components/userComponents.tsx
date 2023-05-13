@@ -28,8 +28,8 @@ interface TextWithIconType {
 
 const TextWithIcon = ({ Icon, content }: TextWithIconType) => {
 	return (
-		<span className="flex_x-center">
-			<Icon className="m_right-10" /> {content}{" "}
+		<span className="flex items-center">
+			<Icon className="mr-2.5" /> {content}{" "}
 		</span>
 	);
 };
@@ -56,7 +56,7 @@ export function UserInformation() {
 			className="border-b flex m_y-20">
 			<div
 				style={{ height: "180px", width: "180px" }}
-				className="flex_center-xy  m-10 border-b_thin">
+				className="flex justify-center items-center  m-10 border-b_thin">
 				{currentUser.profile_picture_url &&
 				currentUser.profile_picture_url.length > 0 ? (
 					<Image
@@ -70,11 +70,11 @@ export function UserInformation() {
 				)}
 			</div>
 			<div className="m_y-10 w_max space_between-y">
-				<div className="flex_x-center">
+				<div className="flex items-center">
 					<h2 className="w_max">{currentUser.username}</h2>
 					<div
 						style={{ borderRadius: "80px" }}
-						className="pd-5 color_blue border-blue">
+						className="pd-5 color_blue border-[#123853]">
 						{currentUser.gender === "Homme" ? <MdMale size={25} /> : ""}
 						{currentUser.gender === "Femme" ? <MdFemale size={25} /> : ""}
 						{currentUser.gender === "Autre" ? <IoAlert size={25} /> : ""}
@@ -108,7 +108,7 @@ function DisplayPropreties({ propreties }: DisplayPropretiesComponentProps) {
 					</div>
 				</>
 			) : (
-				<div className="pd-20 all_propreties">
+				<>
 					{propreties.map((proprety) => (
 						<PropretyCard
 							key={proprety._id}
@@ -117,7 +117,7 @@ function DisplayPropreties({ propreties }: DisplayPropretiesComponentProps) {
 							_id={proprety._id}
 						/>
 					))}
-				</div>
+				</>
 			)}
 		</div>
 	);
@@ -154,7 +154,7 @@ export function GetUserPropreties() {
 		}
 	}, [user.currentUserPropreties]);
 	return (
-		<div className="pd-20 flex_x_center-wrap flex justify-center flex-wrap gap-5 ">
+		<div className="p-5 flex justify-center flex-wrap gap-5 ">
 			{userExitInStorage ? (
 				<>
 					{fetchingPropreties ? (

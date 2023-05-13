@@ -199,7 +199,7 @@ export function UpdateRentalInformation() {
 			</div>
 			{/* <div className="rental_information_card_sub_button flex w_max"> */}
 			{/* <button
-					className="btn_s color_blue br txt_normal btn w_max m_right-10"
+					className="btn_s color_blue br txt_normal btn w_max mr-2.5"
 					onClick={() => {
 						if (proprety.proprety.rentalInformation.isAvailable)
 							proprety.updateRenatlInformation.changeAvailability(false);
@@ -493,8 +493,8 @@ export function TenantCharge() {
 						<div
 							className="flex"
 							key={charge.charge + charge.currency + charge.price}>
-							<div className="flex pd-5 br border-gray w_max m_right-10 ">
-								<div className="one_line_txt m_right-20 txt_meddium">
+							<div className="flex pd-5 br border-gray w_max mr-2.5 ">
+								<div className="one_line_txt m_right-20 font-medium">
 									{charge.charge} {" :"}
 								</div>
 								<div className="w_max">
@@ -503,7 +503,7 @@ export function TenantCharge() {
 								</div>
 							</div>
 							<button
-								className="btn_p btn br color_w w_50"
+								className="btn_p btn br text-white w_50"
 								onClick={() =>
 									proprety.updateDescription.removeTenantCharge(index)
 								}>
@@ -555,7 +555,7 @@ export function TenantCharge() {
 
 export function PropretyGalleryUpdate() {
 	return (
-		<div className="pd-20 m_right-20 border-gray br h_auto proprety_gallery">
+		<div className="p-5 m_right-20 border-gray br h_auto proprety_gallery">
 			<AdaptedImages />
 		</div>
 	);

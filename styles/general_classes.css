@@ -107,7 +107,7 @@
 .opacity_80 {
 	opacity: 80;
 }
-.flex_center-xy {
+.flex justify-center items-center {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -116,10 +116,6 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
-}
-.flex_x-center {
-	display: flex;
 	align-items: center;
 }
 .flex {
@@ -251,7 +247,7 @@
 .bg_color_r {
 	background-color: red;
 }
-.bg_color_blue {
+.bg_color_blue{
 	background-color: #123853;
 }
 .double_column {

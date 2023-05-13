@@ -20,7 +20,7 @@ export default function User() {
 			</Head>
 			<main>
 				<Header title="Vous" />
-				<div className="m_x-20">
+				<div className="mx-5">
 					<UserInformation />
 					<h1>Vos propriétés</h1>
 					<div className="m_y-20">

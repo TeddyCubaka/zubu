@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import "../styles/general_classes.css";
+// import "../styles/general_classes.css";
 import "../styles/loader.css";
 import "../styles/mobile.css";
 import "../styles/mobile.globals.css";

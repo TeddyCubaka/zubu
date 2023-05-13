@@ -179,12 +179,12 @@ export function InputHasDetails({
 					else setShowDetails(true);
 				}}>
 				{object ? <div className="font-normal"> {object} </div> : ""}
-				<div className={inputStyle + "flex items-center"}>
+				<div className={inputStyle + " flex items-center cursor-pointer"}>
 					{hasInput ? (
 						<input
 							type="text"
 							value={store.length > 0 ? store : ""}
-							className={"mx-.25 outline-none w-full  text-normal"}
+							className={"mx-.25 outline-none flex-1  text-normal"}
 							placeholder="Écrivez..."
 							onChange={(e) => {
 								e.preventDefault();
@@ -194,7 +194,7 @@ export function InputHasDetails({
 						/>
 					) : (
 						<div
-							className={"m_x-5 w_max"}
+							className={"mx-[5px] flex-1"}
 							onClick={() => {
 								if (showDetails) setShowDetails(false);
 								else setShowDetails(true);
@@ -219,10 +219,10 @@ export function InputHasDetails({
 			</div>
 			<div className="relative h-0">
 				{showDetails ? (
-					<div className="border border-blue rounded relative bg-white z-[4] flex_y_center-xy w_auto z-30">
+					<div className="border border-[#123853] rounded relative bg-white z-[4] flex flex-col justify-center items-center w-auto z-30">
 						{detailsData.map((detail, index) => (
 							<span
-								className="pd_y-5 w_max txt_center br choice_span"
+								className="py-[5px] w-full cursor-pointer text-center rounded hover:bg-[#D9D9D9] "
 								onClick={() => {
 									sendToStore(detail);
 									if (showDetails) setShowDetails(false);

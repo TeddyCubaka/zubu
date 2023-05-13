@@ -18,35 +18,31 @@ export default function PropretyCard(proprety: PropretyCardType) {
 	const router = useRouter();
 	return (
 		<div
-			className="border-gray br w_auto one_proprety_card"
+			className="border border-[#D9D9D9] rounded w-[300px] h-auto max-sm:w-[200px] "
 			onClick={() => (proprety.path ? router.push(proprety.path) : "")}>
-			<div className="tag_on_proprety_card space_between txt_normal color_w">
-				{" "}
-				<div></div>{" "}
+			<div className="relative h-0 flex justify-end text-sm text-white">
 				{proprety.rentalInformation.isAvailable ? (
-					<div style={{ zIndex: "0" }} className="br pd-3 color-green bg-green">
+					<div
+						style={{ zIndex: "1" }}
+						className="rounded-[0_5px_0_5px] h-fit p-2 w-[60px] text-center color-green bg-green">
 						libre
 					</div>
 				) : (
-					<div style={{ zIndex: "0" }} className="br pd-3 color-green bg-red">
+					<div
+						style={{ zIndex: "1" }}
+						className="rounded-[0_5px_0_5px] h-fit p-2 w-[60px] text-center color-green bg-red">
 						Occupé
 					</div>
 				)}
 			</div>
 			<div
-				style={{
-					height: "100px",
-					overflow: "hidden",
-					backgroundColor: "#F5F5F5",
-					borderBottom: "1px solid #B9B9B9",
-					borderRadius: "5px 5px 0px 0px",
-				}}
-				className="flex_center-xy">
+				style={{ borderRadius: "5px 5px 0px 0px" }}
+				className="flex justify-center items-center h-[100px] border-b-[#B9B9B9] overflow-hidden bg-[#F5F5F5] ">
 				{proprety.rentalInformation.coverPicture ? (
 					<Image
 						width={340}
 						height={191.25}
-						className="cover_picture_card"
+						className="w-full h-auto"
 						src={proprety.rentalInformation.coverPicture}
 						alt="Random image"
 					/>
@@ -54,32 +50,30 @@ export default function PropretyCard(proprety: PropretyCardType) {
 					<BsFillHouseFill size="50px" color="#B9B9B9" />
 				)}
 			</div>
-			<div className="pd-10 w_max">
-				<div className="flex m_y-5">
+			<div className="p-2.5 w-full break-all">
+				<div className="flex my-1 gap-2 ">
 					{" "}
 					<FaMapMarkerAlt size="18px" />{" "}
 					{getPublicAdress(proprety.rentalInformation.address)}{" "}
 				</div>
-				<div className="flex m_y-5">
-					<div className="w_max">
+				<div className="flex my-[5px] justify-between flex-wrap gap-2.5 ">
+					<span className="flex gap-1.5 items-center">
 						{" "}
 						<IoMdPricetag size="18px" /> {proprety.rentalInformation.price}
-					</div>
-					<div className="w_max">
+					</span>
+					<span className="flex gap-1.5 items-center">
 						<FaPercent size="18px" />{" "}
 						{proprety.rentalInformation.guaranteeValue}{" "}
-					</div>
-				</div>
-				<div className="flex m_y-5">
-					<div className="w_max">
+					</span>
+					<span className="flex gap-1.5 items-center">
 						{" "}
 						<MdOutlineBedroomChild size="18px" />{" "}
 						{proprety.rentalInformation.bedRooms} chs
-					</div>
-					<div className="w_max">
+					</span>
+					<span className=" flex gap-1.5 items-center">
 						<BsFillHouseFill size="18px" />{" "}
 						{proprety.rentalInformation.guaranteeValue}{" "}
-					</div>
+					</span>
 				</div>
 			</div>
 		</div>

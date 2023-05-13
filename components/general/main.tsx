@@ -62,10 +62,10 @@ export default function Main() {
 				backgroundImage: `url(${background.src})`,
 			}}>
 			<div className="h-[400px] w-full flex flex-col items-center justify-center text-white">
-				<h1 className="m_y-20">
+				<h1 className="my-5">
 					Bienvenue sur Zubu, un site qui met en avant votre bien immobilier
 				</h1>
-				<div className="m_y-20">
+				<div className="my-5">
 					Recherchez un bien, trouvez-le et fait de ça votre chez vous
 				</div>
 				<FilterPropretiesSearch />

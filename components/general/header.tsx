@@ -10,7 +10,6 @@ import {
 	FaChevronLeft,
 } from "react-icons/fa";
 import { headerStore, userMenuLinks } from "../../store/header";
-import { shallow } from "zustand/shallow";
 import {
 	CurrentPageInformationProps,
 	UserMenuLinkType,
@@ -30,22 +29,22 @@ export const UserMenuLink = ({
 	return (
 		<Link
 			className={
-				(href === "#" ? "text-gray-400" : color ? color : "color_w") +
-				"  text_dec_none flex_x-center txt_meddium txt_meddium_on_hovering"
+				(href === "#" ? "text-gray-400" : color ? color : "text-white") +
+				"  no-underline flex items-center hover:font-medium"
 			}
 			href={href}
 			onClick={() => {
 				changeUserMenuShowing(false);
 				doOnClick ? doOnClick() : "";
 			}}>
-			<Icon size={18} className="m_right-10" /> {content}
+			<Icon size={18} className="mr-2.5" /> {content}
 		</Link>
 	);
 };
 
 function UserMenu() {
 	return (
-		<div className="fixed flex flex-col top-[90px] right-2.5 rounded-[0_0_5px_5px] gap-2.5 p-5 bg_color_blue text-white z-30 ">
+		<div className="fixed flex flex-col top-[80px] right-2.5 rounded-[0_0_5px_5px] gap-2.5 p-5 bg-[#123853] text-white z-30 ">
 			{userMenuLinks.map((link) => (
 				<UserMenuLink
 					key={link.href + link.content + link.Icon}
@@ -107,22 +106,22 @@ export default function Header(props?: CurrentPageInformationProps) {
 							<Image src={logo} width="100" height="100" alt="logo du site" />
 						</Link>
 						<div>
-							<Link href="/proprety" className="color_w text_dec_none m_x-20">
+							<Link href="/proprety" className="text-white no-underline mx-5">
 								Louer un bien
 							</Link>
 							<Link
 								href="/proprety/publication"
-								className="color_w text_dec_none m_x-20 ">
+								className="text-white no-underline mx-5 ">
 								Publier un bien
 							</Link>
-							<Link href="#" className="color_w text_dec_none m_x-20">
+							<Link href="#" className="text-white no-underline mx-5">
 								Vos favoris
 							</Link>
 						</div>
 					</div>
 					<div className="flex items-center">
 						<div
-							className="color_w text_dec_none m_x-20 flex_y_center-xy"
+							className="text-white no-underline mx-5 flex flex-col justify-center items-center"
 							onClick={() =>
 								isUserMenuShowing
 									? changeUserMenuShowing(false)
@@ -130,17 +129,7 @@ export default function Header(props?: CurrentPageInformationProps) {
 							}>
 							{username ? (
 								<>
-									<div
-										className="flex_center-xy"
-										style={{
-											borderRadius: "40px",
-											backgroundColor: "white",
-											color: "#123853",
-											fontSize: "25px",
-											fontWeight: 600,
-											width: 40,
-											height: 40,
-										}}>
+									<div className="flex justify-center items-center rounded-3xl bg-white text-[#123853] text-[25px] font-semibold w-[40px] h-[40px]">
 										{username}
 									</div>
 								</>

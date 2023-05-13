@@ -1,6 +1,6 @@
 export function getPublicAdress(adress: string): string {
-	const publicAdress: string[] = adress
-		.split("/")
-		.map((locality, index) => (index > 1 ? locality : ""));
-	return "" + publicAdress;
+	const publicAdress: string[] = adress.split("/").filter((locality, index) => {
+		if (index > 1) return locality;
+	});
+	return publicAdress.join("/").toLowerCase();
 }

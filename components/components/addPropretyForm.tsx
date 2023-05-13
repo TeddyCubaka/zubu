@@ -19,7 +19,7 @@ export default function AddPropretiyForm() {
 	);
 	const router = useRouter();
 	return (
-		<div className="mx-[30px] rounded border-2 border-blue h-full">
+		<div className="mx-[30px] rounded border-2 border-[#123853] h-full">
 			{sendingData ? <span className="loader_like_google"></span> : ""}
 			{databaseResponseStatus == "created" ? (
 				<div className="flex flex-col p-5 gap-6">

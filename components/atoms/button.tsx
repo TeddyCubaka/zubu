@@ -30,7 +30,7 @@ export function PrimaryButton(props: ButtonProps) {
 				(props.fullRounded ? " rounded-3xl " : " rounded ") +
 				`text-white font-light text-normal border-2 p-2 flex justify-center items-center whitespace-nowrap h-fit hover:font-medium ${
 					props.conditionToPass
-						? " bg-[#123853]  border-blue"
+						? " bg-[#123853]  border-[#123853]"
 						: " bg-[#123853b4] border-transparent "
 				}`
 			}
@@ -57,7 +57,7 @@ export function UploadToCloudButton({
 
 	return (
 		<div
-			className="m_x-10_0 btn_p btn br color_w"
+			className="m_x-10_0 btn_p btn br text-white"
 			onClick={async () => {
 				_setUpload(true);
 				for (let i = 0; i < proprety.updateDescription.files.length; i++) {
@@ -101,7 +101,7 @@ export function SecondaryButton(props: ButtonProps) {
 			type="button"
 			className={
 				(props.notWidthMax ? "" : "w-full ") +
-				`text-blue font-light text-normal border-2 p-2 flex justify-center items-center whitespace-nowrap hover:bg-[#123853] hover:text-white hover:transition-all hover:duration-200 border-blue ` +
+				`text-blue font-light text-normal border-2 border-[#123853] p-2 flex justify-center items-center whitespace-nowrap hover:bg-[#123853] hover:text-white hover:transition-all hover:duration-200 ` +
 				(props.fullRounded ? "rounded-3xl" : "rounded")
 			}
 			onClick={() => {
