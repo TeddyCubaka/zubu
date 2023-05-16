@@ -14,7 +14,7 @@ function FilterPropretiesSearch() {
 	const [isValueEmpty, _setIsValueEmpty] = useState<boolean>(false);
 	const router = useRouter();
 	return (
-		<div className="w-[500px] max-md:w-[300px] p-1 border-2 rounded flex justify-center items-center">
+		<div className="w-[500px] max-md:w-full p-1 border-2 rounded flex justify-center items-center">
 			<input
 				type="search"
 				name="address"
@@ -57,12 +57,12 @@ function FilterPropretiesSearch() {
 export default function Main() {
 	return (
 		<div
-			className="h-full w-full bg-[#b9b9b9] "
+			className="h-full w-full max-md:flex max-md:justify-center bg-[#b9b9b9] "
 			style={{
 				backgroundImage: `url(${background.src})`,
 			}}>
-			<div className="h-[400px] w-full flex flex-col items-center justify-center text-white">
-				<h1 className="my-5">
+			<div className="h-[400px] w-full max-md:w-[95%] text-center flex flex-col items-center justify-center text-white">
+				<h1 className="my-5 font-semibold">
 					Bienvenue sur Zubu, un site qui met en avant votre bien immobilier
 				</h1>
 				<div className="my-5">

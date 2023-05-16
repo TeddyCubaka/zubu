@@ -14,4 +14,5 @@ export interface ButtonProps {
 	doOnClick: () => any;
 	doIfConditionDoesNotPass?: () => void;
 	notWidthMax?: boolean;
+	fullWidthOnMobile?: boolean;
 }

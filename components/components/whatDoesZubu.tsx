@@ -16,7 +16,7 @@ interface WhatCardProps {
 
 function WhatCard({ image, title, text, children }: WhatCardProps) {
 	return (
-		<div className="border border-[#123853] rounded max-w-[410px] h-fit min-h-[400px] p-8 flex flex-col justify-between items-center ">
+		<div className="border border-[#123853] rounded max-w-[410px] h-fit min-h-[400px] max-md:min-h-fit p-8 max-md:p-5 flex flex-col justify-between gap-2 items-center max-md:mx-2.5">
 			<div className="h-fit">
 				<Image
 					src={image.src}
@@ -45,6 +45,7 @@ export default function WhatDoesZubu() {
                 Économiser votre temps"
 					title="Vous êtes bailleur d’un bien immobilier ?">
 					<SecondaryButton
+						fullWidthOnMobile
 						conditionToPass={1 == 1}
 						doOnClick={() => {}}
 						notWidthMax
@@ -61,6 +62,7 @@ export default function WhatDoesZubu() {
 					text="Nous voulons allez plus loin. Nous tous avons des rêves. Le nôtre est d’aider les congolais à se détacher de cette charge qui pèse tant, celle de chercher un toîl à louer.
                 Vous voulez nous aider à aider les congolais à trouver plus facilement un toil à louer ? Devenez notre partenaire.">
 					<SecondaryButton
+						fullWidthOnMobile
 						conditionToPass={1 == 1}
 						doOnClick={() => {}}
 						notWidthMax

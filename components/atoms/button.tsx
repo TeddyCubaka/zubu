@@ -103,7 +103,8 @@ export function SecondaryButton(props: ButtonProps) {
 			className={
 				(props.notWidthMax ? "" : "w-full ") +
 				" text-blue font-light text-normal border-2 border-[#123853] p-2 flex justify-center items-center whitespace-nowrap hover:bg-[#123853] hover:text-white hover:transition-all hover:duration-200  " +
-				(props.fullRounded ? "rounded-3xl" : "rounded")
+				(props.fullRounded ? "rounded-3xl " : "rounded ") +
+				(props.fullWidthOnMobile ? " max-md:w-full" : "")
 			}
 			onClick={() => {
 				if (!props.conditionToPass) {
