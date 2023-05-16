@@ -32,7 +32,7 @@ export default function SignupRoute() {
 							Ravis de vous revoir, Connectez-vous
 						</div>
 						<div>
-							Vous n'avez pas encore compte ?{" "}
+							Vous n&apos;avez pas encore compte ?{" "}
 							<Link
 								href="/user/auth/login"
 								className="text-[#25a5c4] font-normal">
