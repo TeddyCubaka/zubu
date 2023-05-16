@@ -14,12 +14,12 @@ function FilterPropretiesSearch() {
 	const [isValueEmpty, _setIsValueEmpty] = useState<boolean>(false);
 	const router = useRouter();
 	return (
-		<div className="w-[500px] p-1 border-2 rounded flex justify-center items-center">
+		<div className="w-[500px] max-md:w-[300px] p-1 border-2 rounded flex justify-center items-center">
 			<input
 				type="search"
 				name="address"
 				className={
-					"rounded mr-3 border-none w-full h-full outline-none font-normal text-black text-lg px-5" +
+					"rounded mr-3 border-none w-full h-full outline-none font-normal text-black text-lg px-5  " +
 					(isValueEmpty ? "wrong_value_of_input" : "")
 				}
 				onKeyDown={(e) => {
