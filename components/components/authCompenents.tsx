@@ -49,7 +49,7 @@ export function InputPassword({
 			<label className={fullInputWidth ? "hide" : "font-medium one_line_txt"}>
 				{" "}
 				{subject}
-				{required ? <span className="color_red">*</span> : ""}
+				{required ? <span className="text-red-600">*</span> : ""}
 			</label>
 			<div className={inputStyle}>
 				<input
@@ -351,11 +351,11 @@ export function Login() {
 export function ErrorShower() {
 	const [error] = userStore((store) => [store.status.errorData], shallow);
 	return (
-		<div className="color_red w_max mx-5 txt_small"> {error.message} </div>
+		<div className="text-red-600 w-full mx-5 txt_small"> {error.message} </div>
 	);
 }
 
 export function Error() {
 	const [error] = userStore((store) => [store.status.errorData], shallow);
-	return <div className="color_red w_max mx-5"> {error.error} </div>;
+	return <div className="text-red-600 w-full mx-5"> {error.error} </div>;
 }

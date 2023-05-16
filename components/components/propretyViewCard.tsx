@@ -18,7 +18,7 @@ export default function PropretyCard(proprety: PropretyCardType) {
 	const router = useRouter();
 	return (
 		<div
-			className="border border-[#D9D9D9] rounded w-[300px] h-auto max-sm:w-[200px] "
+			className="border border-[#D9D9D9] rounded w-[300px] h-auto max-sm:w-[160px] max-sm:min-h-[225px] "
 			onClick={() => (proprety.path ? router.push(proprety.path) : "")}>
 			<div className="relative h-0 flex justify-end text-sm text-white">
 				{proprety.rentalInformation.isAvailable ? (

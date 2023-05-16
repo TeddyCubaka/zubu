@@ -27,7 +27,7 @@ export function Input({
 			<label className={"font-normal"}>
 				{" "}
 				{subject.split(" :")[0]}{" "}
-				{required ? <span className="color_red">*</span> : ""}
+				{required ? <span className="text-red-600">*</span> : ""}
 				{" :"}
 			</label>
 			<div
@@ -68,7 +68,7 @@ export function InputDate({
 			<label className={"font-normal"}>
 				{" "}
 				{subject.split(" :")[0]}{" "}
-				{required ? <span className="color_red">*</span> : ""}
+				{required ? <span className="text-red-600">*</span> : ""}
 				{" :"}
 			</label>
 			<div
@@ -84,7 +84,6 @@ export function InputDate({
 						" w-full h-full p-2 outline-none rounded "
 					}
 					maxLength={maxLength}
-					// value={value ? value : ""}
 					onChange={(e) => {
 						sendToStore(e.target.value);
 					}}
@@ -97,7 +96,6 @@ export function InputDate({
 						" w-full h-full p-2 outline-none rounded "
 					}
 					maxLength={maxLength}
-					// value={value ? value : ""}
 					onChange={(e) => {
 						sendToStore(e.target.value);
 					}}
@@ -219,7 +217,7 @@ export function InputHasDetails({
 			</div>
 			<div className="relative h-0">
 				{showDetails ? (
-					<div className="border border-[#123853] rounded relative bg-white z-[4] flex flex-col justify-center items-center w-auto z-30">
+					<div className="border border-[#123853] rounded relative bg-white z-30 flex flex-col justify-center items-center w-auto">
 						{detailsData.map((detail, index) => (
 							<span
 								className="py-[5px] w-full cursor-pointer text-center rounded hover:bg-[#D9D9D9] "
@@ -266,14 +264,14 @@ export function GeneralInput({
 			<label className={"one_line_txt"}>
 				{" "}
 				{subject.split(" :")[0]}{" "}
-				{required ? <span className="color_red">*</span> : ""}
+				{required ? <span className="text-red-600">*</span> : ""}
 				{" :"}
 			</label>
 			<input
 				type={type ? type : "text"}
 				placeholder={placeholder}
 				className={
-					"br w_max txt_normal " + (type === "date" ? "txt_center" : "")
+					"br w-full txt_normal " + (type === "date" ? "txt_center" : "")
 				}
 				value={value ? value : ""}
 				onChange={(e) => {
@@ -289,7 +287,7 @@ export function Form({ inputs, buttons, title }: FormDatasTypes) {
 	return (
 		<div className="pd-10">
 			<h3 className="m_y-10">{title}</h3>
-			<div className="w_max gap-10">
+			<div className="w-full gap-10">
 				{inputs.map((input) => (
 					<Input
 						key={input.value + input.subject}

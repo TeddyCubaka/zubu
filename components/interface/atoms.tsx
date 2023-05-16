@@ -43,10 +43,3 @@ export interface FormDatasTypes {
 	inputs: InputProps[];
 	buttons: ReactElement;
 }
-// export interface FormDatasTypes {
-// 	action?: string;
-// 	method?: string;
-// 	inputs: InputProps[];
-// 	inputDetails: InputHasDetailsProps[];
-// 	buttons: ReactElement;
-// }

@@ -30,7 +30,8 @@ export function PropretyViewBanner() {
 			<SaveProprety propretyId={proprety.proprety._id} />
 			<span className="flex items-center mx-2.5 cursor-pointer hover:underline ">
 				{" "}
-				<MdShare size="18" className="mx-[5px]" /> Partager
+				<MdShare size="18" className="mx-[5px]" />{" "}
+				<span className="max-sm:hidden">Partager</span>
 			</span>
 		</div>
 	);
@@ -41,7 +42,7 @@ export function RentalInformation() {
 
 	return (
 		<div className="flex mx-5 my-[10px] ">
-			<h1 className="mx-5 flex justify-center items-center">
+			<h1 className="mx-5 font-semibold flex justify-center items-center">
 				{" "}
 				{RentalInformation.price}{" "}
 				{getCurrencySymbol(RentalInformation.monetaryCurrency)} /mois{" "}

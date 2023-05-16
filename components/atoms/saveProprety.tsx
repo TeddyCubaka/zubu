@@ -36,20 +36,20 @@ export function SaveProprety({ propretyId }: LocalPropretyType) {
 							sendToServer(dataToSave);
 						}}
 					/>{" "}
-					Sauvegarder
+					<span className="max-sm:hidden">Sauvegarder</span>
 				</>
 			) : (
 				<>
 					<AiFillHeart
 						color="black"
 						size="20px"
-						className="mr-[5px]"
+						className="mr-[5px] max-sm:h-8 "
 						onClick={() => {
 							getSaveState();
 							sendToServer(dataToSave);
 						}}
 					/>{" "}
-					Sauvegardé
+					<span className="max-sm:hidden">Sauvegardé</span>
 				</>
 			)}{" "}
 		</div>

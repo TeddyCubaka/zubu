@@ -42,7 +42,7 @@ function UserAvatar() {
 			</Link>
 			<div
 				style={{ justifyContent: "flex-end" }}
-				className="text-white w_max flex mx-5">
+				className="text-white w-full flex mx-5">
 				{username ? (
 					<h4>{username}</h4>
 				) : (

@@ -17,11 +17,6 @@ import {
 import SomethingWentWrong from "../../../components/atoms/somethingWentWrong";
 
 export default function PropretyView() {
-	// const router = useRouter();
-	// const [setProprety, proprety] = propretyStore((store) => [
-	// 	store.setProprety,
-	// 	store.proprety,
-	// ]);
 	const proprety = propretyStore();
 	const setProprety = proprety.setProprety;
 	const _setPropretyChanged = proprety._setPropretyChanged;

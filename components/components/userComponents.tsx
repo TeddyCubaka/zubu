@@ -44,10 +44,6 @@ export function UserInformation() {
 			const currentUserHasString: string | null =
 				localStorage.getItem("zubu_user_id");
 			console.log(currentUserHasString);
-
-			// _setCurrentUser(
-			// 	JSON.parse(currentUserHasString !== null ? currentUserHasString : "")
-			// );
 		}
 	}, [_setCurrentUser]);
 	return (
@@ -56,7 +52,7 @@ export function UserInformation() {
 			className="border-b flex m_y-20">
 			<div
 				style={{ height: "180px", width: "180px" }}
-				className="flex justify-center items-center  m-10 border-b_thin">
+				className="flex justify-center items-center  m-2.5 border-b_thin">
 				{currentUser.profile_picture_url &&
 				currentUser.profile_picture_url.length > 0 ? (
 					<Image
@@ -69,12 +65,12 @@ export function UserInformation() {
 					<FaUserTie size={"150px"} />
 				)}
 			</div>
-			<div className="m_y-10 w_max space_between-y">
+			<div className="m_y-10 w-full space_between-y">
 				<div className="flex items-center">
-					<h2 className="w_max">{currentUser.username}</h2>
+					<h2 className="w-full">{currentUser.username}</h2>
 					<div
 						style={{ borderRadius: "80px" }}
-						className="pd-5 color_blue border-[#123853]">
+						className="pd-5 text-[#123853] border-[#123853]">
 						{currentUser.gender === "Homme" ? <MdMale size={25} /> : ""}
 						{currentUser.gender === "Femme" ? <MdFemale size={25} /> : ""}
 						{currentUser.gender === "Autre" ? <IoAlert size={25} /> : ""}

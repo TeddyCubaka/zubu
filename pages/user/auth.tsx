@@ -42,11 +42,11 @@ export default function Auth() {
 							(error.hasError ? "br_red" : "border-[#123853]")
 						}>
 						{sendingData ? <span className="loader_like_google"></span> : ""}
-						<div className="flex w_max two_part txt_center auth_component_header">
+						<div className="flex w-full two_part txt_center auth_component_header">
 							<div
 								style={{ borderRadius: "0 0 5px 0" }}
 								className={
-									"h_max flex flex-col justify-center items-center " +
+									"h-full flex flex-col justify-center items-center " +
 									(!isSignup ? "current_auth_form" : "")
 								}
 								onClick={() => {
@@ -63,7 +63,7 @@ export default function Auth() {
 							<div
 								style={{ borderRadius: "0 0 0 5px" }}
 								className={
-									"h_max flex flex-col justify-center items-center " +
+									"h-full flex flex-col justify-center items-center " +
 									(!isLogin ? "current_auth_form" : "")
 								}
 								onClick={() => {

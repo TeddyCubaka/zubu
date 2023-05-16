@@ -62,7 +62,7 @@ export function AdaptedImages() {
 							</div>
 							<div className="flex">
 								<button
-									className="btn_s btn br color_b txt_normal"
+									className="btn_s btn br text-[#123853] txt_normal"
 									onClick={() => {
 										proprety.updateDescription.cleanFiles();
 										_setDispalyUploadImages(false);
@@ -97,7 +97,7 @@ export function AdaptedImages() {
 			) : (
 				""
 			)}
-			<label htmlFor="file" className="btn_s btn color_b br flex w_hug">
+			<label htmlFor="file" className="btn_s btn text-[#123853] br flex w_hug">
 				<HiPlusSm size={18} className="m_right-5" /> Ajouter une image
 			</label>
 			<input

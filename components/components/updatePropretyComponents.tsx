@@ -69,7 +69,7 @@ export function CoverPicture() {
 					<Image
 						width={340}
 						height={191.25}
-						className="w-full h-auto bg-[#00000] object-cover"
+						className="w-full h-auto bg-[#000000] object-cover"
 						src={pictureSource}
 						alt="Photo de couverture d'un appartement."
 					/>
@@ -122,7 +122,7 @@ export function UpdateRentalInformation() {
 					}
 					type={"number"}
 					subject={"Prix"}
-					customClass={"w_max"}
+					customClass={"w-full"}
 					placeholder={"Prix"}>
 					<SetCurrency
 						monetaryCurrency={
@@ -197,18 +197,6 @@ export function UpdateRentalInformation() {
 					subject={"Periode de l'annonce"}
 				/>
 			</div>
-			{/* <div className="rental_information_card_sub_button flex w_max"> */}
-			{/* <button
-					className="btn_s color_blue br txt_normal btn w_max mr-2.5"
-					onClick={() => {
-						if (proprety.proprety.rentalInformation.isAvailable)
-							proprety.updateRenatlInformation.changeAvailability(false);
-						else proprety.updateRenatlInformation.changeAvailability(true);
-					}}>
-					{proprety.proprety.rentalInformation.isAvailable
-						? "Marquer occupé"
-						: "Maquer libre"}
-				</button> */}
 			<SecondaryButton
 				conditionToPass={true}
 				doOnClick={() => {
@@ -493,11 +481,11 @@ export function TenantCharge() {
 						<div
 							className="flex"
 							key={charge.charge + charge.currency + charge.price}>
-							<div className="flex pd-5 br border-gray w_max mr-2.5 ">
+							<div className="flex pd-5 br border-gray w-full mr-2.5 ">
 								<div className="one_line_txt m_right-20 font-medium">
 									{charge.charge} {" :"}
 								</div>
-								<div className="w_max">
+								<div className="w-full">
 									{toTriadeNumber(charge.price)}{" "}
 									{charge.currency === "USD" ? "$" : "fc"}{" "}
 								</div>

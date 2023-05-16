@@ -19,7 +19,7 @@
 .text_dec_none {
 	text-decoration: none;
 }
-.w_max {
+.w-full {
 	width: 100%;
 }
 .w_half {
@@ -349,7 +349,7 @@
 .hidden {
 	overflow: hidden;
 }
-.min_w-vw_max {
+.min_w-vw-full {
 	min-width: 100vw;
 }
 .min_h-vh_max {

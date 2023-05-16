@@ -71,7 +71,7 @@ export function CurrentPageInformation(props: CurrentPageInformationProps) {
 			className={
 				router.pathname == "/"
 					? "hidden"
-					: "shadow-[-1px_1px_2px_1px_#00000080;] flex w-auto p-2.5 gap-5 border-white bg-white text-black"
+					: "shadow-[-1px_1px_2px_1px_#00000080] flex w-auto p-2.5 gap-5 border-white bg-white text-black"
 			}>
 			<button
 				className="border-none bg-none flex items-center justify-center text-black"
