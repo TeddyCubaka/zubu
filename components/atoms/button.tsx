@@ -26,7 +26,9 @@ export function PrimaryButton(props: ButtonProps) {
 		<button
 			type="button"
 			className={
-				(props.notWidthMax ? "w-fit" : "w-full ") +
+				(props.notWidthMax ? "" : "w-full ") +
+				(props.widthHalf ? "w-2/4" : "") +
+				(props.widthHalf && !props.notWidthMax ? "w-fit" : "") +
 				(props.fullRounded ? " rounded-3xl " : " rounded ") +
 				(props.conditionToPass
 					? " bg-[#123853]  border-[#123853]"

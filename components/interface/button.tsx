@@ -6,6 +6,7 @@ export interface UploadToCloudButtonProps {
 	_setDispalyUploadImages: (state: boolean) => void;
 }
 export interface ButtonProps {
+	widthHalf?: boolean;
 	type?: string;
 	subject: string | ReactElement;
 	conditionToPass: boolean;

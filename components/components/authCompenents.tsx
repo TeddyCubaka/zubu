@@ -114,68 +114,72 @@ export function Signup() {
 		else return "br_red";
 	};
 	return (
-		<div className={"space_between-y mx-5 m_y-10 row_gap-10 h-fit"}>
-			<Input
-				value={user.username}
-				sendToStore={(e) =>
-					typeof e === "string" ? userSeter._setUsername(e) : {}
-				}
-				subject={"Nom d'utilisateur :"}
-				placeholder={"votre nom d'utilisateur"}
-				required
-			/>
-			<Input
-				type="email"
-				value={user.mail}
-				sendToStore={(e) =>
-					typeof e === "string" ? userSeter._setMail(e) : {}
-				}
-				subject={"mail :"}
-				placeholder={"votre mail"}
-				required
-			/>
-			<Input
-				value={user.phone_number}
-				sendToStore={(e) =>
-					typeof e === "string" ? userSeter._setPhoneNumber(e) : {}
-				}
-				subject={"Numéro de téléphone :"}
-				placeholder={"votre numéro de téléphone"}
-			/>
-			<InputHasDetails
-				detailsData={["Homme", "Femme", "Autre"]}
-				store={user.gender}
-				object={"Genre :"}
-				sendToStore={userSeter._setGender}
-			/>
-			<Input
-				type="password"
-				value={inputedPasswords.firstPassword}
-				sendToStore={(e) =>
-					!(typeof e === "string")
-						? ""
-						: getInputedPassword((prev) => ({ ...prev, firstPassword: e }))
-				}
-				subject={"Mot de passe"}
-				customClass={passwordsChecker()}
-				placeholder={"votre mot de passe"}
-				required
-			/>
-			<Input
-				type="password"
-				value={inputedPasswords.lastPassword}
-				sendToStore={(e) =>
-					!(typeof e === "string")
-						? ""
-						: getInputedPassword((prev) => ({ ...prev, lastPassword: e }))
-				}
-				subject={"Répeter le mot de pass"}
-				customClass={passwordsChecker()}
-				placeholder={"votre mot de passe"}
-				required
-			/>
+		<>
+			<div className={"flex flex-col gap-2 my-2.5 h-full"}>
+				<Input
+					value={user.username}
+					sendToStore={(e) =>
+						typeof e === "string" ? userSeter._setUsername(e) : {}
+					}
+					subject={"Nom d'utilisateur :"}
+					placeholder={"votre nom d'utilisateur"}
+					required
+				/>
+				<Input
+					type="email"
+					value={user.mail}
+					sendToStore={(e) =>
+						typeof e === "string" ? userSeter._setMail(e) : {}
+					}
+					subject={"mail :"}
+					placeholder={"votre mail"}
+					required
+				/>
+				<Input
+					value={user.phone_number}
+					sendToStore={(e) =>
+						typeof e === "string" ? userSeter._setPhoneNumber(e) : {}
+					}
+					subject={"Numéro de téléphone :"}
+					placeholder={"votre numéro de téléphone"}
+				/>
+				<InputHasDetails
+					detailsData={["Homme", "Femme", "Autre"]}
+					store={user.gender}
+					object={"Genre :"}
+					sendToStore={userSeter._setGender}
+				/>
+				<Input
+					type="password"
+					value={inputedPasswords.firstPassword}
+					sendToStore={(e) =>
+						!(typeof e === "string")
+							? ""
+							: getInputedPassword((prev) => ({ ...prev, firstPassword: e }))
+					}
+					subject={"Mot de passe"}
+					customClass={passwordsChecker()}
+					placeholder={"votre mot de passe"}
+					required
+				/>
+				<Input
+					type="password"
+					value={inputedPasswords.lastPassword}
+					sendToStore={(e) =>
+						!(typeof e === "string")
+							? ""
+							: getInputedPassword((prev) => ({ ...prev, lastPassword: e }))
+					}
+					subject={"Répeter le mot de pass"}
+					customClass={passwordsChecker()}
+					placeholder={"votre mot de passe"}
+					required
+				/>{" "}
+			</div>
 			<PrimaryButton
 				subject={SendingDataState ? `Conexion...` : "S'inscrire"}
+				notWidthMax
+				widthHalf
 				conditionToPass={
 					passwordVerificator() && user.username.length > 3 && isMail(user.mail)
 				}
@@ -241,7 +245,7 @@ export function Signup() {
 					sendToServer(sendToServerData);
 				}}
 			/>
-		</div>
+		</>
 	);
 }
 
@@ -261,29 +265,31 @@ export function Login() {
 	const [SendingDataState, _setSendingDataState] = useState<boolean>(false);
 
 	return (
-		<div className={"space_between-y mx-5 m_y-10 row_gap-10 "}>
-			<Input
-				value={loginData.mail}
-				sendToStore={(e) =>
-					!(typeof e === "string")
-						? ""
-						: getLoginData((prev) => ({ ...prev, mail: e }))
-				}
-				subject={"mail :"}
-				placeholder={"votre adresse mail"}
-			/>
-			<Input
-				type="password"
-				value={loginData.password}
-				sendToStore={(e) =>
-					!(typeof e === "string")
-						? ""
-						: getLoginData((prev) => ({ ...prev, password: e }))
-				}
-				subject={"Mot de passe :"}
-				customClass={""}
-				placeholder={"votre mot de passe"}
-			/>
+		<>
+			<div className={"flex flex-col justify-between gap-3 my-2.5"}>
+				<Input
+					value={loginData.mail}
+					sendToStore={(e) =>
+						!(typeof e === "string")
+							? ""
+							: getLoginData((prev) => ({ ...prev, mail: e }))
+					}
+					subject={"mail :"}
+					placeholder={"votre adresse mail"}
+				/>
+				<Input
+					type="password"
+					value={loginData.password}
+					sendToStore={(e) =>
+						!(typeof e === "string")
+							? ""
+							: getLoginData((prev) => ({ ...prev, password: e }))
+					}
+					subject={"Mot de passe :"}
+					customClass={""}
+					placeholder={"votre mot de passe"}
+				/>
+			</div>
 			<PrimaryButton
 				subject={SendingDataState ? `Conexion...` : "Se connecter"}
 				doIfConditionDoesNotPass={() => {
@@ -344,7 +350,7 @@ export function Login() {
 					sendToServer(sendToServerData);
 				}}
 			/>
-		</div>
+		</>
 	);
 }
 

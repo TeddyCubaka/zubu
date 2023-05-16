@@ -76,8 +76,8 @@ export function CurrentPageInformation(props: CurrentPageInformationProps) {
 			<button
 				className="border-none bg-none flex items-center justify-center text-black"
 				onClick={() => router.back()}>
-				<FaChevronLeft size={16} />
-				{width > 650 ? "Retour" : ""}
+				<FaChevronLeft size={16} />{" "}
+				<span className="max-md:hidden">Retour</span>
 			</button>
 			<h5 className="font-normal">{props.title}</h5>
 		</div>
