@@ -38,17 +38,17 @@ export default function Auth() {
 				<div className="flex justify-center items-center flex-col max-md:items-start max-md:mx-8 ">
 					<h1 className="font-semibold mb-12">Zubu est ravis de vous voire.</h1>
 					<div>Que souhaitez-vous ?</div>
-					<div>
+					<div className="mt-5 flex md:gap-20 md:items-center max-md:flex-col max-md:w-full">
 						{" "}
 						<Link
 							href="/user/auth/signup"
-							className="text-[#25a5c4] font-normal">
+							className="text-[#25a5c4] font-normal p-2.5 border-2 border-[#25a5c4] rounded-3xl text-center max-md:w-full hover:bg-[#25A5C4] hover:text-white ">
 							créer un compte
 						</Link>{" "}
 						ou
 						<Link
 							href="/user/auth/login"
-							className="text-[#25a5c4] font-normal">
+							className="text-[#25a5c4] font-normal p-2.5 border-2 border-[#25a5c4] rounded-3xl text-center max-md:w-full hover:bg-[#25A5C4] hover:text-white ">
 							{" "}
 							se connecter à votre compte
 						</Link>{" "}

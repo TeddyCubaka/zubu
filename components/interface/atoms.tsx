@@ -19,6 +19,7 @@ export interface InputProps {
 	required?: boolean;
 	children?: ReactElement;
 	maxLength?: number;
+	isInvalid?: boolean;
 }
 
 export interface InputNumberProps {

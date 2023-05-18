@@ -21,6 +21,7 @@ export function Input({
 	required,
 	children,
 	maxLength,
+	isInvalid,
 }: InputProps) {
 	return (
 		<div className={inputWithLabelParentStyle + customClass}>
@@ -32,13 +33,14 @@ export function Input({
 			</label>
 			<div
 				className={
-					" border border-[#123853b4] rounded-[5px] flex-1 txt-normal flex items-center " +
+					" border rounded-[5px] flex-1 txt-normal flex items-center " +
+					(isInvalid ? " border-red-500 " : " border-[#123853b4] ") +
 					customClass
 				}>
 				<input
 					type={type ? type : "text"}
 					placeholder={placeholder}
-					className=" w-full h-full p-2 outline-none rounded "
+					className={" w-full h-full p-2 outline-none rounded "}
 					maxLength={maxLength}
 					value={value ? value : ""}
 					onChange={(e) => {

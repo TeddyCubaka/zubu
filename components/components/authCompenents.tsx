@@ -76,17 +76,24 @@ export function InputPassword({
 
 export function Signup() {
 	const router = useRouter();
-	const [getUserSignupStatus, sendingData, user, userSeter, _setErrorData] =
-		userStore(
-			(store) => [
-				store.status.getSignup,
-				store.status._setSendingData,
-				store.user,
-				store.seter,
-				store.status._setErrorData,
-			],
-			shallow
-		);
+	const [
+		getUserSignupStatus,
+		sendingData,
+		user,
+		userSeter,
+		_setErrorData,
+		errorData,
+	] = userStore(
+		(store) => [
+			store.status.getSignup,
+			store.status._setSendingData,
+			store.user,
+			store.seter,
+			store.status._setErrorData,
+			store.status.errorData,
+		],
+		shallow
+	);
 	const [inputedPasswords, getInputedPassword] = useState<InputedPassword>({
 		firstPassword: "",
 		lastPassword: "",
@@ -117,6 +124,7 @@ export function Signup() {
 		<>
 			<div className={"flex flex-col gap-2 my-2.5 h-full"}>
 				<Input
+					isInvalid={errorData?.hasError ? true : false}
 					value={user.username}
 					sendToStore={(e) =>
 						typeof e === "string" ? userSeter._setUsername(e) : {}
@@ -126,6 +134,7 @@ export function Signup() {
 					required
 				/>
 				<Input
+					isInvalid={errorData?.hasError ? true : false}
 					type="email"
 					value={user.mail}
 					sendToStore={(e) =>
@@ -136,6 +145,7 @@ export function Signup() {
 					required
 				/>
 				<Input
+					isInvalid={errorData?.hasError ? true : false}
 					value={user.phone_number}
 					sendToStore={(e) =>
 						typeof e === "string" ? userSeter._setPhoneNumber(e) : {}
@@ -150,6 +160,7 @@ export function Signup() {
 					sendToStore={userSeter._setGender}
 				/>
 				<Input
+					isInvalid={errorData?.hasError ? true : false}
 					type="password"
 					value={inputedPasswords.firstPassword}
 					sendToStore={(e) =>
@@ -163,6 +174,7 @@ export function Signup() {
 					required
 				/>
 				<Input
+					isInvalid={errorData?.hasError ? true : false}
 					type="password"
 					value={inputedPasswords.lastPassword}
 					sendToStore={(e) =>

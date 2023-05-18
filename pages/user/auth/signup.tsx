@@ -5,8 +5,14 @@ import { Signup } from "../../../components/components/authCompenents";
 import Image from "next/image";
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa";
+import { userStore } from "../../../store/user";
+import { shallow } from "zustand/shallow";
 
 export default function SignupRoute() {
+	const [sendingData] = userStore(
+		(store) => [store.status.sendingData],
+		shallow
+	);
 	return (
 		<main className="grid grid-cols-[1fr_2fr] max-md:grid-cols-[3fr_1fr] h-screem ">
 			<div className="h-full">
@@ -40,20 +46,21 @@ export default function SignupRoute() {
 							</Link>{" "}
 						</div>
 					</div>
+					{sendingData ? <span className="loader_like_google"></span> : ""}
 					<Signup />{" "}
 				</div>
 			</div>
 			<div
 				style={{ backgroundImage: `url(${background.src})` }}
 				className="bg-cover text-white p-[50px] flex flex-col gap-8 ">
-				<h2 className="font-semibold">
+				<h2 className="font-semibold max-md:hidden">
 					Voulez-vous en savoir plus sur Zubu ?{" "}
 				</h2>
-				<p className="w-3/5 max-md:w-full">
+				<p className="w-3/5 max-md:w-full max-md:hidden">
 					Découvrez ce que fait zubu, les dernières propriétés mise en ligne,
 					découvrez comment publier une propriété en location sur zubu
 				</p>
-				<span>
+				<span className="max-md:hidden">
 					<Link
 						href="/zubu/about"
 						className="border-0 pb-1 border-b font-normal border-b-white">
