@@ -66,7 +66,7 @@ export default function WhatDoesZubu() {
 					<SecondaryButton
 						fullWidthOnMobile
 						conditionToPass={1 == 1}
-						doOnClick={() => router.push("#")}
+						doOnClick={() => router.push("/zubu/partner")}
 						notWidthMax
 						subject="Devenir partenaire"
 						doIfConditionDoesNotPass={() => {}}
