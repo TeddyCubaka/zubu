@@ -36,8 +36,7 @@ function FilterPropretiesSearch() {
 				conditionToPass={searchValue.length > 0}
 				doOnClick={() => {
 					searchPropretiesWith(searchValue);
-					router.push("/proprety");
-					setTimeout(() => searchPropretiesWith(""), 1100);
+					router.push("/proprety/search");
 				}}
 				notWidthMax
 				subject="chercher"

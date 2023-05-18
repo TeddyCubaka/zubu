@@ -1,18 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { PropretyType } from "../interface/proprety";
-import PropretyCard, { PropretyCardType } from "../components/propretyViewCard";
-import { AskToServerDataType } from "../interface/requests";
-import { askToServerData } from "../usefulFuction/requests";
+import React, { useState } from "react";
+import Head from "next/head";
+import Header from "../../components/general/header";
+import Footer from "../../components/general/footer";
+import { PropretyType } from "../../components/interface/proprety";
+import PropretyCard, {
+	PropretyCardType,
+} from "../../components/components/propretyViewCard";
+import { AskToServerDataType } from "../../components/interface/requests";
+import { askToServerData } from "../../components/usefulFuction/requests";
+import { searchPropretiesStore } from "../../store/proprety";
+import { shallow } from "zustand/shallow";
 import Link from "next/link";
 
-export default function AllPropreties() {
+export function AllPropreties() {
 	const [propreties, _setPropreties] = useState<PropretyCardType[]>([]);
 	const [fetchingPropreties, _setFetchingPropreties] = useState<boolean>(false);
+	const [wishedAddress] = searchPropretiesStore(
+		(store) => [store.wishedAddress],
+		shallow
+	);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		_setFetchingPropreties(true);
 		const data: AskToServerDataType = {
-			path: "/proprety",
+			path: "/proprety" + (wishedAddress == "" ? "" : "/get/" + wishedAddress),
 			doIfError: () => {
 				_setFetchingPropreties(false);
 			},
@@ -30,7 +41,7 @@ export default function AllPropreties() {
 			getStatus: () => {},
 		};
 		askToServerData(data);
-	}, []);
+	}, [wishedAddress]);
 
 	return (
 		<div className="flex flex-col justify-center items-center">
@@ -59,5 +70,26 @@ export default function AllPropreties() {
 				</div>
 			)}
 		</div>
+	);
+}
+
+export default function SearchPropreties() {
+	return (
+		<>
+			<Head>
+				<title>Zubu</title>
+				<meta
+					name="description"
+					content="Télécharger votre propriété sur la forme Zubu et elle sera prête pour une annonce"
+				/>
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
+			<main>
+				<Header title="Liste des propriétés" />
+				<AllPropreties />
+				<Footer />
+			</main>
+		</>
 	);
 }
