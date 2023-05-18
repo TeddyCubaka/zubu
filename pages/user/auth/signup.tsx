@@ -45,7 +45,23 @@ export default function SignupRoute() {
 			</div>
 			<div
 				style={{ backgroundImage: `url(${background.src})` }}
-				className="bg-cover "></div>
+				className="bg-cover text-white p-[50px] flex flex-col gap-8 ">
+				<h2 className="font-semibold">
+					Voulez-vous en savoir plus sur Zubu ?{" "}
+				</h2>
+				<p className="w-3/5 max-md:w-full">
+					Découvrez ce que fait zubu, les dernières propriétés mise en ligne,
+					découvrez comment publier une propriété en location sur zubu
+				</p>
+				<span>
+					<Link
+						href="/zubu/about"
+						className="border-0 pb-1 border-b font-normal border-b-white">
+						Clicquez sur ce lien pour en savoir plus
+					</Link>{" "}
+					{"-->"}
+				</span>
+			</div>
 		</main>
 	);
 }
