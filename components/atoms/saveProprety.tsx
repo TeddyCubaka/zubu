@@ -48,7 +48,7 @@ export function SaveProprety({ propretyId }: LocalPropretyType) {
 				path: "/user/saves/" + localStorage.getItem("zubu_user_id"),
 			});
 		}
-	}, []);
+	}, [propretyId]);
 
 	return (
 		<div className="flex items-center mx-[10px]">

@@ -80,7 +80,7 @@ export default function UserFavoritesPropreties() {
 	return (
 		<>
 			<Head>
-				<title>Zubu : user's propreties</title>
+				<title>Zubu : user&apos;s propreties</title>
 				<meta
 					name="description"
 					content="Télécharger votre propriété sur la forme Zubu et elle sera prête pour une annonce"

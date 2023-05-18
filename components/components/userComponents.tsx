@@ -20,6 +20,7 @@ import { FaUserTie } from "react-icons/fa";
 import { shallow } from "zustand/shallow";
 import Image from "next/image";
 import { IconType } from "react-icons";
+import { User } from "../interface/user";
 
 interface TextWithIconType {
 	Icon: IconType;
@@ -34,30 +35,17 @@ const TextWithIcon = ({ Icon, content }: TextWithIconType) => {
 	);
 };
 
-export function UserInformation() {
-	const [currentUser, _setCurrentUser] = userStore(
-		(store) => [store.currentUser, store._setCurrentUser],
-		shallow
-	);
-	useEffect(() => {
-		if (window !== undefined) {
-			const currentUserHasString: string | null =
-				localStorage.getItem("zubu_user_id");
-			console.log(currentUserHasString);
-		}
-	}, [_setCurrentUser]);
+interface UserInformationsTypes {
+	user: User;
+}
+export function UserInformation({ user }: UserInformationsTypes) {
 	return (
-		<div
-			style={{ height: "200px", width: "100%" }}
-			className="border-b flex m_y-20">
-			<div
-				style={{ height: "180px", width: "180px" }}
-				className="flex justify-center items-center  m-2.5 border-b_thin">
-				{currentUser.profile_picture_url &&
-				currentUser.profile_picture_url.length > 0 ? (
+		<div className="border-b h-[200px] w-full flex">
+			<div className="flex justify-center items-center h-[180px] w-[180px] m-2.5 border-[0.6px] border-black ">
+				{user.profile_picture_url?.length > 0 ? (
 					<Image
-						alt={"Photo de profil zubu de " + currentUser.username}
-						src={currentUser.profile_picture_url}
+						alt={"Photo de profil zubu de " + user.username}
+						src={user.profile_picture_url}
 						height={300}
 						width={300}
 					/>
@@ -65,24 +53,22 @@ export function UserInformation() {
 					<FaUserTie size={"150px"} />
 				)}
 			</div>
-			<div className="my-2.5 w-full space_between-y">
+			<div className="my-2.5 mx-5 w-full flex flex-col justify-between">
 				<div className="flex items-center">
-					<h2 className="w-full">{currentUser.username}</h2>
-					<div
-						style={{ borderRadius: "80px" }}
-						className="pd-5 text-[#123853] border-[#123853]">
-						{currentUser.gender === "Homme" ? <MdMale size={25} /> : ""}
-						{currentUser.gender === "Femme" ? <MdFemale size={25} /> : ""}
-						{currentUser.gender === "Autre" ? <IoAlert size={25} /> : ""}
+					<h2 className="w-full">{user.username}</h2>
+					<div className="pd-5 text-[#123853] rounded-full border border-[#123853]">
+						{user.gender === "Homme" ? <MdMale size={25} /> : ""}
+						{user.gender === "Femme" ? <MdFemale size={25} /> : ""}
+						{user.gender === "Autre" ? <IoAlert size={25} /> : ""}
 					</div>
 				</div>
-				<TextWithIcon Icon={MdMailOutline} content={currentUser.mail} />
-				<TextWithIcon Icon={MdLocalPhone} content={currentUser.phone_number} />
+				<TextWithIcon Icon={MdMailOutline} content={user.mail} />
+				<TextWithIcon Icon={MdLocalPhone} content={user.phone_number} />
 				<TextWithIcon
 					Icon={MdHome}
-					content={currentUser.proprety.length + " propriété(s)"}
+					content={user.proprety.length + " propriété(s)"}
 				/>
-				<TextWithIcon Icon={MdMailOutline} content={currentUser.created_at} />
+				{/* <TextWithIcon Icon={MdMailOutline} content={user.created_at} /> */}
 			</div>
 		</div>
 	);
@@ -106,16 +92,19 @@ export function DisplayPropreties({
 					</div>
 				</>
 			) : (
-				<div className="flex justify-start flex-wrap gap-5">
-					{propreties.map((proprety) => (
-						<PropretyCard
-							key={proprety._id}
-							path={"/proprety/update/" + proprety._id}
-							rentalInformation={proprety.rentalInformation}
-							_id={proprety._id}
-						/>
-					))}
-				</div>
+				<>
+					Appuiez sur une propriété pour gérer ses informations
+					<div className="mt-4 flex justify-start flex-wrap gap-5">
+						{propreties.map((proprety) => (
+							<PropretyCard
+								key={proprety._id}
+								path={"/proprety/update/" + proprety._id}
+								rentalInformation={proprety.rentalInformation}
+								_id={proprety._id}
+							/>
+						))}
+					</div>
+				</>
 			)}
 		</div>
 	);
