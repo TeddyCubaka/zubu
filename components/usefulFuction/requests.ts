@@ -17,7 +17,6 @@ export function sendToServer(props: SendToServerType) {
 	})
 		.then((res) => {
 			if (props.getData) props.getData(res.data);
-			console.log(res.data);
 			props.getStatus("À jour");
 			if (props.doAfterSuccess) props.doAfterSuccess(res.data);
 		})

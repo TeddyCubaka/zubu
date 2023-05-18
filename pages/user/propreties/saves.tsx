@@ -9,6 +9,7 @@ import { userStore } from "../../../store/user";
 import { PropretyType } from "../../../components/interface/proprety";
 import { AskToServerDataType } from "../../../components/interface/requests";
 import { askToServerData } from "../../../components/usefulFuction/requests";
+import PropretyCard from "../../../components/components/propretyViewCard";
 
 export function GetUserPropreties() {
 	const user = userStore();
@@ -24,7 +25,6 @@ export function GetUserPropreties() {
 			if (currentUserHasString) {
 				_setUserExitInStorage(true);
 				let currentUser = JSON.parse(currentUserHasString);
-				console.log(currentUser);
 				path = currentUser.proprety_saved?.join("plös");
 			}
 			const params: AskToServerDataType = {
@@ -48,7 +48,18 @@ export function GetUserPropreties() {
 					{fetchingPropreties ? (
 						<div className="uploading_blue"></div>
 					) : (
-						<DisplayPropreties propreties={propreties} />
+						<>
+							<div className="p-5 flex-1 h-full flex justify-start items-start flex-wrap gap-5">
+								{propreties.map((proprety) => (
+									<PropretyCard
+										path={"/proprety/view/" + proprety._id}
+										_id={proprety._id}
+										rentalInformation={proprety.rentalInformation}
+										key={proprety._id}
+									/>
+								))}
+							</div>
+						</>
 					)}
 				</>
 			) : (

@@ -3,8 +3,28 @@ import Header from "../components/general/header";
 import Main from "../components/general/main";
 import Footer from "../components/general/footer";
 import WhatDoesZubu from "../components/components/whatDoesZubu";
+import { useEffect } from "react";
+import { askToServerData } from "../components/usefulFuction/requests";
 
 export default function Home() {
+	useEffect(() => {
+		if (localStorage.getItem("zubu_user_id")) {
+			askToServerData({
+				doIfError: (error) => console.log(error),
+				getData: (user) => {
+					window.localStorage.setItem("zubu_userId", user._id);
+					window.localStorage.setItem("zubu_user", JSON.stringify(user));
+					window.localStorage.setItem("zubu_username", user.username);
+					window.localStorage.setItem(
+						"userPropreties",
+						user.proprety.join("plös")
+					);
+				},
+				getStatus: () => {},
+				path: "/user/" + localStorage.getItem("zubu_user_id"),
+			});
+		}
+	}, []);
 	return (
 		<>
 			<Head>
