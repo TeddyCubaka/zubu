@@ -90,14 +90,24 @@ export default function MobileHeader(props?: CurrentPageInformationProps) {
 				<div onClick={() => (isMenuShawn ? showMenu(false) : showMenu(true))}>
 					<RxHamburgerMenu size={25} />
 				</div>
-				<div className={isMenuShawn ? "slideBarMobile row_gap-7" : "hidden"}>
+				<div
+					className={
+						isMenuShawn
+							? "absolute h-screen w-[80vw] bg-white text-black top-0 left-0 flex flex-col gap-[7px] 400ms linear z-10 "
+							: "hidden"
+					}>
 					<UserAvatar />
 					<SliderBarSection />
+				</div>
+				{isMenuShawn ? (
 					<span
+						className="absolute bg-[rgba(0,0,0,0.3)] block w-screen h-screen top-0 right-0 "
 						onClick={() =>
 							isMenuShawn ? showMenu(false) : showMenu(true)
 						}></span>
-				</div>
+				) : (
+					""
+				)}
 			</div>
 			<CurrentPageInformation title={props?.title || ""} />
 		</div>

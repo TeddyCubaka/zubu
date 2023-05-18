@@ -72,14 +72,6 @@
 		flex-direction: column;
 		display: flex;
 	}
-	@keyframes mobile_header_menu {
-		from {
-			left: -80vw;
-		}
-		to {
-			left: 0px;
-		}
-	}
 	.slideBarMobile span {
 		position: absolute;
 		background-color: rgba(0, 0, 0, 0.3);

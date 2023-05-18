@@ -21,7 +21,7 @@ export const userMenuLinks: UserMenuLinkType[] = [
 		Icon: IoKey,
 	},
 	{
-		href: "#",
+		href: "/user/propreties/saves",
 		content: "Propriétés enreigistrées",
 		Icon: IoHeart,
 	},

@@ -15,6 +15,7 @@ import {
 	UserMenuLinkType,
 } from "../interface/header";
 import { useRouter } from "next/router";
+import { shallow } from "zustand/shallow";
 
 export const UserMenuLink = ({
 	href,
@@ -23,49 +24,82 @@ export const UserMenuLink = ({
 	doOnClick,
 	color,
 }: UserMenuLinkType) => {
-	const [changeUserMenuShowing] = headerStore((store) => [
-		store.changeUserMenuShowing,
-	]);
+	const [changeUserMenuShowing] = headerStore(
+		(store) => [store.changeUserMenuShowing],
+		shallow
+	);
 	return (
-		<Link
-			className={
-				(href === "#" ? "text-gray-400" : color ? color : "text-white") +
-				"  no-underline flex items-center hover:font-medium"
-			}
-			href={href}
-			onClick={() => {
-				changeUserMenuShowing(false);
-				doOnClick ? doOnClick() : "";
-			}}>
-			<Icon size={18} className="mr-2.5" /> {content}
+		<Link href={href}>
+			<span
+				className={
+					(href === "#" ? "text-gray-400" : color ? color : "text-white") +
+					"  no-underline flex items-center hover:font-medium"
+				}
+				onClick={() => {
+					changeUserMenuShowing(false);
+					doOnClick ? doOnClick() : "";
+				}}>
+				<Icon size={18} className="mr-2.5" /> {content}
+			</span>
 		</Link>
 	);
 };
 
 function UserMenu() {
+	const [username, _setUsername] = useState<string>("");
+	const [changeUserMenuShowing] = headerStore(
+		(store) => [store.changeUserMenuShowing],
+		shallow
+	);
+	useEffect(() => {
+		if (window !== undefined) {
+			const user = window.localStorage.getItem("zubu_username");
+			user !== null ? _setUsername(user) : "";
+		}
+	}, []);
 	return (
-		<div className="fixed flex flex-col top-[80px] right-2.5 rounded-[0_0_5px_5px] gap-2.5 p-5 bg-[#123853] text-white z-30 ">
-			{userMenuLinks.map((link) => (
-				<UserMenuLink
-					key={link.href + link.content + link.Icon}
-					href={link.href}
-					doOnClick={link.doOnClick}
-					content={link.content}
-					Icon={link.Icon}
-				/>
-			))}
-		</div>
+		<>
+			<span
+				className="block absolute bg-transparent w-screen h-screen top-0 right-0 z-[70]"
+				onClick={() => {
+					changeUserMenuShowing(false);
+				}}></span>
+			<div className="fixed flex flex-col top-[70px] right-2.5 rounded-[0_0_5px_5px] gap-2.5 p-5 bg-[#123853] text-white z-[80]">
+				<Link
+					href="/user"
+					className="border-0 border-b border-b-white flex items-center gap-2.5 pb-2">
+					{username ? (
+						<>
+							<FaUserCircle size={18} />{" "}
+							<span
+								className="w-full"
+								onClick={() => {
+									changeUserMenuShowing(false);
+								}}>
+								{username}
+							</span>
+						</>
+					) : (
+						"connecter vous"
+					)}
+				</Link>
+				{userMenuLinks.map((link) => (
+					<UserMenuLink
+						key={link.href + link.content + link.Icon}
+						href={link.href}
+						doOnClick={link.doOnClick}
+						content={link.content}
+						Icon={link.Icon}
+					/>
+				))}
+			</div>
+			u
+		</>
 	);
 }
 
 export function CurrentPageInformation(props: CurrentPageInformationProps) {
 	const router = useRouter();
-	const [width, _setWidth] = useState<number>(0);
-	useEffect(() => {
-		window?.addEventListener("resize", () => {
-			_setWidth(window?.innerWidth);
-		});
-	}, []);
 	return (
 		<div
 			className={
@@ -137,11 +171,6 @@ export default function Header(props?: CurrentPageInformationProps) {
 								</>
 							) : (
 								<FaUserCircle size={35} color="white" />
-							)}
-							{isUserMenuShowing ? (
-								<FaCaretUp size={18} />
-							) : (
-								<FaCaretDown size={18} />
 							)}
 						</div>
 					</div>

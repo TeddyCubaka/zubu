@@ -137,3 +137,16 @@
 		outline-color: red;
 	}
 }
+
+.mobile_header_menu{
+	animation: mobile_header_menu 400ms linear;
+}
+
+@keyframes mobile_header_menu {
+	from {
+		left: -80vw;
+	}
+	to {
+		left: 0px;
+	}
+}
