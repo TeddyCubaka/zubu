@@ -223,17 +223,18 @@ export function SectionHead(props: SectionHeadProps) {
 	return (
 		<div className="border-b-2 pb-2.5 flex justify-between items-center">
 			<h3 className="font-normal">{props.title}</h3>
-			<button
-				className="btn_s btn text-blue rounded-3xl min-w-[100px] txt_normal"
-				onClick={async () => {
+			<SecondaryButton
+				notWidthMax
+				conditionToPass={true}
+				doOnClick={async () => {
 					if (props.uploadImages) props.uploadImages();
 					else {
 						props.setUpdatingStatus("Envoie...");
 						sendToServer(props.sendToServerProps);
 					}
-				}}>
-				{props.updatingStatus}
-			</button>
+				}}
+				subject={props.updatingStatus}
+			/>
 		</div>
 	);
 }
@@ -248,8 +249,8 @@ interface SectionDetailCardProps {
 function SectionDetailCard(props: SectionDetailCardProps) {
 	return (
 		<div className="flex my-[10px]">
-			<div className="flex-1 p-1.25 flex items-center border">
-				<span className="whitespace-nowrap mr-5 font-normal flex-1">
+			<div className="flex-1 p-1.25 flex items-center">
+				<span className="whitespace-nowrap mr-5 font-normal flex-1 ">
 					{props.room.name} {" :"}
 				</span>
 				<span className="flex-1">
@@ -342,7 +343,7 @@ function HouseInformationUpdating({
 	}, [getRoombedRooms]);
 
 	return (
-		<div className="grid row_gap-10 m_top-10">
+		<div className="grid gap-2.5 mt-2.5">
 			<SectionHead
 				title={title}
 				sendToServerProps={{
@@ -367,7 +368,7 @@ function HouseInformationUpdating({
 						/>
 					))
 				) : (
-					<div className="m_y-10">Ajoutez une information</div>
+					<div className="my-2.5">Ajoutez une information</div>
 				)}
 				<div className="flex max-md:flex-col gap-[10px] ">
 					<div className="w-full flex gap-[10px] max-md:flex-col ">
@@ -462,7 +463,7 @@ export function TenantCharge() {
 	}, [getCurrency]);
 
 	return (
-		<div className="grid row_gap-10 m_y-10">
+		<div className="grid gap-2.5 my-2.5">
 			<SectionHead
 				title={"Charge du locateur"}
 				sendToServerProps={{
@@ -475,23 +476,23 @@ export function TenantCharge() {
 				updatingStatus={updatingStatus}
 				setUpdatingStatus={setUpdatingStatus}
 			/>
-			<div className="grid row_gap-10 m_y-10">
+			<div className="grid gap-2.5 my-2.5">
 				{proprety.proprety.description.tenantCharges.length > 0 ? (
 					proprety.proprety.description.tenantCharges.map((charge, index) => (
 						<div
 							className="flex"
 							key={charge.charge + charge.currency + charge.price}>
-							<div className="flex pd-5 br border-gray w-full mr-2.5 ">
-								<div className="one_line_txt m_right-20 font-medium">
+							<div className="flex pd-5 rounded w-full mr-2.5 ">
+								<span className="whitespace-nowrap mr-5 flex-1 font-medium">
 									{charge.charge} {" :"}
-								</div>
-								<div className="w-full">
+								</span>
+								<span className="flex-1">
 									{toTriadeNumber(charge.price)}{" "}
 									{charge.currency === "USD" ? "$" : "fc"}{" "}
-								</div>
+								</span>
 							</div>
 							<button
-								className="btn_p btn br text-white w_50"
+								className="btn_p btn rounded text-white w_50"
 								onClick={() =>
 									proprety.updateDescription.removeTenantCharge(index)
 								}>
@@ -543,7 +544,7 @@ export function TenantCharge() {
 
 export function PropretyGalleryUpdate() {
 	return (
-		<div className="p-5 m_right-20 border-gray br h_auto proprety_gallery">
+		<div className="p-5 mr-5 border-gray rounded h_auto proprety_gallery">
 			<AdaptedImages />
 		</div>
 	);

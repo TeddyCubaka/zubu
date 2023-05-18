@@ -114,7 +114,9 @@ export default function Header(props?: CurrentPageInformationProps) {
 								className="text-white no-underline mx-5 ">
 								Publier un bien
 							</Link>
-							<Link href="#" className="text-white no-underline mx-5">
+							<Link
+								href="/user/propreties/saves"
+								className="text-white no-underline mx-5">
 								Vos favoris
 							</Link>
 						</div>

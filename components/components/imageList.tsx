@@ -54,7 +54,7 @@ export function AdaptedImages() {
 			)}
 			{displayUploadImages ? (
 				<div className="fixed w-screen h-screen bg-[rgba(0,0,0,0.445)] top-0 left-0 z-30 flex justify-center items-center ">
-					<div className="bg-white mx-5 br h-[75%] ">
+					<div className="bg-white mx-5 rounded h-[75%] ">
 						<div className="m-[10px] flex space_between">
 							<div>
 								<b>Gallery : </b>
@@ -62,7 +62,7 @@ export function AdaptedImages() {
 							</div>
 							<div className="flex">
 								<button
-									className="btn_s btn br text-[#123853] txt_normal"
+									className="btn_s btn rounded text-[#123853] txt_normal"
 									onClick={() => {
 										proprety.updateDescription.cleanFiles();
 										_setDispalyUploadImages(false);
@@ -97,7 +97,9 @@ export function AdaptedImages() {
 			) : (
 				""
 			)}
-			<label htmlFor="file" className="btn_s btn text-[#123853] br flex w_hug">
+			<label
+				htmlFor="file"
+				className="btn_s btn text-[#123853] rounded flex w_hug">
 				<HiPlusSm size={18} className="m_right-5" /> Ajouter une image
 			</label>
 			<input

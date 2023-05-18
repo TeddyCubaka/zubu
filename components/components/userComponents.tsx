@@ -65,7 +65,7 @@ export function UserInformation() {
 					<FaUserTie size={"150px"} />
 				)}
 			</div>
-			<div className="m_y-10 w-full space_between-y">
+			<div className="my-2.5 w-full space_between-y">
 				<div className="flex items-center">
 					<h2 className="w-full">{currentUser.username}</h2>
 					<div
@@ -88,7 +88,9 @@ export function UserInformation() {
 	);
 }
 
-function DisplayPropreties({ propreties }: DisplayPropretiesComponentProps) {
+export function DisplayPropreties({
+	propreties,
+}: DisplayPropretiesComponentProps) {
 	return (
 		<div className="">
 			{!propreties[0] ? (
@@ -104,7 +106,7 @@ function DisplayPropreties({ propreties }: DisplayPropretiesComponentProps) {
 					</div>
 				</>
 			) : (
-				<>
+				<div className="flex justify-start flex-wrap gap-5">
 					{propreties.map((proprety) => (
 						<PropretyCard
 							key={proprety._id}
@@ -113,7 +115,7 @@ function DisplayPropreties({ propreties }: DisplayPropretiesComponentProps) {
 							_id={proprety._id}
 						/>
 					))}
-				</>
+				</div>
 			)}
 		</div>
 	);

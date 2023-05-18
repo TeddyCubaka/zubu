@@ -101,7 +101,7 @@ export function InternalRooms() {
 	return (
 		<div className="grid gap-[10px] my-[10px]">
 			<h3>Intérieur</h3>
-			<div className="grid row_gap-10">
+			<div className="grid gap-2.5">
 				{internalRooms.length === 0 ? (
 					<div>
 						Le propriétaire n&apos;a rien renseigner pour l&apos;instant. 🙃
@@ -126,7 +126,7 @@ export function ExternalRooms() {
 	return (
 		<div className="grid gap-[10px] my-[10px]">
 			<h3>Extérieur</h3>
-			<div className="grid row_gap-10">
+			<div className="grid gap-2.5">
 				{externalRooms.length === 0 ? (
 					<div>
 						Le propriétaire n&apos;a rien renseigner jusqu&apos;à présent. 🙃
@@ -151,7 +151,7 @@ export function TenantCharges() {
 	return (
 		<div className="grid gap-[10px] my-[10px]">
 			<h3>Charges supporté par le locataire</h3>
-			<div className="grid row_gap-10">
+			<div className="grid gap-2.5">
 				{tenantCharges.length === 0 ? (
 					<div>
 						Le propriétaire n&apos;a rien renseigner jusqu&apos;à présent. 🙃

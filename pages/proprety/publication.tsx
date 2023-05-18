@@ -26,7 +26,7 @@ export default function Publication() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<Header title="Publier votre propriété" />
+				<Header title="Publiez votre propriété" />
 				<div className="w-full flex items-center justify-center">
 					{userId !== null ? (
 						<div className="my-5 grid grid-cols-2 max-md:flex max-md:flex-col-reverse">
@@ -41,11 +41,11 @@ export default function Publication() {
 									/>
 								</div>
 								<h4 className="mb-3 font-normal">
-									Avec Zubu la location devient facile 😉
+									Avec Zubu, la location devient facile 😉
 								</h4>
 								<p>
 									Mettez votre propriété en location en ligne en un rien de
-									temps. Tout les types immobilier louables, peut importe le
+									temps. Tous les types immobiliers louables, peut importe le
 									nombre. Mettez le en avant sur zubu.
 								</p>
 								<p>

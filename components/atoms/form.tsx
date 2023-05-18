@@ -271,7 +271,7 @@ export function GeneralInput({
 				type={type ? type : "text"}
 				placeholder={placeholder}
 				className={
-					"br w-full txt_normal " + (type === "date" ? "txt_center" : "")
+					"roundedw-full txt_normal " + (type === "date" ? "txt_center" : "")
 				}
 				value={value ? value : ""}
 				onChange={(e) => {
@@ -286,7 +286,7 @@ export function GeneralInput({
 export function Form({ inputs, buttons, title }: FormDatasTypes) {
 	return (
 		<div className="pd-10">
-			<h3 className="m_y-10">{title}</h3>
+			<h3 className="my-2.5">{title}</h3>
 			<div className="w-full gap-10">
 				{inputs.map((input) => (
 					<Input

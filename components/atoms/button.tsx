@@ -58,7 +58,7 @@ export function UploadToCloudButton({
 
 	return (
 		<div
-			className="ml-2.5 btn br text-white"
+			className="ml-2.5 btn rounded text-white"
 			onClick={async () => {
 				_setUpload(true);
 				for (let i = 0; i < proprety.updateDescription.files.length; i++) {

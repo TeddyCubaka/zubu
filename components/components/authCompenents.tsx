@@ -232,7 +232,7 @@ export function Signup() {
 						doAfterSuccess: (e: any) => {
 							window.localStorage.setItem("zubu_token", e.token);
 							window.localStorage.setItem("zubu_userId", e.user._id);
-							window.localStorage.setItem("zubu_user", e.user);
+							window.localStorage.setItem("zubu_user", JSON.stringify(e.user));
 							window.localStorage.setItem("zubu_username", e.user.username);
 							window.localStorage.setItem(
 								"userPropreties",
