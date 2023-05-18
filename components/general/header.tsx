@@ -93,7 +93,6 @@ function UserMenu() {
 					/>
 				))}
 			</div>
-			u
 		</>
 	);
 }

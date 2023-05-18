@@ -16,6 +16,7 @@ import Image from "next/image";
 import { IoMdImage } from "react-icons/io";
 import { PrimaryButton } from "../atoms/button";
 import PropretyImage from "../atoms/images";
+import { useState } from "react";
 
 export function PropretyViewBanner() {
 	const proprety = propretyStore();
@@ -72,11 +73,15 @@ export function RentalInformation() {
 }
 
 export function AskForVisit() {
+	const [visitMsg, _setVisitMsg] = useState<string>("Demander à visiter");
 	return (
 		<PrimaryButton
 			conditionToPass
-			doOnClick={() => {}}
-			subject="Demander à visiter"
+			doOnClick={() => {
+				_setVisitMsg("Demande de visit...");
+				setTimeout(() => _setVisitMsg("Demande de visite envoyée"), 2000);
+			}}
+			subject={visitMsg}
 		/>
 	);
 }
