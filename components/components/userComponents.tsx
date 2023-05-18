@@ -118,26 +118,13 @@ export function GetUserPropreties() {
 	useEffect(() => {
 		_setFetchingPropreties(true);
 		if (window !== undefined) {
-			let path: string = "";
 			const currentUserHasString: string | null =
 				localStorage.getItem("zubu_user");
 			if (currentUserHasString) {
 				_setUserExitInStorage(true);
-				let currentUser = JSON.parse(currentUserHasString);
-				path = currentUser.proprety.join("plös");
+				_setPropreties(JSON.parse(currentUserHasString).proprety);
+				_setFetchingPropreties(false);
 			}
-			const params: AskToServerDataType = {
-				path: "/proprety/select/" + path,
-				doIfError: (e) => {
-					_setFetchingPropreties(false);
-				},
-				getData: (e) => {
-					_setPropreties(e);
-					_setFetchingPropreties(false);
-				},
-				getStatus: () => {},
-			};
-			askToServerData(params);
 		}
 	}, [user.currentUserPropreties]);
 	return (

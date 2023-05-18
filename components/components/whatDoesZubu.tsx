@@ -3,6 +3,7 @@ import patener from "../images/patener_illust.svg";
 import lessor from "../images/lessor_illust.svg";
 import Image from "next/image";
 import { SecondaryButton } from "../atoms/button";
+import { useRouter } from "next/router";
 
 interface WhatCardProps {
 	image: {
@@ -34,6 +35,7 @@ function WhatCard({ image, title, text, children }: WhatCardProps) {
 }
 
 export default function WhatDoesZubu() {
+	const router = useRouter();
 	return (
 		<div className="text-center my-10">
 			<h2 className="font-semibold mb-5">Qu’est-ce que nous faisons ?</h2>
@@ -47,7 +49,7 @@ export default function WhatDoesZubu() {
 					<SecondaryButton
 						fullWidthOnMobile
 						conditionToPass={1 == 1}
-						doOnClick={() => {}}
+						doOnClick={() => router.push("/proprety/publication")}
 						notWidthMax
 						subject="Publier votre bien"
 						doIfConditionDoesNotPass={() => {}}
@@ -64,7 +66,7 @@ export default function WhatDoesZubu() {
 					<SecondaryButton
 						fullWidthOnMobile
 						conditionToPass={1 == 1}
-						doOnClick={() => {}}
+						doOnClick={() => router.push("#")}
 						notWidthMax
 						subject="Devenir partenaire"
 						doIfConditionDoesNotPass={() => {}}
