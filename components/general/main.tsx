@@ -65,7 +65,7 @@ export default function Main() {
 					Bienvenue sur Zubu, un site qui met en avant votre bien immobilier
 				</h1>
 				<div className="my-5">
-					Recherchez un bien, trouvez-le et fait de ça votre chez vous
+					Recherchez un bien, trouvez-le et faites de ça votre chez vous
 				</div>
 				<FilterPropretiesSearch />
 			</div>

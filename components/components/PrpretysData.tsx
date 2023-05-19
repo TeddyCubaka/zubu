@@ -129,7 +129,7 @@ export function GetPropretyType() {
 		shallow
 	);
 	const propretyTypeChoices = [
-		"maison meublé",
+		"maison meublée",
 		"maison vide",
 		"appartement",
 		"commerce",
@@ -182,6 +182,7 @@ export function GetLosor() {
 					sendToStore={(e) => {
 						typeof e == "number" ? "" : setLessor({ ...lessor, contacts: e });
 					}}
+					maxLength={12}
 					subject={"numéro de téléphone ou mail : "}
 					customClass={"w-full"}
 					placeholder="Ex : +243 990 000 000 ou user@gmail.com"
@@ -292,9 +293,10 @@ export function ViewInformationPuted() {
 					publish.set_id(res.data.data._id);
 					publish._setSendingData(false);
 				})
-				.catch(() => {
+				.catch((err) => {
 					publish.setDatabaseResponseStatus("not created");
 					publish._setSendingData(false);
+					console.log(err);
 				});
 		}
 	};

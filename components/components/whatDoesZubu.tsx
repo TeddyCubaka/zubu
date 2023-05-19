@@ -42,27 +42,27 @@ export default function WhatDoesZubu() {
 			<div className=" flex justify-evenly max-md:flex-col max-md:items-center max-md:gap-5 ">
 				<WhatCard
 					image={{ src: lessor, alt: "illustration fictif d'un lessor" }}
-					text="Cherchez-vous des locataires et vous n’avez pas trop de temps ?
-                Publiez tout simplement votre bien sur notre plateforme et nous allons nous occuper à vous trouver un locataire.
-                Économiser votre temps"
+					text="Cherchez-vous des locataires et vous n’avez pas assez de temps ?
+                Publiez tout simplement votre bien sur notre plateforme et nous allons nous occuper de vous trouver un locataire.
+                Économisez votre temps"
 					title="Vous êtes bailleur d’un bien immobilier ?">
 					<SecondaryButton
 						fullWidthOnMobile
 						conditionToPass={1 == 1}
 						doOnClick={() => router.push("/proprety/publication")}
 						notWidthMax
-						subject="Publier votre bien"
+						subject="Publier un bien"
 						doIfConditionDoesNotPass={() => {}}
 					/>
 				</WhatCard>
 				<WhatCard
 					image={{
 						src: patener,
-						alt: "illustration fictif de deux hommes d'affaire",
+						alt: "illustration fictive de deux hommes d'affaire",
 					}}
 					title="Vous aimez ce que nous faisons ?"
-					text="Nous voulons allez plus loin. Nous tous avons des rêves. Le nôtre est d’aider les congolais à se détacher de cette charge qui pèse tant, celle de chercher un toîl à louer.
-                Vous voulez nous aider à aider les congolais à trouver plus facilement un toil à louer ? Devenez notre partenaire.">
+					text="Nous voulons allez plus loin. Nous tous, avons des rêves. Le nôtre est d’aider les congolais à se détacher de cette charge qui pèse tant, celle de chercher un toîl à louer.
+                Vous voulez nous aider à simplifié la recherche des biens imobiliers en location aux congolais ? Devenez notre partenaire.">
 					<SecondaryButton
 						fullWidthOnMobile
 						conditionToPass={1 == 1}

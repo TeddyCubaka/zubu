@@ -30,14 +30,9 @@ export function CoverPicture() {
 	const loader = loaderStatus();
 	const proprety = propretyStore();
 
-	const pictureSource =
-		(proprety.updateRenatlInformation.files &&
-		proprety.updateRenatlInformation.files?.length > 0
-			? URL.createObjectURL(proprety.updateRenatlInformation.files)
-			: "") ||
-		(proprety.proprety.rentalInformation.coverPicture?.length > 0
-			? proprety.proprety.rentalInformation.coverPicture
-			: "");
+	const pictureSource = proprety.updateRenatlInformation.files?.length
+		? URL.createObjectURL(proprety.updateRenatlInformation.files || "")
+		: proprety.proprety.rentalInformation.coverPicture;
 
 	const uploadCoverImage = async () => {
 		await uploadImage({

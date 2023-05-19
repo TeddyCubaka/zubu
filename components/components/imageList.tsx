@@ -99,7 +99,7 @@ export function AdaptedImages() {
 			)}
 			<label
 				htmlFor="file"
-				className="btn_s btn text-[#123853] rounded flex w_hug">
+				className="text-blue font-light text-normal border-2 border-[#123853] p-2 flex justify-center items-center whitespace-nowrap hover:bg-[#123853] hover:text-white hover:transition-all hover:duration-200  text-[#123853] rounded">
 				<HiPlusSm size={18} className="m_right-5" /> Ajouter une image
 			</label>
 			<input

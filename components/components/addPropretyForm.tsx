@@ -76,8 +76,8 @@ export default function AddPropretiyForm() {
 				<div className="p-5 flex flex-col gap-6">
 					<div>
 						Renseigner les informations de base sur votre propriété. Cela nous
-						permet de filtrer les mauvaises informations et les propriétés
-						inutiles.
+						permet de verifier si votre bien est valide et ainsi écarter les
+						personnes aux mauvaise intentions.
 					</div>
 					<div>
 						<strong>Note</strong> : ceci n’est pas encore la phase finale pour

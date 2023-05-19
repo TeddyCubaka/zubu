@@ -58,7 +58,7 @@ export function UploadToCloudButton({
 
 	return (
 		<div
-			className="ml-2.5 btn rounded text-white"
+			className="ml-2.5 rounded text-blue font-light text-normal border-2 border-[#123853] p-2 flex justify-center items-center whitespace-nowrap hover:bg-[#123853] hover:text-white hover:transition-all hover:duration-200  "
 			onClick={async () => {
 				_setUpload(true);
 				for (let i = 0; i < proprety.updateDescription.files.length; i++) {
@@ -88,7 +88,7 @@ export function UploadToCloudButton({
 				}
 			}}>
 			{upload ? (
-				<span className="uploading"></span>
+				<span className="uploading_blue"></span>
 			) : (
 				proprety.updateDescription.updatingGalleryStatus
 			)}
