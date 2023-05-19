@@ -125,7 +125,7 @@ export function GetAddress() {
 
 export function GetPropretyType() {
 	const [setPropretyType, propretyType] = publicationStore(
-		(state) => [state.setPropretyType, state.propretyType],
+		(state) => [state.setPropretyType, state.RentalType],
 		shallow
 	);
 	const propretyTypeChoices = [
@@ -280,7 +280,7 @@ export function ViewInformationPuted() {
 					owner: localStorage.getItem("zubu_user_id"),
 					rentalInformation: {
 						address: publish.address,
-						RentalType: publish.propretyType,
+						RentalType: publish.RentalType,
 						lessor: publish.lessor,
 						price: publish.rentalPrice.price,
 						guaranteeValue: publish.rentalPrice.guaranteeValue,
