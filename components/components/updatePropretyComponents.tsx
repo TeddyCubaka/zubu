@@ -31,26 +31,29 @@ export function CoverPicture() {
 	const proprety = propretyStore();
 
 	const pictureSource = proprety.updateRenatlInformation.files?.length
-		? URL.createObjectURL(proprety.updateRenatlInformation.files || "")
+		? URL.createObjectURL(proprety.updateRenatlInformation.files)
 		: proprety.proprety.rentalInformation.coverPicture;
 
-	const uploadCoverImage = async () => {
+	const uploadCoverImage = async (file: any) => {
 		await uploadImage({
-			file: proprety.updateRenatlInformation.files
-				? proprety.updateRenatlInformation.files
-				: "",
+			file: file,
 			getStatus: loader.setUploadingCoverPicture,
 			getUrl: proprety.updateRenatlInformation.setCoverPicture,
 			clearFileFunction: proprety.updateRenatlInformation.clearFiles,
 			getImage: () => {},
-			doAfterResponse: () =>
+			doAfterResponse: (data) => {
+				console.log(data);
 				sendToServer({
 					data: {
-						rentalInformation: proprety.proprety.rentalInformation,
+						rentalInformation: {
+							...proprety.proprety.rentalInformation,
+							coverPicture: data.url,
+						},
 					},
 					path: "/proprety/" + proprety.proprety._id,
 					getStatus: loader.setUploadingCoverPicture,
-				}),
+				});
+			},
 		});
 	};
 
@@ -59,8 +62,7 @@ export function CoverPicture() {
 			<label
 				htmlFor="uploadCoverPicture"
 				className="flex justify-center items-center h-[200px] overflow-hidden w-full my-1.25 bg-[#d9d9d9] border border-app-gray">
-				{proprety.updateRenatlInformation.files ||
-				proprety.proprety.rentalInformation.coverPicture ? (
+				{proprety.proprety.rentalInformation.coverPicture ? (
 					<Image
 						width={340}
 						height={191.25}
@@ -80,7 +82,8 @@ export function CoverPicture() {
 				onChange={(e) => {
 					if (e.target.files !== null) {
 						proprety.updateRenatlInformation.setFiles(e.target.files[0]);
-						uploadCoverImage();
+						uploadCoverImage(e.target.files[0]);
+						console.log(proprety.updateRenatlInformation);
 					}
 				}}
 			/>

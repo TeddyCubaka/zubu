@@ -14,7 +14,7 @@ interface PublicationStore {
 	lessor: Lessor;
 	address: string;
 	rentalPrice: RentalPrice;
-	propretyType: string;
+	RentalType: string;
 	monetaryCurrency: string;
 	databaseResponseStatus: string;
 	sendingData: boolean;
@@ -36,7 +36,7 @@ export const publicationStore = create<PublicationStore>((set) => ({
 	_id: "",
 	count: 0,
 	address: "",
-	propretyType: "",
+	RentalType: "",
 	sendingData: false,
 	monetaryCurrency: "",
 	databaseResponseStatus: "",
@@ -47,7 +47,7 @@ export const publicationStore = create<PublicationStore>((set) => ({
 	setLessor: (object) => set(() => ({ lessor: object })),
 	setCount: () => set((state) => ({ count: state.count + 1 })),
 	unSetCount: () => set((store) => ({ count: store.count - 1 })),
-	setPropretyType: (type) => set(() => ({ propretyType: type })),
+	setPropretyType: (type) => set(() => ({ RentalType: type })),
 	_setSendingData: (state) => set(() => ({ sendingData: state })),
 	setRentalPrice: (object) => set(() => ({ rentalPrice: object })),
 	rentalPrice: { price: "", guaranteeValue: "", monetaryCurrency: "USD" },

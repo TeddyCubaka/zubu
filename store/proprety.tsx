@@ -143,8 +143,7 @@ export const propretyStore = create<PropretyStore>((set) => ({
 			],
 		},
 	},
-	setProprety: (proprety) =>
-		set((state) => ({ ...state.proprety, proprety: proprety })),
+	setProprety: (proprety) => set((state) => ({ proprety: proprety })),
 	updateRenatlInformation: {
 		files: undefined,
 		changeAvailability: (state) =>
