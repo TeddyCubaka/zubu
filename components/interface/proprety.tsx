@@ -7,6 +7,7 @@ export interface BasicalDetailsType {
 	name: string;
 	content: string;
 }
+export type AnnouncementPeriodType = [string | null, string | null];
 
 export interface RentalInformationType {
 	isAvailable: boolean;
@@ -20,6 +21,7 @@ export interface RentalInformationType {
 	address: string;
 	bedRooms: string;
 	lessor: LessorType;
+	announcementPeriod: AnnouncementPeriodType;
 }
 
 export interface PropretyGalleryImageType {

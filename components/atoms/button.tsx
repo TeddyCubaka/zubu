@@ -66,7 +66,7 @@ export function UploadToCloudButton({
 						file: proprety.updateDescription.files[i],
 						getUrl: () => {},
 						getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
-						clearFileFunction: () => proprety.updateDescription.deleteFile(0),
+						clearFileFunction: () => {},
 						getImage: proprety.updateDescription.addImagesToGallery,
 						doAfterResponse(e) {
 							const sendToServerData: SendToServerType = {

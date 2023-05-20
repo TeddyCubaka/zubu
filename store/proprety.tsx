@@ -6,6 +6,7 @@ import {
 	RoomDetailsType,
 	PropretyGalleryImageType,
 	SearchPropretiesType,
+	AnnouncementPeriodType,
 } from "../components/interface/proprety";
 
 export interface UpdateRentalInformationType {
@@ -24,6 +25,7 @@ export interface UpdateRentalInformationType {
 	clearFiles: () => void;
 	setLessorName: (name: string) => void;
 	setLessorContact: (number: string) => void;
+	setAnnouncementPeriod: (dates: AnnouncementPeriodType) => void;
 }
 
 export interface PropretyDescriptionModel {
@@ -84,6 +86,7 @@ export const propretyStore = create<PropretyStore>((set) => ({
 			address: "",
 			bedRooms: "",
 			lessor: { fullName: "", contacts: "" },
+			announcementPeriod: [null, null],
 		},
 		description: {
 			gallery: [],
@@ -143,9 +146,19 @@ export const propretyStore = create<PropretyStore>((set) => ({
 			],
 		},
 	},
-	setProprety: (proprety) => set((state) => ({ proprety: proprety })),
+	setProprety: (proprety) => set((state) => ({ proprety: { ...proprety } })),
 	updateRenatlInformation: {
 		files: undefined,
+		setAnnouncementPeriod: (dates) =>
+			set((store) => ({
+				proprety: {
+					...store.proprety,
+					rentalInformation: {
+						...store.proprety.rentalInformation,
+						announcementPeriod: dates,
+					},
+				},
+			})),
 		changeAvailability: (state) =>
 			set((store) => ({
 				proprety: {

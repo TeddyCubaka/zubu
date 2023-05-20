@@ -15,6 +15,7 @@ import { SendToServerType } from "../interface/requests";
 import { Input, InputDate, InputHasDetails, InputNumber } from "../atoms/form";
 import { PrimaryButton, SecondaryButton } from "../atoms/button";
 import SetCurrency from "../atoms/currencyButtons";
+import dayjs, { Dayjs } from "dayjs";
 
 const propretyType = [
 	"Maison meublé",
@@ -105,7 +106,6 @@ export function UpdateRentalInformation() {
 		};
 		sendToServer(thisProps);
 	};
-
 	return (
 		<div className="flex flex-col gap-5">
 			<PropretyBanner />
@@ -184,14 +184,27 @@ export function UpdateRentalInformation() {
 					placeholder={"Numéro"}
 				/>
 				<InputDate
-					value={proprety.proprety.rentalInformation.availabilityDate}
+					value={
+						proprety.proprety.rentalInformation.announcementPeriod[0] ===
+							null &&
+						proprety.proprety.rentalInformation.announcementPeriod[1] === null
+							? [null, null]
+							: [
+									dayjs(
+										proprety.proprety.rentalInformation.announcementPeriod[0],
+										"DD/MM/YYYY"
+									),
+									dayjs(
+										proprety.proprety.rentalInformation.announcementPeriod[1],
+										"DD/MM/YYYY"
+									),
+							  ]
+					}
 					sendToStore={(e) =>
-						typeof e !== "string"
-							? ""
-							: proprety.updateRenatlInformation.setAvailabilyDate
+						proprety.updateRenatlInformation.setAnnouncementPeriod(e)
 					}
 					customClass="col-span-2"
-					type={"date"}
+					placeholder={["Date de début", "Date de fin"]}
 					subject={"Periode de l'annonce"}
 				/>
 			</div>
@@ -204,7 +217,6 @@ export function UpdateRentalInformation() {
 				subject={status.updatingStatus}
 				fullRounded={true}
 			/>
-			{/* </div> */}
 		</div>
 	);
 }

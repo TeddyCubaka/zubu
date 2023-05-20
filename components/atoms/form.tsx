@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import {
 	FormDatasTypes,
 	InputHasDetailsProps,
@@ -6,6 +6,9 @@ import {
 	InputProps,
 } from "../interface/atoms";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
+import { DatePicker } from "antd";
+import dayjs, { Dayjs } from "dayjs";
+import { AnnouncementPeriodType } from "../interface/proprety";
 
 const inputStyle =
 	" border border-[#123853b4] rounded-[5px] p-2 flex-1 txt-normal ";
@@ -53,18 +56,38 @@ export function Input({
 		</div>
 	);
 }
+const { RangePicker } = DatePicker;
+
+type RangeValue = [Dayjs | null, Dayjs | null] | null;
+
+interface InputDateProps {
+	value: [Dayjs | null, Dayjs | null];
+	sendToStore: (dates: AnnouncementPeriodType) => void;
+	subject: string;
+	customClass: string;
+	placeholder: [string, string];
+	required?: boolean;
+	children?: ReactElement;
+}
 
 export function InputDate({
 	value,
 	sendToStore,
-	type,
 	subject,
 	customClass,
 	placeholder,
 	required,
 	children,
-	maxLength,
-}: InputProps) {
+}: InputDateProps) {
+	const disabledDate = (current: Dayjs) => {
+		if (!value) {
+			return false;
+		}
+		const tooLate = value[0] && current.diff(value[0], "days") >= 10;
+		const tooEarly = value[1] && value[1].diff(current, "days") >= 10;
+		return !!tooEarly || !!tooLate;
+	};
+
 	return (
 		<div className={inputWithLabelParentStyle + customClass}>
 			<label className={"font-normal"}>
@@ -73,37 +96,36 @@ export function InputDate({
 				{required ? <span className="text-red-600">*</span> : ""}
 				{" :"}
 			</label>
-			<div
-				className={
-					" border border-[#123853b4] rounded-[5px] flex-1 txt-normal flex items-center " +
-					customClass
-				}>
-				<input
-					type={type ? type : "text"}
-					placeholder={placeholder}
-					className={
-						(type === "date" ? "txt_center" : "") +
-						" w-full h-full p-2 outline-none rounded "
+			<RangePicker
+				className={inputStyle}
+				value={value}
+				disabledDate={disabledDate}
+				placeholder={
+					placeholder ? placeholder : ["début de l'annonce", "fin de l'anonce"]
+				}
+				onCalendarChange={(val) => {
+					if (val)
+						sendToStore([
+							dayjs(val[0]).format("DD/MM/YYYY"),
+							dayjs(val[1]).format("DD/MM/YYYY"),
+						]);
+				}}
+				format={"DD/MM/YYYY"}
+				onOpenChange={(e) => {
+					if (e) sendToStore([null, null]);
+				}}
+				onChange={(val) => {
+					if (val) {
+						sendToStore([
+							dayjs(val[0]).format("DD/MM/YYYY"),
+							dayjs(val[1]).format("DD/MM/YYYY"),
+						]);
 					}
-					maxLength={maxLength}
-					onChange={(e) => {
-						sendToStore(e.target.value);
-					}}
-				/>
-				<input
-					type={type ? type : "text"}
-					placeholder={placeholder}
-					className={
-						(type === "date" ? "txt_center" : "") +
-						" w-full h-full p-2 outline-none rounded "
-					}
-					maxLength={maxLength}
-					onChange={(e) => {
-						sendToStore(e.target.value);
-					}}
-				/>
-				{children}
-			</div>
+				}}
+				changeOnBlur
+			/>
+
+			{children}
 		</div>
 	);
 }
