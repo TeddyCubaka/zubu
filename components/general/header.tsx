@@ -2,13 +2,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../images/big_logo.svg";
-import MobileHeader from "../components/mobile.header";
-import {
-	FaUserCircle,
-	FaCaretDown,
-	FaCaretUp,
-	FaChevronLeft,
-} from "react-icons/fa";
+import MobileHeader from "./mobile.header";
+import { FaUserCircle, FaChevronLeft } from "react-icons/fa";
 import { headerStore, userMenuLinks } from "../../store/header";
 import {
 	CurrentPageInformationProps,

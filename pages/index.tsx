@@ -12,13 +12,12 @@ export default function Home() {
 			askToServerData({
 				doIfError: (error) => console.log(error),
 				getData: (user) => {
-					window.localStorage.setItem("zubu_userId", user._id);
-					window.localStorage.setItem("zubu_user", JSON.stringify(user));
-					window.localStorage.setItem("zubu_username", user.username);
-					window.localStorage.setItem(
-						"userPropreties",
-						user.proprety.join("plös")
-					);
+					if (user) {
+						localStorage.setItem("zubu_userId", user._id);
+						localStorage.setItem("zubu_user", JSON.stringify(user));
+						localStorage.setItem("zubu_username", user.username);
+						localStorage.setItem("userPropreties", user.proprety.join("plös"));
+					}
 				},
 				getStatus: () => {},
 				path: "/user/" + localStorage.getItem("zubu_user_id"),

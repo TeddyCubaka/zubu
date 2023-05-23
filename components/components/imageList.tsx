@@ -1,16 +1,69 @@
 import { HiPlusSm } from "react-icons/hi";
-import { propretyStore } from "../../store/proprety";
-import React, { useState } from "react";
+import { PropretyStore, propretyStore } from "../../store/proprety";
+import React, { useEffect, useState } from "react";
 import { SectionHead } from "./updatePropretyComponents";
 import { sendToServer } from "../usefulFuction/requests";
 import PropretyImage from "../atoms/images";
 import { UploadToCloudButton } from "../atoms/button";
 
+interface LocalPorps {
+	proprety: PropretyStore;
+	_setDispalyUploadImages: (state: boolean) => void;
+}
+
+function UploadedFiles({ proprety, _setDispalyUploadImages }: LocalPorps) {
+	return (
+		<div className="fixed w-screen h-screen bg-[rgba(0,0,0,0.445)] top-0 left-0 z-30 flex justify-center items-center ">
+			<div className="bg-white mx-5 rounded h-[75%] ">
+				<div className="m-[10px] flex justify-between items-center">
+					<div>
+						<b>Gallery : </b>
+						{proprety.updateDescription.files.length} images selectionées
+					</div>
+					<div className="flex">
+						<button
+							className="btn_s btn rounded text-[#123853] txt_normal"
+							onClick={() => {
+								proprety.updateDescription.cleanFiles();
+								_setDispalyUploadImages(false);
+							}}>
+							Annuler
+						</button>
+						<UploadToCloudButton
+							initialLength={proprety.proprety.description.gallery.length}
+							proprety={proprety}
+							_setDispalyUploadImages={_setDispalyUploadImages}
+						/>
+					</div>
+				</div>
+				<div className="mx-[10px] border rounded border-[#808080] h-[80%] overflow-hidden overflow-y-scroll ">
+					<div className="p-2.5 my-auto mx-0 flex flex-wrap justify-between gap-5  ">
+						{proprety.updateDescription.files.map((file, index) => (
+							<PropretyImage
+								key={file.lastModified + file.name}
+								source={URL.createObjectURL(file)}
+								description={`Image ${index} de ${localStorage.getItem(
+									"zubu_username"
+								)}`}
+								deleter={() => {
+									proprety.updateDescription.deleteFile(index);
+									proprety.updateDescription.setUpdatingGalleryStatus(
+										"Sauvegarder"
+									);
+								}}
+							/>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
+
 export function AdaptedImages() {
 	const proprety = propretyStore();
 	const [displayUploadImages, _setDispalyUploadImages] =
 		useState<boolean>(false);
-
 	return (
 		<>
 			<SectionHead
@@ -35,7 +88,7 @@ export function AdaptedImages() {
 				setUpdatingStatus={proprety.updateDescription.setUpdatingGalleryStatus}
 			/>
 			{proprety.proprety.description.gallery.length > 0 ? (
-				<div className="my-[10px] grid grid-cols-2 gap-[10px] max-md:w-full max-md:flex">
+				<div className="my-[10px] grid grid-cols-2 max-md:flex max-md:flex-wrap max-md:items-center max-md:gap-5 gap-5 max-md:overflow-hidden max-md:overflow-x-scroll">
 					{proprety.proprety.description.gallery.map((img) => (
 						<>
 							<PropretyImage
@@ -44,7 +97,7 @@ export function AdaptedImages() {
 								deleter={() =>
 									proprety.updateDescription.deleteImageFromGallery(img.url)
 								}
-								key={img.publicId + img._id}
+								key={img.publicId + img._id + img.url}
 							/>
 						</>
 					))}
@@ -53,47 +106,10 @@ export function AdaptedImages() {
 				""
 			)}
 			{displayUploadImages ? (
-				<div className="fixed w-screen h-screen bg-[rgba(0,0,0,0.445)] top-0 left-0 z-30 flex justify-center items-center ">
-					<div className="bg-white mx-5 rounded h-[75%] ">
-						<div className="m-[10px] flex space_between">
-							<div>
-								<b>Gallery : </b>
-								{proprety.updateDescription.files.length} Images selectionés
-							</div>
-							<div className="flex">
-								<button
-									className="btn_s btn rounded text-[#123853] txt_normal"
-									onClick={() => {
-										proprety.updateDescription.cleanFiles();
-										_setDispalyUploadImages(false);
-									}}>
-									Annuler
-								</button>
-								<UploadToCloudButton
-									proprety={proprety}
-									_setDispalyUploadImages={_setDispalyUploadImages}
-								/>
-							</div>
-						</div>
-						<div className="mx-[10px] border rounded border-[#808080] h-[80%] overflow-hidden overflow-y-scroll ">
-							<div className="p-[10px] my-auto mx-0 columns-5 max-md:columns-2 ">
-								{proprety.updateDescription.files.map((file, index) => (
-									<PropretyImage
-										key={file.lastModified + file.name}
-										source={URL.createObjectURL(file)}
-										description={`Image ${index} de Teddy actiuo`}
-										deleter={() => {
-											proprety.updateDescription.deleteFile(index);
-											proprety.updateDescription.setUpdatingGalleryStatus(
-												"Sauvegarder"
-											);
-										}}
-									/>
-								))}
-							</div>
-						</div>
-					</div>
-				</div>
+				<UploadedFiles
+					_setDispalyUploadImages={_setDispalyUploadImages}
+					proprety={proprety}
+				/>
 			) : (
 				""
 			)}
@@ -105,7 +121,7 @@ export function AdaptedImages() {
 			<input
 				type={"file"}
 				id="file"
-				className="hide"
+				className="hidden"
 				multiple
 				accept="image/*"
 				onChange={(e) => {

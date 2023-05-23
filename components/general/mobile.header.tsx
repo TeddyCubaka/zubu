@@ -6,7 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { userMenuLinks } from "../../store/header";
-import { UserMenuLink, CurrentPageInformation } from "../general/header";
+import { UserMenuLink, CurrentPageInformation } from "./header";
 import { CurrentPageInformationProps } from "../interface/header";
 import { useRouter } from "next/router";
 

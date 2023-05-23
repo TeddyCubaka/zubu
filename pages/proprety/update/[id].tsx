@@ -69,15 +69,13 @@ export default function Publication() {
 					{proprety.propretyChanged ? (
 						<>
 							<div className="grid grid-cols-2 m-5 max-md:mx-3 gap-5 max-md:flex max-md:flex-col ">
-								<div className="">
+								<div>
 									<UpdateRentalInformation />
 									<InternalDescription />
 									<ExternalDescription />
 									<TenantCharge />
 								</div>
-								<div>
-									<PropretyGalleryUpdate />
-								</div>
+								<PropretyGalleryUpdate />
 							</div>
 						</>
 					) : (

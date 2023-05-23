@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { UploadToCloudButtonProps, ButtonProps } from "../interface/button";
 import { SendToServerType } from "../interface/requests";
 import { sendToServer, uploadImage } from "../usefulFuction/requests";
 
-const img = () => {
+const Img = () => {
 	return (
-		<svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+		<svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
 			<circle
-				className="opacity-25"
+				className="opacity-10"
 				cx="12"
 				cy="12"
 				r="10"
@@ -45,6 +45,7 @@ export function PrimaryButton(props: ButtonProps) {
 					props.doOnClick();
 				}
 			}}>
+			{props.isLoading ? <Img /> : ""}
 			{props.subject}
 		</button>
 	);
@@ -53,45 +54,49 @@ export function PrimaryButton(props: ButtonProps) {
 export function UploadToCloudButton({
 	proprety,
 	_setDispalyUploadImages,
+	initialLength,
 }: UploadToCloudButtonProps) {
 	const [upload, _setUpload] = React.useState<boolean>(false);
+	const [hasCloudFinish, _setHasCloudFinish] = React.useState<boolean>(false);
+
+	useEffect(() => {
+		if (hasCloudFinish) {
+			const sendToServerData: SendToServerType = {
+				path: "/proprety/" + proprety.proprety._id,
+				data: {
+					description: {
+						...proprety.proprety.description,
+						gallery: [...proprety.proprety.description.gallery],
+					},
+				},
+				getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
+				doAfterSuccess: (e) => {
+					_setUpload(false);
+					_setDispalyUploadImages(false);
+				},
+			};
+			sendToServer(sendToServerData);
+		}
+	}, [hasCloudFinish]);
 
 	return (
 		<div
 			className="ml-2.5 rounded text-blue font-light text-normal border-2 border-[#123853] p-2 flex justify-center items-center whitespace-nowrap hover:bg-[#123853] hover:text-white hover:transition-all hover:duration-200  "
-			onClick={async () => {
+			onClick={() => {
 				_setUpload(true);
-				for (let i = 0; i < proprety.updateDescription.files.length; i++) {
+				proprety.updateDescription.files.map(async (file, index) => {
 					await uploadImage({
-						file: proprety.updateDescription.files[i],
-						getUrl: () => {},
+						file: file,
 						getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
 						clearFileFunction: () => {},
 						getImage: proprety.updateDescription.addImagesToGallery,
-						doAfterResponse(e) {
-							const sendToServerData: SendToServerType = {
-								path: "/proprety/" + proprety.proprety._id,
-								data: {
-									description: {
-										...proprety.proprety.description,
-										gallery: [...proprety.proprety.description.gallery, e],
-									},
-								},
-								getStatus: proprety.updateDescription.setUpdatingGalleryStatus,
-								doAfterSuccess: (e) => console.log(e),
-							};
-							sendToServer(sendToServerData);
-							_setUpload(false);
-							_setDispalyUploadImages(false);
-						},
+						doAfterResponse(e) {},
 					});
-				}
+					if (index === proprety.updateDescription.files.length - 1)
+						_setHasCloudFinish(true);
+				});
 			}}>
-			{upload ? (
-				<span className="uploading_blue"></span>
-			) : (
-				proprety.updateDescription.updatingGalleryStatus
-			)}
+			{upload ? <Img /> : ""} {proprety.updateDescription.updatingGalleryStatus}
 		</div>
 	);
 }
@@ -116,6 +121,7 @@ export function SecondaryButton(props: ButtonProps) {
 					props.doOnClick();
 				}
 			}}>
+			{props.isLoading ? <Img /> : ""}
 			{props.subject}
 		</button>
 	);

@@ -15,7 +15,7 @@ import { SendToServerType } from "../interface/requests";
 import { Input, InputDate, InputHasDetails, InputNumber } from "../atoms/form";
 import { PrimaryButton, SecondaryButton } from "../atoms/button";
 import SetCurrency from "../atoms/currencyButtons";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 const propretyType = [
 	"Maison meublé",
@@ -302,7 +302,7 @@ function SectionAddDetailButton(props: SectionAddDetailButtonProps) {
 					props.reseter();
 				}
 			}}>
-			<span className="md:hidden py-1.5 text-white font-normal text-md flex items-center ">
+			<span className="md:hidden py-2 text-white font-normal text-md flex items-center ">
 				Ajouter <AiOutlinePlus size={18} className="ml-2" color="white" />{" "}
 			</span>
 			<AiFillPlusCircle
@@ -554,7 +554,7 @@ export function TenantCharge() {
 
 export function PropretyGalleryUpdate() {
 	return (
-		<div className="p-5 mr-5 border-gray rounded h_auto proprety_gallery">
+		<div className="p-5 mr-5 border-gray rounded w-full h-fit ">
 			<AdaptedImages />
 		</div>
 	);
