@@ -16,6 +16,7 @@ export function GetUserPropreties() {
 	const [userExitInStorage, _setUserExitInStorage] = useState<boolean>(false);
 	const [propreties, _setPropreties] = useState<PropretyType[]>([]);
 	const [fetchingPropreties, _setFetchingPropreties] = useState<boolean>(false);
+
 	useEffect(() => {
 		_setFetchingPropreties(true);
 		if (window !== undefined) {
@@ -36,7 +37,7 @@ export function GetUserPropreties() {
 					_setPropreties(e);
 					_setFetchingPropreties(false);
 				},
-				getStatus: () => {},
+				getStatus: (e) => {},
 			};
 			askToServerData(params);
 		}
@@ -49,7 +50,7 @@ export function GetUserPropreties() {
 						<div className="uploading_blue"></div>
 					) : (
 						<>
-							<div className="p-5 flex-1 h-full flex justify-start items-start flex-wrap gap-5">
+							<div className="p-5 flex-1 h-full flex justify-start items-start flex-wrap gap-5 max-md:grid max-md:grid-cols-2">
 								{propreties.map((proprety) => (
 									<PropretyCard
 										path={"/proprety/view/" + proprety._id}

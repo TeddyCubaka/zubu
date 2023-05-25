@@ -47,7 +47,7 @@ export default function AllPropreties() {
 					</span>
 				</div>
 			) : (
-				<div className="p-5 flex-1 h-full flex justify-start items-start flex-wrap gap-5">
+				<div className="p-5 flex-1 h-full flex justify-start items-start flex-wrap gap-5 max-md:grid max-md:grid-cols-2">
 					{propreties.map((proprety) => (
 						<PropretyCard
 							path={"/proprety/view/" + proprety._id}

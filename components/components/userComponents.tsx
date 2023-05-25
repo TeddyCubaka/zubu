@@ -94,7 +94,7 @@ export function DisplayPropreties({
 			) : (
 				<>
 					Appuiez sur une propriété pour gérer ses informations
-					<div className="mt-4 flex justify-start flex-wrap gap-5">
+					<div className="mt-4 flex justify-start flex-wrap gap-5 max-md:grid max-md:grid-cols-2">
 						{propreties.map((proprety) => (
 							<PropretyCard
 								key={proprety._id}
