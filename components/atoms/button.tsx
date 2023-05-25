@@ -77,7 +77,7 @@ export function UploadToCloudButton({
 			};
 			sendToServer(sendToServerData);
 		}
-	}, [hasCloudFinish]);
+	}, [hasCloudFinish, _setDispalyUploadImages, _setUpload]);
 
 	return (
 		<div

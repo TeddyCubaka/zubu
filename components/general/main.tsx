@@ -29,7 +29,7 @@ function FilterPropretiesSearch() {
 					}
 				}}
 				placeholder="chercher une ville, un quartier, ..."
-				onInput={(e) => _setSearchValue(e.currentTarget.value)}
+				onInput={(e) => _setSearchValue(e.currentTarget.value.trim())}
 				value={searchValue}
 			/>
 			<PrimaryButton
