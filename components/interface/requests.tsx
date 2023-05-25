@@ -19,7 +19,7 @@ export interface AskToServerDataType {
 }
 
 export interface UploadImageProps {
-	file: File | string;
+	file: File | string | null;
 	getUrl?: (string: string) => void;
 	getStatus: (string: string) => void;
 	clearFileFunction: () => void;

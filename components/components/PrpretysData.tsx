@@ -3,8 +3,11 @@ import { publicationStore } from "../../store/publicationStore";
 import { shallow } from "zustand/shallow";
 import axios from "axios";
 import { InputHasDetails, InputLabelLess } from "../atoms/form";
-import { PrimaryButton } from "../atoms/button";
+import { PrimaryButton, SecondaryButton } from "../atoms/button";
 import SetCurrency from "../atoms/currencyButtons";
+import { uploadImage } from "../usefulFuction/requests";
+import { FcAddImage } from "react-icons/fc";
+import { MdDelete } from "react-icons/md";
 
 interface RentalPrice {
 	price: string;
@@ -252,6 +255,51 @@ export function GetPrice() {
 	);
 }
 
+export function GetCoverPicture() {
+	const [coverPicture, _setCoverPicture, _setCoverPictureAsFile] =
+		publicationStore(
+			(store) => [
+				store.coverPicture,
+				store._setCoverPicture,
+				store._setCoverPictureAsFile,
+			],
+			shallow
+		);
+	return (
+		<div className="flex flex-col gap-2">
+			<div className="flex items-center justify-between">
+				Ajoutez un photo de couverture
+				{coverPicture ? (
+					<button
+						className="flex items-center p-2.5 text-sm w-fit rounded-full text-[#123853] border-2 border-[#123853] hover:bg-[#123853] hover:text-white hover:transition-all hover:duration-200"
+						onClick={() => _setCoverPicture("")}>
+						Effacer <MdDelete size={18} />{" "}
+					</button>
+				) : (
+					<span>Appuiez pour choisir une photo.</span>
+				)}
+			</div>
+			<label
+				htmlFor="cover_picture"
+				className="w-full h-[200px] bg-contain bg-no-repeat bg-center  bg-white border-2 flex justify-center items-center"
+				style={{ backgroundImage: `URL(${coverPicture})` }}>
+				{coverPicture === "" ? <FcAddImage size={40} /> : ""}
+				<input
+					type="file"
+					id="cover_picture"
+					className="hidden"
+					onChange={(e) => {
+						if (e.target.files) {
+							_setCoverPicture(URL.createObjectURL(e.target.files[0]));
+							_setCoverPictureAsFile(e.target.files[0]);
+						}
+					}}
+				/>
+			</label>
+		</div>
+	);
+}
+
 export function ViewInformationPuted() {
 	const publish = publicationStore();
 	function lengthVerificator(arr: string[]): boolean {
@@ -269,35 +317,45 @@ export function ViewInformationPuted() {
 			])
 		) {
 			publish._setSendingData(true);
-			axios({
-				method: "post",
-				url: process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: "Bearer " + localStorage.getItem("zubu_token"),
+			uploadImage({
+				file: publish.coverPictureAsFile,
+				getStatus: () => {},
+				getUrl: () => {},
+				clearFileFunction: () => {},
+				getImage: () => {},
+				doAfterResponse: (data) => {
+					axios({
+						method: "post",
+						url: process.env.NEXT_PUBLIC_DB_SERVER_URL + "/proprety",
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + localStorage.getItem("zubu_token"),
+						},
+						data: {
+							owner: localStorage.getItem("zubu_user_id"),
+							rentalInformation: {
+								address: publish.address,
+								RentalType: publish.RentalType,
+								lessor: publish.lessor,
+								coverPicture: data.url,
+								price: publish.rentalPrice.price,
+								guaranteeValue: publish.rentalPrice.guaranteeValue,
+								monetaryCurrency: publish.rentalPrice.monetaryCurrency,
+							},
+						},
+					})
+						.then((res) => {
+							publish.setDatabaseResponseStatus("created");
+							publish.set_id(res.data.data._id);
+							publish._setSendingData(false);
+						})
+						.catch((err) => {
+							publish.setDatabaseResponseStatus("not created");
+							publish._setSendingData(false);
+							console.log(err);
+						});
 				},
-				data: {
-					owner: localStorage.getItem("zubu_user_id"),
-					rentalInformation: {
-						address: publish.address,
-						RentalType: publish.RentalType,
-						lessor: publish.lessor,
-						price: publish.rentalPrice.price,
-						guaranteeValue: publish.rentalPrice.guaranteeValue,
-						monetaryCurrency: publish.rentalPrice.monetaryCurrency,
-					},
-				},
-			})
-				.then((res) => {
-					publish.setDatabaseResponseStatus("created");
-					publish.set_id(res.data.data._id);
-					publish._setSendingData(false);
-				})
-				.catch((err) => {
-					publish.setDatabaseResponseStatus("not created");
-					publish._setSendingData(false);
-					console.log(err);
-				});
+			});
 		}
 	};
 

@@ -1,6 +1,7 @@
 import React from "react";
 import {
 	GetAddress,
+	GetCoverPicture,
 	GetLosor,
 	GetPrice,
 	GetPropretyType,
@@ -19,7 +20,7 @@ export default function AddPropretiyForm() {
 	);
 	const router = useRouter();
 	return (
-		<div className="mx-[30px] rounded border-2 border-[#123853] h-full">
+		<div className="mx-[30px] max-md:mx-4 rounded border-2 border-[#123853] h-full">
 			{sendingData ? <span className="loader_like_google"></span> : ""}
 			{databaseResponseStatus == "created" ? (
 				<div className="flex flex-col p-5 gap-6">
@@ -89,6 +90,7 @@ export default function AddPropretiyForm() {
 						</div>
 					) : (
 						<>
+							<GetCoverPicture />
 							<GetAddress />
 							<GetPropretyType />
 							<GetLosor />
