@@ -276,7 +276,9 @@ export function GetCoverPicture() {
 						Effacer <MdDelete size={18} />{" "}
 					</button>
 				) : (
-					<span>Appuiez pour choisir une photo.</span>
+					<span className="text-right flex-1 text-sm">
+						Appuiez sur l&apos;icône en bas pour choisir une photo.
+					</span>
 				)}
 			</div>
 			<label
@@ -288,6 +290,7 @@ export function GetCoverPicture() {
 					type="file"
 					id="cover_picture"
 					className="hidden"
+					accept="image/*"
 					onChange={(e) => {
 						if (e.target.files) {
 							_setCoverPicture(URL.createObjectURL(e.target.files[0]));

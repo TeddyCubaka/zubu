@@ -19,7 +19,7 @@ interface PublicationStore {
 	databaseResponseStatus: string;
 	sendingData: boolean;
 	coverPicture: string;
-	coverPictureAsFile: File | null;
+	coverPictureAsFile: string | Blob;
 	_setCoverPictureAsFile: (file: File) => void;
 	_setCoverPicture: (url: string) => void;
 	_setSendingData: (state: boolean) => void;
@@ -44,7 +44,7 @@ export const publicationStore = create<PublicationStore>((set) => ({
 	coverPicture: "",
 	sendingData: false,
 	monetaryCurrency: "",
-	coverPictureAsFile: null,
+	coverPictureAsFile: "",
 	databaseResponseStatus: "",
 	lessor: { fullName: "", contacts: "" },
 	set_id: (_id) => set(() => ({ _id: _id })),
