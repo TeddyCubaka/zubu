@@ -1,3 +1,10 @@
+<p align="center">
+  <!-- <a href="http://nestjs.com/" target="blank"> -->
+  <img src="public/logo.svg" width="200" alt="Nest Logo" />
+  <!-- </a> -->
+  <h1 align="center"><strong>Zubu api</strong></h1>
+</p>
+
 ![GitHub branch checks state](https://img.shields.io/github/checks-status/TeddyCubaka/zubu/main?style=for-the-badge&color=blue)
 ![GitHub deployments](https://img.shields.io/github/deployments/TeddyCubaka/zubu/production?style=for-the-badge&color=blue)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/TeddyCubaka/zubu?style=for-the-badge&color=blue)
@@ -8,6 +15,7 @@
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/TeddyCubaka/zubu/main?style=for-the-badge&color=blue)
 ![GitHub language count](https://img.shields.io/github/languages/count/TeddyCubaka/zubu?color=blue&style=for-the-badge)
 ![GitHub top language](https://img.shields.io/github/languages/top/TeddyCubaka/zubu?color=blue&style=for-the-badge)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/TeddyCubaka/zubu?style=for-the-badge)
 
 # **zubu client app**
 
@@ -63,3 +71,5 @@ The app will be learned on the port [`http://localhost:3000`](http://localhost:3
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/react-dom)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/react-icons)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/zustand)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/tailwindcss)
+![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/TeddyCubaka/zubu/dayjs)
