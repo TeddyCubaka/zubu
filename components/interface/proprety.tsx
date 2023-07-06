@@ -1,8 +1,3 @@
-export interface LessorType {
-	fullName: string;
-	contacts: string;
-}
-
 export interface BasicalDetailsType {
 	name: string;
 	content: string;
@@ -10,40 +5,43 @@ export interface BasicalDetailsType {
 export type AnnouncementPeriodType = [string | null, string | null];
 
 export interface RentalInformationType {
-	isAvailable: boolean;
-	availabilityDate: string;
+	propretyType?: string;
+	roomType?: string;
 	RentalType: string;
-	geolocalisation: string;
-	price: string;
-	guaranteeValue: string;
+	price: number;
+	guarantee: number;
 	monetaryCurrency: string;
-	coverPicture: string;
-	address: string;
-	bedRooms: string;
-	lessor: LessorType;
-	announcementPeriod: AnnouncementPeriodType;
+	localisation: string;
+	lessorName: string;
+	lessorContacts: string[];
 }
 
 export interface PropretyGalleryImageType {
-	_id: string;
+	_id?: string;
 	url: string;
 	width: number;
 	height: number;
 	size: number;
-	uploadDate: string;
+	uploadDate?: string;
 	publicId: string;
+	createAt?: Date;
+	uploadAt?: Date;
+	assetId: Date;
 }
 
 export interface TenantChargeType {
 	charge: string;
 	price: number;
-	currency: string;
 }
 
-export interface RoomDetailsType {
-	name: string;
-	size: number;
-	unit: string;
+export interface RoomType {
+	room: string;
+	number: number;
+}
+
+export interface AnnouncementType {
+	announcementPeriod: string;
+	isAvailable: boolean;
 }
 
 export interface PropretyType {
@@ -53,35 +51,11 @@ export interface PropretyType {
 	updateDate: string[];
 	questions: string[];
 	visits: string[];
+	address: string;
 	rentalInformation: RentalInformationType;
-	description: {
-		gallery: PropretyGalleryImageType[];
-		tenantCharges: TenantChargeType[];
-		interior: {
-			rooms: RoomDetailsType[];
-		};
-		external: {
-			rooms: RoomDetailsType[];
-		};
-		furniture: string[];
-		geographicLocation: {
-			nearestSchoolDistance: [
-				{
-					name: string;
-					geolocalisation: string;
-					grade: string;
-					distance: string;
-				}
-			];
-			nearestTransportationStopDistance: [
-				{
-					name: string;
-					geolocalisation: string;
-					distance: string;
-				}
-			];
-		};
-	};
+	gallery: PropretyGalleryImageType[];
+	rooms: RoomType[];
+	tenantCharges: TenantChargeType[];
 	contacts: BasicalDetailsType[];
 	rentHistorical: [
 		{
@@ -89,6 +63,7 @@ export interface PropretyType {
 			whathange: [{ change: string }];
 		}
 	];
+	annoucement: AnnouncementType;
 	statistics: {
 		referencingNote: number;
 		averagePiewsPerWeek: Number;

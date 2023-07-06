@@ -4,6 +4,8 @@ import PropretyCard, { PropretyCardType } from "../components/propretyViewCard";
 import { AskToServerDataType } from "../interface/requests";
 import { askToServerData } from "../usefulFuction/requests";
 import Link from "next/link";
+import { getAdressForTenant } from "../usefulFuction/propretyFunctions";
+import { toTriadeNumber } from "../usefulFuction/numbers";
 
 export default function AllPropreties() {
 	const [propreties, _setPropreties] = useState<PropretyCardType[]>([]);
@@ -12,18 +14,37 @@ export default function AllPropreties() {
 	useEffect(() => {
 		_setFetchingPropreties(true);
 		const data: AskToServerDataType = {
-			path: "/proprety",
+			path: "/propreties",
 			doIfError: () => {
 				_setFetchingPropreties(false);
 			},
 			getData: (data) => {
 				const response: PropretyCardType[] = [];
-				data.map((proprety: PropretyType) => {
+				data.map((proprety: PropretyType, index: number) => {
 					response.push({
 						_id: proprety._id,
-						rentalInformation: { ...proprety.rentalInformation },
+						address: getAdressForTenant(proprety.address),
+						bedrooms: 0,
+						bathroom: 0,
+						typeByRooms: proprety.rentalInformation.propretyType
+							? proprety.rentalInformation?.propretyType
+							: proprety.rentalInformation?.propretyType,
+						isAvailable: proprety.annoucement?.isAvailable,
+						toillete: 0,
+						price:
+							toTriadeNumber(proprety.rentalInformation.price) +
+							" " +
+							(proprety.rentalInformation.monetaryCurrency == "USD"
+								? "$"
+								: "fc"),
+					});
+					proprety.rooms.map((room) => {
+						if (room.room == "bedroom") response[index].bedrooms = room.number;
+						if (room.room == "bathroom") response[index].bathroom = room.number;
+						if (room.room == "toillete") response[index].toillete = room.number;
 					});
 				});
+				console.log(data);
 				_setPropreties(response);
 				_setFetchingPropreties(false);
 			},
@@ -52,8 +73,14 @@ export default function AllPropreties() {
 						<PropretyCard
 							path={"/proprety/view/" + proprety._id}
 							_id={proprety._id}
-							rentalInformation={proprety.rentalInformation}
 							key={proprety._id}
+							address={proprety.address}
+							bedrooms={proprety.bedrooms}
+							bathroom={proprety.bathroom}
+							typeByRooms={proprety.typeByRooms}
+							isAvailable={proprety.isAvailable}
+							toillete={proprety.toillete}
+							price={proprety.price}
 						/>
 					))}
 				</div>
