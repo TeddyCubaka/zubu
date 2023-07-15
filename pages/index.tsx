@@ -34,6 +34,7 @@ export default function Home() {
 						Contactez les développeur via ces coordonées :
 						<ul>
 							<li>telegram : +243 995 867 384</li>
+							<li>gmail : dev@woubou.com</li>
 						</ul>
 					</p>
 				</div>
