@@ -5,11 +5,14 @@ import {
 	UploadImageProps,
 } from "../interface/requests";
 
+let headersList = {};
+
 export function sendToServer(props: SendToServerType) {
 	axios({
 		headers: {
-			"Content-Type": "application/json",
+			Accept: "*/*",
 			Authorization: "Bearer " + localStorage.getItem("zubu_token"),
+			"Content-Type": "application/json",
 		},
 		method: "POST",
 		url: process.env.NEXT_PUBLIC_DB_SERVER_URL + props.path,
@@ -31,8 +34,9 @@ export function sendToServer(props: SendToServerType) {
 export function askToServerData(props: AskToServerDataType) {
 	axios({
 		headers: {
-			"Content-Type": "application/json",
+			Accept: "*/*",
 			Authorization: "Bearer " + localStorage.getItem("zubu_token"),
+			"Content-Type": "application/json",
 		},
 		method: "GET",
 		url: process.env.NEXT_PUBLIC_DB_SERVER_URL + props.path,
@@ -52,30 +56,30 @@ export function askToServerData(props: AskToServerDataType) {
 		});
 }
 
-export const uploadImage = async (props: UploadImageProps) => {
-	props.getStatus("Envoie d'images");
-	const formData = new FormData();
-	formData.append("file", props.file);
-	formData.append("upload_preset", "zubustein");
-	await axios
-		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
-		.then(async (res) => {
-			const image = {
-				_id: res.data._id,
-				url: res.data.secure_url,
-				width: res.data.width,
-				height: res.data.height,
-				size: res.data.bytes,
-				uploadDate: res.data.created_at,
-				publicId: res.data.public_id,
-			};
-			if (props.getUrl) props.getUrl(res.data.secure_url);
-			if (props.doAfterResponse) props.doAfterResponse(image);
-			props.getImage(image);
-			props.getStatus("finish");
-			props.clearFileFunction();
-		})
-		.catch((err) => {
-			props.getStatus("error");
-		});
-};
+// export const uploadImage = async (props: UploadImageProps) => {
+// 	props.getStatus("Envoie d'images");
+// 	const formData = new FormData();
+// 	formData.append("file", props.file);
+// 	formData.append("upload_preset", "zubustein");
+// 	await axios
+// 		.post("https://api.cloudinary.com/v1_1/di64z9yxk/image/upload", formData)
+// 		.then(async (res) => {
+// 			const image = {
+// 				_id: res.data._id,
+// 				url: res.data.secure_url,
+// 				width: res.data.width,
+// 				height: res.data.height,
+// 				size: res.data.bytes,
+// 				uploadDate: res.data.created_at,
+// 				publicId: res.data.public_id,
+// 			};
+// 			if (props.getUrl) props.getUrl(res.data.secure_url);
+// 			if (props.doAfterResponse) props.doAfterResponse(image);
+// 			props.getImage(image);
+// 			props.getStatus("finish");
+// 			props.clearFileFunction();
+// 		})
+// 		.catch((err) => {
+// 			props.getStatus("error");
+// 		});
+// };
