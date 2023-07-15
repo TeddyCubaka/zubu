@@ -9,7 +9,6 @@ import { InputProps } from "../interface/atoms";
 import { SendToServerType } from "../interface/requests";
 import { sendToServer } from "../usefulFuction/requests";
 import { isMail } from "../usefulFuction/formDatasValidator";
-import { setSyntheticLeadingComments } from "typescript";
 
 interface InputedPassword {
 	firstPassword: string;
@@ -22,243 +21,16 @@ interface LoginData {
 	password: string;
 }
 
-export function InputPassword({
-	value,
-	sendToStore,
-	type,
-	subject,
-	customClass,
-	placeholder,
-	required,
-}: InputProps) {
-	const [fullInputWidth, setFullInputWidth] = useState<boolean>(false);
-	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const changeLocalState = () => {
-		if (showPassword) setShowPassword(false);
-		else setShowPassword(true);
-	};
-	const inputStyle =
-		" border border-black rounded-[5px] p-2.5 txt-normal flex items-center ";
-	const inputWithLabelParentStyle = " rounded-[5px] flex flex-col ";
-
+export function ErrorShower() {
+	const [error] = userStore((store) => [store.status.errorData], shallow);
 	return (
-		<div
-			className={inputWithLabelParentStyle + customClass}
-			onClick={() => setFullInputWidth(true)}
-			onMouseLeave={() => setFullInputWidth(false)}>
-			<label className={fullInputWidth ? "hide" : "font-medium one_line_txt"}>
-				{" "}
-				{subject}
-				{required ? <span className="text-red-600">*</span> : ""}
-			</label>
-			<div className={inputStyle}>
-				<input
-					type={showPassword ? "text" : "password"}
-					placeholder={placeholder}
-					className={
-						"outline-none flex-1 " + type === "date" ? "text-center" : ""
-					}
-					value={value ? value : ""}
-					onChange={(e) => {
-						e.preventDefault();
-						sendToStore(e.target.value);
-					}}
-				/>
-				{showPassword ? (
-					<BiShow onClick={() => changeLocalState()} size={"18px"} />
-				) : (
-					<BiHide onClick={() => changeLocalState()} size={"18px"} />
-				)}
-			</div>
-		</div>
+		<div className="text-red-600 w-full mx-5 txt_small"> {error.message} </div>
 	);
 }
 
-export function Signup() {
-	const router = useRouter();
-	const [
-		getUserSignupStatus,
-		sendingData,
-		user,
-		userSeter,
-		_setErrorData,
-		errorData,
-	] = userStore(
-		(store) => [
-			store.status.getSignup,
-			store.status._setSendingData,
-			store.user,
-			store.seter,
-			store.status._setErrorData,
-			store.status.errorData,
-		],
-		shallow
-	);
-	const [inputedPasswords, getInputedPassword] = useState<InputedPassword>({
-		firstPassword: "",
-		lastPassword: "",
-	});
-	const [SendingDataState, _setSendingDataState] = useState<boolean>(false);
-
-	const passwordVerificator = (): boolean => {
-		if (
-			inputedPasswords.firstPassword == "" &&
-			inputedPasswords.lastPassword == ""
-		)
-			return false;
-		else if (inputedPasswords.firstPassword === inputedPasswords.lastPassword)
-			return true;
-		else return false;
-	};
-	const passwordsChecker = () => {
-		if (
-			inputedPasswords.firstPassword == "" &&
-			inputedPasswords.lastPassword == ""
-		)
-			return "";
-		else if (inputedPasswords.firstPassword === inputedPasswords.lastPassword)
-			return "br_green";
-		else return "br_red";
-	};
-	return (
-		<>
-			<div className={"flex flex-col gap-2 my-2.5 h-full"}>
-				<Input
-					isInvalid={errorData?.hasError ? true : false}
-					value={user.username}
-					sendToStore={(e) =>
-						typeof e === "string" ? userSeter._setUsername(e) : {}
-					}
-					subject={"Nom d'utilisateur :"}
-					placeholder={"votre nom d'utilisateur"}
-					required
-				/>
-				<Input
-					isInvalid={errorData?.hasError ? true : false}
-					type="email"
-					value={user.mail}
-					sendToStore={(e) =>
-						typeof e === "string" ? userSeter._setMail(e) : {}
-					}
-					subject={"mail :"}
-					placeholder={"votre mail"}
-					required
-				/>
-				<Input
-					isInvalid={errorData?.hasError ? true : false}
-					value={user.phone_number}
-					sendToStore={(e) =>
-						typeof e === "string" ? userSeter._setPhoneNumber(e) : {}
-					}
-					subject={"Numéro de téléphone :"}
-					placeholder={"votre numéro de téléphone"}
-				/>
-				<InputHasDetails
-					detailsData={["Homme", "Femme", "Autre"]}
-					store={user.gender}
-					object={"Genre :"}
-					sendToStore={userSeter._setGender}
-				/>
-				<Input
-					isInvalid={errorData?.hasError ? true : false}
-					type="password"
-					value={inputedPasswords.firstPassword}
-					sendToStore={(e) =>
-						!(typeof e === "string")
-							? ""
-							: getInputedPassword((prev) => ({ ...prev, firstPassword: e }))
-					}
-					subject={"Mot de passe"}
-					customClass={passwordsChecker()}
-					placeholder={"votre mot de passe"}
-					required
-				/>
-				<Input
-					isInvalid={errorData?.hasError ? true : false}
-					type="password"
-					value={inputedPasswords.lastPassword}
-					sendToStore={(e) =>
-						!(typeof e === "string")
-							? ""
-							: getInputedPassword((prev) => ({ ...prev, lastPassword: e }))
-					}
-					subject={"Répeter le mot de pass"}
-					customClass={passwordsChecker()}
-					placeholder={"votre mot de passe"}
-					required
-				/>{" "}
-			</div>
-			<PrimaryButton
-				subject={SendingDataState ? `Conexion...` : "S'inscrire"}
-				notWidthMax
-				widthHalf
-				conditionToPass={
-					passwordVerificator() && user.username.length > 3 && isMail(user.mail)
-				}
-				doIfConditionDoesNotPass={() => {
-					_setErrorData({
-						message: "Verifier que tout les champs sont remplis",
-						error: "",
-						hasError: false,
-					});
-					setTimeout(
-						() =>
-							_setErrorData({
-								message: "",
-								error: "",
-								hasError: false,
-							}),
-						2000
-					);
-				}}
-				doOnClick={() => {
-					sendingData(true);
-					_setSendingDataState(true);
-					_setErrorData({
-						message: "",
-						error: "",
-						hasError: false,
-					});
-					const newUserData = {
-						mail: user.mail,
-						phone_number: user.phone_number,
-						password: inputedPasswords.firstPassword,
-						username: user.username,
-						gender: user.gender,
-					};
-					const sendToServerData: SendToServerType = {
-						path: "/user",
-						data: newUserData,
-						getStatus: getUserSignupStatus,
-						doIfError: (err) => {
-							sendingData(false);
-							_setErrorData({
-								message:
-									err.response.status == 401
-										? "Revoyez les données entrée"
-										: "Un problème est survenue. Réessayez plus tard",
-								error: err.response.data.error,
-								hasError: true,
-							});
-						},
-						doAfterSuccess: (e: any) => {
-							window.localStorage.setItem("zubu_token", e.token);
-							window.localStorage.setItem("zubu_userId", e.user._id);
-							window.localStorage.setItem("zubu_user", JSON.stringify(e.user));
-							window.localStorage.setItem("zubu_username", e.user.username);
-							window.localStorage.setItem(
-								"userPropreties",
-								e.user.proprety.join("plös")
-							);
-							router.back();
-							sendingData(false);
-						},
-					};
-					sendToServer(sendToServerData);
-				}}
-			/>
-		</>
-	);
+export function Error() {
+	const [error] = userStore((store) => [store.status.errorData], shallow);
+	return <div className="text-red-600 w-full mx-5"> {error.error} </div>;
 }
 
 export function Login() {
@@ -274,6 +46,11 @@ export function Login() {
 		mail: "",
 		password: "",
 	});
+	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const changeLocalState = () => {
+		if (showPassword) setShowPassword(false);
+		else setShowPassword(true);
+	};
 	const [SendingDataState, _setSendingDataState] = useState<boolean>(false);
 
 	return (
@@ -290,7 +67,14 @@ export function Login() {
 					placeholder={"votre adresse mail"}
 				/>
 				<Input
-					type="password"
+					type={showPassword ? "password" : "text"}
+					children={
+						showPassword ? (
+							<BiShow onClick={() => changeLocalState()} size={"18px"} />
+						) : (
+							<BiHide onClick={() => changeLocalState()} size={"18px"} />
+						)
+					}
 					value={loginData.password}
 					sendToStore={(e) =>
 						!(typeof e === "string")
@@ -332,14 +116,14 @@ export function Login() {
 						hasError: false,
 					});
 					const sendToServerData: SendToServerType = {
-						path: "/user/auth",
+						path: "/auth/login",
 						data: loginData,
 						getStatus: getUserLoginStatus,
 						doIfError: (err) => {
 							sendingData(false);
 							_setErrorData({
 								message: err.response
-									? err.response.status == 401
+									? err.response.status == 404
 										? "Mot de pass ou mail incorect"
 										: "Un problème est survenue. Réessayez plus tard"
 									: err.code,
@@ -366,14 +150,204 @@ export function Login() {
 	);
 }
 
-export function ErrorShower() {
-	const [error] = userStore((store) => [store.status.errorData], shallow);
-	return (
-		<div className="text-red-600 w-full mx-5 txt_small"> {error.message} </div>
+export function Signup() {
+	const router = useRouter();
+	const [
+		getUserSignupStatus,
+		sendingData,
+		user,
+		userSeter,
+		_setErrorData,
+		errorData,
+	] = userStore(
+		(store) => [
+			store.status.getSignup,
+			store.status._setSendingData,
+			store.user,
+			store.seter,
+			store.status._setErrorData,
+			store.status.errorData,
+		],
+		shallow
 	);
-}
+	const [inputedPasswords, getInputedPassword] = useState<InputedPassword>({
+		firstPassword: "",
+		lastPassword: "",
+	});
+	const [SendingDataState, _setSendingDataState] = useState<boolean>(false);
+	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const changeLocalState = () => {
+		if (showPassword) setShowPassword(false);
+		else setShowPassword(true);
+	};
 
-export function Error() {
-	const [error] = userStore((store) => [store.status.errorData], shallow);
-	return <div className="text-red-600 w-full mx-5"> {error.error} </div>;
+	const passwordVerificator = (): boolean => {
+		if (
+			inputedPasswords.firstPassword == "" &&
+			inputedPasswords.lastPassword == ""
+		)
+			return true;
+		else if (inputedPasswords.firstPassword === inputedPasswords.lastPassword)
+			return true;
+		else return false;
+	};
+	const passwordsChecker = () => {
+		if (passwordVerificator()) return "";
+		else return "border border-red-500";
+	};
+	return (
+		<>
+			<div className={"flex flex-col gap-2 my-2.5 h-full"}>
+				<Input
+					isInvalid={errorData?.hasError ? true : false}
+					value={user.username}
+					sendToStore={(e) =>
+						typeof e === "string" ? userSeter._setUsername(e) : {}
+					}
+					subject={"Nom d'utilisateur :"}
+					placeholder={"votre nom d'utilisateur"}
+					required
+				/>
+				<Input
+					isInvalid={errorData?.hasError ? true : false}
+					type="email"
+					value={user.mail}
+					sendToStore={(e) =>
+						typeof e === "string" ? userSeter._setMail(e) : {}
+					}
+					subject={"mail :"}
+					placeholder={"votre mail"}
+					required
+				/>
+				<Input
+					isInvalid={errorData?.hasError ? true : false}
+					value={user.phone_number}
+					sendToStore={(e) =>
+						typeof e === "string" ? userSeter._setPhoneNumber(e) : {}
+					}
+					subject={"Numéro de téléphone :"}
+					placeholder={"votre numéro de téléphone"}
+				/>
+				<InputHasDetails
+					detailsData={["Homme", "Femme", "Autre"]}
+					store={user.gender}
+					object={"Genre :"}
+					sendToStore={userSeter._setGender}
+				/>
+				<Input
+					type={showPassword ? "text" : "password"}
+					children={
+						showPassword ? (
+							<BiHide onClick={() => changeLocalState()} size={"18px"} />
+						) : (
+							<BiShow onClick={() => changeLocalState()} size={"18px"} />
+						)
+					}
+					isInvalid={errorData?.hasError ? true : false}
+					value={inputedPasswords.firstPassword}
+					sendToStore={(e) =>
+						!(typeof e === "string")
+							? ""
+							: getInputedPassword((prev) => ({ ...prev, firstPassword: e }))
+					}
+					subject={"Mot de passe"}
+					inputCustomClass={passwordsChecker()}
+					placeholder={"votre mot de passe"}
+					required
+				/>
+				<Input
+					type={showPassword ? "text" : "password"}
+					children={
+						showPassword ? (
+							<BiHide onClick={() => changeLocalState()} size={"18px"} />
+						) : (
+							<BiShow onClick={() => changeLocalState()} size={"18px"} />
+						)
+					}
+					isInvalid={errorData?.hasError ? true : false}
+					value={inputedPasswords.lastPassword}
+					sendToStore={(e) =>
+						!(typeof e === "string")
+							? ""
+							: getInputedPassword((prev) => ({ ...prev, lastPassword: e }))
+					}
+					subject={"Répeter le mot de pass"}
+					inputCustomClass={passwordsChecker()}
+					placeholder={"votre mot de passe"}
+					required
+				/>{" "}
+			</div>
+			<PrimaryButton
+				subject={SendingDataState ? `Inscription...` : "S'inscrire"}
+				notWidthMax
+				widthHalf
+				conditionToPass={
+					passwordVerificator() && user.username.length > 3 && isMail(user.mail)
+				}
+				doIfConditionDoesNotPass={() => {
+					_setErrorData({
+						message: "Verifier que tout les champs sont remplis",
+						error: "",
+						hasError: false,
+					});
+					setTimeout(
+						() =>
+							_setErrorData({
+								message: "",
+								error: "",
+								hasError: false,
+							}),
+						2000
+					);
+				}}
+				doOnClick={() => {
+					sendingData(true);
+					_setSendingDataState(true);
+					_setErrorData({
+						message: "",
+						error: "",
+						hasError: false,
+					});
+					const newUserData = {
+						mail: user.mail,
+						phoneNumber: user.phone_number,
+						password: inputedPasswords.firstPassword,
+						username: user.username,
+						gender: user.gender,
+					};
+					const sendToServerData: SendToServerType = {
+						path: "/auth/signup",
+						data: newUserData,
+						getStatus: getUserSignupStatus,
+						doIfError: (err) => {
+							sendingData(false);
+							_setErrorData({
+								message:
+									err.response?.status == 401
+										? "Revoyez les données entrée"
+										: "Un problème est survenue. Réessayez plus tard",
+								error: err.response?.data.error,
+								hasError: true,
+							});
+						},
+						doAfterSuccess: (e: any) => {
+							console.log(e);
+							window.localStorage.setItem("zubu_token", e.token);
+							window.localStorage.setItem("zubu_userId", e.user._id);
+							window.localStorage.setItem("zubu_user", JSON.stringify(e.user));
+							window.localStorage.setItem("zubu_username", e.user.username);
+							window.localStorage.setItem(
+								"userPropreties",
+								e.user.proprety.join("plös")
+							);
+							router.back();
+
+							sendingData(false);
+						},
+					};
+					sendToServer(sendToServerData);
+				}}
+			/>
+		</>
+	);
 }

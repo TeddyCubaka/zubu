@@ -9,8 +9,8 @@ import { userStore } from "../../../store/user";
 import { shallow } from "zustand/shallow";
 
 export default function SignupRoute() {
-	const [sendingData] = userStore(
-		(store) => [store.status.sendingData],
+	const [sendingData, errorData] = userStore(
+		(store) => [store.status.sendingData, store.status.errorData],
 		shallow
 	);
 	return (
@@ -47,6 +47,11 @@ export default function SignupRoute() {
 						</div>
 					</div>
 					{sendingData ? <span className="loader_like_google"></span> : ""}
+					{errorData.message ? (
+						<span className="text-red-500">{errorData.message}</span>
+					) : (
+						""
+					)}
 					<Login />{" "}
 				</div>
 			</div>

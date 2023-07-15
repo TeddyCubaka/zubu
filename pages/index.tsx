@@ -7,20 +7,32 @@ import { useEffect } from "react";
 import { askToServerData } from "../components/usefulFuction/requests";
 
 export default function Home() {
+	// useEffect(() => {
+	// 	if (localStorage.getItem("zubu_user_id")) {
+	// 		askToServerData({
+	// 			doIfError: (error) => console.log(error),
+	// 			getData: (user) => {
+	// 				if (user) {
+	// 					localStorage.setItem("zubu_userId", user._id);
+	// 					localStorage.setItem("zubu_user", JSON.stringify(user));
+	// 					localStorage.setItem("zubu_username", user.username);
+	// 					localStorage.setItem("userPropreties", user.proprety.join("plös"));
+	// 				}
+	// 			},
+	// 			getStatus: () => {},
+	// 			path: "/user/" + localStorage.getItem("zubu_user_id"),
+	// 		});
+	// 	}
+	// }, []);
 	useEffect(() => {
 		if (localStorage.getItem("zubu_user_id")) {
 			askToServerData({
 				doIfError: (error) => console.log(error),
 				getData: (user) => {
-					if (user) {
-						localStorage.setItem("zubu_userId", user._id);
-						localStorage.setItem("zubu_user", JSON.stringify(user));
-						localStorage.setItem("zubu_username", user.username);
-						localStorage.setItem("userPropreties", user.proprety.join("plös"));
-					}
+					console.log(user);
 				},
 				getStatus: () => {},
-				path: "/user/" + localStorage.getItem("zubu_user_id"),
+				path: "",
 			});
 		}
 	}, []);

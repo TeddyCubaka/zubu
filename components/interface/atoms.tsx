@@ -20,6 +20,7 @@ export interface InputProps {
 	children?: ReactElement;
 	maxLength?: number;
 	isInvalid?: boolean;
+	inputCustomClass?: string;
 }
 
 export interface InputNumberProps {

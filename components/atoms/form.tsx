@@ -14,6 +14,16 @@ const inputStyle =
 	" border border-[#123853b4] rounded-[5px] p-2 flex-1 txt-normal ";
 const inputWithLabelParentStyle = " rounded-[5px] flex flex-col ";
 
+export interface InputPropsType {
+	value: string;
+	sendToStore: (string: string | number) => void;
+	type?: string;
+	subject: string;
+	customClass?: string;
+	placeholder: string;
+	required?: boolean;
+}
+
 export function Input({
 	value,
 	sendToStore,
@@ -25,6 +35,7 @@ export function Input({
 	children,
 	maxLength,
 	isInvalid,
+	inputCustomClass,
 }: InputProps) {
 	return (
 		<div className={inputWithLabelParentStyle + customClass}>
@@ -36,14 +47,14 @@ export function Input({
 			</label>
 			<div
 				className={
-					" border rounded-[5px] flex-1 txt-normal flex items-center " +
+					" border rounded-[5px] flex-1 txt-normal flex items-center p-2 " +
 					(isInvalid ? " border-red-500 " : " border-[#123853b4] ") +
-					customClass
+					inputCustomClass
 				}>
 				<input
 					type={type ? type : "text"}
 					placeholder={placeholder}
-					className={" w-full h-full p-2 outline-none rounded "}
+					className={" w-full h-full outline-none rounded "}
 					maxLength={maxLength}
 					value={value ? value : ""}
 					onChange={(e) => {
@@ -262,16 +273,6 @@ export function InputHasDetails({
 			</div>
 		</div>
 	);
-}
-
-export interface InputPropsType {
-	value: string;
-	sendToStore: (string: string | number) => void;
-	type?: string;
-	subject: string;
-	customClass?: string;
-	placeholder: string;
-	required?: boolean;
 }
 
 export function GeneralInput({
