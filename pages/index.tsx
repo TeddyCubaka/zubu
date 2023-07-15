@@ -1,41 +1,10 @@
 import Head from "next/head";
-import Header from "../components/general/header";
-import Main from "../components/general/main";
 import Footer from "../components/general/footer";
-import WhatDoesZubu from "../components/components/whatDoesZubu";
-import { useEffect } from "react";
-import { askToServerData } from "../components/usefulFuction/requests";
+import Link from "next/link";
+import Image from "next/image";
+import logo from "../components/images/big_logo.svg";
 
 export default function Home() {
-	// useEffect(() => {
-	// 	if (localStorage.getItem("zubu_user_id")) {
-	// 		askToServerData({
-	// 			doIfError: (error) => console.log(error),
-	// 			getData: (user) => {
-	// 				if (user) {
-	// 					localStorage.setItem("zubu_userId", user._id);
-	// 					localStorage.setItem("zubu_user", JSON.stringify(user));
-	// 					localStorage.setItem("zubu_username", user.username);
-	// 					localStorage.setItem("userPropreties", user.proprety.join("plös"));
-	// 				}
-	// 			},
-	// 			getStatus: () => {},
-	// 			path: "/user/" + localStorage.getItem("zubu_user_id"),
-	// 		});
-	// 	}
-	// }, []);
-	useEffect(() => {
-		if (localStorage.getItem("zubu_user_id")) {
-			askToServerData({
-				doIfError: (error) => console.log(error),
-				getData: (user) => {
-					console.log(user);
-				},
-				getStatus: () => {},
-				path: "",
-			});
-		}
-	}, []);
 	return (
 		<>
 			<Head>
@@ -48,9 +17,26 @@ export default function Home() {
 				<link rel="icon" href="/logo.svg" />
 			</Head>
 			<main>
-				<Header title="home" />
-				<Main />
-				<WhatDoesZubu />
+				<div className="text-white bg-[#123853] flex flex-col sticky top-0 z-30 max-md:hidden">
+					<div className="w-auto px-5 py-2 flex justify-between items-center">
+						<div className="flex items-center gap-5 font-normal">
+							<Link href="/">
+								<Image src={logo} width="100" height="100" alt="logo du site" />
+							</Link>
+						</div>
+					</div>
+				</div>
+				<div className="m-auto">
+					<h1 className="font-medium">
+						Ce site est en maintenance pour l'instant 🥲
+					</h1>
+					<p>
+						Contactez les développeur via ces coordonées :
+						<ul>
+							<li>telegram : +243 995 867 384</li>
+						</ul>
+					</p>
+				</div>
 				<Footer />
 			</main>
 		</>
