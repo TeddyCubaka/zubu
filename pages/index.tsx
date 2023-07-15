@@ -28,7 +28,7 @@ export default function Home() {
 				</div>
 				<div className="m-auto">
 					<h1 className="font-medium">
-						Ce site est en maintenance pour l'instant 🥲
+						Ce site est en maintenance pour l&apos;instant 🥲
 					</h1>
 					<p>
 						Contactez les développeur via ces coordonées :
